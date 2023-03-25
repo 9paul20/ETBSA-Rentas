@@ -25,3 +25,6 @@ Route::get('/register', function () {
 Route::get('/table', function () {
     return view('table');
 });
+Route::get('/datepicker', function () {
+    return view('datepicker');
+});
