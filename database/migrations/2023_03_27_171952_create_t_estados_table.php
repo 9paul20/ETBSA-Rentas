@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('t_estados', function (Blueprint $table) {
             $table->smallIncrements('clvEstado');
-            $table->string('estado', 100)->unique();
+            $table->string('estado')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });

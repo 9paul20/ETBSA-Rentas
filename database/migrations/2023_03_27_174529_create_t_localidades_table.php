@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('t_localidades', function (Blueprint $table) {
             $table->unsignedInteger('clvLocalidad')->primary();
-            $table->string('calle', 100);
+            $table->string('calle');
             $table->smallInteger('noInterior')->nullable();
             $table->smallInteger('noExterior');
-            $table->string('colonia', 100);
+            $table->string('colonia');
             $table->text('descripcion')->nullable();
             $table->unsignedInteger('clvCiudad');
-            $table->foreign('clvCiudad')->references('clvCiudad')->on('t_ciudades');
             $table->timestamps();
         });
     }

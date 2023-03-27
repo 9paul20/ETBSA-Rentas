@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('t_estados_usuarios', function (Blueprint $table) {
             $table->tinyIncrements('clvEstadoUsuario');
-            $table->string('estadoUsuario', 100)->unique();
+            $table->string('estadoUsuario')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });

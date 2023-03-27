@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('t_nacionalidades', function (Blueprint $table) {
             $table->tinyIncrements('clvNacionalidad');
-            $table->string('nacionalidad', 100)->unique();
+            $table->string('nacionalidad')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });

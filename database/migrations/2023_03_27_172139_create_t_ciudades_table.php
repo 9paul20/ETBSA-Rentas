@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('t_ciudades', function (Blueprint $table) {
             $table->unsignedInteger('clvCiudad')->primary();
-            $table->string('ciudad', 100)->unique();
+            $table->string('ciudad')->unique();
             $table->text('descripcion')->nullable();
             $table->unsignedSmallInteger('clvEstado');
-            $table->foreign('clvEstado')->references('clvEstado')->on('t_estados');
             $table->timestamps();
         });
     }

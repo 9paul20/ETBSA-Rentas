@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('t_paises', function (Blueprint $table) {
             $table->tinyIncrements('clvPais');
-            $table->string('pais', 100)->unique();
+            $table->string('pais')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });

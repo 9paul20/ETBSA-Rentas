@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('permissions')->nullable();
             $table->timestamp('last_login')->nullable();
             $table->timestamp('active')->nullable();
-            $table->string('activation_key', 255)->nullable();
+            $table->string('activation_key')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('foto')->nullable();
             $table->foreign('clvPersona')->references('clvPersona')->on('t_personas');

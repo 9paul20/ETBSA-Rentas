@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('t_comTel', function (Blueprint $table) {
             $table->tinyIncrements('clvComTel');
-            $table->string('companiaTelefonica', 100)->unique();
+            $table->string('companiaTelefonica')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });

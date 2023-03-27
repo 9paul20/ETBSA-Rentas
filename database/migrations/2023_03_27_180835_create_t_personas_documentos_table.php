@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('clvDocumento');
             $table->text('descripcion')->nullable();
             $table->foreign('clvPersona')->references('clvPersona')->on('t_personas');
-            $table->foreign('clvDocumento')->references('clvDocumento')->on('t_documentos');
             $table->timestamps();
         });
     }

@@ -13,21 +13,18 @@ return new class extends Migration
     {
         Schema::create('t_personas', function (Blueprint $table) {
             $table->bigIncrements('clvPersona');
-            $table->string('nombrePersona', 50);
-            $table->string('apePaternoPersona', 50);
-            $table->string('apeMaternoPersona', 50);
+            $table->string('nombrePersona');
+            $table->string('apePaternoPersona');
+            $table->string('apeMaternoPersona');
             $table->date('nacimiento');
-            $table->string('email', 100)->unique();
+            $table->string('email')->unique();
             $table->unsignedInteger('clvLocalidad');
-            $table->string('telefono', 20)->unique();
-            $table->string('celular', 20)->unique();
+            $table->string('telefono')->unique();
+            $table->string('celular')->unique();
             $table->unsignedTinyInteger('clvComTel');
-            $table->string('ocupacion', 200);
+            $table->string('ocupacion');
             $table->unsignedTinyInteger('clvNacionalidad');
-            $table->string('informacion', 255)->nullable();
-            $table->foreign('clvLocalidad')->references('clvLocalidad')->on('t_localidades');
-            $table->foreign('clvComTel')->references('clvComTel')->on('t_comTel');
-            $table->foreign('clvNacionalidad')->references('clvNacionalidad')->on('t_nacionalidades');
+            $table->string('informacion')->nullable();
             $table->timestamps();
         });
     }
