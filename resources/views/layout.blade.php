@@ -1,7 +1,8 @@
 {{-- Para especificar que este es un documento HTML5. --}}
 <!DOCTYPE html>
 {{-- Para especificar idioma del documento HTML5. --}}
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    class="h-full bg-[color:var(--html-bg-color,theme(colors.white))]">
 
 <head>
     {{-- Metadatos --}}
@@ -28,14 +29,17 @@
     {{-- Color principal del tema. --}}
     <meta name="theme-color" content="#000000" />
     {{-- Icono de pestaña de la página web --}}
-    <link rel="shortcut icon" href="{{ url('/images/og-image.ico') }}" />
+    {{-- <link rel="shortcut icon" href="{{ url('/images/og-image.ico') }}" /> --}}
 
-    {{-- Titulo del sitio web --}}
-    <title>@yield('meta-title', config('app.name'))</title>
+    {{-- Importación de fuentes externas --}}
+    <link rel="preload" href="/fonts/Inter-roman.var.woff2?v=3.18" as="font" type="font/woff2" crossorigin="">
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" />
+
+    {{-- Titulo del sitio web --}}
+    <title inertia>@yield('meta-title', config('app.name'))</title>
 
     {{-- Styles Vite Compiled --}}
     @vite('resources/css/app.css')
@@ -43,6 +47,7 @@
 
     {{-- Enlaces a hojas de estilo CSS --}}
     <link rel="stylesheet" href="{{ url('/css/styles.css') }}">
+    {{-- <link rel="stylesheet" href="{{ url('/css/components.css') }}"> --}}
 
     {{-- Clases CSS incorporados --}}
     @stack('styles')
@@ -50,10 +55,13 @@
 
 </head>
 
-<body style="min-height: 100vh" @stack('body_styles')>
+<body style="min-height: 100vh" @stack('body_styles') scroll-region>
 
     {{-- Contenido Dinámico --}}
     @yield('content')
+
+    {{-- Enlaces a Scripts de JS --}}
+    {{-- <script src="{{ url('/js/components.js') }}"></script> --}}
 
     {{-- Scripts Vite Compiled --}}
     @vite('resources/js/app.js')
@@ -63,9 +71,9 @@
     @stack('scripts')
     {{-- Fin Scripts Incorporados --}}
 
-    {{--<footer>--}}
-    {{-- --}}
-    {{--</footer>--}}
+    {{-- <footer> --}}
+
+    {{-- </footer> --}}
 
 </body>
 

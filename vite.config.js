@@ -6,7 +6,8 @@ export default defineConfig({
         laravel(
             {
                 input: [
-                    'resources/css/app.css', 'resources/js/app.js'
+                    'resources/css/app.css', 'resources/js/app.{js,jsx,ts,tsx}'
+
                 ],
                 refresh: true,
                 // valetTls: 'my-app.test'
@@ -15,7 +16,8 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@': '/resources/js'
+            '@': '/resources/js',
+            '$': 'jQuery'
         }
     }
 });

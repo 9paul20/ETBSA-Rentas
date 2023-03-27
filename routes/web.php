@@ -25,6 +25,21 @@ Route::get('/register', function () {
 Route::get('/table', function () {
     return view('table');
 });
-Route::get('/datepicker', function () {
-    return view('datepicker');
+Route::get('/table_two', function () {
+    return view('table_two');
+});
+Route::get('/table_three', function () {
+    return view('table_three');
+});
+Route::get('/daterange', function () {
+    return view('daterange');
+});
+Route::get('/navbar', function () {
+    return view('navbar');
+});
+Route::get('/sidebar', function () {
+    return view('sidebar');
+});
+Route::get('/profile', function () {
+    return view('profile');
 });
