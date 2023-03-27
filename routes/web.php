@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,3 +44,5 @@ Route::get('/sidebar', function () {
 Route::get('/profile', function () {
     return view('profile');
 });
+
+Auth::routes();
