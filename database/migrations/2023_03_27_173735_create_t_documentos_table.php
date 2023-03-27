@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('autoridadEmisora', 200);
             $table->unsignedTinyInteger('clvPais');
             $table->string('imagenEscaneada', 200)->nullable();
-            $table->string('descripcion', 200)->nullable();
+            $table->text('descripcion')->nullable();
             $table->foreign('clvTipoDocumento')->references('clvTipoDocumento')->on('t_tipo_documentos');
             $table->foreign('clvPais')->references('clvPais')->on('t_paises');
             $table->timestamps();

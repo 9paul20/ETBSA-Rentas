@@ -17,7 +17,7 @@ return new class extends Migration
             $table->smallInteger('noInterior')->nullable();
             $table->smallInteger('noExterior');
             $table->string('colonia', 100);
-            $table->string('descripcion', 200)->nullable();
+            $table->text('descripcion')->nullable();
             $table->unsignedInteger('clvCiudad');
             $table->foreign('clvCiudad')->references('clvCiudad')->on('t_ciudades');
             $table->timestamps();

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('t_tipo_documentos', function (Blueprint $table) {
             $table->unsignedInteger('clvTipoDocumento')->primary();
             $table->string('tipoDocumento')->unique();
-            $table->string('descripcion', 200)->nullable();
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

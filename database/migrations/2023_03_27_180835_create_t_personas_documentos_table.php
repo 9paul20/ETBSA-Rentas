@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('t_personas_documentos', function (Blueprint $table) {
             $table->unsignedBigInteger('clvPersona');
             $table->unsignedBigInteger('clvDocumento');
-            $table->string('descripcion', 200)->nullable();
+            $table->text('descripcion')->nullable();
             $table->foreign('clvPersona')->references('clvPersona')->on('t_personas');
             $table->foreign('clvDocumento')->references('clvDocumento')->on('t_documentos');
             $table->timestamps();
