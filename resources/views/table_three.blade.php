@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="{{ url('/css/components.css') }}">
 @endpush
 
+@push('body_style')
+    class="h-full"
+@endpush
+
 @section('content')
     <div class="bg-gray-100 py-10">
         <div class="mx-auto max-w-7xl">

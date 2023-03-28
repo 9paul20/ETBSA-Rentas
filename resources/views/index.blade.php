@@ -8,7 +8,7 @@
     </style>
 @endpush
 
-@push('body_styles')
+@push('body_style')
     class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;"
 @endpush
 
@@ -54,11 +54,11 @@
                     </li>
                     <li class="mr-3">
                         <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
-                            href="/register">Register</a>
+                            href="{{ route('register') }}">Register</a>
                     </li>
                     <li class="mr-3">
                         <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
-                            href="/login">Login</a>
+                            href="{{ route('login') }}">Login</a>
                     </li>
                 </ul>
                 <button id="navAction"
@@ -681,8 +681,8 @@
 
 @push('scripts')
     <!-- jQuery if you need it
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-              -->
+                          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                          -->
     <script>
         var scrollpos = window.scrollY;
         var header = document.getElementById("header");

@@ -14,15 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-Route::get('/login', function () {
-    return view('login');
-});
-Route::get('/register', function () {
-    return view('register');
-});
+Auth::routes();
+
+Route::group(
+    [
+        // 'middleware' => '',
+        'name' => 'front',
+        'namespace' => 'App\Http\Controllers\Front',
+        'prefix' => ''
+    ],
+    function () {
+        Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/403', 'error403Controller@index')->name('403');
+        Route::get('/404', 'error404Controller@index')->name('404');
+        Route::get('/login', 'LoginController@index')->name('login');
+        Route::get('/register', 'RegisterController@index')->name('register');
+    }
+);
 Route::get('/table', function () {
     return view('table');
 });
@@ -44,5 +52,3 @@ Route::get('/sidebar', function () {
 Route::get('/profile', function () {
     return view('profile');
 });
-
-Auth::routes();
