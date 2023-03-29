@@ -12,6 +12,6 @@ class error404Controller extends Controller
      */
     public function index()
     {
-        return view('404');
+        return view('Dashboard/404');
     }
 }

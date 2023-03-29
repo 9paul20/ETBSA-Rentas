@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
 
 Route::group(
     [
@@ -24,31 +23,46 @@ Route::group(
         'prefix' => ''
     ],
     function () {
-        Route::get('/', 'HomeController@index')->name('home');
-        Route::get('/403', 'error403Controller@index')->name('403');
-        Route::get('/404', 'error404Controller@index')->name('404');
-        Route::get('/login', 'LoginController@index')->name('login');
-        Route::get('/register', 'RegisterController@index')->name('register');
+        Route::get('/', 'HomeController@index')->name('front.home');
+        // Route::get('/403', 'error403Controller@index')->name('403');
+        // Route::get('/404', 'error404Controller@index')->name('404');
     }
 );
+
+Auth::routes();
+
+Route::group(
+    [
+        'middleware' => 'auth',
+        'name' => 'Dashboard',
+        'namespace' => 'App\Http\Controllers\Dashboard',
+        'prefix' => 'Dashboard'
+    ],
+    function () {
+        Route::get('/', 'DashboardController@registerContinue')->name('dashboard.register.continue');
+        // Route::get('/403', 'error403Controller@index')->name('403');
+        // Route::get('/404', 'error404Controller@index')->name('404');
+    }
+);
+
 Route::get('/table', function () {
-    return view('table');
+    return view('Dashboard/table');
 });
 Route::get('/table_two', function () {
-    return view('table_two');
+    return view('Dashboard/table_two');
 });
 Route::get('/table_three', function () {
-    return view('table_three');
+    return view('Dashboard/table_three');
 });
 Route::get('/daterange', function () {
-    return view('daterange');
+    return view('Dashboard/daterange');
 });
 Route::get('/navbar', function () {
-    return view('navbar');
+    return view('Dashboard/navbar');
 });
 Route::get('/sidebar', function () {
-    return view('sidebar');
+    return view('Dashboard/sidebar');
 });
 Route::get('/profile', function () {
-    return view('profile');
+    return view('Dashboard/profile');
 });

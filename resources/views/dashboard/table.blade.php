@@ -1,5 +1,8 @@
 @extends('layout')
 
+@push('styles')
+@endpush
+
 @section('content')
     <div class="flex min-h-screen bg-gray-50" style="background-image: linear-gradient(115deg, #9F7AEA, #FEE2FE)">
 

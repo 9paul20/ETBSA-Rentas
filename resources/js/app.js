@@ -1,7 +1,6 @@
-import jQuery from 'jquery';
 import AlpineJS from 'alpinejs';
+import 'feather-icons/dist/feather.js';
 
-window.$ = jQuery;
 window.AlpineJS = AlpineJS;
 
 AlpineJS.start();

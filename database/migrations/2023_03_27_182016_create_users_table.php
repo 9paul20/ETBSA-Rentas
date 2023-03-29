@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('clvPersona');
+            $table->unsignedBigInteger('clvPersona')->unique()->nullable();
             $table->string('name')->unique();
             $table->string('email')->unique();
             $table->string('password');
@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('activation_key')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('foto')->nullable();
-            $table->foreign('clvPersona')->references('clvPersona')->on('t_personas');
         });
     }
 

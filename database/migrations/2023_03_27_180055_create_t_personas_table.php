@@ -13,17 +13,16 @@ return new class extends Migration
     {
         Schema::create('t_personas', function (Blueprint $table) {
             $table->bigIncrements('clvPersona');
-            $table->string('nombrePersona');
-            $table->string('apePaternoPersona');
-            $table->string('apeMaternoPersona');
-            $table->date('nacimiento');
-            $table->string('email')->unique();
-            $table->unsignedInteger('clvLocalidad');
-            $table->string('telefono')->unique();
-            $table->string('celular')->unique();
-            $table->unsignedTinyInteger('clvComTel');
-            $table->string('ocupacion');
-            $table->unsignedTinyInteger('clvNacionalidad');
+            $table->string('nombrePersona')->nullable();
+            $table->string('apePaternoPersona')->nullable();
+            $table->string('apeMaternoPersona')->nullable();
+            $table->date('nacimiento')->nullable();
+            $table->unsignedInteger('clvLocalidad')->nullable();
+            $table->string('telefono')->unique()->nullable();
+            $table->string('celular')->unique()->nullable();
+            $table->unsignedTinyInteger('clvComTel')->nullable();
+            $table->string('ocupacion')->nullable();
+            $table->unsignedTinyInteger('clvNacionalidad')->nullable();
             $table->string('informacion')->nullable();
             $table->timestamps();
         });

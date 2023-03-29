@@ -13,11 +13,5 @@ export default defineConfig({
                 // valetTls: 'my-app.test'
             }
         ),
-    ],
-    resolve: {
-        alias: {
-            '@': '/resources/js',
-            '$': 'jQuery'
-        }
-    }
+    ]
 });
