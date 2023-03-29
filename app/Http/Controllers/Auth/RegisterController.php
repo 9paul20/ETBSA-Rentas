@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -18,7 +16,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/Dashboard/update';
+    protected $redirectTo = '/Dashboard/Next';
 
     /**
      * Create a new controller instance.

@@ -15,17 +15,6 @@ use Illuminate\Support\Arr;
 trait UserTrait
 {
     /**
-     * hashes password
-     *
-     * @param $password
-     */
-    public function setPasswordAttribute($password)
-    {
-        //$this->attributes['password'] = Hash::make($password);
-        $this->attributes['password'] = $password;
-    }
-
-    /**
      * serializes permission attribute on the fly before saving to database
      *
      * @param $permissions

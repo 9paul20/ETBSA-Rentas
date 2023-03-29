@@ -39,7 +39,7 @@
                         Create your account. It’s free and only take a minute
                     </p>
                     <form method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
+                        @csrf
                         {{-- <div class="mt-5">
                             <input type="text" placeholder="Nombre Completo"
                                 class="w-full px-4 py-2 text-sm border rounded-md focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-600">

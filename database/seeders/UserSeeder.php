@@ -73,9 +73,26 @@ class UserSeeder extends Seeder
             'activation_key' => Uuid::uuid4()->toString(),
             'email_verified_at' => Carbon::now(),
         ]);
+        $AdminUser->clvPersona = $AdminUser->id;
+        $AdminUser->save();
 
         // make super user
         $AdminUser->groups()->attach($groupSuperUser);
+
+        $AdminETBSA = User::create([
+            'name' => 'Admin ETBSA',
+            'email' => 'admin@etbsa.com.mx',
+            'password' => '123456',
+            'remember_token' => Str::random(10),
+            'permissions' => [],
+            'last_login' => Carbon::now(),
+            'active' => Carbon::now(),
+            'activation_key' => Uuid::uuid4()->toString(),
+            'email_verified_at' => Carbon::now(),
+        ]);
+        $AdminETBSA->clvPersona = $AdminETBSA->id;
+        $AdminETBSA->save();
+        $AdminETBSA->groups()->attach($groupSuperUser);
 
         //TODO. generate random users -> Origina SourceCode
         // $users = factory(User::class, 30)->create();
@@ -85,7 +102,7 @@ class UserSeeder extends Seeder
 
         //* generate random users -> Modified And Functional
         User::factory()
-            ->count(49)
+            ->count(48)
             // ->state(new Sequence(
             //     ['email' => 'user1@example.com'],
             //     ['email' => 'user2@example.com'],
@@ -96,6 +113,8 @@ class UserSeeder extends Seeder
                 $password = Str::random(12); // Generar una cadena aleatoria de 12 caracteres
                 $user->password = substr($password, 0, rand(6, 12)); // Limitar la longitud de la cadena aleatoria entre 6 y 12 caracteres
                 $user->groups()->attach($groupDefaultUser);
+                $user->save();
+                $user->clvPersona = $user->id;
                 $user->save();
             });
     }

@@ -39,7 +39,8 @@ Route::group(
         'prefix' => 'Dashboard'
     ],
     function () {
-        Route::get('/', 'DashboardController@registerContinue')->name('dashboard.register.continue');
+        Route::get('/', 'DashboardController@index')->name('dashboard.index');
+        Route::get('/Next', 'DashboardController@registerContinue')->name('dashboard.register.continue');
         // Route::get('/403', 'error403Controller@index')->name('403');
         // Route::get('/404', 'error404Controller@index')->name('404');
     }
