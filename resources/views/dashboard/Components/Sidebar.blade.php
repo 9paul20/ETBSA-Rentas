@@ -13,6 +13,7 @@
             </div>
 
             <!-- Sidebar -->
+
             <div class="flex flex-shrink-0 transition-all">
                 <div x-show="isSidebarOpen" @click="isSidebarOpen = false"
                     class="fixed inset-0 z-10 bg-black bg-opacity-50 lg:hidden"></div>
@@ -69,6 +70,7 @@
                         </div>
                     </div>
                 </nav>
+
 
                 <!-- Left mini bar -->
                 <nav aria-label="Options"
@@ -188,33 +190,37 @@
                                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                            d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                                     </svg>
                                 </span>
-                                <span>Pages</span>
+                                <span>Users</span>
+                            </a>
+                            <a href="#"
+                                class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white">
+                                <span aria-hidden="true"
+                                    class="p-2 transition-colors rounded-lg group-hover:bg-indigo-700 group-hover:text-white">
+                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM5 4.604v9.185a4 4 0 0 0 1.781 3.328L12 20.597l5.219-3.48A4 4 0 0 0 19 13.79V4.604L12 3.05 5 4.604zM12 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm-4.473 5a4.5 4.5 0 0 1 8.946 0H7.527z" />
+                                    </svg>
+                                </span>
+                                <span>Permissions</span>
+                            </a>
+                            <a href="#"
+                                class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white">
+                                <span aria-hidden="true"
+                                    class="p-2 transition-colors rounded-lg group-hover:bg-indigo-700 group-hover:text-white">
+                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                                    </svg>
+                                </span>
+                                <span>Groups</span>
                             </a>
                         </div>
-
-                        <div class="flex-shrink-0 p-4 mt-10">
-                            <div class="hidden p-2 space-y-6 bg-gray-100 rounded-lg md:block">
-                                <img aria-hidden="true" class="-mt-10"
-                                    src="https://raw.githubusercontent.com/kamona-ui/dashboard-alpine/52b4b4abb92ef251f6610be416038b48209d7a81/public/assets/images/undraw_web_developer_p3e5.svg" />
-                                <p class="text-sm text-indigo-600">
-                                    Use our <span class="text-base text-indigo-700er">Premium</span> features now! <br />
-                                </p>
-                                <button
-                                    class="w-full px-4 py-2 text-center text-white transition-colors bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-gray-100">
-                                    Upgrade to pro
-                                </button>
-                            </div>
-
-                            <button
-                                class="w-full px-4 py-2 text-center text-white transition-colors bg-indigo-600 rounded-lg md:hidden hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-gray-100">
-                                Upgrade to pro
-                            </button>
-                        </div>
                     </nav>
-
                     <section x-show="currentSidebarTab == 'messagesTab'" class="px-4 py-6">
                         <h2 class="text-xl">Messages</h2>
                     </section>
@@ -229,21 +235,34 @@
                     <form action="#" class="flex-1">
                         <!--  -->
                     </form>
-                    <div class="items-center hidden ml-4 sm:flex">
-                        <button @click="isSettingsPanelOpen = true"
-                            class="p-2 mr-4 text-gray-400 bg-white rounded-lg shadow-md hover:text-gray-600 focus:outline-none focus:ring focus:ring-white focus:ring-offset-gray-100 focus:ring-offset-4">
-                            <span class="sr-only">Settings</span>
-                            <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
 
+                    <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
+                        <nav>
 
+                            <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+                                <li class="leading-normal text-size-sm">
+                                    <a class="opacity-50 text-slate-700" href="javascript:;">Pages</a>
+                                </li>
+                                <li class="text-size-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']"
+                                    aria-current="page">Dashboard</li>
+                            </ol>
+                            <h6 class="mb-0 font-bold capitalize">Menu</h6>
+                        </nav>
+                        <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
+                            <div class="flex items-center md:ml-auto md:pr-4">
+                            </div>
+                            <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
+                                <li class="flex items-center">
+                                    <a href=""
+                                        class="block px-0 py-2 font-semibold transition-all ease-nav-brand text-size-sm text-slate-500">
+                                        <i class="fa fa-user sm:mr-1" aria-hidden="true"></i>
+                                        <span class="">Sign In</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+
 
                     <!-- Mobile sub header button -->
                     <button @click="isSubHeaderOpen = !isSubHeaderOpen"
@@ -266,18 +285,6 @@
                         x-transition:leave-end="translate-y-full opacity-0" x-show="isSubHeaderOpen"
                         @click.away="isSubHeaderOpen = false"
                         class="absolute flex items-center justify-between p-2 bg-white rounded-md shadow-lg sm:hidden top-16 left-5 right-5">
-                        <!-- Seetings button -->
-                        <button @click="isSettingsPanelOpen = true; isSubHeaderOpen = false"
-                            class="p-2 text-gray-400 bg-white rounded-lg shadow-md hover:text-gray-600 focus:outline-none focus:ring focus:ring-white focus:ring-offset-gray-100 focus:ring-offset-4">
-                            <span class="sr-only">Settings</span>
-                            <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
                         <!-- Messages button -->
                         <button @click="isSidebarOpen = true; currentSidebarTab = 'messagesTab'; isSubHeaderOpen = false"
                             class="p-2 text-gray-400 bg-white rounded-lg shadow-md hover:text-gray-600 focus:outline-none focus:ring focus:ring-white focus:ring-offset-gray-100 focus:ring-offset-4">
@@ -305,33 +312,13 @@
                 <div class="flex flex-1">
                     <!-- Main -->
                     <main class="flex items-center justify-center flex-1 px-4 py-8">
-                        <h1 class="text-5xl font-bold text-gray-500">@yield('meta-title', config('app.name'))</h1>
                         <!-- Content -->
+                        <h1 class="text-5xl font-bold text-gray-500">@yield('meta-title', config('app.name'))</h1>
+
                     </main>
                 </div>
             </div>
         </div>
-
-        <!-- Panels -->
-
-        <!-- Settings Panel -->
-        <!-- Backdrop -->
-        <div x-show="isSettingsPanelOpen" class="fixed inset-0 bg-black bg-opacity-50"
-            @click="isSettingsPanelOpen = false" aria-hidden="true"></div>
-        <!-- Panel -->
-        <section x-transition:enter="transform transition-transform duration-300"
-            x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
-            x-transition:leave="transform transition-transform duration-300" x-transition:leave-start="translate-x-0"
-            x-transition:leave-end="translate-x-full" x-show="isSettingsPanelOpen"
-            class="fixed inset-y-0 right-0 w-64 bg-white border-l border-indigo-100 rounded-l-3xl">
-            <div class="px-4 py-8">
-                <h2 class="text-lg font-semibold">Settings</h2>
-            </div>
-        </section>
-
-
-
-
     </div>
     </div>
 @endsection
@@ -343,7 +330,6 @@
             return {
                 isSidebarOpen: false,
                 currentSidebarTab: null,
-                isSettingsPanelOpen: false,
                 isSubHeaderOpen: false,
                 watchScreen() {
                     if (window.innerWidth <= 1024) {

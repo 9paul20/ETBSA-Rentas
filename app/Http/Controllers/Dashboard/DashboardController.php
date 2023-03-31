@@ -9,10 +9,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('Dashboard/sideBar');
+        return view('Dashboard/Index/Index');
+    }
+    public function users()
+    {
+        return view('Dashboard/Index/Index');
     }
     public function registerContinue()
     {
-        return view('Dashboard/updateProfile');
+        return view('Dashboard/UpdateProfile');
     }
 }
