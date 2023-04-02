@@ -1,34 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\UserRepository;
+use App\Models\Permission;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
-class UserController extends AdminController
+class PermissionsController extends Controller
 {
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
-
-    /**
-     * UserController constructor.
-     * @param UserRepository $userRepository
-     */
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = $this->userRepository->listUsers(request()->all());
-        return $this->sendResponseOk($data, "list users ok.");
+        $response = Http::get('http://etbsa-rentas.test/api/PermissionsListAPI');
+        $permissions = $response->json();
+        return view('Dashboard.Admin.Permissions.Index', compact('permissions'));
+    }
+
+    public function indexAPI()
+    {
+        $permissions = Permission::all();
+        return $permissions;
     }
 
     /**

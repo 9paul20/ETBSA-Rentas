@@ -24,8 +24,8 @@ Route::group(
     ],
     function () {
         Route::get('/', 'HomeController@index')->name('front.home');
-        // Route::get('/403', 'error403Controller@index')->name('403');
-        // Route::get('/404', 'error404Controller@index')->name('404');
+        // Route::get('/403', 'HomeController@403')->name('front.403');
+        // Route::get('/404', 'HomeController@404')->name('front.404');
     }
 );
 
@@ -39,35 +39,32 @@ Route::group(
         'prefix' => 'Dashboard'
     ],
     function () {
-        Route::get('/', 'DashboardController@index')->name('dashboard.index');
-        Route::get('/Next', 'DashboardController@registerContinue')->name('dashboard.register.continue');
-        Route::resource('Users', 'UserController');
-        Route::get('UsersList', function () {
-            return App\Models\User::all();
-        })->name('usersList');
-        // Route::get('/403', 'error403Controller@index')->name('403');
-        // Route::get('/404', 'error404Controller@index')->name('404');
+        Route::get('Menu', 'DashboardController@index')->name('Dashboard.Menu.Index');
+        Route::get('Next', 'DashboardController@registerContinue')->name('Dashboard.Next.registerContinue');
+        Route::resource('Admin/Groups', 'Admin\GroupsController')->names([
+            'index' => 'Dashboard.Admin.Groups.Index',
+            // otras acciones de recursos
+        ]);
+        Route::resource('Admin/Permissions', 'Admin\PermissionsController')->names([
+            'index' => 'Dashboard.Admin.Permissions.Index',
+            // otras acciones de recursos
+        ]);
+        Route::resource('Admin/Users', 'Admin\UsersController')->names([
+            'index' => 'Dashboard.Admin.Users.Index',
+            // otras acciones de recursos
+        ]);
     }
 );
 
 // Route::get('/table', function () {
-//     return view('Dashboard/table');
+//     return view('Examples/table');
 // });
 // Route::get('/table_two', function () {
-//     return view('Dashboard/table_two');
+//     return view('Examples/table_two');
 // });
 // Route::get('/table_three', function () {
-//     return view('Dashboard/table_three');
+//     return view('Examples/table_three');
 // });
 // Route::get('/daterange', function () {
-//     return view('Dashboard/daterange');
-// });
-// Route::get('/navbar', function () {
-//     return view('Dashboard/navbar');
-// });
-// Route::get('/sidebar', function () {
-//     return view('Dashboard/sidebar');
-// });
-// Route::get('/profile', function () {
-//     return view('Dashboard/profile');
+//     return view('Examples/daterange');
 // });

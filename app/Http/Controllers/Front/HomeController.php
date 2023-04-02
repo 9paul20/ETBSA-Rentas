@@ -15,6 +15,16 @@ class HomeController extends Controller
         return view('Front/index');
     }
 
+    public function error403()
+    {
+        return view('Front/Errors/403');
+    }
+
+    public function error404()
+    {
+        return view('Front/Errors/404');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

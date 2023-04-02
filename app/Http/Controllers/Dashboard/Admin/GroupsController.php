@@ -1,18 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
-class AdminController extends Controller
+class GroupsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $response = Http::get('http://etbsa-rentas.test/api/GroupsListAPI');
+        $groups = $response->json();
+        return view('Dashboard.Admin.Groups.Index', compact('groups'));
+    }
+
+    public function indexAPI()
+    {
+        $groups = Group::all();
+        return $groups;
     }
 
     /**

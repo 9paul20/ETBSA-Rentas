@@ -13,7 +13,7 @@ class DashboardController extends Controller
     }
     public function users()
     {
-        return view('Dashboard/Index/Index');
+        return view('Dashboard/Admin/Users/Index');
     }
     public function registerContinue()
     {
