@@ -9,7 +9,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('Dashboard/Index/Index');
+        $rowDatas = [];
+        $columnNames = [];
+        return view('Dashboard/Index/Index', compact('columnNames', 'rowDatas'));
     }
     public function users()
     {

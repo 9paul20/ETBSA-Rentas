@@ -15,8 +15,9 @@ class GroupsController extends Controller
     public function index()
     {
         $response = Http::get('http://etbsa-rentas.test/api/GroupsListAPI');
-        $groups = $response->json();
-        return view('Dashboard.Admin.Groups.Index', compact('groups'));
+        $rowDatas = $response->json();
+        $columnNames = ['Name', 'State', 'Role', 'Team', 'Actions'];
+        return view('Dashboard.Admin.Groups.Index', compact('columnNames','rowDatas'));
     }
 
     public function indexAPI()

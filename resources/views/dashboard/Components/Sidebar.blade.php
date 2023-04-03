@@ -44,7 +44,8 @@
                     </a>
                     <!-- User avatar button -->
                     <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
-                        <button @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})"
+                        <button 
+                            @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})"
                             class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2">
                             <img class="w-8 h-8 rounded-lg shadow-md"
                                 src="https://avatars.githubusercontent.com/u/57622665?s=460&u=8f581f4c4acd4c18c33a87b3e6476112325e8b38&v=4"
@@ -229,10 +230,6 @@
             <div class="flex-col flex-1">
                 @include('Dashboard.Components.Navbar')
                 @include('Dashboard.Components.Content')
-                {{-- <main class="flex items-center justify-center flex-1 px-4 py-8">
-                    <!-- Content -->
-                    <h1 class="text-5xl font-bold text-gray-500">@yield('meta-title', config('app.name'))</h1>
-                </main> --}}
             </div>
         </div>
     </div>
@@ -240,7 +237,6 @@
 @endsection
 
 @push('scripts')
-    {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script> --}}
     <script>
         const setup = () => {
             return {

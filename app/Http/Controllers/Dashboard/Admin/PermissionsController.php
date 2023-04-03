@@ -15,8 +15,9 @@ class PermissionsController extends Controller
     public function index()
     {
         $response = Http::get('http://etbsa-rentas.test/api/PermissionsListAPI');
-        $permissions = $response->json();
-        return view('Dashboard.Admin.Permissions.Index', compact('permissions'));
+        $rowDatas = $response->json();
+        $columnNames = ['Name', 'State', 'Role', 'Team', 'Actions'];
+        return view('Dashboard.Admin.Permissions.Index', compact('columnNames','rowDatas'));
     }
 
     public function indexAPI()

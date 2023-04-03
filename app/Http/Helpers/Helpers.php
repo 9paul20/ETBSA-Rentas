@@ -12,6 +12,7 @@ function getDashboardNameFromUrlSecond($path)
 {
     $segments = explode('/', $path);
     $dashboardNameSecond = end($segments);
+    $dashboardNameSecond = strstr($dashboardNameSecond, '?', true) ?: $dashboardNameSecond;
     return $dashboardNameSecond;
 }
 

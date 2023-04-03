@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UsersController extends Controller
 {
@@ -14,10 +15,21 @@ class UsersController extends Controller
      */
     public function index()
     {
+        // $response = Http::get('http://etbsa-rentas.test/api/UsersListAPI');
+        // $rowDatas = $response->json();
+        // $columnNames = ['Name', 'State', 'Role', 'Team', 'Actions'];
+        // return view('Dashboard.Admin.Users.Index', compact('columnNames','rowDatas'));
         $response = Http::get('http://etbsa-rentas.test/api/UsersListAPI');
-        $rowDatas = $response->json();
+        $rD = $response->json();
         $columnNames = ['Name', 'State', 'Role', 'Team', 'Actions'];
-        return view('Dashboard.Admin.Users.Index', compact('columnNames','rowDatas'));
+        $users = collect($rD);
+        $perPage = 10;
+        $currentPage = request()->get('page') ?? 1;
+        $pagedData = $users->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $rowDatas = new LengthAwarePaginator($pagedData, count($users), $perPage, $currentPage, [
+            'path' => route('Dashboard.Admin.Users.Index')
+        ]);
+        return view('Dashboard.Admin.Users.Index', compact('columnNames', 'rowDatas'));
     }
 
     public function indexAPI()
