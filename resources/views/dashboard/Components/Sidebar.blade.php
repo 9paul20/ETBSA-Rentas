@@ -9,7 +9,7 @@
 
 @section('content')
     <div x-data="setup()" x-init="$refs.loading.classList.add('hidden');" @resize.window="watchScreen()">
-        <div class="flex h-screen antialiased text-gray-900 dark:bg-dark dark:text-light">
+        <div class="flex min-h-screen inset-y-0 antialiased text-gray-900 dark:bg-dark dark:text-light">
             <!-- Loading screen -->
             <div x-ref="loading"
                 class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-indigo-800">
@@ -43,9 +43,8 @@
                             alt="K-UI" />
                     </a>
                     <!-- User avatar button -->
-                    <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
-                        <button 
-                            @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})"
+                    {{-- <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})"
                             class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2">
                             <img class="w-8 h-8 rounded-lg shadow-md"
                                 src="https://avatars.githubusercontent.com/u/57622665?s=460&u=8f581f4c4acd4c18c33a87b3e6476112325e8b38&v=4"
@@ -66,7 +65,7 @@
                                 @csrf
                             </form>
                         </div>
-                    </div>
+                    </div> --}}
                 </nav>
                 <!-- Left mini bar -->
                 <nav aria-label="Options"
@@ -85,8 +84,8 @@
                             @click="(isSidebarOpen && currentSidebarTab == 'linksTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'linksTab'"
                             class="p-2 transition-colors rounded-lg shadow-md hover:bg-indigo-800 hover:text-white focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2"
                             :class="(isSidebarOpen && currentSidebarTab == 'linksTab') ? 'text-white bg-indigo-600' :
-                             '{{ request()->is('Dashboard/Admin*') ? 'text-white bg-indigo-600' : 'text-gray-500 bg-white' }}'">
-                             {{-- 'text-gray-500 bg-white'"> --}}
+                            '{{ request()->is('Dashboard/Admin*') ? 'text-white bg-indigo-600' : 'text-gray-500 bg-white' }}'">
+                            {{-- 'text-gray-500 bg-white'"> --}}
                             <span class="sr-only">Toggle sidebar</span>
                             <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -111,7 +110,8 @@
                         <button
                             @click="(isSidebarOpen && currentSidebarTab == 'notificationsTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'notificationsTab'"
                             class="p-2 transition-colors rounded-lg shadow-md hover:bg-indigo-800 hover:text-white focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2"
-                            :class="(isSidebarOpen && currentSidebarTab == 'notificationsTab') ? 'text-white bg-indigo-600' :
+                            :class="(isSidebarOpen && currentSidebarTab == 'notificationsTab') ?
+                            'text-white bg-indigo-600' :
                             'text-gray-500 bg-white'">
                             <span class="sr-only">Toggle notifications panel</span>
                             <svg aria-hidden="true" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -122,7 +122,7 @@
                         </button>
                     </div>
                     <!-- User avatar -->
-                    <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
+                    {{-- <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
                         <button @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})"
                             class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2">
                             <img class="w-10 h-10 rounded-lg shadow-md"
@@ -147,7 +147,7 @@
                                 @csrf
                             </form>
                         </div>
-                    </div>
+                    </div> --}}
                 </nav>
                 <div x-transition:enter="transform transition-transform duration-300"
                     x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
@@ -183,8 +183,7 @@
                             </a>
                             <a href="{{ route('Dashboard.Admin.Groups.Index') }}"
                                 class="{{ setActiveRoutePt1('Dashboard.Admin.Groups.Index') }}">
-                                <span aria-hidden="true"
-                                    class="{{ setActiveRoutePt2('Dashboard.Admin.Groups.Index') }}">
+                                <span aria-hidden="true" class="{{ setActiveRoutePt2('Dashboard.Admin.Groups.Index') }}">
                                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -206,9 +205,8 @@
                                 <span>Permissions</span>
                             </a>
                             <a href="{{ route('Dashboard.Admin.Users.Index') }}"
-                            class="{{ setActiveRoutePt1('Dashboard.Admin.Users.Index') }}">
-                                <span aria-hidden="true"
-                                class="{{ setActiveRoutePt2('Dashboard.Admin.Users.Index') }}">
+                                class="{{ setActiveRoutePt1('Dashboard.Admin.Users.Index') }}">
+                                <span aria-hidden="true" class="{{ setActiveRoutePt2('Dashboard.Admin.Users.Index') }}">
                                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -233,7 +231,6 @@
             </div>
         </div>
     </div>
-    </div>
 @endsection
 
 @push('scripts')
@@ -250,5 +247,19 @@
                 },
             }
         }
+        $(window).scroll(function() {
+            var sidebar = $(".left-mini-bar");
+            var offset = sidebar.offset();
+            var topPadding = 15;
+            if ($(window).scrollTop() > offset.top) {
+                sidebar.stop().animate({
+                    marginTop: $(window).scrollTop() - offset.top + topPadding
+                });
+            } else {
+                sidebar.stop().animate({
+                    marginTop: 0
+                });
+            }
+        });
     </script>
 @endpush

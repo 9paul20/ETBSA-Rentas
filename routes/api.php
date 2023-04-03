@@ -30,3 +30,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/GroupsListAPI', [App\Http\Controllers\Dashboard\Admin\GroupsController::class, 'indexAPI']);
 Route::get('/PermissionsListAPI', [App\Http\Controllers\Dashboard\Admin\PermissionsController::class, 'indexAPI']);
 Route::get('/UsersListAPI', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'indexAPI']);
+Route::post('/UsersListAPI', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'store']);

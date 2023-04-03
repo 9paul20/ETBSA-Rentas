@@ -51,7 +51,10 @@ Route::group(
         ]);
         Route::resource('Admin/Users', 'Admin\UsersController')->names([
             'index' => 'Dashboard.Admin.Users.Index',
-            // otras acciones de recursos
+            'create' => 'Dashboard.Admin.Users.Create',
+            'show' => 'Dashboard.Admin.Users.Show',
+            'edit' => 'Dashboard.Admin.Users.Edit',
+            'delete' => 'Dashboard.Admin.Users.Delete',
         ]);
     }
 );

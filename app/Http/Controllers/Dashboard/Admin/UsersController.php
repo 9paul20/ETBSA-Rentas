@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -21,7 +22,7 @@ class UsersController extends Controller
         // return view('Dashboard.Admin.Users.Index', compact('columnNames','rowDatas'));
         $response = Http::get('http://etbsa-rentas.test/api/UsersListAPI');
         $rD = $response->json();
-        $columnNames = ['Name', 'State', 'Role', 'Team', 'Actions'];
+        $columnNames = ['Name', 'State', 'Role', 'Team', ''];
         $users = collect($rD);
         $perPage = 10;
         $currentPage = request()->get('page') ?? 1;
@@ -43,7 +44,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        $user = new User();
+        return view('Dashboard.Admin.Users.Index', compact('user'));
     }
 
     /**
@@ -51,9 +53,33 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
-        // $request-> = $request->;
+        $data = $request->json()->all();
+
+        // Valida los datos enviados
+        $validator = Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Los datos enviados son inválidos',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        // Crea el usuario
+        $user = new User;
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
         $user->save();
+
+        return response()->json([
+            'message' => 'Usuario creado exitosamente',
+            'user' => $user,
+        ], 201);
     }
 
     /**
