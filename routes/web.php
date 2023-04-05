@@ -52,9 +52,11 @@ Route::group(
         Route::resource('Admin/Users', 'Admin\UsersController')->names([
             'index' => 'Dashboard.Admin.Users.Index',
             'create' => 'Dashboard.Admin.Users.Create',
+            'store' => 'Dashboard.Admin.Users.Store',
             'show' => 'Dashboard.Admin.Users.Show',
             'edit' => 'Dashboard.Admin.Users.Edit',
-            'delete' => 'Dashboard.Admin.Users.Delete',
+            'update' => 'Dashboard.Admin.Users.Update',
+            'destroy' => 'Dashboard.Admin.Users.Destroy',
         ]);
     }
 );

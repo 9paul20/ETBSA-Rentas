@@ -1,3 +1,12 @@
+@push('styles')
+    <style>
+        .swal2-container.swal2-center>.swal2-popup {
+            background-color: #FFFCF2;
+            /* Cambiar a tu color deseado */
+        }
+    </style>
+@endpush
+
 @if (count($columnNames) > 0)
     <div class="mx-auto max-w-7xl">
         <div class="sm:flex sm:items-center">
@@ -82,7 +91,8 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-end gap-4">
-                                        <a href="" x-data="{ tooltip: 'Watch' }" target="_blank">
+                                        <a href="{{ route('Dashboard.Admin.Users.Show', $rowData['id']) }}"
+                                            x-data="{ tooltip: 'Show' }" target="_blank">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor"
                                                 class="w-6 h-6 text-indigo-500">
@@ -92,7 +102,8 @@
                                                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
                                         </a>
-                                        <a href="" x-data="{ tooltip: 'Edite' }">
+                                        <a href="{{ route('Dashboard.Admin.Users.Edit', $rowData['id']) }}"
+                                            x-data="{ tooltip: 'Edit' }">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-blue-500"
                                                 x-tooltip="tooltip">
@@ -101,15 +112,22 @@
                                                 </path>
                                             </svg>
                                         </a>
-                                        <a href="" x-data="{ tooltip: 'Delete' }">
+                                        <a href=""
+                                            onclick="event.preventDefault(); confirmDelete('{{ $rowData['id'] }}', '{{ $rowData['name'] }}')"
+                                            class="btn-delete">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-red-500"
-                                                x-tooltip="tooltip">
+                                                stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-red-500">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0">
                                                 </path>
                                             </svg>
                                         </a>
+                                        <form id="delete-form-{{ $rowData['id'] }}"
+                                            action="{{ route('Dashboard.Admin.Users.Destroy', $rowData['id']) }}"
+                                            method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -132,3 +150,25 @@
         </main>
     </div>
 @endif
+
+@push('scripts')
+    <script>
+        function confirmDelete(id, name) {
+            Swal.fire({
+                title: `¿Estás seguro de eliminar el dato ${name}?`,
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Se envía la petición de eliminación al servidor
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            })
+        }
+    </script>
+@endpush

@@ -6,7 +6,9 @@
             <a href=""
                 class="block px-0 py-2 font-semibold transition-all ease-nav-brand text-size-sm text-slate-500">
                 <i class="fa fa-user sm:mr-1" aria-hidden="true"></i>
-                <span class="">{{ Auth::user()->name }}</span>
+                @if (isset(Auth::user()->name))
+                    <span class="">{{ Auth::user()->name }}</span>
+                @endif
             </a>
         </li>
     </ul>

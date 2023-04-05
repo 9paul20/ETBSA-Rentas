@@ -227,7 +227,17 @@
             </div>
             <div class="flex-col flex-1">
                 @include('Dashboard.Components.Navbar')
-                @include('Dashboard.Components.Content')
+                <div class="flex flex-1">
+                    <!-- Main -->
+                    <main class="justify-center flex-1 px-4">
+                        <!-- Content -->
+                        @include('Dashboard.Components.Notification')
+                        @include('Dashboard.Routes.Menu')
+                        @include('Dashboard.Routes.Groups')
+                        @include('Dashboard.Routes.Permissions')
+                        @include('Dashboard.Routes.Users')
+                    </main>
+                </div>
             </div>
         </div>
     </div>

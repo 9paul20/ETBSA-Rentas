@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Validator;
+use Validator;
 
 class UsersController extends Controller
 {
@@ -17,19 +17,16 @@ class UsersController extends Controller
     public function index()
     {
         // $response = Http::get('http://etbsa-rentas.test/api/UsersListAPI');
-        // $rowDatas = $response->json();
-        // $columnNames = ['Name', 'State', 'Role', 'Team', 'Actions'];
-        // return view('Dashboard.Admin.Users.Index', compact('columnNames','rowDatas'));
-        $response = Http::get('http://etbsa-rentas.test/api/UsersListAPI');
-        $rD = $response->json();
-        $columnNames = ['Name', 'State', 'Role', 'Team', ''];
-        $users = collect($rD);
+        // $rD = $response->json();
+        // $users = collect($rD);
+        $users = User::all();
         $perPage = 10;
         $currentPage = request()->get('page') ?? 1;
         $pagedData = $users->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $rowDatas = new LengthAwarePaginator($pagedData, count($users), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Users.Index')
         ]);
+        $columnNames = ['Name', 'State', 'Role', 'Team', ''];
         return view('Dashboard.Admin.Users.Index', compact('columnNames', 'rowDatas'));
     }
 
@@ -53,68 +50,120 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->json()->all();
-
-        // Valida los datos enviados
+        $data = $request->all();
         $validator = Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:4|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Los datos enviados son inválidos',
-                'errors' => $validator->errors(),
-            ], 422);
+            return redirect()->route('Dashboard.Admin.Users.Create')
+                ->withErrors($validator)
+                ->withInput();
+            // return response()->json([
+            //     'message' => 'Los datos enviados son inválidos',
+            //     'errors' => $validator->errors(),
+            // ], 422);
         }
 
-        // Crea el usuario
         $user = new User;
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->password = bcrypt($data['password']);
+        $user->password = $data['password'];
+
+        // Guardar el usuario en la base de datos
         $user->save();
 
-        return response()->json([
-            'message' => 'Usuario creado exitosamente',
-            'user' => $user,
-        ], 201);
+        // Obtener el ID del usuario recién creado
+        $id = $user->id;
+
+        // Establecer el valor de clvPersona en el ID del usuario
+        $user->clvPersona = $id;
+
+        // Guardar el modelo de usuario actualizado en la base de datos
+        $user->save();
+
+        // return response()->json([
+        //     'message' => 'Usuario creado exitosamente',
+        //     'user' => $user,
+        // ], 201);
+        return redirect()->route('Dashboard.Admin.Users.Index')->with('success', 'Elemento agregado correctamente.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('Dashboard.Admin.Users.Index', compact('user'));
+    }
+
+    public function showApi($id)
+    {
+        $user = User::findOrFail($id);
+        return $user;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('Dashboard.Admin.Users.Index', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update($id, Request $request)
     {
-        $user = User::findOnFail($request->id);
-        // $request-> = $request->;
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'name' => 'required|string|min:4|max:255|unique:users,name,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('Dashboard.Admin.Users.Edit', ['User' => $id])
+                ->withErrors($validator)
+                ->withInput();
+            // return response()->json([
+            //     'message' => 'Los datos enviados son inválidos',
+            //     'errors' => $validator->errors(),
+            // ], 422);
+        }
+        $user = User::findOrFail($id);
+        // if (!$user) {
+        //     return response()->json(['message' => 'Usuario no encontrado'], 404);
+        // }
+
+        // $user->update($request->all());
+
+        // return response()->json(['message' => 'Usuario actualizado correctamente']);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = $request->input('password');
         $user->save();
-        return $user;
+        return back()->with('update', 'Elemento actualizado correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $user = User::destroy($request->id);
-        return $user;
+        $user = User::findOrFail($id);
+        // if (!$user) {
+        //     return response()->json(['message' => 'Usuario no encontrado'], 404);
+        // }
+
+        // $user->delete();
+
+        // return response()->json(['message' => 'Usuario eliminado correctamente']);
+        $user->delete();
+        return redirect()->route('Dashboard.Admin.Users.Index')->with('danger', 'Elemento eliminado correctamente.');
     }
 }

@@ -29,5 +29,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/GroupsListAPI', [App\Http\Controllers\Dashboard\Admin\GroupsController::class, 'indexAPI']);
 Route::get('/PermissionsListAPI', [App\Http\Controllers\Dashboard\Admin\PermissionsController::class, 'indexAPI']);
+
+// Usuarios
 Route::get('/UsersListAPI', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'indexAPI']);
 Route::post('/UsersListAPI', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'store']);
+Route::get('/UsersListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'showApi']);
+Route::put('/UsersListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'update']);
+Route::delete('/UsersListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'destroy']);

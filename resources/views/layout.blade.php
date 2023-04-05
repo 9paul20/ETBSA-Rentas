@@ -62,6 +62,7 @@
     {{-- Enlaces a Scripts de JS --}}
     {{-- <script src="{{ url('/js/components.js') }}"></script> --}}
     <script src="{{ url('/js/jquery-3.6.4.min.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- Scripts Vite Compiled --}}
     @vite('resources/js/app.js')
