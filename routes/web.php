@@ -41,13 +41,23 @@ Route::group(
     function () {
         Route::get('Menu', 'DashboardController@index')->name('Dashboard.Menu.Index');
         Route::get('Next', 'DashboardController@registerContinue')->name('Dashboard.Next.registerContinue');
-        Route::resource('Admin/Groups', 'Admin\GroupsController')->names([
-            'index' => 'Dashboard.Admin.Groups.Index',
-            // otras acciones de recursos
-        ]);
         Route::resource('Admin/Permissions', 'Admin\PermissionsController')->names([
             'index' => 'Dashboard.Admin.Permissions.Index',
-            // otras acciones de recursos
+            'create' => 'Dashboard.Admin.Permissions.Create',
+            'store' => 'Dashboard.Admin.Permissions.Store',
+            'edit' => 'Dashboard.Admin.Permissions.Edit',
+            'update' => 'Dashboard.Admin.Permissions.Update',
+            'destroy' => 'Dashboard.Admin.Permissions.Destroy',
+        ]);
+        Route::resource('Admin/Roles', 'Admin\RolesController')->names([
+            'index' => 'Dashboard.Admin.Roles.Index',
+            'create' => 'Dashboard.Admin.Roles.Create',
+            'store' => 'Dashboard.Admin.Roles.Store',
+            'show' => 'Dashboard.Admin.Roles.Show',
+            'edit' => 'Dashboard.Admin.Roles.Edit',
+            'update' => 'Dashboard.Admin.Roles.Update',
+            'updatePermissions' => 'Dashboard.Admin.Roles.UpdatePermissions',
+            'destroy' => 'Dashboard.Admin.Roles.Destroy',
         ]);
         Route::resource('Admin/Users', 'Admin\UsersController')->names([
             'index' => 'Dashboard.Admin.Users.Index',
@@ -72,4 +82,7 @@ Route::group(
 // });
 // Route::get('/daterange', function () {
 //     return view('Examples/daterange');
+// });
+// Route::get('/UpdateProfile', function () {
+//     return view('Examples/UpdateProfile');
 // });

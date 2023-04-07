@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
@@ -27,7 +26,7 @@ class UsersController extends Controller
             'path' => route('Dashboard.Admin.Users.Index')
         ]);
         $columnNames = ['Name', 'State', 'Role', 'Team', ''];
-        return view('Dashboard.Admin.Users.Index', compact('columnNames', 'rowDatas'));
+        return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 
     public function indexAPI()
@@ -42,7 +41,7 @@ class UsersController extends Controller
     public function create()
     {
         $user = new User();
-        return view('Dashboard.Admin.Users.Index', compact('user'));
+        return view('Dashboard.Admin.Index', compact('user'));
     }
 
     /**
@@ -51,20 +50,12 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $validator = Validator::make($data, [
-            'name' => 'required|string|min:4|max:255|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        $validator = Validator::make($data, User::getRules());
 
         if ($validator->fails()) {
             return redirect()->route('Dashboard.Admin.Users.Create')
                 ->withErrors($validator)
                 ->withInput();
-            // return response()->json([
-            //     'message' => 'Los datos enviados son inválidos',
-            //     'errors' => $validator->errors(),
-            // ], 422);
         }
 
         $user = new User;
@@ -97,7 +88,7 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('Dashboard.Admin.Users.Index', compact('user'));
+        return view('Dashboard.Admin.Index', compact('user'));
     }
 
     public function showApi($id)
@@ -112,30 +103,23 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('Dashboard.Admin.Users.Index', compact('user'));
+        return view('Dashboard.Admin.Index', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, Request $request)
+    public function update(Request $request, string $id)
     {
         $data = $request->all();
-        $validator = Validator::make($data, [
-            'name' => 'required|string|min:4|max:255|unique:users,name,' . $id,
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        $user = User::findOrFail($id);
+        $validator = Validator::make($data, User::getRules($id));
+
         if ($validator->fails()) {
             return redirect()->route('Dashboard.Admin.Users.Edit', ['User' => $id])
                 ->withErrors($validator)
                 ->withInput();
-            // return response()->json([
-            //     'message' => 'Los datos enviados son inválidos',
-            //     'errors' => $validator->errors(),
-            // ], 422);
         }
-        $user = User::findOrFail($id);
         // if (!$user) {
         //     return response()->json(['message' => 'Usuario no encontrado'], 404);
         // }

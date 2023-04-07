@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use HasRoles;
 
 class User extends Authenticatable
 {
@@ -49,7 +50,16 @@ class User extends Authenticatable
      *
      * @var array
      */
-    public static $rules = [];
+
+    public static function getRules($id = null)
+    {
+        $rules = [
+            'name' => 'required|string|min:4|max:255|unique:users,name,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'password' => 'required|string|min:6|confirmed',
+        ];
+        return $rules;
+    }
 
     /**
      * The attributes that should be cast.

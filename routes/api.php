@@ -27,8 +27,13 @@ use Illuminate\Support\Facades\Route;
 //     Route::apiResource('UsersListAPI', 'UsersController@index');
 // });
 
-Route::get('/GroupsListAPI', [App\Http\Controllers\Dashboard\Admin\GroupsController::class, 'indexAPI']);
+// Permisos
 Route::get('/PermissionsListAPI', [App\Http\Controllers\Dashboard\Admin\PermissionsController::class, 'indexAPI']);
+Route::get('/PermissionsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\PermissionsController::class, 'showApi']);
+
+// Grupos
+Route::get('/RolesListAPI', [App\Http\Controllers\Dashboard\Admin\RolesController::class, 'indexAPI']);
+Route::get('/RolesListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\RolesController::class, 'showApi']);
 
 // Usuarios
 Route::get('/UsersListAPI', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'indexAPI']);
