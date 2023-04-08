@@ -53,19 +53,10 @@ class PermissionsController extends Controller
                 'name' => 'required|string|min:4|max:255|unique:permissions',
                 'display_name' => 'required|string|min:4|max:255|unique:permissions',
                 'description' => 'required|string|min:4',
-                'guard_name' => 'required|string|min:4|max:255|unique:permissions',
+                'guard_name' => 'required|string|min:3|max:255|unique:permissions',
             ],
         );
-
         $permission = Permission::create($data);
-        // $permission = new Permission;
-        // $permission->name = $data['name'];
-        // $permission->display_name = $data['display_name'];
-        // $permission->description = $data['description'];
-        // $permission->guard_name = $data['guard_name'];
-
-        // Guardar el usuario en la base de datos
-        // $permission->save();
         return redirect()->route('Dashboard.Admin.Permissions.Index')->with('success', 'Elemento agregado correctamente.');
     }
 
@@ -99,19 +90,15 @@ class PermissionsController extends Controller
     {
         $data = $request->all();
         $permission = Permission::findOrFail($id);
-        $validator = Validator::make($data, Permission::getRules($id));
-
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Permissions.Edit', ['Permission' => $id])
-                ->withErrors($validator)
-                ->withInput();
-        }
-        $permission->name = $request->input('name');
-        $permission->display_name = $request->input('display_name');
-        $permission->description = $request->input('description');
-        $permission->guard_name = $request->input('guard_name');
-        $permission->save();
-
+        $data = $request->validate(
+            [
+                'name' => 'required|string|min:4|max:255|unique:permissions,name,' . $id,
+                'display_name' => 'required|string|min:4|max:255|unique:permissions,display_name,' . $id,
+                'description' => 'required|string|min:4',
+                'guard_name' => 'required|string|min:3|max:255|unique:permissions,guard_name,' . $id,
+            ],
+        );
+        $permission->update($data);
         return back()->with('update', 'Elemento actualizado correctamente.');
     }
 

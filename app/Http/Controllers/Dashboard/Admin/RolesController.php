@@ -48,25 +48,13 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $validator = Validator::make($data, Permission::getRules());
-
+        $validator = Validator::make($data, Role::getRules());
         if ($validator->fails()) {
             return redirect()->route('Dashboard.Admin.Roles.Create')
                 ->withErrors($validator)
                 ->withInput();
         }
-
-        $role = new Role;
-        $role->name = $data['name'];
-        $role->display_name = $data['display_name'];
-        $role->description = $data['description'];
-        $role->guard_name = $data['guard_name'];
-
-        // Guardar el usuario en la base de datos
-        $role->save();
-
-        // $group = Group::findOrFail($group->id);
-        // dd($group);
+        $role = Role::create($data);
         return redirect()->route('Dashboard.Admin.Roles.Edit', $role)->with('success', 'Elemento agregado correctamente.');
     }
 
@@ -100,20 +88,14 @@ class RolesController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
-        $role = Role::findOrFail($id);
         $validator = Validator::make($data, Role::getRules($id));
-
         if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Roles.Edit', ['Permission' => $id])
+            return redirect()->route('Dashboard.Admin.Roles.Edit', ['Role' => $id])
                 ->withErrors($validator)
                 ->withInput();
         }
-        $role->name = $request->input('name');
-        $role->display_name = $request->input('display_name');
-        $role->description = $request->input('description');
-        $role->guard_name = $request->input('guard_name');
-        $role->save();
-
+        $role = Role::findOrFail($id);
+        $role->update($data);
         return back()->with('update', 'Elemento actualizado correctamente.');
     }
 

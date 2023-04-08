@@ -51,20 +51,12 @@ class UsersController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data, User::getRules());
-
         if ($validator->fails()) {
             return redirect()->route('Dashboard.Admin.Users.Create')
                 ->withErrors($validator)
                 ->withInput();
         }
-
-        $user = new User;
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = $data['password'];
-
-        // Guardar el usuario en la base de datos
-        $user->save();
+        $user = User::create($data);
 
         // Obtener el ID del usuario recién creado
         $id = $user->id;
@@ -112,25 +104,17 @@ class UsersController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
-        $user = User::findOrFail($id);
         $validator = Validator::make($data, User::getRules($id));
-
         if ($validator->fails()) {
             return redirect()->route('Dashboard.Admin.Users.Edit', ['User' => $id])
                 ->withErrors($validator)
                 ->withInput();
         }
+        $user = User::findOrFail($id);
+        $user->update($data);
         // if (!$user) {
         //     return response()->json(['message' => 'Usuario no encontrado'], 404);
         // }
-
-        // $user->update($request->all());
-
-        // return response()->json(['message' => 'Usuario actualizado correctamente']);
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = $request->input('password');
-        $user->save();
         return back()->with('update', 'Elemento actualizado correctamente.');
     }
 
