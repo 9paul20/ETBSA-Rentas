@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Permission;
+// use App\Models\Permission;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
@@ -16,13 +17,14 @@ class PermissionsController extends Controller
     public function index()
     {
         $permissions = Permission::all();
+        $permission = Permission::class;
         $perPage = 10;
         $currentPage = request()->get('page') ?? 1;
         $pagedData = $permissions->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $rowDatas = new LengthAwarePaginator($pagedData, count($permissions), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Permissions.Index')
         ]);
-        $columnNames = ['Name', 'Display Name', 'Description', 'guard_name', ''];
+        $columnNames = ['Name', 'Display Name', 'Description', 'Guard Name', ''];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 
@@ -46,23 +48,24 @@ class PermissionsController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, Permission::getRules());
+        $data = $request->validate(
+            [
+                'name' => 'required|string|min:4|max:255|unique:permissions',
+                'display_name' => 'required|string|min:4|max:255|unique:permissions',
+                'description' => 'required|string|min:4',
+                'guard_name' => 'required|string|min:4|max:255|unique:permissions',
+            ],
+        );
 
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Permissions.Create')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $permission = new Permission;
-        $permission->name = $data['name'];
-        $permission->display_name = $data['display_name'];
-        $permission->description = $data['description'];
-        $permission->guard_name = $data['guard_name'];
+        $permission = Permission::create($data);
+        // $permission = new Permission;
+        // $permission->name = $data['name'];
+        // $permission->display_name = $data['display_name'];
+        // $permission->description = $data['description'];
+        // $permission->guard_name = $data['guard_name'];
 
         // Guardar el usuario en la base de datos
-        $permission->save();
+        // $permission->save();
         return redirect()->route('Dashboard.Admin.Permissions.Index')->with('success', 'Elemento agregado correctamente.');
     }
 
