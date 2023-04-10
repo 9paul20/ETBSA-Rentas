@@ -256,15 +256,18 @@
             var sidebar = $(".left-mini-bar");
             var offset = sidebar.offset();
             var topPadding = 15;
-            if ($(window).scrollTop() > offset.top) {
-                sidebar.stop().animate({
-                    marginTop: $(window).scrollTop() - offset.top + topPadding
-                });
-            } else {
-                sidebar.stop().animate({
-                    marginTop: 0
-                });
-            }
+            // if ($(window).scrollTop() > offset.top) {
+            //     sidebar.stop().animate({
+            //         marginTop: $(window).scrollTop() - offset.top + topPadding
+            //     });
+            // } else {
+            //     sidebar.stop().animate({
+            //         marginTop: 0
+            //     });
+            // }
         });
+        if (typeof objeto !== 'undefined') {
+            // leer la propiedad 'top' del objeto
+        }
     </script>
 @endpush
