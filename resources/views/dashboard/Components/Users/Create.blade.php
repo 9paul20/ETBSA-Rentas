@@ -8,11 +8,11 @@
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
     @include('Dashboard.Components.Divisor')
 
-    @include('Dashboard.Components.Users.AssignRoles', ['role' => $user])
+    @include('Dashboard.Components.Users.Edit.AssignRoles', ['role' => $user])
 
     @include('Dashboard.Components.Divisor')
 
-    @include('Dashboard.Components.Users.AssignPermissions', ['permission' => $user])
+    @include('Dashboard.Components.Users.Edit.AssignPermissions', ['permission' => $user])
 @endif
 
 @include('Dashboard.Components.Divisor')

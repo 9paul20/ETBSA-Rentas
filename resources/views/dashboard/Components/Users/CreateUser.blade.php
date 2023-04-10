@@ -1,1 +1,1 @@
-@include('Dashboard.Components.Users.PersonalInformation')
+@include('Dashboard.Components.Users.Create.PersonalInformation')
