@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="{{ url('/css/components.css') }}">
 @endpush
 
+@push('html_style')
+    class="h-full"
+@endpush
+
 @push('body_style')
     class="h-full"
 @endpush
@@ -17,9 +21,10 @@
             <p class="mt-2 text-lg font-medium text-black text-opacity-50">It looks like the page you’re looking for doesn't
                 exist.</p>
             <div class="mt-6">
-                <a href="#"
-                    class="inline-flex items-center rounded-md border border-transparent bg-white bg-opacity-75 px-4 py-2 text-sm font-medium text-black text-opacity-75 sm:bg-opacity-25 sm:hover:bg-opacity-50">Go
-                    back home</a>
+                <a href="{{ auth()->check() ? route('Dashboard.Menu.Index') : route('Front.Home') }}"
+                    class="inline-flex items-center rounded-md border border-transparent bg-white bg-opacity-75 px-4 py-2 text-sm font-medium text-black text-opacity-75 sm:bg-opacity-25 sm:hover:bg-opacity-50">
+                    Go back home
+                </a>
             </div>
         </div>
     </main>

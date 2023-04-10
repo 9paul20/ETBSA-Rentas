@@ -33,7 +33,7 @@
                     </div>
                     <h5 class="text-gray-300 font-semibold -mr-10 -mt-3">Not Permissions</h5>
                     <p class="text-gray-100 mt-2 mb-6">we are sorry, but the page you need permissions</p>
-                    <a
+                    <a href="{{ route('Dashboard.Menu.Index') }}"
                         class="bg-green-400  px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-gray-50 rounded-full hover:shadow-lg">
                         Got to Home
                     </a>

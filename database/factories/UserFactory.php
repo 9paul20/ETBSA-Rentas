@@ -23,7 +23,6 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '12345678', // password
             'remember_token' => Str::random(10),
-            'permissions' => [],
             'last_login' => fake()->dateTime,
             'active' => null,
             'activation_key' => \Ramsey\Uuid\Uuid::uuid4()->toString(),

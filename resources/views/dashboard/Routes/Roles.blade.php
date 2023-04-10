@@ -1,13 +1,21 @@
 @if (getDashboardNameFromUrlSecond(request()->fullUrl()) == 'Roles')
-    @include('Dashboard.Components.Roles.Table')
+    @can('View Roles')
+        @include('Dashboard.Components.Roles.Table')
+    @endcan
 @endif
 @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Roles' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
-    @include('Dashboard.Components.Roles.Create')
+    @can('Create Roles')
+        @include('Dashboard.Components.Roles.Create')
+    @endcan
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Roles' &&
         is_numeric(getDashboardNameFromUrlSecond(request()->fullUrl())))
-    @include('Dashboard.Components.Roles.Show')
+    @can('View Roles')
+        @include('Dashboard.Components.Roles.Show')
+    @endcan
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Roles' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
-    @include('Dashboard.Components.Roles.Create')
+    @can('Update Roles')
+        @include('Dashboard.Components.Roles.Create')
+    @endcan
 @endif

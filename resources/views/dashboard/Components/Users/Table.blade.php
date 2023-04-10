@@ -12,13 +12,10 @@
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
                 <h1 class="text-xl font-semibold text-gray-900">Users</h1>
-
             </div>
-            <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                <button type="button" onclick="window.location.href='{{ route('Dashboard.Admin.Users.Create') }}'"
-                    class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">Add
-                    user</button>
-            </div>
+            @can('Create Users')
+                <x-Dashboard.Button-Create text="Add User" href="{{ route('Dashboard.Admin.Users.Create') }}" />
+            @endcan
         </div>
         @if (count($rowDatas) > 0)
             <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
@@ -58,76 +55,76 @@
                                             class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
                                     </div>
                                     <div class="text-sm">
-                                        <div class="font-medium text-gray-700">{{ $rowData['name'] }}</div>
-                                        <div class="text-gray-400">{{ $rowData['email'] }}</div>
+                                        <div class="font-medium text-gray-700">{{ $rowData->name }}</div>
+                                        <div class="text-gray-400">{{ $rowData->email }}</div>
                                     </div>
                                 </th>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <span
-                                        class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                                        {{ $rowData['active'] }}
-                                    </span>
+                                    @if ($rowData->active !== null)
+                                        <span
+                                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
+                                            <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                            {{ $rowData->active }}
+                                        </span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600">
+                                            <span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>
+                                            Sin State
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="font-medium text-gray-700">Front-end Developer</div>
-                                    <div class="text-gray-400">Optimization</div>
+                                    <div class="font-medium text-gray-700">
+                                        @if ($rowData->roles->count() > 0)
+                                            <div class="font-medium text-gray-700">{{ $rowData->roles->first()->name }}
+                                            </div>
+                                            @if ($rowData->roles->count() > 1)
+                                                <div class="text-gray-400">+{{ $rowData->roles->count() - 1 }}</div>
+                                            @endif
+                                        @else
+                                            <div class="font-medium text-orange-700">Sin Rol</div>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div class="flex gap-2">
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600">
-                                            Design
-                                        </span>
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600">
-                                            Product
-                                        </span>
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600">
-                                            Develop
-                                        </span>
+                                        @if (count($rowData->permissions) > 0)
+                                            @foreach ($rowData->permissions->take(3) as $permissionsTo)
+                                                <span
+                                                    class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600">
+                                                    {{ $permissionsTo->name }}
+                                                </span>
+                                            @endforeach
+                                            @if ($rowData->permissions->count() - $rowData->permissions->take(3)->count() > 0)
+                                                <span
+                                                    class="inline-flex items-center gap-1 rounded-full bg-gray-200 px-2 py-1 text-xs font-medium text-gray-500">
+                                                    +{{ $rowData->permissions->count() - $rowData->permissions->take(3)->count() }}
+                                                </span>
+                                            @endif
+                                        @else
+                                            <span
+                                                class="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-700">
+                                                Sin Permisos
+                                            </span>
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-end gap-4">
-                                        <a href="{{ route('Dashboard.Admin.Users.Show', $rowData['id']) }}"
-                                            x-data="{ tooltip: 'Show' }" target="_blank">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor"
-                                                class="w-6 h-6 text-indigo-500">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
-                                        </a>
-                                        <a href="{{ route('Dashboard.Admin.Users.Edit', $rowData['id']) }}"
-                                            x-data="{ tooltip: 'Edit' }">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-blue-500"
-                                                x-tooltip="tooltip">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125">
-                                                </path>
-                                            </svg>
-                                        </a>
-                                        <a href=""
-                                            onclick="event.preventDefault(); confirmDelete('{{ $rowData['id'] }}', '{{ $rowData['name'] }}')"
-                                            class="btn-delete">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="h-6 w-6 text-red-500">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0">
-                                                </path>
-                                            </svg>
-                                        </a>
-                                        <form id="delete-form-{{ $rowData['id'] }}"
-                                            action="{{ route('Dashboard.Admin.Users.Destroy', $rowData['id']) }}"
-                                            method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+                                        @can('View Users')
+                                            <x-Dashboard.IconButton-Show
+                                                href="{{ route('Dashboard.Admin.Users.Show', $rowData->id) }}" />
+                                        @endcan
+                                        @can('Update Users')
+                                            <x-Dashboard.IconButton-Edit
+                                                href="{{ route('Dashboard.Admin.Users.Edit', $rowData->id) }}" />
+                                        @endcan
+                                        @can('Delete Users')
+                                            <x-Dashboard.IconButton-Delete id="{{ $rowData->id }}"
+                                                name="{{ $rowData->name }}"
+                                                href="{{ route('Dashboard.Admin.Users.Destroy', $rowData->id) }}" />
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>
@@ -151,24 +148,26 @@
     </div>
 @endif
 
-@push('scripts')
-    <script>
-        function confirmDelete(id, name) {
-            Swal.fire({
-                title: `¿Estás seguro de eliminar el dato ${name}?`,
-                text: "Esta acción no se puede deshacer.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Se envía la petición de eliminación al servidor
-                    document.getElementById(`delete-form-${id}`).submit();
-                }
-            })
-        }
-    </script>
-@endpush
+@can('Delete Users')
+    @push('scripts')
+        <script>
+            function confirmDelete(id, name) {
+                Swal.fire({
+                    title: `¿Estás seguro de eliminar el dato ${name}?`,
+                    text: "Esta acción no se puede deshacer.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Se envía la petición de eliminación al servidor
+                        document.getElementById(`delete-form-${id}`).submit();
+                    }
+                })
+            }
+        </script>
+    @endpush
+@endcan

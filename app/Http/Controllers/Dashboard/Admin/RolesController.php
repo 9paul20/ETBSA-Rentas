@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
-use App\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Validator;
 
 class RolesController extends Controller
 {
@@ -16,6 +15,7 @@ class RolesController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', Role::class);
         $roles = Role::all();
         $perPage = 10;
         $currentPage = request()->get('page') ?? 1;
@@ -38,6 +38,7 @@ class RolesController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Role::class);
         $role = new Role();
         return view('Dashboard.Admin.Index', compact('role'));
     }
@@ -47,15 +48,17 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, Role::getRules());
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Roles.Create')
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $this->authorize('create', Role::class);
+        $data = $request->validate(
+            [
+                'name' => 'required|string|min:4|max:255|unique:roles',
+                'display_name' => 'required|string|min:4|max:255|unique:roles',
+                'description' => 'required|string|min:4',
+                'guard_name' => 'required|string|min:3|max:255',
+            ],
+        );
         $role = Role::create($data);
-        return redirect()->route('Dashboard.Admin.Roles.Edit', $role)->with('success', 'Elemento agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Roles.Edit', $role)->with('success', 'Rol ' . $role->name . ' agregado correctamente.');
     }
 
     /**
@@ -63,6 +66,7 @@ class RolesController extends Controller
      */
     public function show(string $id)
     {
+        $this->authorize('viewAny', Role::class);
         $role = Role::findOrFail($id);
     }
 
@@ -75,8 +79,9 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(String $id)
     {
+        $this->authorize('update', Role::class);
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
         return view('Dashboard.Admin.Index', compact('role', 'permissions'));
@@ -87,24 +92,28 @@ class RolesController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $this->authorize('update', Role::class);
         $data = $request->all();
-        $validator = Validator::make($data, Role::getRules($id));
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Roles.Edit', ['Role' => $id])
-                ->withErrors($validator)
-                ->withInput();
-        }
         $role = Role::findOrFail($id);
+        $data = $request->validate(
+            [
+                'name' => 'required|string|min:4|max:255|unique:roles,name,' . $id,
+                'display_name' => 'required|string|min:4|max:255|unique:roles,display_name,' . $id,
+                'description' => 'required|string|min:4',
+                'guard_name' => 'required|string|min:3|max:255',
+            ],
+        );
         $role->update($data);
-        return back()->with('update', 'Elemento actualizado correctamente.');
+        return back()->with('update', 'Rol ' . $role->name . ' actualizado correctamente.');
     }
 
     public function updatePermissions(Request $request, string $id)
     {
+        $this->authorize('update', Role::class);
         $role = Role::findOrFail($id);
-        $role->name = $request->input('name');
-        $role->save();
-        return back()->with('update', 'Elemento actualizado correctamente.');
+        $permissions = $request->input('permissions', []);
+        $role->permissions()->sync($permissions);
+        return back()->with('update', 'Permisos de Rol ' . $role->name . ' actualizados correctamente.');
     }
 
     /**
@@ -112,8 +121,9 @@ class RolesController extends Controller
      */
     public function destroy(string $id)
     {
-        $group = Role::findOrFail($id);
-        $group->delete();
-        return redirect()->route('Dashboard.Admin.Roles.Index')->with('danger', 'Elemento eliminado correctamente.');
+        $this->authorize('delete', Role::class);
+        $role = Role::findOrFail($id);
+        $role->delete();
+        return redirect()->route('Dashboard.Admin.Roles.Index')->with('danger', 'Rol ' . $role->name . ' eliminado correctamente.');
     }
 }

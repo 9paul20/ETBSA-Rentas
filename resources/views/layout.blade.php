@@ -1,7 +1,7 @@
 {{-- Para especificar que este es un documento HTML5. --}}
 <!DOCTYPE html>
 {{-- Para especificar idioma del documento HTML5. --}}
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" {{-- class="h-full bg-[color:var(--html-bg-color,theme(colors.white))]" --}}>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @stack('html_style')>
 
 <head>
     {{-- Metadatos --}}

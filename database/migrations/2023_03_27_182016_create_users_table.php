@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->text('permissions')->nullable();
             $table->timestamp('last_login')->nullable();
             $table->timestamp('active')->nullable();
             $table->string('activation_key')->nullable();

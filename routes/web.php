@@ -23,7 +23,7 @@ Route::group(
         'prefix' => ''
     ],
     function () {
-        Route::get('/', 'HomeController@index')->name('front.home');
+        Route::get('/', 'HomeController@index')->name('Front.Home');
         // Route::get('/403', 'HomeController@403')->name('front.403');
         // Route::get('/404', 'HomeController@404')->name('front.404');
     }
@@ -40,11 +40,12 @@ Route::group(
     ],
     function () {
         Route::get('Menu', 'DashboardController@index')->name('Dashboard.Menu.Index');
-        Route::get('Next', 'DashboardController@registerContinue')->name('Dashboard.Next.registerContinue');
+        Route::get('Register/Continue', 'DashboardController@registerContinue')->name('Dashboard.Next.RegisterContinue');
         Route::resource('Admin/Permissions', 'Admin\PermissionsController')->names([
             'index' => 'Dashboard.Admin.Permissions.Index',
             'create' => 'Dashboard.Admin.Permissions.Create',
             'store' => 'Dashboard.Admin.Permissions.Store',
+            'show' => 'Dashboard.Admin.Permissions.Show',
             'edit' => 'Dashboard.Admin.Permissions.Edit',
             'update' => 'Dashboard.Admin.Permissions.Update',
             'destroy' => 'Dashboard.Admin.Permissions.Destroy',
@@ -56,9 +57,9 @@ Route::group(
             'show' => 'Dashboard.Admin.Roles.Show',
             'edit' => 'Dashboard.Admin.Roles.Edit',
             'update' => 'Dashboard.Admin.Roles.Update',
-            'updatePermissions' => 'Dashboard.Admin.Roles.UpdatePermissions',
             'destroy' => 'Dashboard.Admin.Roles.Destroy',
         ]);
+        Route::put('Admin/Roles/{id}/updatePermissions', 'Admin\RolesController@updatePermissions')->name('Dashboard.Admin.Roles.UpdatePermissions');
         Route::resource('Admin/Users', 'Admin\UsersController')->names([
             'index' => 'Dashboard.Admin.Users.Index',
             'create' => 'Dashboard.Admin.Users.Create',
@@ -68,6 +69,8 @@ Route::group(
             'update' => 'Dashboard.Admin.Users.Update',
             'destroy' => 'Dashboard.Admin.Users.Destroy',
         ]);
+        Route::put('Admin/Users/{id}/updateRoles', 'Admin\UsersController@updateRoles')->name('Dashboard.Admin.Users.UpdateRoles');
+        Route::put('Admin/Users/{id}/updatePermissions', 'Admin\UsersController@updatePermissions')->name('Dashboard.Admin.Users.UpdatePermissions');
     }
 );
 

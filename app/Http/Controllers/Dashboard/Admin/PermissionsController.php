@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
-// use App\Models\Permission;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Validator;
 
 class PermissionsController extends Controller
 {
@@ -16,6 +14,7 @@ class PermissionsController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', Permission::class);
         $permissions = Permission::all();
         $permission = Permission::class;
         $perPage = 10;
@@ -39,6 +38,7 @@ class PermissionsController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Permission::class);
         $permission = new Permission();
         return view('Dashboard.Admin.Index', compact('permission'));
     }
@@ -48,16 +48,17 @@ class PermissionsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Permission::class);
         $data = $request->validate(
             [
                 'name' => 'required|string|min:4|max:255|unique:permissions',
                 'display_name' => 'required|string|min:4|max:255|unique:permissions',
                 'description' => 'required|string|min:4',
-                'guard_name' => 'required|string|min:3|max:255|unique:permissions',
+                'guard_name' => 'required|string|min:3|max:255',
             ],
         );
         $permission = Permission::create($data);
-        return redirect()->route('Dashboard.Admin.Permissions.Index')->with('success', 'Elemento agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Permissions.Index')->with('success', 'Permiso ' . $permission->name . ' agregado correctamente.');
     }
 
     /**
@@ -65,7 +66,7 @@ class PermissionsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $this->authorize('viewAny', Permission::class);
     }
 
     public function showApi($id)
@@ -79,6 +80,7 @@ class PermissionsController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('update', Permission::class);
         $permission = Permission::findOrFail($id);
         return view('Dashboard.Admin.Index', compact('permission'));
     }
@@ -88,6 +90,7 @@ class PermissionsController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $this->authorize('update', Permission::class);
         $data = $request->all();
         $permission = Permission::findOrFail($id);
         $data = $request->validate(
@@ -95,11 +98,11 @@ class PermissionsController extends Controller
                 'name' => 'required|string|min:4|max:255|unique:permissions,name,' . $id,
                 'display_name' => 'required|string|min:4|max:255|unique:permissions,display_name,' . $id,
                 'description' => 'required|string|min:4',
-                'guard_name' => 'required|string|min:3|max:255|unique:permissions,guard_name,' . $id,
+                'guard_name' => 'required|string|min:3|max:255',
             ],
         );
         $permission->update($data);
-        return back()->with('update', 'Elemento actualizado correctamente.');
+        return back()->with('update', 'Permiso ' . $permission->name . ' actualizado correctamente.');
     }
 
     /**
@@ -107,8 +110,9 @@ class PermissionsController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('delete', Permission::class);
         $permission = Permission::findOrFail($id);
         $permission->delete();
-        return redirect()->route('Dashboard.Admin.Permissions.Index')->with('danger', 'Elemento eliminado correctamente.');
+        return redirect()->route('Dashboard.Admin.Permissions.Index')->with('danger', 'Permiso ' . $permission->name . ' eliminado correctamente.');
     }
 }

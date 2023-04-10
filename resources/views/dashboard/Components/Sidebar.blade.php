@@ -170,51 +170,24 @@
                         </section>
                         <!-- Links -->
                         <div class="flex-1 px-4 space-y-2 overflow-hidden hover:overflow-auto">
-                            <a href="{{ route('Dashboard.Menu.Index') }}"
-                                class="{{ setActiveRoutePt1('Dashboard.Menu.Index') }}">
-                                <span aria-hidden="true" class="{{ setActiveRoutePt2('Dashboard.Menu.Index') }}">
-                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                    </svg>
-                                </span>
-                                <span>Home</span>
-                            </a>
-                            <a href="{{ route('Dashboard.Admin.Permissions.Index') }}"
-                                class="{{ setActiveRoutePt1('Dashboard.Admin.Permissions.Index') }}">
-                                <span aria-hidden="true"
-                                    class="{{ setActiveRoutePt2('Dashboard.Admin.Permissions.Index') }}">
-                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM5 4.604v9.185a4 4 0 0 0 1.781 3.328L12 20.597l5.219-3.48A4 4 0 0 0 19 13.79V4.604L12 3.05 5 4.604zM12 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm-4.473 5a4.5 4.5 0 0 1 8.946 0H7.527z" />
-                                    </svg>
-                                </span>
-                                <span>Permissions</span>
-                            </a>
-                            <a href="{{ route('Dashboard.Admin.Roles.Index') }}"
-                                class="{{ setActiveRoutePt1('Dashboard.Admin.Roles.Index') }}">
-                                <span aria-hidden="true" class="{{ setActiveRoutePt2('Dashboard.Admin.Roles.Index') }}">
-                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-                                    </svg>
-                                </span>
-                                <span>Roles</span>
-                            </a>
-                            <a href="{{ route('Dashboard.Admin.Users.Index') }}"
-                                class="{{ setActiveRoutePt1('Dashboard.Admin.Users.Index') }}">
-                                <span aria-hidden="true" class="{{ setActiveRoutePt2('Dashboard.Admin.Users.Index') }}">
-                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-                                    </svg>
-                                </span>
-                                <span>Users</span>
-                            </a>
+                            <x-Sidebar.ItemNavigation href="Dashboard.Menu.Index"
+                                svg="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                                name="Home" />
+                            @can('View Permissions')
+                                <x-Sidebar.ItemNavigation href="Dashboard.Admin.Permissions.Index"
+                                    svg="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM5 4.604v9.185a4 4 0 0 0 1.781 3.328L12 20.597l5.219-3.48A4 4 0 0 0 19 13.79V4.604L12 3.05 5 4.604zM12 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm-4.473 5a4.5 4.5 0 0 1 8.946 0H7.527z"
+                                    name="Permissions" />
+                            @endcan
+                            @can('View Roles')
+                                <x-Sidebar.ItemNavigation href="Dashboard.Admin.Roles.Index"
+                                    svg="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+                                    name="Roles" />
+                            @endcan
+                            @can('View Users')
+                                <x-Sidebar.ItemNavigation href="Dashboard.Admin.Users.Index"
+                                    svg="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
+                                    name="Users" />
+                            @endcan
                             <a href="" class="">
                                 <span aria-hidden="true" class="">
                                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -263,9 +236,16 @@
                         <!-- Content -->
                         @include('Dashboard.Components.Notification')
                         @include('Dashboard.Routes.Menu')
-                        @include('Dashboard.Routes.Permissions')
-                        @include('Dashboard.Routes.Roles')
-                        @include('Dashboard.Routes.Users')
+
+                        @can('View Permissions')
+                            @include('Dashboard.Routes.Permissions')
+                        @endcan
+                        @can('View Roles')
+                            @include('Dashboard.Routes.Roles')
+                        @endcan
+                        @can('View Users')
+                            @include('Dashboard.Routes.Users')
+                        @endcan
                         {{-- @include('Dashboard.Routes.Equipment') --}}
                         {{-- @include('Dashboard.Routes.Equipment') --}}
                         {{-- @include('Dashboard.Routes.Equipment') --}}

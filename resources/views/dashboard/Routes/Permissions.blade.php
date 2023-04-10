@@ -1,13 +1,21 @@
 @if (getDashboardNameFromUrlSecond(request()->fullUrl()) == 'Permissions')
-    @include('Dashboard.Components.Permissions.Table')
+    @can('View Permissions')
+        @include('Dashboard.Components.Permissions.Table')
+    @endcan
 @endif
 @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Permissions' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
-    @include('Dashboard.Components.Permissions.Create')
+    @can('Create Permissions')
+        @include('Dashboard.Components.Permissions.Create')
+    @endcan
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Permissions' &&
         is_numeric(getDashboardNameFromUrlSecond(request()->fullUrl())))
-    @include('Dashboard.Components.Permissions.Show')
+    @can('View Permissions')
+        @include('Dashboard.Components.Permissions.Show')
+    @endcan
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Permissions' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
-    @include('Dashboard.Components.Permissions.Create')
+    @can('Update Permissions')
+        @include('Dashboard.Components.Permissions.Create')
+    @endcan
 @endif

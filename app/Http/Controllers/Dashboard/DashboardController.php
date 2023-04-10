@@ -19,6 +19,6 @@ class DashboardController extends Controller
     }
     public function registerContinue()
     {
-        return view('Dashboard/UpdateProfile');
+        return view('Dashboard/Index/UpdateProfile');
     }
 }

@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Http\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use HasRoles;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, UserTrait;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
     /**
      * The attributes that are mass assignable.
      *
@@ -23,7 +23,6 @@ class User extends Authenticatable
         'email',
         'password',
         'remember_token',
-        'permissions',
         'last_login',
         'active',
         'activation_key',
@@ -69,4 +68,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function logLastLogin()
+    {
+        $this->last_login = now();
+        $this->save();
+    }
 }

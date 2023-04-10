@@ -1,13 +1,21 @@
 @if (getDashboardNameFromUrlSecond(request()->fullUrl()) == 'Users')
-    @include('Dashboard.Components.Users.Table')
+    @can('View Users')
+        @include('Dashboard.Components.Users.Table')
+    @endcan
 @endif
 @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Users' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
-    @include('Dashboard.Components.Users.Create')
+    @can('Create Users')
+        @include('Dashboard.Components.Users.Create')
+    @endcan
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Users' &&
         is_numeric(getDashboardNameFromUrlSecond(request()->fullUrl())))
-    @include('Dashboard.Components.Users.Show')
+    @can('View Users')
+        @include('Dashboard.Components.Users.Show')
+    @endcan
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Users' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
-    @include('Dashboard.Components.Users.Create')
+    @can('Update Users')
+        @include('Dashboard.Components.Users.Create')
+    @endcan
 @endif

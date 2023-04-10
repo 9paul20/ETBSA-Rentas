@@ -8,7 +8,7 @@
         </div>
         <div class="mt-5 md:col-span-2 md:mt-0">
             <div class="overflow-hidden shadow sm:rounded-md">
-                <form method="POST" action="{{ route('Dashboard.Admin.Roles.UpdatePermissions', $permission->id) }}">
+                <form method="POST" action="{{ route('Dashboard.Admin.Users.UpdatePermissions', $permission->id) }}">
                     @csrf
                     @method('PUT')
                     <div class="bg-white px-4 py-5 sm:p-6">

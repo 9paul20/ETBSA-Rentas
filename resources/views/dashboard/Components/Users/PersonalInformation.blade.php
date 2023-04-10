@@ -12,7 +12,7 @@
                 <form action="{{ route('Dashboard.Admin.Users.Store') }}" method="POST">
                 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Users' &&
                         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
-                    <form action="{{ route('Dashboard.Admin.Users.Update', $user['id']) }}" method="POST">
+                    <form action="{{ route('Dashboard.Admin.Users.Update', $user->id) }}" method="POST">
                         @method('PUT')
             @endif
             @csrf
@@ -110,18 +110,14 @@
                             </div> --}}
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                    <button type="submit"
-                        class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
-                </div>
+                <x-Dashboard.Save-Button name="Guardar Usuario" />
+                </form>
             </div>
-            </form>
         </div>
     </div>
-</div>
 
-@push('scripts')
-    {{-- <script>
+    @push('scripts')
+        {{-- <script>
         const form = document.querySelector('form');
         form.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -135,22 +131,22 @@
                 });
         });
     </script> --}}
-    <script>
-        // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('click', () => {
-                const errorDiv = input.nextElementSibling;
-                if (errorDiv && errorDiv.classList.contains('text-red-400')) {
-                    errorDiv.style.opacity = '0';
-                    errorDiv.style.transition =
-                        'opacity 0.5s ease-in-out'; // cambiar la duración de la animación según tus necesidades
-                    setTimeout(() => {
-                            errorDiv.style.display = 'none';
-                        },
-                        500
-                    ); // ajustar el tiempo de espera para que coincida con la duración de la animación
-                }
+        <script>
+            // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('click', () => {
+                    const errorDiv = input.nextElementSibling;
+                    if (errorDiv && errorDiv.classList.contains('text-red-400')) {
+                        errorDiv.style.opacity = '0';
+                        errorDiv.style.transition =
+                            'opacity 0.5s ease-in-out'; // cambiar la duración de la animación según tus necesidades
+                        setTimeout(() => {
+                                errorDiv.style.display = 'none';
+                            },
+                            500
+                        ); // ajustar el tiempo de espera para que coincida con la duración de la animación
+                    }
+                });
             });
-        });
-    </script>
-@endpush
+        </script>
+    @endpush

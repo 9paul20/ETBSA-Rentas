@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\Permission\Models\Role;
 use Validator;
 
 class UsersController extends Controller
@@ -15,6 +17,7 @@ class UsersController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', User::class);
         // $response = Http::get('http://etbsa-rentas.test/api/UsersListAPI');
         // $rD = $response->json();
         // $users = collect($rD);
@@ -40,6 +43,7 @@ class UsersController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
         $user = new User();
         return view('Dashboard.Admin.Index', compact('user'));
     }
@@ -49,6 +53,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', User::class);
         $data = $request->all();
         $validator = Validator::make($data, User::getRules());
         if ($validator->fails()) {
@@ -71,7 +76,7 @@ class UsersController extends Controller
         //     'message' => 'Usuario creado exitosamente',
         //     'user' => $user,
         // ], 201);
-        return redirect()->route('Dashboard.Admin.Users.Index')->with('success', 'Elemento agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Users.Edit', $id)->with('success', 'Usuario ' . $user->name . ' agregado correctamente.');
     }
 
     /**
@@ -79,6 +84,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('viewAny', User::class);
         $user = User::findOrFail($id);
         return view('Dashboard.Admin.Index', compact('user'));
     }
@@ -94,8 +100,11 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('update', User::class);
         $user = User::findOrFail($id);
-        return view('Dashboard.Admin.Index', compact('user'));
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('Dashboard.Admin.Index', compact('user', 'roles', 'permissions'));
     }
 
     /**
@@ -103,6 +112,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $this->authorize('update', User::class);
         $data = $request->all();
         $validator = Validator::make($data, User::getRules($id));
         if ($validator->fails()) {
@@ -115,7 +125,29 @@ class UsersController extends Controller
         // if (!$user) {
         //     return response()->json(['message' => 'Usuario no encontrado'], 404);
         // }
-        return back()->with('update', 'Elemento actualizado correctamente.');
+        return back()->with('update', 'Datos del Usuario ' . $user->name . ' actualizados correctamente.');
+    }
+
+    public function updateRoles(Request $request, string $id)
+    {
+        $this->authorize('update', User::class);
+        $user = User::findOrFail($id);
+        $roles = $request->input('roles', []);
+        $user->roles()->sync($roles);
+        return back()->with('update', 'Roles del Usuario ' . $user->name . ' actualizados correctamente.');
+        // $permissions_data = array_map(function ($id) {
+        //     return compact('id');
+        // }, $permissions);
+        // dd($permissions_data);
+    }
+
+    public function updatePermissions(Request $request, string $id)
+    {
+        $this->authorize('update', User::class);
+        $user = User::findOrFail($id);
+        $permissions = $request->input('permissions', []);
+        $user->permissions()->sync($permissions);
+        return back()->with('update', 'Permisos del Usuario ' . $user->name . ' actualizados correctamente.');
     }
 
     /**
@@ -123,6 +155,7 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', User::class);
         $user = User::findOrFail($id);
         // if (!$user) {
         //     return response()->json(['message' => 'Usuario no encontrado'], 404);
@@ -132,6 +165,6 @@ class UsersController extends Controller
 
         // return response()->json(['message' => 'Usuario eliminado correctamente']);
         $user->delete();
-        return redirect()->route('Dashboard.Admin.Users.Index')->with('danger', 'Elemento eliminado correctamente.');
+        return redirect()->route('Dashboard.Admin.Users.Index')->with('danger', 'Usuario ' . $user->name . ' eliminado correctamente.');
     }
 }
