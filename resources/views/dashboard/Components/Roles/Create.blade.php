@@ -2,13 +2,13 @@
 
 @include('Dashboard.Components.Divisor')
 
-@include('Dashboard.Components.Roles.CreateRole')
+@include('Dashboard.Components.Roles.Create.CreateRole')
 
 @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Roles' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
     @include('Dashboard.Components.Divisor')
 
-    @include('Dashboard.Components.Roles.AssignPermissions', ['permission' => $role])
+    @include('Dashboard.Components.Roles.Edit.AssignPermissions', ['permission' => $role])
 @endif
 
 @include('Dashboard.Components.Divisor')

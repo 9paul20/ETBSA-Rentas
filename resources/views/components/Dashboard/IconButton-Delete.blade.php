@@ -1,7 +1,16 @@
 @props(['id', 'name', 'href'])
 
-<a href="" onclick="event.preventDefault(); confirmDelete('{{ $id }}', '{{ $name }}')"
-    class="btn-delete">
+@push('styles')
+    <style>
+        .swal2-container.swal2-center>.swal2-popup {
+            background-color: #FFFCF2;
+            /* Cambiar a tu color deseado */
+        }
+    </style>
+@endpush
+
+<a href="" x-data="{ tooltip: 'Delete' }"
+    onclick="event.preventDefault(); confirmDelete('{{ $id }}', '{{ $name }}')" class="btn-delete">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="h-6 w-6 text-red-500">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -13,3 +22,25 @@
     @csrf
     @method('DELETE')
 </form>
+
+@push('scripts')
+    <script>
+        function confirmDelete(id, name) {
+            Swal.fire({
+                title: `¿Estás seguro de eliminar el dato ${name}?`,
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Se envía la petición de eliminación al servidor
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            })
+        }
+    </script>
+@endpush

@@ -2,6 +2,6 @@
 
 @include('Dashboard.Components.Divisor')
 
-@include('Dashboard.Components.Permissions.CreatePermission')
+@include('Dashboard.Components.Permissions.Create.PermissionCreate')
 
 @include('Dashboard.Components.Divisor')

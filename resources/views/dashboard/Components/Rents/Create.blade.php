@@ -1,4 +1,4 @@
-<x-Dashboard.BackTo-Button href="Dashboard.Admin.Persons.Index" name="Regresar a Equipments" />
+<x-Dashboard.BackTo-Button href="Dashboard.Admin.Rents.Index" name="Regresar a Equipments" />
 
 @include('Dashboard.Components.Divisor')
 

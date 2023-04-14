@@ -54,7 +54,9 @@
 
 </head>
 
-<body style="min-height: 100vh" @stack('body_style') scroll-region>
+<body style="min-height: 100vh"
+    class="h-32 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-slate-100 scrollbar-track-rounded-full scrollbar-thumb-rounded-full overflow-y-scroll"
+    @stack('body_style') scroll-region>
 
     {{-- Contenido Dinámico --}}
     @yield('content')

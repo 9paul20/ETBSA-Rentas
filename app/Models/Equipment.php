@@ -22,10 +22,10 @@ class Equipment extends Model
 
     protected $hidden = [];
 
-    public static function getRules($id = null)
+    public static function getRules($clvEquipo = null)
     {
         $rules = [
-            'noSerie' => 'required|string|min:4|max:255|unique:t_equipos,noSerie,' . $id,
+            'noSerie' => 'required|string|min:4|max:255|unique:t_equipos,noSerie,' . $clvEquipo,
             'modelo' => 'required|string|min:4|max:255',
             'descripcion' => 'string|max:255',
         ];

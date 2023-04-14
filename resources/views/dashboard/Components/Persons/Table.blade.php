@@ -1,12 +1,3 @@
-@push('styles')
-    <style>
-        .swal2-container.swal2-center>.swal2-popup {
-            background-color: #FFFCF2;
-            /* Cambiar a tu color deseado */
-        }
-    </style>
-@endpush
-
 @if (count($columnNames) > 0)
     <div class="mx-auto max-w-7xl">
         <div class="sm:flex sm:items-center">
@@ -14,6 +5,7 @@
                 <h1 class="text-xl font-semibold text-gray-900">Persons</h1>
             </div>
             <x-Dashboard.Button-Create text="Add Persons" href="{{ route('Dashboard.Admin.Persons.Create') }}" />
+            <x-Dashboard.Button-Create text="Admin" href="{{ route('Dashboard.Admin.Persons.Panel') }}" />
         </div>
         @if (count($rowDatas) > 0)
             <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
@@ -46,23 +38,25 @@
                             <tr class="hover:bg-gray-100">
                                 <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
                                     <div class="text-sm">
-                                        <div class="font-medium text-gray-700">{{ $rowData->nombrePersona }}</div>
+                                        <div class="font-medium text-gray-700">{{ $rowData->nombrePersona }}
+                                            {{ $rowData->apePaternoPersona }} {{ $rowData->apeMaternoPersona }}</div>
                                     </div>
                                 </th>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowData->apePaternoPersona }}</div>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowData->apeMaternoPersona }}</div>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div class="text-gray-600">{{ $rowData->nacimiento }}</div>
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <div class="text-gray-600">{{ $rowData->nacionalidad->nacionalidad }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div class="text-gray-600">{{ $rowData->telefono }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div class="text-gray-600">{{ $rowData->celular }}</div>
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <div class="text-gray-600">{{ $rowData->companiaTelefonica->companiaTelefonica }}
+                                    </div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div class="text-gray-600">{{ $rowData->ocupacion }}</div>
@@ -101,25 +95,3 @@
         </main>
     </div>
 @endif
-
-@push('scripts')
-    <script>
-        function confirmDelete(id, name) {
-            Swal.fire({
-                title: `¿Estás seguro de eliminar el dato ${name}?`,
-                text: "Esta acción no se puede deshacer.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Se envía la petición de eliminación al servidor
-                    document.getElementById(`delete-form-${id}`).submit();
-                }
-            })
-        }
-    </script>
-@endpush

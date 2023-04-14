@@ -24,7 +24,11 @@ function getDashboardNameFromUrlSecond($path)
 
 function setActiveRoutePt1($name)
 {
-    return request()->routeIs($name) ? 'flex items-center w-full space-x-2 text-white bg-indigo-600 rounded-lg' : 'flex items-center space-x-2 text-indigo-500 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-indigo-900';
+    if (Str::startsWith(request()->url(), route($name))) {
+        return 'flex items-center w-full space-x-2 text-white bg-indigo-600 rounded-lg';
+    } else {
+        return 'flex items-center space-x-2 text-indigo-500 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-indigo-900';
+    }
 }
 
 function setActiveRoutePt2($name)

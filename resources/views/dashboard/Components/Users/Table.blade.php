@@ -1,12 +1,3 @@
-@push('styles')
-    <style>
-        .swal2-container.swal2-center>.swal2-popup {
-            background-color: #FFFCF2;
-            /* Cambiar a tu color deseado */
-        }
-    </style>
-@endpush
-
 @if (count($columnNames) > 0)
     <div class="mx-auto max-w-7xl">
         <div class="sm:flex sm:items-center">
@@ -147,27 +138,3 @@
         </main>
     </div>
 @endif
-
-@can('Delete Users')
-    @push('scripts')
-        <script>
-            function confirmDelete(id, name) {
-                Swal.fire({
-                    title: `¿Estás seguro de eliminar el dato ${name}?`,
-                    text: "Esta acción no se puede deshacer.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Sí, eliminar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Se envía la petición de eliminación al servidor
-                        document.getElementById(`delete-form-${id}`).submit();
-                    }
-                })
-            }
-        </script>
-    @endpush
-@endcan

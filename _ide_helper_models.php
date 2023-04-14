@@ -12,6 +12,147 @@
 
 namespace App\Models{
 /**
+ * App\Models\Equipment
+ *
+ * @property int $clvEquipo
+ * @property string $noSerie
+ * @property string $modelo
+ * @property string|null $clvDisponibilidad
+ * @property string|null $clvCategoria
+ * @property string|null $descripcion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereClvCategoria($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereClvDisponibilidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereClvEquipo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereModelo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerie($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereUpdatedAt($value)
+ */
+	class Equipment extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Person
+ *
+ * @property int $clvPersona
+ * @property string|null $nombrePersona
+ * @property string|null $apePaternoPersona
+ * @property string|null $apeMaternoPersona
+ * @property string|null $nacimiento
+ * @property int|null $clvLocalidad
+ * @property string|null $telefono
+ * @property string|null $celular
+ * @property int|null $clvComTel
+ * @property string|null $ocupacion
+ * @property int|null $clvNacionalidad
+ * @property string|null $informacion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Persons\ComTel|null $companiaTelefonica
+ * @property-read \App\Models\Persons\Nacionalidad|null $nacionalidad
+ * @method static \Illuminate\Database\Eloquent\Builder|Person newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Person newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Person query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereApeMaternoPersona($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereApePaternoPersona($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereCelular($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereClvComTel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereClvLocalidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereClvNacionalidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereClvPersona($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereInformacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereNacimiento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereNombrePersona($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereOcupacion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereTelefono($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Person whereUpdatedAt($value)
+ */
+	class Person extends \Eloquent {}
+}
+
+namespace App\Models\Persons{
+/**
+ * App\Models\Persons\ComTel
+ *
+ * @property int $clvComTel
+ * @property string $companiaTelefonica
+ * @property string|null $descripcion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ComTel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ComTel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ComTel query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ComTel whereClvComTel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComTel whereCompaniaTelefonica($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComTel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComTel whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ComTel whereUpdatedAt($value)
+ */
+	class ComTel extends \Eloquent {}
+}
+
+namespace App\Models\Persons{
+/**
+ * App\Models\Persons\Nacionalidad
+ *
+ * @property int $clvNacionalidad
+ * @property string $nacionalidad
+ * @property string|null $descripcion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereClvNacionalidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereNacionalidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereUpdatedAt($value)
+ */
+	class Nacionalidad extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Rent
+ *
+ * @property int $clvRenta
+ * @property int|null $clvEquipo
+ * @property int|null $clvCliente
+ * @property string|null $descripcion
+ * @property string|null $fecha_inicio
+ * @property string|null $fecha_fin
+ * @property int|null $clvPagoRenta
+ * @property int|null $clvEstadoRenta
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvCliente($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvEquipo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvEstadoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvPagoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereFechaFin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereFechaInicio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent whereUpdatedAt($value)
+ */
+	class Rent extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id

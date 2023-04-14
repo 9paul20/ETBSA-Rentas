@@ -1,1 +1,1 @@
-@include('Dashboard.Components.Users.Profile')
+@include('Dashboard.Components.Users.Show.Profile')

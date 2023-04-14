@@ -16,6 +16,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $guarded = [];
+
+    public function getRouteKeyName()
+    {
+        $name = str_slug('name', '-');
+        return $name;
+    }
+
     protected $fillable = [
         'clvPersona',
         'name',
@@ -54,6 +63,23 @@ class User extends Authenticatable
         $rules = [
             'name' => 'required|string|min:4|max:255|unique:users,name,' . $id,
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'password' => 'required|string|min:6|confirmed',
+        ];
+        return $rules;
+    }
+
+    public static function getRulesUser($id = null)
+    {
+        $rules = [
+            'name' => 'required|string|min:4|max:255|unique:users,name,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+        ];
+        return $rules;
+    }
+
+    public static function getRulesPassword($id = null)
+    {
+        $rules = [
             'password' => 'required|string|min:6|confirmed',
         ];
         return $rules;

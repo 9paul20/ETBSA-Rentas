@@ -43,6 +43,12 @@ Route::put('/UsersListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\UsersCont
 Route::delete('/UsersListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'destroy']);
 
 // Personas
+Route::get('/PersonsListAPI/ComTel', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'indexAPI']);
+Route::post('/PersonsListAPI/ComTel', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'store']);
+Route::get('/PersonsListAPI/ComTel/{id}', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'showApi']);
+Route::put('/PersonsListAPI/ComTel/{id}', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'update']);
+Route::delete('/PersonsListAPI/ComTel/{id}', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'destroy']);
+
 Route::get('/PersonsListAPI', [App\Http\Controllers\Dashboard\Admin\PersonsController::class, 'indexAPI']);
 Route::post('/PersonsListAPI', [App\Http\Controllers\Dashboard\Admin\PersonsController::class, 'store']);
 Route::get('/PersonsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\PersonsController::class, 'showApi']);
