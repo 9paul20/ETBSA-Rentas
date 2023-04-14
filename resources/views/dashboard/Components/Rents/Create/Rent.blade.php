@@ -21,9 +21,12 @@
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-6">
                             <label for="clvEquipo" class="block text-sm font-medium text-gray-700">Clave Equipo</label>
-                            <input type="text" name="clvEquipo" id="clvEquipo" autocomplete="given-clvEquipo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('clvEquipo') border-red-400 @enderror"
-                                value="{{ old('clvEquipo', $rent->clvEquipo) }}" required autofocus>
+                            <select id="clvEquipo" name="clvEquipo"
+                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvEquipo') border-red-400 @enderror">
+                                @foreach ($equipments as $equipment)
+                                    <option value="{{ $equipment->clvEquipo }}">{{ $equipment->noSerie }}</option>
+                                @endforeach
+                            </select>
                             @error('clvEquipo')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -35,9 +38,12 @@
                         <div class="col-span-6 sm:col-span-6">
                             <label for="clvCliente" class="block text-sm font-medium text-gray-700">Clave
                                 Cliente</label>
-                            <input type="text" name="clvCliente" id="clvCliente" autocomplete="given-clvCliente"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('clvCliente') border-red-400 @enderror"
-                                value="{{ old('clvCliente', $rent->clvCliente) }}" required autofocus>
+                            <select id="clvCliente" name="clvCliente"
+                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvCliente') border-red-400 @enderror">
+                                @foreach ($clients as $client)
+                                    <option value="{{ $client->clvPersona }}">{{ $client->nombrePersona }}</option>
+                                @endforeach
+                            </select>
                             @error('clvCliente')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -62,10 +68,10 @@
                         <div class="col-span-6 sm:col-span-6">
                             <label for="fecha_inicio" class="block text-sm font-medium text-gray-700">Fecha
                                 Inicio</label>
-                            <input type="text" name="fecha_inicio" id="fecha_inicio"
+                            <input type="date" name="fecha_inicio" id="fecha_inicio"
                                 autocomplete="given-fecha_inicio"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fecha_inicio') border-red-400 @enderror"
-                                value="{{ old('fecha_inicio', $rent->fecha_inicio) }}" required autofocus>
+                                value="{{ old('fecha_inicio', $rent->fecha_inicio) }}" required>
                             @error('fecha_inicio')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -76,9 +82,9 @@
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <label for="fecha_fin" class="block text-sm font-medium text-gray-700">Fecha Fin</label>
-                            <input type="text" name="fecha_fin" id="fecha_fin" autocomplete="given-fecha_fin"
+                            <input type="date" name="fecha_fin" id="fecha_fin" autocomplete="given-fecha_fin"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fecha_fin') border-red-400 @enderror"
-                                value="{{ old('fecha_fin', $rent->fecha_fin) }}" required autofocus>
+                                value="{{ old('fecha_fin', $rent->fecha_fin) }}" required>
                             @error('fecha_fin')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -87,12 +93,12 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        {{-- <div class="col-span-6 sm:col-span-6">
                             <label for="clvPagoRenta" class="block text-sm font-medium text-gray-700">Clave Pago</label>
                             <input type="text" name="clvPagoRenta" id="clvPagoRenta"
                                 autocomplete="given-clvPagoRenta"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('clvPagoRenta') border-red-400 @enderror"
-                                value="{{ old('clvPagoRenta', $rent->clvPagoRenta) }}" required autofocus>
+                                value="{{ old('clvPagoRenta', $rent->clvPagoRenta) }}" required>
                             @error('clvPagoRenta')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -100,14 +106,16 @@
                                     <span>{{ $message }}</span>
                                 </div>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="col-span-6 sm:col-span-6">
                             <label for="clvEstadoRenta" class="block text-sm font-medium text-gray-700">Clave Estado
                                 Renta</label>
-                            <input type="text" name="clvEstadoRenta" id="clvEstadoRenta"
-                                autocomplete="given-clvEstadoRenta"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('clvEstadoRenta') border-red-400 @enderror"
-                                value="{{ old('clvEstadoRenta', $rent->clvEstadoRenta) }}" required autofocus>
+                            <select id="clvEstadoRenta" name="clvEstadoRenta"
+                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvEstadoRenta') border-red-400 @enderror">
+                                <option value="1">Cancelado</option>
+                                <option value="2">Completado</option>
+                                <option value="3">Desconocido</option>
+                            </select>
                             @error('clvEstadoRenta')
                                 <div class="flex
                                     items-center mt-1 text-red-400">

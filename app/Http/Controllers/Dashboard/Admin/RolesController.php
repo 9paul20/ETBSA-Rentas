@@ -58,7 +58,7 @@ class RolesController extends Controller
             ],
         );
         $role = Role::create($data);
-        return redirect()->route('Dashboard.Admin.Roles.Edit', $role)->with('success', 'Rol ' . $role->name . ' agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Roles.Index')->with('success', 'Rol ' . $role->name . ' agregado correctamente.');
     }
 
     /**

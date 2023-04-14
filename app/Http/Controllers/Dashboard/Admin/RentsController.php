@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Equipment;
+use App\Models\Person;
 use App\Models\Rent;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -22,7 +24,7 @@ class RentsController extends Controller
         $rowDatas = new LengthAwarePaginator($pagedData, count($rents), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Rents.Index')
         ]);
-        $columnNames = ['Equipo', 'Cliente', 'Descripción', 'Fecha Inicio', 'Fecha Fin', 'Pago', 'Estado Del Pago', ''];
+        $columnNames = ['Equipo', 'Cliente', 'Descripción', 'Fecha Inicio', 'Fecha Fin', 'Pago', ''];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 
@@ -37,8 +39,10 @@ class RentsController extends Controller
      */
     public function create()
     {
+        $clients = Person::all();
+        $equipments = Equipment::all();
         $rent = new Rent();
-        return view('Dashboard.Admin.Index', compact('rents'));
+        return view('Dashboard.Admin.Index', compact('rent', 'clients', 'equipments'));
     }
 
     /**
@@ -47,12 +51,12 @@ class RentsController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $validator = Validator::make($data, Rent::getRules());
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Rents.Create')
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // $validator = Validator::make($data, Rent::getRules());
+        // if ($validator->fails()) {
+        //     return redirect()->route('Dashboard.Admin.Rents.Create')
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
         $rent = Rent::create($data);
         return redirect()->route('Dashboard.Admin.Rents.Edit', $rent->clvRenta)->with('success', 'Renta agregado correctamente.');
     }
@@ -77,8 +81,10 @@ class RentsController extends Controller
      */
     public function edit(string $id)
     {
+        $clients = Person::all();
+        $equipments = Equipment::all();
         $rent = Rent::findOrFail($id);
-        return view('Dashboard.Admin.Index', compact('rent'));
+        return view('Dashboard.Admin.Index', compact('rent', 'clients', 'equipments'));
     }
 
     /**
@@ -87,12 +93,12 @@ class RentsController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
-        $validator = Validator::make($data, Rent::getRules($id));
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Rents.Edit', ['Rent' => $id])
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // $validator = Validator::make($data, Rent::getRules($id));
+        // if ($validator->fails()) {
+        //     return redirect()->route('Dashboard.Admin.Rents.Edit', ['Rent' => $id])
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
         $rent = Rent::findOrFail($id);
         $rent->update($data);
         return back()->with('update', 'Renta actualizado correctamente.');
@@ -105,6 +111,6 @@ class RentsController extends Controller
     {
         $rent = Rent::findOrFail($id);
         $rent->delete();
-        return redirect()->route('Dashboard.Admin.Users.Index')->with('danger', 'Renta eliminado correctamente.');
+        return redirect()->route('Dashboard.Admin.Rents.Index')->with('danger', 'Renta eliminado correctamente.');
     }
 }

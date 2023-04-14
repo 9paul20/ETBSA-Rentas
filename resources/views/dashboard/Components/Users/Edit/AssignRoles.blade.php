@@ -8,10 +8,11 @@
         </div>
         <div class="mt-5 md:col-span-2 md:mt-0">
             <div class="overflow-hidden shadow sm:rounded-md">
-                <form method="POST" action="{{ route('Dashboard.Admin.Users.UpdateRoles', $role->id) }}">
+                <form method="POST" action="{{ route('Dashboard.Admin.Users.UpdateRoles', $role->id) }}" id="Wrapper">
                     @csrf
                     @method('PUT')
-                    <div class="bg-white px-4 py-5 sm:p-6">
+                    <div class="bg-white
+                    px-4 py-5 sm:p-6">
                         <fieldset class="space-y-5">
                             <legend class="sr-only">Notifications</legend>
                             @include('Dashboard.Components.RolesCheckboxes', ['model' => $role])
@@ -23,3 +24,24 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        // var el = document.getElementById("Element");
+        var wrapper = document.getElementById("Wrapper");
+        wrapper.addEventListener("wheel", wheelEvent);
+
+        function wheelEvent(e) {
+            var space = (wrapper.scrollHeight - wrapper.offsetHeight) - wrapper.scrollTop;
+            if (e.deltaY < 0) {
+                if (wrapper.scrollTop == 0) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            } else if (space <= 0) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }
+    </script>
+@endpush

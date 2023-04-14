@@ -76,7 +76,7 @@ class UsersController extends Controller
         //     'message' => 'Usuario creado exitosamente',
         //     'user' => $user,
         // ], 201);
-        return redirect()->route('Dashboard.Admin.Users.Edit', $id)->with('success', 'Usuario ' . $user->name . ' agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Users.Index')->with('success', 'Usuario ' . $user->name . ' agregado correctamente.');
     }
 
     /**
@@ -114,7 +114,7 @@ class UsersController extends Controller
     {
         $this->authorize('update', User::class);
         $data = $request->all();
-        $validator = Validator::make($data, User::getRules($id));
+        $validator = Validator::make($data, User::getRulesUser($id));
         if ($validator->fails()) {
             return redirect()->route('Dashboard.Admin.Users.Edit', ['User' => $id])
                 ->withErrors($validator)
@@ -126,6 +126,24 @@ class UsersController extends Controller
         //     return response()->json(['message' => 'Usuario no encontrado'], 404);
         // }
         return back()->with('update', 'Datos del Usuario ' . $user->name . ' actualizados correctamente.');
+    }
+
+    public function updatePassword(Request $request, string $id)
+    {
+        $this->authorize('update', User::class);
+        $data = $request->all();
+        $validator = Validator::make($data, User::getRulesPassword($id));
+        if ($validator->fails()) {
+            return redirect()->route('Dashboard.Admin.Users.Edit', ['User' => $id])
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $user = User::findOrFail($id);
+        $user->update($data);
+        // if (!$user) {
+        //     return response()->json(['message' => 'Usuario no encontrado'], 404);
+        // }
+        return back()->with('update', 'Contraseña del Usuario ' . $user->name . ' actualizados correctamente.');
     }
 
     public function updateRoles(Request $request, string $id)

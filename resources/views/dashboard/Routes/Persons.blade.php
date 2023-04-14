@@ -10,4 +10,7 @@
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Persons' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
     @include('Dashboard.Components.Persons.Create')
+@elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Persons' &&
+        getDashboardNameFromUrlSecond(request()->fullUrl()) == 'Panel')
+    @include('Dashboard.Components.Persons.Panel')
 @endif

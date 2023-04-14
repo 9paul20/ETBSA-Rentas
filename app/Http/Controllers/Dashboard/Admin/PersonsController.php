@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Person;
+use App\Models\Persons\ComTel;
+use App\Models\Persons\Nacionalidad;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
@@ -15,14 +17,20 @@ class PersonsController extends Controller
      */
     public function index()
     {
-        $persons = Person::all();
+        $persons = Person::select('clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona', 'nacimiento', 'clvNacionalidad', 'telefono', 'celular', 'clvComTel', 'ocupacion', 'informacion')
+            ->with(['nacionalidad' => function ($query) {
+                $query->select('clvNacionalidad', 'nacionalidad');
+            }, 'companiaTelefonica' => function ($query) {
+                $query->select('clvComTel', 'companiaTelefonica');
+            }])
+            ->get();
         $perPage = 10;
         $currentPage = request()->get('page') ?? 1;
         $pagedData = $persons->slice(($currentPage - 1) * $perPage, $perPage)->all();
         $rowDatas = new LengthAwarePaginator($pagedData, count($persons), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Persons.Index')
         ]);
-        $columnNames = ['Nombre', 'Apaterno', 'AMaterno', 'Nacimiento', 'Telefono', 'Celular', 'Ocupación', 'Información', ''];
+        $columnNames = ['Nombre', 'Nacimiento', 'Nacionalidad', 'Telefono', 'Celular', 'Compañia Telefónica', 'Ocupación', 'Información', ''];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 
@@ -37,8 +45,10 @@ class PersonsController extends Controller
      */
     public function create()
     {
+        $comtels = ComTel::all();
+        $nacionalidades = Nacionalidad::all();
         $person = new Person();
-        return view('Dashboard.Admin.Index', compact('person'));
+        return view('Dashboard.Admin.Index', compact('person', 'comtels', 'nacionalidades'));
     }
 
     /**
@@ -47,6 +57,7 @@ class PersonsController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        // return $data;
         $validator = Validator::make($data, Person::getRules());
         if ($validator->fails()) {
             return redirect()->route('Dashboard.Admin.Persons.Create')
@@ -54,7 +65,7 @@ class PersonsController extends Controller
                 ->withInput();
         }
         $person = Person::create($data);
-        return redirect()->route('Dashboard.Admin.Persons.Edit', $person->clvPersona)->with('success', 'Persona ' . $person->nombrePersona . ' ' . $person->apePaternoPersona . ' ' . $person->apeMaternoPersona . ' agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Persons.Index')->with('success', 'Persona ' . $person->nombrePersona . ' ' . $person->apePaternoPersona . ' ' . $person->apeMaternoPersona . ' agregado correctamente.');
     }
 
     /**
@@ -77,8 +88,10 @@ class PersonsController extends Controller
      */
     public function edit(string $id)
     {
+        $comtels = ComTel::all();
+        $nacionalidades = Nacionalidad::all();
         $person = Person::findOrFail($id);
-        return view('Dashboard.Admin.Index', compact('person'));
+        return view('Dashboard.Admin.Index', compact('person', 'comtels', 'nacionalidades'));
     }
 
     /**
@@ -105,6 +118,6 @@ class PersonsController extends Controller
     {
         $person = Person::findOrFail($id);
         $person->delete();
-        return redirect()->route('Dashboard.Admin.Users.Index')->with('danger', 'Persona ' . $person->nombrePersona . ' ' . $person->apePaternoPersona . ' ' . $person->apeMaternoPersona . ' eliminado correctamente.');
+        return redirect()->route('Dashboard.Admin.Persons.Index')->with('danger', 'Persona ' . $person->nombrePersona . ' ' . $person->apePaternoPersona . ' ' . $person->apeMaternoPersona . ' eliminado correctamente.');
     }
 }

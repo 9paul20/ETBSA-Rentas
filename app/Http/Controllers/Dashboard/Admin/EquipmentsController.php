@@ -37,8 +37,8 @@ class EquipmentsController extends Controller
      */
     public function create()
     {
-        $equiEquipment = new Equipment();
-        return view('Dashboard.Admin.Index', compact('equiEquipment'));
+        $equipment = new Equipment();
+        return view('Dashboard.Admin.Index', compact('equipment'));
     }
 
     /**
@@ -47,14 +47,14 @@ class EquipmentsController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $validator = Validator::make($data, Equipment::getRules());
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Create')
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // $validator = Validator::make($data, Equipment::getRules());
+        // if ($validator->fails()) {
+        //     return redirect()->route('Dashboard.Admin.Equipments.Create')
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
         $equipment = Equipment::create($data);
-        return redirect()->route('Dashboard.Admin.Equipments.Edit', $equipment->id)->with('success', 'Equipo ' . $equipment->noSerie . ' agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Equipments.Edit', $equipment->clvEquipo)->with('success', 'Equipo ' . $equipment->noSerie . ' agregado correctamente.');
     }
 
     /**
@@ -87,12 +87,12 @@ class EquipmentsController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
-        $validator = Validator::make($data, Equipment::getRules($id));
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Edit', ['Equipment' => $id])
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // $validator = Validator::make($data, Equipment::getRules($id));
+        // if ($validator->fails()) {
+        //     return redirect()->route('Dashboard.Admin.Equipments.Edit', ['Equipment' => $id])
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
         $equipment = Equipment::findOrFail($id);
         $equipment->update($data);
         return back()->with('update', 'Equipo ' . $equipment->noSerie . ' actualizado correctamente.');
@@ -105,6 +105,6 @@ class EquipmentsController extends Controller
     {
         $equipment = Equipment::findOrFail($id);
         $equipment->delete();
-        return redirect()->route('Dashboard.Admin.Users.Index')->with('danger', 'Equipo ' . $equipment->noSerie . ' eliminado correctamente.');
+        return redirect()->route('Dashboard.Admin.Equipments.Index')->with('danger', 'Equipo ' . $equipment->noSerie . ' eliminado correctamente.');
     }
 }

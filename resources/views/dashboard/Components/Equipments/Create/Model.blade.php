@@ -37,7 +37,7 @@
                             <label for="modelo" class="block text-sm font-medium text-gray-700">Modelo</label>
                             <input type="text" name="modelo" id="modelo" autocomplete="given-modelo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('modelo') border-red-400 @enderror"
-                                value="{{ old('modelo', $equipment->modelo) }}" required autofocus>
+                                value="{{ old('modelo', $equipment->modelo) }}" required>
                             @error('modelo')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -50,7 +50,7 @@
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
                             <input type="text" name="descripcion" id="descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
-                                value="{{ old('descripcion', $equipment->descripcion) }}" required autofocus>
+                                value="{{ old('descripcion', $equipment->descripcion) }}" required>
                             @error('descripcion')
                                 <div class="flex
                                     items-center mt-1 text-red-400">

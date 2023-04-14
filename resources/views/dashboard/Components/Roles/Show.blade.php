@@ -1,1 +1,1 @@
-@include('Dashboard.Components.Groups.ShowDetails')
+@include('Dashboard.Components.Roles.Show.ShowDetails')
