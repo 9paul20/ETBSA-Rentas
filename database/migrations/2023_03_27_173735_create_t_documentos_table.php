@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('t_documentos', function (Blueprint $table) {
             $table->bigIncrements('clvDocumento');
-            $table->unsignedInteger('clvTipoDocumento');
+            $table->unsignedInteger('clvTipoDocumento')->nullable();
             $table->unsignedBigInteger('noDocumento')->unique();
             $table->date('fechaExpidicion');
             $table->date('fechaVencimiento');
             $table->string('autoridadEmisora');
-            $table->unsignedTinyInteger('clvPais');
+            $table->unsignedTinyInteger('clvPais')->nullable();
             $table->string('imagenEscaneada')->nullable();
             $table->text('descripcion')->nullable();
             $table->timestamps();

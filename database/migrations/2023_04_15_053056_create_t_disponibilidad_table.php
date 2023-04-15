@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_personas_documentos', function (Blueprint $table) {
-            $table->unsignedBigInteger('clvPersona');
-            $table->unsignedBigInteger('clvDocumento');
+        Schema::create('t_disponibilidad', function (Blueprint $table) {
+            $table->tinyIncrements('clvDisponibilidad');
+            $table->string('disponibilidad')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_personas_documentos');
+        Schema::dropIfExists('t_disponibilidad');
     }
 };

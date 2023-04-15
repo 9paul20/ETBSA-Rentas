@@ -79,24 +79,15 @@ Route::group(
         Route::put('Admin/Users/{id}/updatePermissions', 'Admin\UsersController@updatePermissions')->name('Dashboard.Admin.Users.UpdatePermissions');
 
         //Personas
-        Route::get('Admin/Persons/Panel/ComTel/store', 'Admin\Persons\ComTelController@store')->name('Dashboard.Admin.Persons.ComTel.Store');
-        Route::put('Admin/Persons/Panel/ComTel/update/{clvCompaniaTelefonica}', 'Admin\Persons\ComTelController@update')->name('Dashboard.Admin.Persons.ComTel.Update');
-        Route::delete('Admin/Persons/Panel/ComTel/destroy/{clvCompaniaTelefonica}', 'Admin\Persons\ComTelController@destroy')->name('Dashboard.Admin.Persons.ComTel.Destroy');
+        Route::get('Panel/Persons', 'Admin\Persons\PanelController@Panel')->name('Dashboard.Admin.Persons.Panel');
 
-        Route::get('Admin/Persons/Panel/Nacionalidad/store', 'Admin\Persons\NacionalidadController@store')->name('Dashboard.Admin.Persons.Nacionalidad.Store');
-        Route::put('Admin/Persons/Panel/Nacionalidad/update/{clvNacionalidad}', 'Admin\Persons\NacionalidadController@update')->name('Dashboard.Admin.Persons.Nacionalidad.Update');
-        Route::delete('Admin/Persons/Panel/Nacionalidad/destroy/{clvNacionalidad}', 'Admin\Persons\NacionalidadController@destroy')->name('Dashboard.Admin.Persons.Nacionalidad.Destroy');
-        // Route::resource('Admin/Persons/Panel', 'Admin\Persons\ComTelController')->names([
-        //     'update' => 'Dashboard.Admin.Persons.ComTel.Update',
-        //     'destroy' => 'Dashboard.Admin.Persons.ComTel.Destroy',
-        // ]);
+        Route::get('Panel/Persons/ComTel/store', 'Admin\Persons\ComTelController@store')->name('Dashboard.Admin.Panel.Persons.ComTel.Store');
+        Route::put('Panel/Persons/ComTel/update/{clvCompaniaTelefonica}', 'Admin\Persons\ComTelController@update')->name('Dashboard.Admin.Panel.Persons.ComTel.Update');
+        Route::delete('Panel/Persons/ComTel/destroy/{clvCompaniaTelefonica}', 'Admin\Persons\ComTelController@destroy')->name('Dashboard.Admin.Panel.Persons.ComTel.Destroy');
 
-        // Route::resource('Admin/Persons', 'Admin\Persons\NacionalidadController')->names([
-        //     'update' => 'Dashboard.Admin.Persons.Nacionalidad.Update',
-        //     'destroy' => 'Dashboard.Admin.Persons.Nacionalidad.Destroy',
-        // ]);
-
-        Route::get('Admin/Persons/Panel', 'Admin\Persons\PanelController@Panel')->name('Dashboard.Admin.Persons.Panel');
+        Route::get('Panel/Persons/Nacionalidad/store', 'Admin\Persons\NacionalidadController@store')->name('Dashboard.Admin.Panel.Persons.Nacionalidad.Store');
+        Route::put('Panel/Persons/Nacionalidad/update/{clvNacionalidad}', 'Admin\Persons\NacionalidadController@update')->name('Dashboard.Admin.Panel.Persons.Nacionalidad.Update');
+        Route::delete('Panel/Persons/Nacionalidad/destroy/{clvNacionalidad}', 'Admin\Persons\NacionalidadController@destroy')->name('Dashboard.Admin.Panel.Persons.Nacionalidad.Destroy');
 
         Route::resource('Admin/Persons', 'Admin\PersonsController')->names([
             'index' => 'Dashboard.Admin.Persons.Index',
@@ -109,6 +100,8 @@ Route::group(
         ]);
 
         //Equipos
+        Route::get('Admin/Equipments/Panel', 'Admin\Equipments\PanelController@Panel')->name('Dashboard.Admin.Equipments.Panel');
+
         Route::resource('Admin/Equipments', 'Admin\EquipmentsController')->names([
             'index' => 'Dashboard.Admin.Equipments.Index',
             'create' => 'Dashboard.Admin.Equipments.Create',

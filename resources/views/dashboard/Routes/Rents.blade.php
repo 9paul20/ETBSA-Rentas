@@ -1,4 +1,5 @@
-@if (getDashboardNameFromUrlSecond(request()->fullUrl()) == 'Rents')
+@if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Admin' &&
+        getDashboardNameFromUrlSecond(request()->fullUrl()) == 'Rents')
     @include('Dashboard.Components.Rents.Table')
 @endif
 @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Rents' &&

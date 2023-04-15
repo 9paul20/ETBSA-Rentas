@@ -86,14 +86,19 @@
                             <select id="clvNacionalidad" name="clvNacionalidad"
                                 class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvNacionalidad') border-red-400 @enderror"
                                 required>
-                                <option value="" disabled selected>
-                                    Seleccione Una Nacionalidad</option>
-                                @foreach ($nacionalidades as $nacionalidad)
-                                    <option value="{{ $nacionalidad->clvNacionalidad }}"
-                                        @if ($nacionalidad->clvNacionalidad == $person->clvNacionalidad) selected @endif>
-                                        {{ $nacionalidad->nacionalidad }}
-                                    </option>
-                                @endforeach
+                                @if (count($nacionalidades) > 0)
+                                    <option value="" disabled selected>
+                                        Seleccione Una Nacionalidad</option>
+                                    @foreach ($nacionalidades as $nacionalidad)
+                                        <option value="{{ $nacionalidad->clvNacionalidad }}"
+                                            @if ($nacionalidad->clvNacionalidad == $person->clvNacionalidad) selected @endif>
+                                            {{ $nacionalidad->nacionalidad }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected>
+                                        No Hay Opciones De Nacionalidad Disponibles</option>
+                                @endif
                             </select>
                             @error('clvNacionalidad')
                                 <div class="flex
@@ -135,14 +140,19 @@
                             <select id="clvComTel" name="clvComTel"
                                 class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvComTel') border-red-400 @enderror"
                                 required>
-                                <option value="" disabled selected>
-                                    Seleccione Una Compañia Telefónica</option>
-                                @foreach ($comtels as $comtel)
-                                    <option value="{{ $comtel->clvComTel }}"
-                                        @if ($comtel->clvComTel == $person->clvComTel) selected @endif>
-                                        {{ $comtel->companiaTelefonica }}
-                                    </option>
-                                @endforeach
+                                @if (count($comtels) > 0)
+                                    <option value="" disabled selected>
+                                        Seleccione Una Compañia Telefónica</option>
+                                    @foreach ($comtels as $comtel)
+                                        <option value="{{ $comtel->clvComTel }}"
+                                            @if ($comtel->clvComTel == $person->clvComTel) selected @endif>
+                                            {{ $comtel->companiaTelefonica }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected>
+                                        No Hay Opciones De Compañias Telefónicas Disponible</option>
+                                @endif
                             </select>
                             @error('clvComTel')
                                 <div class="flex

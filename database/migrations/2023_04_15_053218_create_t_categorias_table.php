@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_personas_documentos', function (Blueprint $table) {
-            $table->unsignedBigInteger('clvPersona');
-            $table->unsignedBigInteger('clvDocumento');
+        Schema::create('t_categorias', function (Blueprint $table) {
+            $table->tinyIncrements('clvCategoria');
+            $table->string('categoria')->unique();
             $table->text('descripcion')->nullable();
+            $table->unsignedTinyInteger('clvTipoCategoria')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_personas_documentos');
+        Schema::dropIfExists('t_categorias');
     }
 };

@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_equipos', function (Blueprint $table) {
-            $table->bigIncrements('clvEquipo');
-            $table->string('noSerie')->unique();
-            $table->string('modelo');
-            $table->string('clvDisponibilidad')->nullable();
-            $table->string('clvCategoria')->nullable();
+        Schema::create('t_tipo_categorias', function (Blueprint $table) {
+            $table->tinyIncrements('clvTipoCategoria');
+            $table->string('tipoCategoria')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_equipos');
+        Schema::dropIfExists('t_tipo_categorias');
     }
 };

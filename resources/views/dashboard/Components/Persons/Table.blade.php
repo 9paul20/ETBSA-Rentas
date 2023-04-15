@@ -5,7 +5,6 @@
                 <h1 class="text-xl font-semibold text-gray-900">Persons</h1>
             </div>
             <x-Dashboard.Button-Create text="Add Persons" href="{{ route('Dashboard.Admin.Persons.Create') }}" />
-            <x-Dashboard.Button-Create text="Admin" href="{{ route('Dashboard.Admin.Persons.Panel') }}" />
         </div>
         @if (count($rowDatas) > 0)
             <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
