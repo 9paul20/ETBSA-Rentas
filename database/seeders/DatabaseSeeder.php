@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         //Persons
         $this->call(Persons\ComTelSeeder::class);
-        $this->call(Persons\NacionalidadSeeder::class);
+        $this->call(Persons\NationalitySeeder::class);
 
         //Equipments
         $this->call(Equipments\StatusSeeder::class);
@@ -27,5 +27,13 @@ class DatabaseSeeder extends Seeder
 
         //Users con Persons, Roles Y Permissions
         $this->call(UserSeeder::class);
+
+        //Rentas
+        $this->call(Rents\StatusPaymentRentSeeder::class);
+        $this->call(Rents\PaymentRentSeeder::class);
+        $this->call(Rents\CupRentSeeder::class);
+        $this->call(Rents\StatusRentSeeder::class);
+
+        $this->call(RentSeeder::class);
     }
 }

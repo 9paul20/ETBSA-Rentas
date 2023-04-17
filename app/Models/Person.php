@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Persons\ComTel;
-use App\Models\Persons\Nacionalidad;
+use App\Models\Persons\Nationality;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -50,7 +50,7 @@ class Person extends Model
 
     public function nacionalidad()
     {
-        return $this->belongsTo(Nacionalidad::class, 'clvNacionalidad');
+        return $this->belongsTo(Nationality::class, 'clvNacionalidad');
     }
 
     public function companiaTelefonica()

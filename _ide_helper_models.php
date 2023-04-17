@@ -128,7 +128,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Persons\ComTel|null $companiaTelefonica
- * @property-read \App\Models\Persons\Nacionalidad|null $nacionalidad
+ * @property-read \App\Models\Persons\Nationality|null $nacionalidad
  * @method static \Database\Factories\PersonFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Person newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Person newQuery()
@@ -175,24 +175,24 @@ namespace App\Models\Persons{
 
 namespace App\Models\Persons{
 /**
- * App\Models\Persons\Nacionalidad
+ * App\Models\Persons\Nationality
  *
  * @property int $clvNacionalidad
  * @property string $nacionalidad
  * @property string|null $descripcion
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Database\Factories\Persons\NacionalidadFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad query()
- * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereClvNacionalidad($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereDescripcion($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereNacionalidad($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad whereUpdatedAt($value)
+ * @method static \Database\Factories\Persons\NationalityFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Nationality newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Nationality newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Nationality query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Nationality whereClvNacionalidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Nationality whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Nationality whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Nationality whereNacionalidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Nationality whereUpdatedAt($value)
  */
-	class Nacionalidad extends \Eloquent {}
+	class Nationality extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -209,6 +209,7 @@ namespace App\Models{
  * @property int|null $clvEstadoRenta
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\RentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Rent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Rent newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Rent query()
@@ -224,6 +225,112 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereUpdatedAt($value)
  */
 	class Rent extends \Eloquent {}
+}
+
+namespace App\Models\Rents{
+/**
+ * App\Models\Rents\CupRent
+ *
+ * @property int $clvTazaRenta
+ * @property string $tazaRenta
+ * @property string|null $rentaUnMes
+ * @property string|null $rentaDosMeses
+ * @property string|null $rentaTresMeses
+ * @property string|null $ivaUnMes
+ * @property string|null $ivaDosMeses
+ * @property string|null $ivaTresMeses
+ * @property string|null $descripcion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\Rents\CupRentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereClvTazaRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereIvaDosMeses($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereIvaTresMeses($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereIvaUnMes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereRentaDosMeses($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereRentaTresMeses($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereRentaUnMes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereTazaRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CupRent whereUpdatedAt($value)
+ */
+	class CupRent extends \Eloquent {}
+}
+
+namespace App\Models\Rents{
+/**
+ * App\Models\Rents\PaymentRent
+ *
+ * @property int $clvPagoRenta
+ * @property string|null $pagoRenta
+ * @property string|null $ivaRenta
+ * @property int|null $clvEstadoPagoRenta
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Rents\StatusPaymentRent|null $estadoPagoRenta
+ * @method static \Database\Factories\Rents\PaymentRentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereClvEstadoPagoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereClvPagoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereIvaRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent wherePagoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereUpdatedAt($value)
+ */
+	class PaymentRent extends \Eloquent {}
+}
+
+namespace App\Models\Rents{
+/**
+ * App\Models\Rents\StatusPaymentRent
+ *
+ * @property int $clvEstadoPagoRenta
+ * @property string $estadoPagoRenta
+ * @property string|null $descripcion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\Rents\StatusPaymentRentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent whereClvEstadoPagoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent whereEstadoPagoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent whereUpdatedAt($value)
+ */
+	class StatusPaymentRent extends \Eloquent {}
+}
+
+namespace App\Models\Rents{
+/**
+ * App\Models\Rents\StatusRent
+ *
+ * @property int $clvEstadoRenta
+ * @property string $estadoRenta
+ * @property string|null $descripcion
+ * @property int|null $clvTazaRenta
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Rents\CupRent|null $tazaRenta
+ * @method static \Database\Factories\Rents\StatusRentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusRent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusRent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusRent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereClvEstadoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereClvTazaRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereEstadoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereUpdatedAt($value)
+ */
+	class StatusRent extends \Eloquent {}
 }
 
 namespace App\Models{

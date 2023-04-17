@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Persons\ComTel;
-use App\Models\Persons\Nacionalidad;
+use App\Models\Persons\Nationality;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +23,7 @@ class PersonFactory extends Factory
             'apePaternoPersona' => fake()->lastName(),
             'apeMaternoPersona' => fake()->lastName(),
             'nacimiento' => fake()->date('Y-m-d', '-18 years'),
-            'clvNacionalidad' => Nacionalidad::inRandomOrder()->first()->clvNacionalidad,
+            'clvNacionalidad' => Nationality::inRandomOrder()->first()->clvNacionalidad,
             'telefono' => fake()->phoneNumber(),
             'celular' => fake()->phoneNumber(),
             'clvComTel' => ComTel::inRandomOrder()->first()->clvComTel,

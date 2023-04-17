@@ -29,16 +29,15 @@ class Rent extends Model
     public static function getRules($id = null)
     {
         $rules = [
-            'clvEquipo' => 'required|int',
-            'clvCliente' => 'required|int',
+            'clvEquipo' => 'required|not_in:[]',
+            'clvCliente' => 'required|not_in:[]',
             'modelo' => 'required|string|min:4|max:255',
             'descripcion' => 'required|string|max:255',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|string',
-            'clvPagoRenta' => 'required|string',
             'fecha_fin' => 'required|string',
-            'clvPagoRenta' => 'required|int',
-            'clvEstadoRenta' => 'required|int',
+            'clvPagoRenta' => 'required|not_in:[]',
+            'clvEstadoRenta' => 'required|not_in:[]',
         ];
         return $rules;
     }

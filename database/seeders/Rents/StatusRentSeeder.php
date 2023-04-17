@@ -1,19 +1,19 @@
 <?php
 
-namespace Database\Seeders\Persons;
+namespace Database\Seeders\Rents;
 
-use App\Models\Persons\Nacionalidad;
+use App\Models\Rents\StatusRent;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class NacionalidadSeeder extends Seeder
+class StatusRentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Nacionalidad::factory()
+        StatusRent::factory()
             ->count(15)
             ->create();
     }
