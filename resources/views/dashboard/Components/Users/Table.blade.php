@@ -23,105 +23,108 @@
                 </svg>
             </button> --}}
                 </div>
-                <table
-                    class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            @foreach ($columnNames as $columnName)
-                                <th scope="col"
-                                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                    {{ $columnName }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 border-t  bg-white">
-                        @foreach ($rowDatas as $rowData)
-                            <tr class="hover:bg-gray-100">
-                                <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                                    <div class="relative h-10 w-10">
-                                        <img class="h-full w-full rounded-full object-cover object-center"
-                                            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                                            alt="">
-                                        <span
-                                            class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-                                    </div>
-                                    <div class="text-sm">
-                                        <div class="font-medium text-gray-700">{{ $rowData->name }}</div>
-                                        <div class="text-gray-400">{{ $rowData->email }}</div>
-                                    </div>
-                                </th>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    @if ($rowData->active !== null)
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                                            {{ $rowData->active }}
-                                        </span>
-                                    @else
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>
-                                            Sin State
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="font-medium text-gray-700">
-                                        @if ($rowData->roles->count() > 0)
-                                            <div class="font-medium text-gray-700">{{ $rowData->roles->first()->name }}
-                                            </div>
-                                            @if ($rowData->roles->count() > 1)
-                                                <div class="text-gray-400">+{{ $rowData->roles->count() - 1 }}</div>
-                                            @endif
-                                        @else
-                                            <div class="font-medium text-orange-700">Sin Rol</div>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="flex gap-2">
-                                        @if (count($rowData->permissions) > 0)
-                                            @foreach ($rowData->permissions->take(3) as $permissionsTo)
-                                                <span
-                                                    class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600">
-                                                    {{ $permissionsTo->name }}
-                                                </span>
-                                            @endforeach
-                                            @if ($rowData->permissions->count() - $rowData->permissions->take(3)->count() > 0)
-                                                <span
-                                                    class="inline-flex items-center gap-1 rounded-full bg-gray-200 px-2 py-1 text-xs font-medium text-gray-500">
-                                                    +{{ $rowData->permissions->count() - $rowData->permissions->take(3)->count() }}
-                                                </span>
-                                            @endif
+                <div class="overflow-x-auto">
+                    <table
+                        class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                @foreach ($columnNames as $columnName)
+                                    <th scope="col"
+                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                        {{ $columnName }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 border-t  bg-white">
+                            @foreach ($rowDatas as $rowData)
+                                <tr class="hover:bg-gray-100">
+                                    <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                                        <div class="relative h-10 w-10">
+                                            <img class="h-full w-full rounded-full object-cover object-center"
+                                                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                alt="">
+                                            <span
+                                                class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
+                                        </div>
+                                        <div class="text-sm">
+                                            <div class="font-medium text-gray-700">{{ $rowData->name }}</div>
+                                            <div class="text-gray-400">{{ $rowData->email }}</div>
+                                        </div>
+                                    </th>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        @if ($rowData->active !== null)
+                                            <span
+                                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                                {{ $rowData->active }}
+                                            </span>
                                         @else
                                             <span
-                                                class="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-700">
-                                                Sin Permisos
+                                                class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>
+                                                Sin State
                                             </span>
                                         @endif
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex justify-end gap-4">
-                                        @can('View Users')
-                                            <x-Dashboard.IconButton-Show
-                                                href="{{ route('Dashboard.Admin.Users.Show', $rowData->id) }}" />
-                                        @endcan
-                                        @can('Update Users')
-                                            <x-Dashboard.IconButton-Edit
-                                                href="{{ route('Dashboard.Admin.Users.Edit', $rowData->id) }}" />
-                                        @endcan
-                                        @can('Delete Users')
-                                            <x-Dashboard.IconButton-Delete id="{{ $rowData->id }}"
-                                                name="{{ $rowData->name }}"
-                                                href="{{ route('Dashboard.Admin.Users.Destroy', $rowData->id) }}" />
-                                        @endcan
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="font-medium text-gray-700">
+                                            @if ($rowData->roles->count() > 0)
+                                                <div class="font-medium text-gray-700">
+                                                    {{ $rowData->roles->first()->name }}
+                                                </div>
+                                                @if ($rowData->roles->count() > 1)
+                                                    <div class="text-gray-400">+{{ $rowData->roles->count() - 1 }}</div>
+                                                @endif
+                                            @else
+                                                <div class="font-medium text-orange-700">Sin Rol</div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="flex gap-2">
+                                            @if (count($rowData->permissions) > 0)
+                                                @foreach ($rowData->permissions->take(3) as $permissionsTo)
+                                                    <span
+                                                        class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600">
+                                                        {{ $permissionsTo->name }}
+                                                    </span>
+                                                @endforeach
+                                                @if ($rowData->permissions->count() - $rowData->permissions->take(3)->count() > 0)
+                                                    <span
+                                                        class="inline-flex items-center gap-1 rounded-full bg-gray-200 px-2 py-1 text-xs font-medium text-gray-500">
+                                                        +{{ $rowData->permissions->count() - $rowData->permissions->take(3)->count() }}
+                                                    </span>
+                                                @endif
+                                            @else
+                                                <span
+                                                    class="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-700">
+                                                    Sin Permisos
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex justify-end gap-4">
+                                            @can('View Users')
+                                                <x-Dashboard.IconButton-Show
+                                                    href="{{ route('Dashboard.Admin.Users.Show', $rowData->id) }}" />
+                                            @endcan
+                                            @can('Update Users')
+                                                <x-Dashboard.IconButton-Edit
+                                                    href="{{ route('Dashboard.Admin.Users.Edit', $rowData->id) }}" />
+                                            @endcan
+                                            @can('Delete Users')
+                                                <x-Dashboard.IconButton-Delete id="{{ $rowData->id }}"
+                                                    name="{{ $rowData->name }}"
+                                                    href="{{ route('Dashboard.Admin.Users.Destroy', $rowData->id) }}" />
+                                            @endcan
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 {{ $rowDatas->links('vendor.pagination.tailwind') }}
             </div>
         @else

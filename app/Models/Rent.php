@@ -41,4 +41,24 @@ class Rent extends Model
         ];
         return $rules;
     }
+
+    public function equipo()
+    {
+        return $this->belongsTo(Equipment::class, 'clvEquipo');
+    }
+
+    public function cliente()
+    {
+        return $this->belongsTo(Person::class, 'clvCliente');
+    }
+
+    public function pagoRenta()
+    {
+        return $this->belongsTo(Rents\PaymentRent::class, 'clvPagoRenta');
+    }
+
+    public function estadoRenta()
+    {
+        return $this->belongsTo(Rents\StatusRent::class, 'clvEstadoRenta');
+    }
 }

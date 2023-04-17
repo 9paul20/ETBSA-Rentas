@@ -32,24 +32,4 @@ class RentFactory extends Factory
             'clvEstadoRenta' => StatusRent::inRandomOrder()->first()->clvEstadoRenta,
         ];
     }
-
-    public function equipo()
-    {
-        return $this->belongsTo(Equipment::class, 'clvEquipo');
-    }
-
-    public function cliente()
-    {
-        return $this->belongsTo(Person::class, 'clvCliente');
-    }
-
-    public function pagoRenta()
-    {
-        return $this->belongsTo(PaymentRent::class, 'clvPagoRenta');
-    }
-
-    public function estadoRenta()
-    {
-        return $this->belongsTo(StatusRent::class, 'clvEstadoRenta');
-    }
 }

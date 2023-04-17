@@ -39,9 +39,10 @@ class ComTelController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, ComTel::getRules($id));
         if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Persons.Panel', ['#editModalComTel_' . $id, 'ComTel' => $id])
+            return redirect()->to(url()->previous())
                 ->withErrors($validator)
-                ->withInput();
+                ->withInput()
+                ->withFragment('#editModalComTel_' . $id);
         }
         $comtel = ComTel::findOrFail($id);
         $comtel->update($data);

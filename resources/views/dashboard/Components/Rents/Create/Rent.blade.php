@@ -20,12 +20,23 @@
                 <div class="bg-white px-4 py-5 sm:p-6">
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="clvEquipo" class="block text-sm font-medium text-gray-700">Clave Equipo</label>
+                            <label for="clvEquipo" class="block text-sm font-medium text-gray-700">Equipo</label>
                             <select id="clvEquipo" name="clvEquipo"
-                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvEquipo') border-red-400 @enderror">
-                                @foreach ($equipments as $equipment)
-                                    <option value="{{ $equipment->clvEquipo }}">{{ $equipment->noSerie }}</option>
-                                @endforeach
+                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvEquipo') border-red-400 @enderror"
+                                required>
+                                @if (count($equipments) > 0)
+                                    <option value="" disabled selected>
+                                        Seleccione Un Equipo</option>
+                                    @foreach ($equipments as $equipment)
+                                        <option value="{{ $equipment->clvEquipo }}"
+                                            @if ($equipment->clvEquipo == $rent->clvEquipo) selected @endif>
+                                            {{ $equipment->noSerie }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected>
+                                        No Hay Opciones De Equipo Disponible</option>
+                                @endif
                             </select>
                             @error('clvEquipo')
                                 <div class="flex
@@ -36,13 +47,24 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="clvCliente" class="block text-sm font-medium text-gray-700">Clave
-                                Cliente</label>
+                            <label for="clvCliente" class="block text-sm font-medium text-gray-700">Cliente</label>
                             <select id="clvCliente" name="clvCliente"
-                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvCliente') border-red-400 @enderror">
-                                @foreach ($clients as $client)
-                                    <option value="{{ $client->clvPersona }}">{{ $client->nombrePersona }}</option>
-                                @endforeach
+                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvCliente') border-red-400 @enderror"
+                                required>
+                                @if (count($clients) > 0)
+                                    <option value="" disabled selected>
+                                        Seleccione Un Cliente</option>
+                                    @foreach ($clients as $client)
+                                        <option value="{{ $client->clvPersona }}"
+                                            @if ($client->clvPersona == $rent->clvCliente) selected @endif>
+                                            {{ $client->nombrePersona }} {{ $client->apePaternoPersona }}
+                                            {{ $client->apeMaternoPersona }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected>
+                                        No Hay Opciones De Cliente Disponible</option>
+                                @endif
                             </select>
                             @error('clvCliente')
                                 <div class="flex
@@ -56,7 +78,7 @@
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
-                                value="{{ old('descripcion', $rent->descripcion) }}" required autofocus></textarea>
+                                required autofocus>{{ old('descripcion', $rent->descripcion) }}</textarea>
                             @error('descripcion')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -93,12 +115,27 @@
                                 </div>
                             @enderror
                         </div>
-                        {{-- <div class="col-span-6 sm:col-span-6">
-                            <label for="clvPagoRenta" class="block text-sm font-medium text-gray-700">Clave Pago</label>
-                            <input type="text" name="clvPagoRenta" id="clvPagoRenta"
-                                autocomplete="given-clvPagoRenta"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('clvPagoRenta') border-red-400 @enderror"
-                                value="{{ old('clvPagoRenta', $rent->clvPagoRenta) }}" required>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="clvPagoRenta" class="block text-sm font-medium text-gray-700">Pago Renta</label>
+                            <select id="clvPagoRenta" name="clvPagoRenta"
+                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvPagoRenta') border-red-400 @enderror"
+                                required>
+                                @if (count($paymentsRents) > 0)
+                                    <option value="" disabled selected>
+                                        Seleccione Una Compañia Telefónica</option>
+                                    @foreach ($paymentsRents as $paymentRent)
+                                        <option value="{{ $paymentRent->clvPagoRenta }}"
+                                            @if ($paymentRent->clvPagoRenta == $rent->clvPagoRenta) selected @endif>
+                                            Pago: ${{ $paymentRent->pagoRenta }} + IVA: ${{ $paymentRent->ivaRenta }}
+                                            =
+                                            ${{ $paymentRent->pagoRenta + $paymentRent->ivaRenta }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected>
+                                        No Hay Opciones De Pago Renta Disponible</option>
+                                @endif
+                            </select>
                             @error('clvPagoRenta')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -106,15 +143,26 @@
                                     <span>{{ $message }}</span>
                                 </div>
                             @enderror
-                        </div> --}}
+                        </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="clvEstadoRenta" class="block text-sm font-medium text-gray-700">Clave Estado
+                            <label for="clvEstadoRenta" class="block text-sm font-medium text-gray-700">Estado De
                                 Renta</label>
                             <select id="clvEstadoRenta" name="clvEstadoRenta"
-                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvEstadoRenta') border-red-400 @enderror">
-                                <option value="1">Cancelado</option>
-                                <option value="2">Completado</option>
-                                <option value="3">Desconocido</option>
+                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvEstadoRenta') border-red-400 @enderror"
+                                required>
+                                @if (count($statusRents) > 0)
+                                    <option value="" disabled selected>
+                                        Seleccione Una Compañia Telefónica</option>
+                                    @foreach ($statusRents as $statusRent)
+                                        <option value="{{ $statusRent->clvEstadoRenta }}"
+                                            @if ($statusRent->clvEstadoRenta == $rent->clvEstadoRenta) selected @endif>
+                                            {{ $statusRent->estadoRenta }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected>
+                                        No Hay Opciones De Estado De Renta Disponible</option>
+                                @endif
                             </select>
                             @error('clvEstadoRenta')
                                 <div class="flex
@@ -124,43 +172,6 @@
                                 </div>
                             @enderror
                         </div>
-                        {{-- <div class="col-span-6 sm:col-span-3">
-                                <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
-                                <select id="country" name="country" autocomplete="country-name"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                    <option>United States</option>
-                                    <option>Canada</option>
-                                    <option>Mexico</option>
-                                </select>
-                            </div>
-
-                            <div class="col-span-6">
-                                <label for="street-address" class="block text-sm font-medium text-gray-700">Street
-                                    address</label>
-                                <input type="text" name="street-address" id="street-address"
-                                    autocomplete="street-address"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                                <input type="text" name="city" id="city" autocomplete="address-level2"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                <label for="region" class="block text-sm font-medium text-gray-700">State /
-                                    Province</label>
-                                <input type="text" name="region" id="region" autocomplete="address-level1"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                <label for="postal-code" class="block text-sm font-medium text-gray-700">ZIP / Postal
-                                    code</label>
-                                <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div> --}}
                     </div>
                 </div>
                 <x-Dashboard.Save-Button name="Guardar Renta" />

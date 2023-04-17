@@ -99,4 +99,9 @@ class User extends Authenticatable
         $this->last_login = now();
         $this->save();
     }
+
+    public function persona()
+    {
+        return $this->belongsTo(Person::class, 'clvPersona');
+    }
 }

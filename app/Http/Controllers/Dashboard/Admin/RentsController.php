@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipment;
 use App\Models\Person;
 use App\Models\Rent;
+use App\Models\Rents\PaymentRent;
+use App\Models\Rents\StatusRent;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
@@ -24,7 +26,7 @@ class RentsController extends Controller
         $rowDatas = new LengthAwarePaginator($pagedData, count($rents), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Rents.Index')
         ]);
-        $columnNames = ['Equipo', 'Cliente', 'Descripción', 'Fecha Inicio', 'Fecha Fin', 'Pago', ''];
+        $columnNames = ['Equipo', 'Cliente', 'Descripción', 'Fecha Inicio', 'Fecha Fin', 'Pago De Renta', 'Estado De Renta', ''];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 
@@ -39,10 +41,12 @@ class RentsController extends Controller
      */
     public function create()
     {
-        $clients = Person::all();
-        $equipments = Equipment::all();
+        $equipments = Equipment::get(['clvEquipo', 'noSerie', 'modelo', 'descripcion']);
+        $clients = Person::get(['clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona']);
+        $statusRents = StatusRent::get(['clvEstadoRenta', 'estadoRenta', 'descripcion', 'clvTazaRenta']);
+        $paymentsRents = PaymentRent::get(['clvPagoRenta', 'pagoRenta', 'ivaRenta', 'clvEstadoPagoRenta']);
         $rent = new Rent();
-        return view('Dashboard.Admin.Index', compact('rent', 'clients', 'equipments'));
+        return view('Dashboard.Admin.Index', compact('rent', 'clients', 'equipments', 'statusRents', 'paymentsRents'));
     }
 
     /**
@@ -58,7 +62,7 @@ class RentsController extends Controller
         //         ->withInput();
         // }
         $rent = Rent::create($data);
-        return redirect()->route('Dashboard.Admin.Rents.Edit', $rent->clvRenta)->with('success', 'Renta agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Rents.Index')->with('success', 'Renta agregado correctamente.');
     }
 
     /**
@@ -81,10 +85,12 @@ class RentsController extends Controller
      */
     public function edit(string $id)
     {
-        $clients = Person::all();
-        $equipments = Equipment::all();
+        $equipments = Equipment::get(['clvEquipo', 'noSerie', 'modelo', 'descripcion']);
+        $clients = Person::get(['clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona']);
+        $statusRents = StatusRent::get(['clvEstadoRenta', 'estadoRenta', 'descripcion', 'clvTazaRenta']);
+        $paymentsRents = PaymentRent::get(['clvPagoRenta', 'pagoRenta', 'ivaRenta', 'clvEstadoPagoRenta']);
         $rent = Rent::findOrFail($id);
-        return view('Dashboard.Admin.Index', compact('rent', 'clients', 'equipments'));
+        return view('Dashboard.Admin.Index', compact('rent', 'clients', 'equipments', 'statusRents', 'paymentsRents'));
     }
 
     /**

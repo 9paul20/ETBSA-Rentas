@@ -14,7 +14,7 @@ class ComTelSeeder extends Seeder
     public function run(): void
     {
         ComTel::factory()
-            ->count(15)
+            ->count(25)
             ->create();
     }
 }

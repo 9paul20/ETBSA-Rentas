@@ -17,9 +17,12 @@ class PaymentRentFactory extends Factory
      */
     public function definition(): array
     {
+        $pagoRenta = fake()->randomFloat(2, 0, 100000);
+        $ivaRenta = $pagoRenta * 0.16;
+
         return [
-            'pagoRenta' => fake()->randomFloat(2, 0, 999999.99),
-            'ivaRenta' => fake()->randomFloat(2, 0, 999999.99),
+            'pagoRenta' => $pagoRenta,
+            'ivaRenta' => $ivaRenta,
             'clvEstadoPagoRenta' => StatusPaymentRent::inRandomOrder()->first()->clvEstadoPagoRenta,
         ];
     }

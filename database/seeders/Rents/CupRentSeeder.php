@@ -14,7 +14,7 @@ class CupRentSeeder extends Seeder
     public function run(): void
     {
         CupRent::factory()
-            ->count(15)
+            ->count(25)
             ->create();
     }
 }

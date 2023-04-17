@@ -16,14 +16,21 @@ class CupRentFactory extends Factory
      */
     public function definition(): array
     {
+        $rentaUnMes = fake()->randomFloat(2, 0, 100000);
+        $rentaDosMeses = fake()->randomFloat(2, 0, 100000);
+        $rentaTresMeses = fake()->randomFloat(2, 0, 100000);
+        $ivaUnMes = $rentaUnMes * 0.16;
+        $ivaDosMeses = $rentaDosMeses * 0.16;
+        $ivaTresMeses = $rentaTresMeses * 0.16;
+
         return [
             'tazaRenta' => fake()->unique()->word(),
-            'rentaUnMes' => fake()->randomFloat(2, 0, 1000),
-            'rentaDosMeses' => fake()->randomFloat(2, 0, 1000),
-            'rentaTresMeses' => fake()->randomFloat(2, 0, 1000),
-            'ivaUnMes' => fake()->randomFloat(2, 0, 1000),
-            'ivaDosMeses' => fake()->randomFloat(2, 0, 1000),
-            'ivaTresMeses' => fake()->randomFloat(2, 0, 1000),
+            'rentaUnMes' => $rentaUnMes,
+            'rentaDosMeses' => $rentaDosMeses,
+            'rentaTresMeses' => $rentaTresMeses,
+            'ivaUnMes' => $ivaUnMes,
+            'ivaDosMeses' => $ivaDosMeses,
+            'ivaTresMeses' => $ivaTresMeses,
             'descripcion' => fake()->text(),
         ];
     }

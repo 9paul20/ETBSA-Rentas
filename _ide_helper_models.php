@@ -209,6 +209,10 @@ namespace App\Models{
  * @property int|null $clvEstadoRenta
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Person|null $cliente
+ * @property-read \App\Models\Equipment|null $equipo
+ * @property-read \App\Models\Rents\StatusRent|null $estadoRenta
+ * @property-read \App\Models\Rents\PaymentRent|null $pagoRenta
  * @method static \Database\Factories\RentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Rent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Rent newQuery()
@@ -354,6 +358,7 @@ namespace App\Models{
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
+ * @property-read \App\Models\Person|null $persona
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens

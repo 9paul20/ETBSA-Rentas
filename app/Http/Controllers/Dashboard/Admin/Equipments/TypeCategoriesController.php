@@ -35,9 +35,10 @@ class TypeCategoriesController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, TypeCategory::getRules($id));
         if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Panel', ['#editModalTypeCategory_' . $id, 'TypeCategory' => $id])
+            return redirect()->to(url()->previous())
                 ->withErrors($validator)
-                ->withInput();
+                ->withInput()
+                ->withFragment('#editModalTypeCategory_' . $id);
         }
         $typeCategory = TypeCategory::findOrFail($id);
         $typeCategory->update($data);

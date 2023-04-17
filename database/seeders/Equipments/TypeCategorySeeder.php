@@ -14,7 +14,7 @@ class TypeCategorySeeder extends Seeder
     public function run(): void
     {
         TypeCategory::factory()
-            ->count(15)
+            ->count(25)
             ->create();
     }
 }

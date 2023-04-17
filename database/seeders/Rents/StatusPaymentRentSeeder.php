@@ -14,7 +14,7 @@ class StatusPaymentRentSeeder extends Seeder
     public function run(): void
     {
         StatusPaymentRent::factory()
-            ->count(15)
+            ->count(25)
             ->create();
     }
 }

@@ -14,7 +14,7 @@ class StatusSeeder extends Seeder
     public function run(): void
     {
         Status::factory()
-            ->count(15)
+            ->count(25)
             ->create();
     }
 }

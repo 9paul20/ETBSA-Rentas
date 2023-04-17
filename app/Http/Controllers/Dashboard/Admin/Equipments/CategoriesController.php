@@ -35,9 +35,10 @@ class CategoriesController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, Category::getRules($id));
         if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Panel', ['#editModalCategory_' . $id, 'Category' => $id])
+            return redirect()->to(url()->previous())
                 ->withErrors($validator)
-                ->withInput();
+                ->withInput()
+                ->withFragment('#editModalCategory_' . $id);
         }
         $category = Category::findOrFail($id);
         $category->update($data);

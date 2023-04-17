@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Person;
 use App\Models\Persons\ComTel;
-use App\Models\Persons\Nacionalidad;
+use App\Models\Persons\Nationality;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
@@ -46,7 +46,7 @@ class PersonsController extends Controller
     public function create()
     {
         $comtels = ComTel::all();
-        $nacionalidades = Nacionalidad::all();
+        $nacionalidades = Nationality::all();
         $person = new Person();
         return view('Dashboard.Admin.Index', compact('person', 'comtels', 'nacionalidades'));
     }
@@ -89,7 +89,7 @@ class PersonsController extends Controller
     public function edit(string $id)
     {
         $comtels = ComTel::all();
-        $nacionalidades = Nacionalidad::all();
+        $nacionalidades = Nationality::all();
         $person = Person::findOrFail($id);
         return view('Dashboard.Admin.Index', compact('person', 'comtels', 'nacionalidades'));
     }

@@ -23,56 +23,59 @@
                 </svg>
             </button> --}}
                 </div>
-                <table
-                    class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            @foreach ($columnNames as $columnName)
-                                <th scope="col"
-                                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                    {{ $columnName }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 border-t  bg-white">
-                        @foreach ($rowDatas as $rowData)
-                            <tr class="hover:bg-gray-100">
-                                <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                                    <div class="text-sm">
-                                        <div class="font-medium text-gray-700">{{ $rowData->name }}</div>
-                                    </div>
-                                </th>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowData->display_name }}</div>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="font-medium text-gray-700 truncate break-words max-w-sm">
-                                        {{ $rowData->description }}</div>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="font-medium text-gray-700">{{ $rowData->guard_name }}</div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex justify-end gap-4">
-                                        @can('View Permissions')
-                                            <x-Dashboard.IconButton-Show
-                                                href="{{ route('Dashboard.Admin.Permissions.Show', $rowData->id) }}" />
-                                        @endcan
-                                        @can('Update Permissions')
-                                            <x-Dashboard.IconButton-Edit
-                                                href="{{ route('Dashboard.Admin.Permissions.Edit', $rowData->id) }}" />
-                                        @endcan
-                                        @can('Delete Permissions')
-                                            <x-Dashboard.IconButton-Delete id="{{ $rowData->id }}"
-                                                name="{{ $rowData->name }}"
-                                                href="{{ route('Dashboard.Admin.Permissions.Destroy', $rowData->id) }}" />
-                                        @endcan
-                                    </div>
-                                </td>
+                <div class="overflow-x-auto">
+                    <table
+                        class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                @foreach ($columnNames as $columnName)
+                                    <th scope="col"
+                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                        {{ $columnName }}</th>
+                                @endforeach
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 border-t  bg-white">
+                            @foreach ($rowDatas as $rowData)
+                                <tr class="hover:bg-gray-100">
+                                    <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                                        <div class="text-sm">
+                                            <div class="font-medium text-gray-700">{{ $rowData->name }}</div>
+                                        </div>
+                                    </th>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="text-gray-600">{{ $rowData->display_name }}</div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="font-medium text-gray-700 truncate break-words max-w-sm">
+                                            {{ $rowData->description }}</div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="font-medium text-gray-700">{{ $rowData->guard_name }}</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex justify-end gap-4">
+                                            @can('View Permissions')
+                                                <x-Dashboard.IconButton-Show_SA id="Permission_{{ $rowData->id }}"
+                                                    name="{{ $rowData->display_name }}"
+                                                    description="{{ $rowData->description }}" href="" />
+                                            @endcan
+                                            @can('Update Permissions')
+                                                <x-Dashboard.IconButton-Edit
+                                                    href="{{ route('Dashboard.Admin.Permissions.Edit', $rowData->id) }}" />
+                                            @endcan
+                                            @can('Delete Permissions')
+                                                <x-Dashboard.IconButton-Delete id="{{ $rowData->id }}"
+                                                    name="{{ $rowData->name }}"
+                                                    href="{{ route('Dashboard.Admin.Permissions.Destroy', $rowData->id) }}" />
+                                            @endcan
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 {{ $rowDatas->links('vendor.pagination.tailwind') }}
             </div>
         @else

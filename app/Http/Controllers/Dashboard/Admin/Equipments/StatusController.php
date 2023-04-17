@@ -35,9 +35,10 @@ class StatusController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, Status::getRules($id));
         if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Panel', ['#editModalStatus_' . $id, 'Status' => $id])
+            return redirect()->to(url()->previous())
                 ->withErrors($validator)
-                ->withInput();
+                ->withInput()
+                ->withFragment('#editModalStatus_' . $id);
         }
         $status = Status::findOrFail($id);
         $status->update($data);

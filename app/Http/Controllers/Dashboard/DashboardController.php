@@ -13,10 +13,7 @@ class DashboardController extends Controller
         $columnNames = [];
         return view('Dashboard/Index/Index', compact('columnNames', 'rowDatas'));
     }
-    public function users()
-    {
-        return view('Dashboard/Admin/Users/Index');
-    }
+
     public function registerContinue()
     {
         return view('Dashboard/Index/UpdateProfile');

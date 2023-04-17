@@ -23,72 +23,76 @@
                 </svg>
             </button> --}}
                 </div>
-                <table
-                    class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            @foreach ($columnNames as $columnName)
-                                <th scope="col"
-                                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                    {{ $columnName }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 border-t  bg-white">
-                        @foreach ($rowDatas as $rowData)
-                            <tr class="hover:bg-gray-100">
-                                <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                                    <div class="text-sm">
-                                        <div class="font-medium text-gray-700">{{ $rowData->name }}</div>
-                                    </div>
-                                </th>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowData->display_name }}</div>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="font-medium text-gray-700 truncate break-words max-w-sm">
-                                        {{ $rowData->description }}</div>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="font-medium text-gray-700">{{ $rowData->guard_name }}</div>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    @if (!count($rowData->permissions))
-                                        <div class="font-medium text-orange-700">Sin Asignar Aún</div>
-                                    @elseif (empty($rowData->permissions))
-                                        <div class="font-medium text-gray-700">Sin Permisos</div>
-                                    @else
-                                        @foreach ($rowData->permissions->take(2) as $rowPermission)
-                                            <div class="font-medium text-gray-700">{{ $rowPermission->display_name }}
-                                            </div>
-                                        @endforeach
-                                        @if (count($rowData->permissions) > 2)
-                                            <div class="font-medium text-gray-400">
-                                                {{ '+' . (count($rowData->permissions) - 2) }}</div>
-                                        @endif
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex justify-end gap-4">
-                                        @can('View Roles')
-                                            <x-Dashboard.IconButton-Show
-                                                href="{{ route('Dashboard.Admin.Roles.Show', $rowData->id) }}" />
-                                        @endcan
-                                        @can('Update Roles')
-                                            <x-Dashboard.IconButton-Edit
-                                                href="{{ route('Dashboard.Admin.Roles.Edit', $rowData->id) }}" />
-                                        @endcan
-                                        @can('Delete Roles')
-                                            <x-Dashboard.IconButton-Delete id="{{ $rowData->id }}"
-                                                name="{{ $rowData->name }}"
-                                                href="{{ route('Dashboard.Admin.Roles.Destroy', $rowData->id) }}" />
-                                        @endcan
-                                    </div>
-                                </td>
+                <div class="overflow-x-auto">
+                    <table
+                        class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                @foreach ($columnNames as $columnName)
+                                    <th scope="col"
+                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                        {{ $columnName }}</th>
+                                @endforeach
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 border-t  bg-white">
+                            @foreach ($rowDatas as $rowData)
+                                <tr class="hover:bg-gray-100">
+                                    <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                                        <div class="text-sm">
+                                            <div class="font-medium text-gray-700">{{ $rowData->name }}</div>
+                                        </div>
+                                    </th>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="text-gray-600">{{ $rowData->display_name }}</div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="font-medium text-gray-700 truncate break-words max-w-sm">
+                                            {{ $rowData->description }}</div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="font-medium text-gray-700">{{ $rowData->guard_name }}</div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        @if (!count($rowData->permissions))
+                                            <div class="font-medium text-orange-700">Sin Asignar Aún</div>
+                                        @elseif (empty($rowData->permissions))
+                                            <div class="font-medium text-gray-700">Sin Permisos</div>
+                                        @else
+                                            @foreach ($rowData->permissions->take(2) as $rowPermission)
+                                                <div class="font-medium text-gray-700">
+                                                    {{ $rowPermission->display_name }}
+                                                </div>
+                                            @endforeach
+                                            @if (count($rowData->permissions) > 2)
+                                                <div class="font-medium text-gray-400">
+                                                    {{ '+' . (count($rowData->permissions) - 2) }}</div>
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex justify-end gap-4">
+                                            @can('View Roles')
+                                                <x-Dashboard.IconButton-Show_SA id="Role_{{ $rowData->id }}"
+                                                    name="{{ $rowData->display_name }}"
+                                                    description="{{ $rowData->description }}" href="" />
+                                            @endcan
+                                            @can('Update Roles')
+                                                <x-Dashboard.IconButton-Edit
+                                                    href="{{ route('Dashboard.Admin.Roles.Edit', $rowData->id) }}" />
+                                            @endcan
+                                            @can('Delete Roles')
+                                                <x-Dashboard.IconButton-Delete id="{{ $rowData->id }}"
+                                                    name="{{ $rowData->name }}"
+                                                    href="{{ route('Dashboard.Admin.Roles.Destroy', $rowData->id) }}" />
+                                            @endcan
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 {{ $rowDatas->links('vendor.pagination.tailwind') }}
             </div>
         @else
