@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard\Admin\Persons;
 
 use App\Http\Controllers\Controller;
 use App\Models\Persons\ComTel;
-use App\Models\Persons\Nacionalidad;
+use App\Models\Persons\Nationality;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -30,7 +30,7 @@ class PanelController extends Controller
         ];
 
         //Nacionalidades
-        $nacionalidades = Nacionalidad::all();
+        $nacionalidades = Nationality::all();
         $columnNacionalidades = ['Nacionalidad', 'Descripción', ''];
         $currentPageNacionalidades = request()->get('nacionalidades_page') ?? 1;
         $pagedNacionalidadesData = $nacionalidades->slice(($currentPageNacionalidades - 1) * $perPage, $perPage)->all();
