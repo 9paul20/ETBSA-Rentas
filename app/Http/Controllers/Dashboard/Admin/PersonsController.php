@@ -17,7 +17,7 @@ class PersonsController extends Controller
      */
     public function index()
     {
-        $persons = Person::select('clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona', 'nacimiento', 'clvNacionalidad', 'telefono', 'celular', 'clvComTel', 'ocupacion', 'informacion')
+        $persons = Person::select('clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona', 'nacimiento', 'clvNacionalidad', 'telefono', 'celular', 'clvComTel', 'ocupacion')
             ->with(['nacionalidad' => function ($query) {
                 $query->select('clvNacionalidad', 'nacionalidad');
             }, 'companiaTelefonica' => function ($query) {
@@ -30,7 +30,7 @@ class PersonsController extends Controller
         $rowDatas = new LengthAwarePaginator($pagedData, count($persons), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Persons.Index')
         ]);
-        $columnNames = ['Nombre', 'Nacimiento', 'Nacionalidad', 'Telefono', 'Celular', 'Compañia Telefónica', 'Ocupación', 'Información', ''];
+        $columnNames = ['Nombre', 'Nacimiento', 'Nacionalidad', 'Telefono', 'Celular', 'Compañia Telefónica', 'Ocupación', ''];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Equipment;
+use App\Models\Equipments\Category;
+use App\Models\Equipments\Status;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
@@ -22,7 +24,7 @@ class EquipmentsController extends Controller
         $rowDatas = new LengthAwarePaginator($pagedData, count($equipments), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Equipments.Index')
         ]);
-        $columnNames = ['noSerie', 'Modelo', 'Descripción', ''];
+        $columnNames = ['noSerie', 'Modelo', 'Disponibilidad', 'Categoria', 'Descripción', ''];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 
@@ -37,8 +39,10 @@ class EquipmentsController extends Controller
      */
     public function create()
     {
+        $status = Status::all();
+        $categories = Category::all();
         $equipment = new Equipment();
-        return view('Dashboard.Admin.Index', compact('equipment'));
+        return view('Dashboard.Admin.Index', compact('equipment', 'status', 'categories'));
     }
 
     /**
@@ -47,14 +51,14 @@ class EquipmentsController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        // $validator = Validator::make($data, Equipment::getRules());
-        // if ($validator->fails()) {
-        //     return redirect()->route('Dashboard.Admin.Equipments.Create')
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        $validator = Validator::make($data, Equipment::getRules());
+        if ($validator->fails()) {
+            return redirect()->route('Dashboard.Admin.Equipments.Create')
+                ->withErrors($validator)
+                ->withInput();
+        }
         $equipment = Equipment::create($data);
-        return redirect()->route('Dashboard.Admin.Equipments.Edit', $equipment->clvEquipo)->with('success', 'Equipo ' . $equipment->noSerie . ' agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Equipments.Index')->with('success', 'Equipo ' . $equipment->modelo . ' Con No.Serie: ' . $equipment->noSerie . ' agregado correctamente.');
     }
 
     /**
@@ -77,8 +81,10 @@ class EquipmentsController extends Controller
      */
     public function edit(string $id)
     {
+        $status = Status::all();
+        $categories = Category::all();
         $equipment = Equipment::findOrFail($id);
-        return view('Dashboard.Admin.Index', compact('equipment'));
+        return view('Dashboard.Admin.Index', compact('equipment', 'status', 'categories'));
     }
 
     /**
@@ -87,12 +93,12 @@ class EquipmentsController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
-        // $validator = Validator::make($data, Equipment::getRules($id));
-        // if ($validator->fails()) {
-        //     return redirect()->route('Dashboard.Admin.Equipments.Edit', ['Equipment' => $id])
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        $validator = Validator::make($data, Equipment::getRules($id));
+        if ($validator->fails()) {
+            return redirect()->route('Dashboard.Admin.Equipments.Edit', ['Equipment' => $id])
+                ->withErrors($validator)
+                ->withInput();
+        }
         $equipment = Equipment::findOrFail($id);
         $equipment->update($data);
         return back()->with('update', 'Equipo ' . $equipment->noSerie . ' actualizado correctamente.');

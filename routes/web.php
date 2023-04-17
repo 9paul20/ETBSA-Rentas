@@ -100,7 +100,23 @@ Route::group(
         ]);
 
         //Equipos
-        Route::get('Admin/Equipments/Panel', 'Admin\Equipments\PanelController@Panel')->name('Dashboard.Admin.Equipments.Panel');
+        Route::get('Panel/Equipments', 'Admin\Equipments\PanelController@Panel')->name('Dashboard.Admin.Equipments.Panel');
+
+        Route::get('Panel/Equipments/Status/store', 'Admin\Equipments\StatusController@store')->name('Dashboard.Admin.Panel.Equipments.Status.Store');
+        Route::put('Panel/Equipments/Status/update/{clvDisponibilidad}', 'Admin\Equipments\StatusController@update')->name('Dashboard.Admin.Panel.Equipments.Status.Update');
+        Route::delete('Panel/Equipments/Status/destroy/{clvDisponibilidad}', 'Admin\Equipments\StatusController@destroy')->name('Dashboard.Admin.Panel.Equipments.Status.Destroy');
+
+        Route::get('Panel/Equipments/TypeCategory/store', 'Admin\Equipments\TypeCategoriesController@store')->name('Dashboard.Admin.Panel.Equipments.TypeCategory.Store');
+        Route::put('Panel/Equipments/TypeCategory/update/{clvTipoCategoria}', 'Admin\Equipments\TypeCategoriesController@update')->name('Dashboard.Admin.Panel.Equipments.TypeCategory.Update');
+        Route::delete('Panel/Equipments/TypeCategory/destroy/{clvTipoCategoria}', 'Admin\Equipments\TypeCategoriesController@destroy')->name('Dashboard.Admin.Panel.Equipments.TypeCategory.Destroy');
+
+        Route::get('Panel/Equipments/Category/store', 'Admin\Equipments\CategoriesController@store')->name('Dashboard.Admin.Panel.Equipments.Category.Store');
+        Route::put('Panel/Equipments/Category/update/{clvCategoria}', 'Admin\Equipments\CategoriesController@update')->name('Dashboard.Admin.Panel.Equipments.Category.Update');
+        Route::delete('Panel/Equipments/Category/destroy/{clvCategoria}', 'Admin\Equipments\CategoriesController@destroy')->name('Dashboard.Admin.Panel.Equipments.Category.Destroy');
+
+        Route::get('Panel/Equipments/Status/store', 'Admin\Equipments\StatusController@store')->name('Dashboard.Admin.Panel.Equipments.Status.Store');
+        Route::put('Panel/Equipments/Status/update/{clvCompaniaTelefonica}', 'Admin\Equipments\StatusController@update')->name('Dashboard.Admin.Panel.Equipments.Status.Update');
+        Route::delete('Panel/Equipments/Status/destroy/{clvCompaniaTelefonica}', 'Admin\Equipments\StatusController@destroy')->name('Dashboard.Admin.Panel.Equipments.Status.Destroy');
 
         Route::resource('Admin/Equipments', 'Admin\EquipmentsController')->names([
             'index' => 'Dashboard.Admin.Equipments.Index',

@@ -20,7 +20,7 @@ class TypeCategoriesController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, TypeCategory::getRules());
         if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Panel', ['#createTypeCategory'])->withErrors($validator)->withInput();
+            return redirect()->route('Dashboard.Admin.Equipments.Panel', ['#createModalTypeCategory'])->withErrors($validator)->withInput();
         }
         $typeCategory = TypeCategory::create($data);
         $typeCategory->save();

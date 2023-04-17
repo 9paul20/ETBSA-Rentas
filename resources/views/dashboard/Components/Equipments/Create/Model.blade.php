@@ -47,10 +47,64 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
+                            <label for="clvDisponibilidad"
+                                class="block text-sm font-medium text-gray-700">Disponibilidad</label>
+                            <select id="clvDisponibilidad" name="clvDisponibilidad"
+                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvDisponibilidad') border-red-400 @enderror"
+                                required>
+                                @if (count($status) > 0)
+                                    <option value="" disabled selected>
+                                        Seleccione Una Disponibilidad</option>
+                                    @foreach ($status as $disponibilidad)
+                                        <option value="{{ $disponibilidad->clvDisponibilidad }}"
+                                            @if ($disponibilidad->clvDisponibilidad == $equipment->clvDisponibilidad) selected @endif>
+                                            {{ $disponibilidad->disponibilidad }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected>
+                                        No Hay Opciones De Disponibilidad</option>
+                                @endif
+                            </select>
+                            @error('clvDisponibilidad')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="clvCategoria" class="block text-sm font-medium text-gray-700">Categoria</label>
+                            <select id="clvCategoria" name="clvCategoria"
+                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvCategoria') border-red-400 @enderror"
+                                required>
+                                @if (count($categories) > 0)
+                                    <option value="" disabled selected>
+                                        Seleccione Una Categoria</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->clvCategoria }}"
+                                            @if ($category->clvCategoria == $equipment->clvCategoria) selected @endif>
+                                            {{ $category->categoria }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected>
+                                        No Hay Opciones De Categoria Disponible</option>
+                                @endif
+                            </select>
+                            @error('clvCategoria')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                            <input type="text" name="descripcion" id="descripcion" autocomplete="given-descripcion"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
-                                value="{{ old('descripcion', $equipment->descripcion) }}" required>
+                            <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"required>{{ old('descripcion', $equipment->descripcion) }}</textarea>
                             @error('descripcion')
                                 <div class="flex
                                     items-center mt-1 text-red-400">

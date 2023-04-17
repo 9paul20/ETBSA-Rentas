@@ -54,16 +54,16 @@
                                     <td class="px-6 py-4">
                                         <div class="flex justify-end gap-4">
                                             <x-Dashboard.IconButton-Show_SA
-                                                id="nacionalidad_{{ $rowNacionalidad->clvNacionalidad }}"
+                                                id="Nacionalidad_{{ $rowNacionalidad->clvNacionalidad }}"
                                                 name="{{ $rowNacionalidad->nacionalidad }}"
                                                 description="{{ $rowNacionalidad->descripcion }}" href="#" />
                                             <x-Dashboard.Persons.Nacionalidad.Button-Edit-Modal
-                                                id="nacionalidad_{{ $rowNacionalidad->clvNacionalidad }}"
+                                                id="Nacionalidad_{{ $rowNacionalidad->clvNacionalidad }}"
                                                 nacionalidad="{{ $rowNacionalidad->nacionalidad }}"
                                                 descripcion="{{ $rowNacionalidad->descripcion }}"
                                                 href="{{ route('Dashboard.Admin.Panel.Persons.Nacionalidad.Update', $rowNacionalidad->clvNacionalidad) }}" />
                                             <x-Dashboard.IconButton-Delete
-                                                id="nacionalidad_{{ $rowNacionalidad->clvNacionalidad }}"
+                                                id="Nacionalidad_{{ $rowNacionalidad->clvNacionalidad }}"
                                                 name="{{ $rowNacionalidad->nacionalidad }}"
                                                 href="{{ route('Dashboard.Admin.Panel.Persons.Nacionalidad.Destroy', $rowNacionalidad->clvNacionalidad) }}" />
                                         </div>

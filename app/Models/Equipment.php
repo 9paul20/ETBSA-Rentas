@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Equipments\Category;
+use App\Models\Equipments\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +19,8 @@ class Equipment extends Model
         'clvEquipo',
         'noSerie',
         'modelo',
+        'clvDisponibilidad',
+        'clvCategoria',
         'descripcion',
     ];
 
@@ -25,10 +29,22 @@ class Equipment extends Model
     public static function getRules($clvEquipo = null)
     {
         $rules = [
-            'noSerie' => 'required|string|min:4|max:255|unique:t_equipos,noSerie,' . $clvEquipo,
+            'noSerie' => 'required|string|min:4|max:255|unique:t_equipos,noSerie,' . $clvEquipo . ',clvEquipo',
             'modelo' => 'required|string|min:4|max:255',
+            'clvDisponibilidad' => 'required|not_in:[]',
+            'clvCategoria' => 'required|not_in:[]',
             'descripcion' => 'string|max:255',
         ];
         return $rules;
+    }
+
+    public function disponibilidad()
+    {
+        return $this->belongsTo(Status::class, 'clvDisponibilidad');
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Category::class, 'clvCategoria');
     }
 }

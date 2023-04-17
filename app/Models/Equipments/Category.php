@@ -31,4 +31,9 @@ class Category extends Model
         ];
         return $rules;
     }
+
+    public function tipoCategoria()
+    {
+        return $this->belongsTo(TypeCategory::class, 'clvTipoCategoria');
+    }
 }

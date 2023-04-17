@@ -178,10 +178,9 @@
                         <div class="col-span-6 sm:col-span-6">
                             <label for="informacion"
                                 class="block text-sm font-medium text-gray-700">Información</label>
-                            <input type="text" name="informacion" id="informacion"
-                                autocomplete="given-informacion"
+                            <textarea rows="3" name="informacion" id="informacion" autocomplete="given-informacion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('informacion') border-red-400 @enderror"
-                                value="{{ old('informacion', $person->informacion) }}" required>
+                                required>{{ old('informacion', $person->informacion) }}</textarea>
                             @error('informacion')
                                 <div class="flex
                                     items-center mt-1 text-red-400">

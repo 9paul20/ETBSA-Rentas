@@ -49,7 +49,7 @@
                         <div class="col-span-6 sm:col-span-6">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                             <div class="mt-1">
-                                <textarea rows="4" name="description" id="description" autocomplete="description"
+                                <textarea rows="3" name="description" id="description" autocomplete="description"
                                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('description') border-red-400 @enderror"
                                     required>{{ old('description', $role->description) }}</textarea>
                             </div>

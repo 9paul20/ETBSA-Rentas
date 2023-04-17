@@ -17,11 +17,14 @@ namespace App\Models{
  * @property int $clvEquipo
  * @property string $noSerie
  * @property string $modelo
- * @property string|null $clvDisponibilidad
- * @property string|null $clvCategoria
+ * @property int|null $clvDisponibilidad
+ * @property int|null $clvCategoria
  * @property string|null $descripcion
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Equipments\Category|null $categoria
+ * @property-read \App\Models\Equipments\Status|null $disponibilidad
+ * @method static \Database\Factories\EquipmentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment query()
@@ -35,6 +38,75 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereUpdatedAt($value)
  */
 	class Equipment extends \Eloquent {}
+}
+
+namespace App\Models\Equipments{
+/**
+ * App\Models\Equipments\Category
+ *
+ * @property int $clvCategoria
+ * @property string $categoria
+ * @property string|null $descripcion
+ * @property int|null $clvTipoCategoria
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Equipments\TypeCategory|null $tipoCategoria
+ * @method static \Database\Factories\Equipments\CategoryFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereCategoria($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereClvCategoria($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereClvTipoCategoria($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
+ */
+	class Category extends \Eloquent {}
+}
+
+namespace App\Models\Equipments{
+/**
+ * App\Models\Equipments\Status
+ *
+ * @property int $clvDisponibilidad
+ * @property string $disponibilidad
+ * @property string|null $descripcion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\Equipments\StatusFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Status newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Status newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Status query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Status whereClvDisponibilidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Status whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Status whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Status whereDisponibilidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Status whereUpdatedAt($value)
+ */
+	class Status extends \Eloquent {}
+}
+
+namespace App\Models\Equipments{
+/**
+ * App\Models\Equipments\TypeCategory
+ *
+ * @property int $clvTipoCategoria
+ * @property string $tipoCategoria
+ * @property string|null $descripcion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\Equipments\TypeCategoryFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|TypeCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TypeCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TypeCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TypeCategory whereClvTipoCategoria($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TypeCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TypeCategory whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TypeCategory whereTipoCategoria($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TypeCategory whereUpdatedAt($value)
+ */
+	class TypeCategory extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -57,6 +129,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Persons\ComTel|null $companiaTelefonica
  * @property-read \App\Models\Persons\Nacionalidad|null $nacionalidad
+ * @method static \Database\Factories\PersonFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Person newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Person newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Person query()
@@ -87,6 +160,7 @@ namespace App\Models\Persons{
  * @property string|null $descripcion
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\Persons\ComTelFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|ComTel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ComTel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ComTel query()
@@ -108,6 +182,7 @@ namespace App\Models\Persons{
  * @property string|null $descripcion
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\Persons\NacionalidadFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Nacionalidad query()

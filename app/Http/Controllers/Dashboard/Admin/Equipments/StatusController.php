@@ -20,7 +20,7 @@ class StatusController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, Status::getRules());
         if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Panel', ['#createStatus'])->withErrors($validator)->withInput();
+            return redirect()->route('Dashboard.Admin.Equipments.Panel', ['#createModalStatus'])->withErrors($validator)->withInput();
         }
         $status = Status::create($data);
         $status->save();

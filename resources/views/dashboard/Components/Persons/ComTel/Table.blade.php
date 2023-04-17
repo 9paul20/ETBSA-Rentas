@@ -15,7 +15,7 @@
                 <x-Dashboard.Persons.ComTel.Button-Create-Modal text="Añadir Compañia Telefónica"
                     action="{{ route('Dashboard.Admin.Panel.Persons.ComTel.Store') }}" />
             </div>
-            @if (count($Data['tableComTels']['columnComTels']) > 0)
+            @if (count($Data['tableComTels']['rowComTels']) > 0)
                 <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                     <div class="relative text-gray-600 py-1">
                         <input type="search" name="serch" placeholder="Realizar Busqueda"
@@ -44,7 +44,7 @@
                                         </div>
                                     </th>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        @if (!empty($rowComTel->companiaTelefonica))
+                                        @if (!empty($rowComTel->descripcion))
                                             <div class="text-gray-700 truncate break-words max-w-sm">
                                                 {{ $rowComTel->descripcion }}</div>
                                         @else
@@ -53,15 +53,15 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex justify-end gap-4">
-                                            <x-Dashboard.IconButton-Show_SA id="comtel_{{ $rowComTel->clvComTel }}"
+                                            <x-Dashboard.IconButton-Show_SA id="ComTel_{{ $rowComTel->clvComTel }}"
                                                 name="{{ $rowComTel->companiaTelefonica }}"
                                                 description="{{ $rowComTel->descripcion }}" href="" />
                                             <x-Dashboard.Persons.ComTel.Button-Edit-Modal
-                                                id="comtel_{{ $rowComTel->clvComTel }}"
+                                                id="ComTel_{{ $rowComTel->clvComTel }}"
                                                 companiaTelefonica="{{ $rowComTel->companiaTelefonica }}"
                                                 descripcion="{{ $rowComTel->descripcion }}"
                                                 href="{{ route('Dashboard.Admin.Panel.Persons.ComTel.Update', $rowComTel->clvComTel) }}" />
-                                            <x-Dashboard.IconButton-Delete id="comtel_{{ $rowComTel->clvComTel }}"
+                                            <x-Dashboard.IconButton-Delete id="ComTel_{{ $rowComTel->clvComTel }}"
                                                 name="{{ $rowComTel->companiaTelefonica }}"
                                                 href="{{ route('Dashboard.Admin.Panel.Persons.ComTel.Destroy', $rowComTel->clvComTel) }}" />
                                         </div>

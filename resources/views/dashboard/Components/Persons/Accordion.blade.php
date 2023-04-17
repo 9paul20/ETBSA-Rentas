@@ -13,9 +13,10 @@
 
 <div class="bg-white p-10 overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
     <h3 class="text-lg font-medium text-gray-800">Administrar Campos adicionales para
-        {{ getDashboardNameFromUrlFirst(request()->fullUrl()) }}</h3>
+        {{ getDashboardNameFromUrlSecond(request()->fullUrl()) }}</h3>
     <p class="text-sm font-light text-gray-600 my-3">
-        Agrega, actualiza o elimina los datos que {{ getDashboardNameFromUrlFirst(request()->fullUrl()) }} necesite para
+        Agrega, actualiza o elimina los datos que {{ getDashboardNameFromUrlSecond(request()->fullUrl()) }} necesite
+        para
         la funcionalidad de la tabla principal
     </p>
 

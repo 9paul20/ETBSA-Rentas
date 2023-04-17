@@ -9,7 +9,7 @@
     </svg>
 </a>
 
-<div id="edit-modal-comtel-{{ $id }}" name="edit-modal-comtel-{{ $id }}" class="hidden">
+<div id="edit-modal-{{ $id }}" name="edit-modal-{{ $id }}" class="hidden">
     <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <!-- Background backdrop, show/hide based on modal state -->
         <div class="fixed inset-0 bg-gray-500 bg-opacity-50 transition-opacity" id="background"></div>
@@ -45,10 +45,9 @@
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                            <input type="text" name="descripcion" id="descripcion-{{ $id }}"
-                                autocomplete="given-descripcion"
+                            <textarea rows="3" name="descripcion" id="descripcion-{{ $id }}" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
-                                value="{{ $descripcion }}" required>
+                                required>{{ $descripcion }}</textarea>
                             @error('descripcion')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -60,7 +59,7 @@
                         <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
                             <button type="submit"
                                 class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-md">Guardar</button>
-                            <button type="button" id="btn-edit-modal-comtel-close-{{ $id }}"
+                            <button type="button" id="btn-edit-modal-close-{{ $id }}"
                                 class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md">Cancelar</button>
                         </div>
                     </form>
@@ -71,9 +70,9 @@
 </div>
 
 @push('scripts')
-    @if (request()->is('Dashboard/Admin/Persons/Panel'))
+    @if (request()->is('Dashboard/Panel/Persons'))
         <script>
-            var editModalComTel{{ $id }} = document.getElementById('edit-modal-comtel-{{ $id }}');
+            var editModal{{ $id }} = document.getElementById('edit-modal-{{ $id }}');
             var nombreCompaniaTelefonicaInput{{ $id }} = document.getElementById(
                 'companiaTelefonica-{{ $id }}');
 
@@ -83,23 +82,23 @@
             });
 
             function openModal{{ $id }}() {
-                editModalComTel{{ $id }}.classList.remove('hidden');
-                window.location.hash = "editModalComTel{{ $id }}";
+                editModal{{ $id }}.classList.remove('hidden');
+                window.location.hash = "editModal{{ $id }}";
                 nombreCompaniaTelefonicaInput{{ $id }}.focus();
             }
 
             document.getElementById('background').addEventListener('click', function() {
-                editModalComTel{{ $id }}.classList.add('hidden');
+                editModal{{ $id }}.classList.add('hidden');
                 window.location.hash = "";
             });
 
-            document.getElementById('btn-edit-modal-comtel-close-{{ $id }}').addEventListener('click', function() {
-                editModalComTel{{ $id }}.classList.add('hidden');
+            document.getElementById('btn-edit-modal-close-{{ $id }}').addEventListener('click', function() {
+                editModal{{ $id }}.classList.add('hidden');
                 window.location.hash = "";
             });
 
-            if (window.location.hash === "#editModalComTel{{ $id }}") {
-                editModalComTel{{ $id }}.classList.remove("hidden");
+            if (window.location.hash === "#editModal{{ $id }}") {
+                editModal{{ $id }}.classList.remove("hidden");
                 nombreCompaniaTelefonicaInput{{ $id }}.focus();
             }
         </script>

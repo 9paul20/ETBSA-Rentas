@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Person;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -53,10 +54,11 @@ class UserSeeder extends Seeder
             'activation_key' => Uuid::uuid4()->toString(),
             'email_verified_at' => Carbon::now(),
         ])->assignRole('Admin');
+        $AdminPerson = Person::factory()->create();
         $AdminUser->clvPersona = $AdminUser->id;
         $AdminUser->save();
 
-        $AdminETBSA = User::create([
+        $AdminETBSAUser = User::create([
             'name' => 'Admin Uno ETBSA',
             'email' => 'admin_uno@etbsa.com.mx',
             'password' => '123456',
@@ -66,11 +68,12 @@ class UserSeeder extends Seeder
             'activation_key' => Uuid::uuid4()->toString(),
             'email_verified_at' => Carbon::now(),
         ])->assignRole('Admin');
-        $AdminETBSA->clvPersona = $AdminETBSA->id;
-        $AdminETBSA->save();
+        $AdminETBSAPerson = Person::factory()->create();
+        $AdminETBSAUser->clvPersona = $AdminETBSAUser->id;
+        $AdminETBSAUser->save();
 
         //Cuenta de Vendedor
-        $VendedorETBSA = User::create([
+        $VendedorETBSAUser = User::create([
             'name' => 'Vendedor Uno ETBSA',
             'email' => 'seller_uno@etbsa.com.mx',
             'password' => '12345678',
@@ -80,11 +83,12 @@ class UserSeeder extends Seeder
             'activation_key' => Uuid::uuid4()->toString(),
             'email_verified_at' => Carbon::now(),
         ])->assignRole('Seller');
-        $VendedorETBSA->clvPersona = $VendedorETBSA->id;
-        $VendedorETBSA->save();
+        $VendedorETBSAPerson = Person::factory()->create();
+        $VendedorETBSAUser->clvPersona = $VendedorETBSAUser->id;
+        $VendedorETBSAUser->save();
 
         //Cuenta de Cliente
-        $ClienteETBSA = User::create([
+        $ClienteETBSAUser = User::create([
             'name' => 'Cliente Uno ETBSA',
             'email' => 'client_uno@etbsa.com.mx',
             'password' => '123456789',
@@ -94,8 +98,9 @@ class UserSeeder extends Seeder
             'activation_key' => Uuid::uuid4()->toString(),
             'email_verified_at' => Carbon::now(),
         ])->assignRole('Client');
-        $ClienteETBSA->clvPersona = $ClienteETBSA->id;
-        $ClienteETBSA->save();
+        $VendedorETBSAPerson = Person::factory()->create();
+        $ClienteETBSAUser->clvPersona = $ClienteETBSAUser->id;
+        $ClienteETBSAUser->save();
 
         //TODO. generate random users -> Origina SourceCode
 
@@ -107,9 +112,10 @@ class UserSeeder extends Seeder
                 $password = Str::random(12); // Generar una cadena aleatoria de 12 caracteres
                 $user->password = substr($password, 0, rand(6, 12)); // Limitar la longitud de la cadena aleatoria entre 6 y 12 caracteres
                 $user->save();
+                $user->roles()->attach(Role::where('name', 'Client')->first());
+                $person = Person::factory()->create();
                 $user->clvPersona = $user->id;
                 $user->save();
-                $user->roles()->attach(Role::where('name', 'Client')->first());
             });
     }
 }

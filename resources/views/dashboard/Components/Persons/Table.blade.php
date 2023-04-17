@@ -45,7 +45,11 @@
                                     <div class="text-gray-600">{{ $rowData->nacimiento }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowData->nacionalidad->nacionalidad }}</div>
+                                    @if (!empty($rowData->nacionalidad->nacionalidad))
+                                        <div class="text-gray-600">{{ $rowData->nacionalidad->nacionalidad }}</div>
+                                    @else
+                                        <div class="font-medium text-orange-700">Sin Nacionalidad</div>
+                                    @endif
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div class="text-gray-600">{{ $rowData->telefono }}</div>
@@ -54,15 +58,20 @@
                                     <div class="text-gray-600">{{ $rowData->celular }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowData->companiaTelefonica->companiaTelefonica }}
-                                    </div>
+                                    @if (!empty($rowData->companiaTelefonica->companiaTelefonica))
+                                        <div class="text-gray-600">
+                                            {{ $rowData->companiaTelefonica->companiaTelefonica }}
+                                        @else
+                                            <div class="font-medium text-orange-700">Sin Comp. Tel.</div>
+                                    @endif
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div class="text-gray-600">{{ $rowData->ocupacion }}</div>
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowData->informacion }}</div>
-                                </td>
+                                {{-- <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <div class="font-medium text-gray-600 truncate break-words max-w-sm">
+                                        {{ $rowData->informacion }}</div>
+                                </td> --}}
                                 <td class="px-6 py-4">
                                     <div class="flex justify-end gap-4">
                                         {{-- <x-Dashboard.IconButton-Show

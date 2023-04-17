@@ -44,6 +44,12 @@
                                     <div class="text-gray-600">{{ $rowData->modelo }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <div class="text-gray-600">{{ $rowData->disponibilidad->disponibilidad }}</div>
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <div class="text-gray-600">{{ $rowData->categoria->categoria }}</div>
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div class="text-gray-600">{{ $rowData->descripcion }}</div>
                                 </td>
                                 <td class="px-6 py-4">

@@ -38,7 +38,7 @@ class NacionalidadController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, Nacionalidad::getRules($id));
         if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Persons.Panel', ['#editModalNacionalidadnacionalidad_' . $id, 'Nacionalidad' => $id])
+            return redirect()->route('Dashboard.Admin.Persons.Panel', ['#editModalNacionalidad_' . $id, 'Nacionalidad' => $id])
                 ->withErrors($validator)
                 ->withInput();
         }

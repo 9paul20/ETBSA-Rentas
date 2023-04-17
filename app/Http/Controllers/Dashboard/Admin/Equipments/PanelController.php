@@ -13,6 +13,9 @@ class PanelController extends Controller
 {
     public function Panel()
     {
+        // Todos los Tipos De Categorias
+        $allTypeCategories = TypeCategory::get(['clvTipoCategoria', 'tipoCategoria']);
+
         //Paginación
         $perPage = 10;
 
@@ -46,9 +49,9 @@ class PanelController extends Controller
 
         //Categorias
         $categories = Category::all();
-        $columnCategories = ['Categorias', 'Descripción', ''];
+        $columnCategories = ['Categorias', 'Tipo De Categoria', 'Descripción', ''];
         $currentPageCategories = request()->get('categories_page') ?? 1;
-        $pagedCategoriesData = $typeCategories->slice(($currentPageCategories - 1) * $perPage, $perPage)->all();
+        $pagedCategoriesData = $categories->slice(($currentPageCategories - 1) * $perPage, $perPage)->all();
         $rowCategories = new LengthAwarePaginator($pagedCategoriesData, count($categories), $perPage, $currentPageCategories, [
             'path' => route('Dashboard.Admin.Equipments.Panel'),
             'pageName' => 'categories_page',
@@ -63,8 +66,9 @@ class PanelController extends Controller
             'tableStatus' => $tableStatus,
             'tableTypeCategories' => $tableTypeCategories,
             'tableCategories' => $tableCategories,
+            'allTypeCategories' => $allTypeCategories,
         ];
-        return $Data;
+        // return $Data;
         return view('Dashboard.Admin.Index', compact('Data'));
     }
 }

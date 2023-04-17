@@ -20,7 +20,7 @@ class CategoriesController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, Category::getRules());
         if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Panel', ['#createCategory'])->withErrors($validator)->withInput();
+            return redirect()->route('Dashboard.Admin.Equipments.Panel', ['#createModalCategory'])->withErrors($validator)->withInput();
         }
         $category = Category::create($data);
         $category->save();
