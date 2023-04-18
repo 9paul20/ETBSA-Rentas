@@ -19,7 +19,18 @@ class RentsController extends Controller
      */
     public function index()
     {
-        $rents = Rent::all();
+        // $rents = Rent::all();
+        $rents = Rent::select('clvRenta', 'clvEquipo', 'clvCliente', 'descripcion', 'fecha_inicio', 'fecha_fin', 'clvPagoRenta', 'clvEstadoRenta')
+            ->with(['equipo' => function ($query) {
+                $query->select('clvEquipo', 'noSerie', 'modelo');
+            }, 'cliente' => function ($query) {
+                $query->select('clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona');
+            }, 'pagoRenta' => function ($query) {
+                $query->select('clvPagoRenta', 'pagoRenta', 'ivaRenta');
+            }, 'estadoRenta' => function ($query) {
+                $query->select('clvEstadoRenta', 'estadoRenta');
+            }])
+            ->get();
         $perPage = 10;
         $currentPage = request()->get('page') ?? 1;
         $pagedData = $rents->slice(($currentPage - 1) * $perPage, $perPage)->all();

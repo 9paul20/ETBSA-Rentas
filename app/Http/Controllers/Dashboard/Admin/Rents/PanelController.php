@@ -47,7 +47,12 @@ class PanelController extends Controller
         ];
 
         //Pagos de Renta
-        $paymentsRents = PaymentRent::all();
+        // $paymentsRents = PaymentRent::all();
+        $paymentsRents = PaymentRent::select('clvPagoRenta', 'pagoRenta', 'ivaRenta', 'clvEstadoPagoRenta', 'descripcion')
+            ->with(['estadoPagoRenta' => function ($query) {
+                $query->select('clvEstadoPagoRenta', 'estadoPagoRenta');
+            }])
+            ->get();
         $columnPaymentsRents = ['Pago de Renta', 'IVA de Renta', 'Total de Renta', 'Estado Del Pago de Renta', 'Descripción', ''];
         $currentPagePaymentsRents = request()->get('paymentsRents_page') ?? 1;
         $pagedPaymentsRentsData = $paymentsRents->slice(($currentPagePaymentsRents - 1) * $perPage, $perPage)->all();

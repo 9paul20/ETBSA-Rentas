@@ -17,7 +17,14 @@ class EquipmentsController extends Controller
      */
     public function index()
     {
-        $equipments = Equipment::all();
+        // $equipments = Equipment::all();
+        $equipments = Equipment::select('clvEquipo', 'noSerie', 'modelo', 'clvDisponibilidad', 'clvCategoria', 'descripcion')
+            ->with(['disponibilidad' => function ($query) {
+                $query->select('clvDisponibilidad', 'disponibilidad');
+            }, 'categoria' => function ($query) {
+                $query->select('clvCategoria', 'categoria');
+            }])
+            ->get();
         $perPage = 10;
         $currentPage = request()->get('page') ?? 1;
         $pagedData = $equipments->slice(($currentPage - 1) * $perPage, $perPage)->all();

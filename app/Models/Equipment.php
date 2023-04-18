@@ -6,6 +6,7 @@ use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Equipment extends Model
 {
@@ -38,12 +39,12 @@ class Equipment extends Model
         return $rules;
     }
 
-    public function disponibilidad()
+    public function disponibilidad(): BelongsTo
     {
         return $this->belongsTo(Status::class, 'clvDisponibilidad');
     }
 
-    public function categoria()
+    public function categoria(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'clvCategoria');
     }

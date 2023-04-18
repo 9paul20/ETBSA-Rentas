@@ -21,7 +21,8 @@ class UsersController extends Controller
         // $response = Http::get('http://etbsa-rentas.test/api/UsersListAPI');
         // $rD = $response->json();
         // $users = collect($rD);
-        $users = User::all();
+        // $users = User::all();
+        $users = User::with(['persona'])->get();
         $perPage = 10;
         $currentPage = request()->get('page') ?? 1;
         $pagedData = $users->slice(($currentPage - 1) * $perPage, $perPage)->all();

@@ -16,7 +16,7 @@ class RolesController extends Controller
     public function index()
     {
         $this->authorize('view', Role::class);
-        $roles = Role::all();
+        $roles = Role::with('permissions')->get();
         $perPage = 10;
         $currentPage = request()->get('page') ?? 1;
         $pagedData = $roles->slice(($currentPage - 1) * $perPage, $perPage)->all();

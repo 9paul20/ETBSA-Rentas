@@ -49,7 +49,12 @@ class PanelController extends Controller
         ];
 
         //Categorias
-        $categories = Category::all();
+        // $categories = Category::all();
+        $categories = Category::select('clvCategoria', 'categoria', 'clvTipoCategoria', 'descripcion')
+            ->with(['tipoCategoria' => function ($query) {
+                $query->select('clvTipoCategoria', 'tipoCategoria');
+            }])
+            ->get();
         $columnCategories = ['Categorias', 'Tipo De Categoria', 'Descripción', ''];
         $currentPageCategories = request()->get('categories_page') ?? 1;
         $pagedCategoriesData = $categories->slice(($currentPageCategories - 1) * $perPage, $perPage)->all();
