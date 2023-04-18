@@ -55,12 +55,12 @@ class RentsController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        // $validator = Validator::make($data, Rent::getRules());
-        // if ($validator->fails()) {
-        //     return redirect()->route('Dashboard.Admin.Rents.Create')
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        $validator = Validator::make($data, Rent::getRules());
+        if ($validator->fails()) {
+            return redirect()->route('Dashboard.Admin.Rents.Create')
+                ->withErrors($validator)
+                ->withInput();
+        }
         $rent = Rent::create($data);
         return redirect()->route('Dashboard.Admin.Rents.Index')->with('success', 'Renta agregado correctamente.');
     }
@@ -99,12 +99,12 @@ class RentsController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
-        // $validator = Validator::make($data, Rent::getRules($id));
-        // if ($validator->fails()) {
-        //     return redirect()->route('Dashboard.Admin.Rents.Edit', ['Rent' => $id])
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        $validator = Validator::make($data, Rent::getRules($id));
+        if ($validator->fails()) {
+            return redirect()->route('Dashboard.Admin.Rents.Edit', ['Rent' => $id])
+                ->withErrors($validator)
+                ->withInput();
+        }
         $rent = Rent::findOrFail($id);
         $rent->update($data);
         return back()->with('update', 'Renta actualizado correctamente.');

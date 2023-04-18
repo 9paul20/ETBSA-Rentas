@@ -24,6 +24,7 @@ class PaymentRentFactory extends Factory
             'pagoRenta' => $pagoRenta,
             'ivaRenta' => $ivaRenta,
             'clvEstadoPagoRenta' => StatusPaymentRent::inRandomOrder()->first()->clvEstadoPagoRenta,
+            'descripcion' => fake()->text(),
         ];
     }
 }

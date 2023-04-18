@@ -16,6 +16,7 @@ return new class extends Migration
             $table->decimal('pagoRenta', 10, 2)->nullable();
             $table->decimal('ivaRenta', 10, 2)->nullable();
             $table->unsignedTinyInteger('clvEstadoPagoRenta')->nullable();
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

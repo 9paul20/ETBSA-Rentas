@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
 use App\Models\Equipments\TypeCategory;
+use App\Models\Rents\CupRent;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -61,12 +62,27 @@ class PanelController extends Controller
             'rowCategories' => $rowCategories,
         ];
 
+        //Tazas de renta
+        $cupsRents = CupRent::all();
+        $columnCupsRents = ['Taza de Renta', 'Precio Renta Un Mes', 'Precio Renta Dos Meses', 'Precio Renta Tres Mes', 'IVA Un Mes', 'IVA Dos Meses', 'IVA Tres Meses', 'Descripción', ''];
+        $currentPageCupsRents = request()->get('cupsRents_page') ?? 1;
+        $pagedCupsRentsData = $cupsRents->slice(($currentPageCupsRents - 1) * $perPage, $perPage)->all();
+        $rowCupsRents = new LengthAwarePaginator($pagedCupsRentsData, count($cupsRents), $perPage, $currentPageCupsRents, [
+            'path' => route('Dashboard.Admin.Equipments.Panel'),
+            'pageName' => 'cupsRents_page', // Agrega 'pageName' y establece un nombre único para el parámetro de paginación
+        ]);
+        $tableCupsRents = [
+            'columnCupsRents' => $columnCupsRents,
+            'rowCupsRents' => $rowCupsRents,
+        ];
+
         //Arreglo de todos los datos
         $Data = [
+            'allTypeCategories' => $allTypeCategories,
             'tableStatus' => $tableStatus,
             'tableTypeCategories' => $tableTypeCategories,
             'tableCategories' => $tableCategories,
-            'allTypeCategories' => $allTypeCategories,
+            'tableCupsRents' => $tableCupsRents,
         ];
         // return $Data;
         return view('Dashboard.Admin.Index', compact('Data'));

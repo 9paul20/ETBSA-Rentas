@@ -22,14 +22,11 @@
 
     @include('Dashboard.Components.Divisor')
 
-    @include('Dashboard.Components.Equipments.Status.Table')
+    @include('Dashboard.Components.Rents.StatusPaymentsRents.Table')
 
-    @include('Dashboard.Components.Equipments.TypeCategory.Table')
+    @include('Dashboard.Components.Rents.PaymentsRents.Table')
 
-    @include('Dashboard.Components.Equipments.Category.Table')
-
-    @include('Dashboard.Components.Equipments.CupsRents.Table')
-
+    @include('Dashboard.Components.Rents.StatusRents.Table')
 </div>
 
 @push('scripts')

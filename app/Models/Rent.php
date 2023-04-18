@@ -31,11 +31,9 @@ class Rent extends Model
         $rules = [
             'clvEquipo' => 'required|not_in:[]',
             'clvCliente' => 'required|not_in:[]',
-            'modelo' => 'required|string|min:4|max:255',
             'descripcion' => 'required|string|max:255',
             'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|string',
-            'fecha_fin' => 'required|string',
+            'fecha_fin' => 'required|date',
             'clvPagoRenta' => 'required|not_in:[]',
             'clvEstadoRenta' => 'required|not_in:[]',
         ];

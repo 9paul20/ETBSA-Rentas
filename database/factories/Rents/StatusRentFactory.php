@@ -20,7 +20,6 @@ class StatusRentFactory extends Factory
         return [
             'estadoRenta' => fake()->unique()->word(),
             'descripcion' => fake()->text(),
-            'clvTazaRenta' => CupRent::inRandomOrder()->first()->clvTazaRenta,
         ];
     }
 }

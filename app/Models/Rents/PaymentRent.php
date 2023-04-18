@@ -16,6 +16,7 @@ class PaymentRent extends Model
     protected $fillable = [
         'clvPagoRenta',
         'pagoRenta',
+        'ivaRenta',
         'descripcion',
         'clvEstadoPagoRenta',
     ];
@@ -25,7 +26,8 @@ class PaymentRent extends Model
     public static function getRules($clvPagoRenta = null)
     {
         $rules = [
-            'pagoRenta' => 'required|string|min:3|max:255|unique:t_pagos_rentas,pagoRenta,' . $clvPagoRenta . ',clvPagoRenta',
+            'pagoRenta' => 'numeric|between:0,999999.99',
+            'ivaRenta' => 'numeric|between:0,999999.99',
             'descripcion' => 'string|max:255',
             'clvEstadoPagoRenta' => 'required|not_in:[]',
         ];

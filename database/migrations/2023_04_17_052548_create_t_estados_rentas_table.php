@@ -15,7 +15,6 @@ return new class extends Migration
             $table->tinyIncrements('clvEstadoRenta');
             $table->string('estadoRenta')->unique();
             $table->text('descripcion')->nullable();
-            $table->unsignedTinyInteger('clvTazaRenta')->nullable();
             $table->timestamps();
         });
     }
