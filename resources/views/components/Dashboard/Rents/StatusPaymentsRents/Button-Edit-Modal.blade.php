@@ -19,7 +19,7 @@
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                     <div>
-                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Editar Estado De
+                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Editar Estado Pago De
                             Renta
                         </h3>
                         <p class="mt-2 text-sm text-gray-500">Por favor, completa los siguientes campos:</p>
@@ -29,7 +29,7 @@
                         @method('PUT')
                         @csrf
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="estadoPagoRenta" class="block text-sm font-medium text-gray-700">Estado De
+                            <label for="estadoPagoRenta" class="block text-sm font-medium text-gray-700">Estado Pago De
                                 Renta</label>
                             <input type="text" name="estadoPagoRenta" id="estadoPagoRenta-{{ $id }}"
                                 autocomplete="given-estadoPagoRenta"

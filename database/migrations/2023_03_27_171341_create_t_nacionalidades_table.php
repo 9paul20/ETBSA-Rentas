@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('nacionalidad')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvNacionalidad');
+            $table->index('nacionalidad');
         });
     }
 

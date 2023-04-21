@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('tipoCategoria')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvTipoCategoria');
+            $table->index('tipoCategoria');
         });
     }
 

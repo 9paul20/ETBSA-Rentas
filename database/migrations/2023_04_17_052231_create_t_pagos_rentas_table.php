@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('clvEstadoPagoRenta')->nullable();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvPagoRenta');
         });
     }
 

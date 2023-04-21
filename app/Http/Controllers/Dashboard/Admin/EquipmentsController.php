@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipment;
 use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
+use App\Models\FixedExpenses\Catalog;
+use App\Models\VariablesExpenses\VariableExpense;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
@@ -18,7 +20,7 @@ class EquipmentsController extends Controller
     public function index()
     {
         // $equipments = Equipment::all();
-        $equipments = Equipment::select('clvEquipo', 'noSerie', 'modelo', 'clvDisponibilidad', 'clvCategoria', 'descripcion')
+        $equipments = Equipment::select('clvEquipo', 'noSerie', 'modelo', 'clvDisponibilidad', 'clvCategoria', 'descripcion', 'precioEquipo')
             ->with(['disponibilidad' => function ($query) {
                 $query->select('clvDisponibilidad', 'disponibilidad');
             }, 'categoria' => function ($query) {
@@ -31,7 +33,7 @@ class EquipmentsController extends Controller
         $rowDatas = new LengthAwarePaginator($pagedData, count($equipments), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Equipments.Index')
         ]);
-        $columnNames = ['noSerie', 'Modelo', 'Disponibilidad', 'Categoria', 'Descripción', ''];
+        $columnNames = ['noSerie', 'Modelo', 'Disponibilidad', 'Categoria', 'Precio', 'Descripción', ''];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 
@@ -68,6 +70,23 @@ class EquipmentsController extends Controller
         return redirect()->route('Dashboard.Admin.Equipments.Index')->with('success', 'Equipo ' . $equipment->modelo . ' Con No.Serie: ' . $equipment->noSerie . ' agregado correctamente.');
     }
 
+    public function storeVariablesExpenses(Request $request, string $id)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, VariableExpense::getRules());
+        if ($validator->fails()) {
+            return redirect()->to(url()->previous())
+                ->withErrors($validator)
+                ->withInput()
+                ->withFragment('#createModalVariablesExpenses');
+        }
+        $variableExpense = VariableExpense::create($data);
+        $variableExpense->clvEquipo = $id;
+        $variableExpense->save();
+        $equipment = Equipment::findOrFail($id);
+        return back()->with('update', 'Equipo ' . $equipment->noSerie . ' se le agregado su gasto variable correctamente.');
+    }
+
     /**
      * Display the specified resource.
      */
@@ -91,7 +110,21 @@ class EquipmentsController extends Controller
         $status = Status::all();
         $categories = Category::all();
         $equipment = Equipment::findOrFail($id);
-        return view('Dashboard.Admin.Index', compact('equipment', 'status', 'categories'));
+        $fixedExpensesCatalogs = Catalog::all();
+
+        $variablesExpenses = VariableExpense::select('clvGastoVariable', 'gastoVariable', 'descripcion', 'costoGastoVariable', 'clvEquipo')
+            ->where('clvEquipo', $id)
+            ->with(['equipment' => function ($query) {
+                $query->select('clvEquipo', 'noSerie', 'modelo');
+            }])->get();
+        $perPage = 10;
+        $currentPage = request()->get('page') ?? 1;
+        $pagedData = $variablesExpenses->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $rowVariablesExpenses = new LengthAwarePaginator($pagedData, count($variablesExpenses), $perPage, $currentPage, [
+            'path' => route('Dashboard.Admin.Equipments.Index')
+        ]);
+        $columnVariablesExpenses = ['Gasto Variable', 'Costo', 'Descripción', ''];
+        return view('Dashboard.Admin.Index', compact('equipment', 'status', 'categories', 'fixedExpensesCatalogs', 'rowVariablesExpenses', 'columnVariablesExpenses'));
     }
 
     /**
@@ -100,6 +133,7 @@ class EquipmentsController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
+        // return $data;
         $validator = Validator::make($data, Equipment::getRules($id));
         if ($validator->fails()) {
             return redirect()->route('Dashboard.Admin.Equipments.Edit', ['Equipment' => $id])
@@ -111,6 +145,35 @@ class EquipmentsController extends Controller
         return back()->with('update', 'Equipo ' . $equipment->noSerie . ' actualizado correctamente.');
     }
 
+    public function updateFixedExpensesCatalogs(Request $request, string $id)
+    {
+
+        $equipment = Equipment::findOrFail($id);
+        $validator = $request->validate([
+            'costoGastoFijo.*' => 'nullable|numeric|between:0,9999999999.99',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Sync fixed expenses catalog ids
+        $fixedExpensesCatalogs = $request->input('fixedExpensesCatalogs', []);
+        $equipment->fixedExpensesCatalogs()->sync($fixedExpensesCatalogs);
+
+        // Update costs for each fixed expense
+        $fixedExpensesValues = $request->input('costoGastoFijo', []);
+
+        // return $request;
+        foreach ($fixedExpensesCatalogs as $index => $catalogId) {
+            $cost = $fixedExpensesValues[$index] ?? null;
+            if ($cost) {
+                $equipment->fixedExpensesCatalogs()->updateExistingPivot($catalogId, ['costoGastoFijo' => $cost]);
+            }
+        }
+        return back()->with('update', 'Equipo ' . $equipment->noSerie . ' se le han actualizado sus gastos fijos correctamente.');
+    }
+
+
     /**
      * Remove the specified resource from storage.
      */
@@ -119,5 +182,12 @@ class EquipmentsController extends Controller
         $equipment = Equipment::findOrFail($id);
         $equipment->delete();
         return redirect()->route('Dashboard.Admin.Equipments.Index')->with('danger', 'Equipo ' . $equipment->noSerie . ' eliminado correctamente.');
+    }
+
+    public function destroyVariablesExpenses(string $id)
+    {
+        $variableExpense = VariableExpense::findOrFail($id);
+        $variableExpense->delete();
+        return back()->with('danger', 'Equipo ' . $variableExpense->gastoVariable . ' eliminado correctamente.');
     }
 }

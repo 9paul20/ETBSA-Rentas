@@ -16,6 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('clvDocumento');
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvPersona');
+            $table->index('clvDocumento');
         });
     }
 

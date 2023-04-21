@@ -7,4 +7,7 @@
 @elseif (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Panel' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'Rents')
     @include('Dashboard.Components.Panels.Rents')
+@elseif (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Panel' &&
+        getDashboardNameFromUrlSecond(request()->fullUrl()) == 'FixedExpenses')
+    @include('Dashboard.Components.Panels.FixedExpenses')
 @endif

@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('tipoDocumento')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvTipoDocumento');
+            $table->index('tipoDocumento');
         });
     }
 

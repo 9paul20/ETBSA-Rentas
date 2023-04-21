@@ -8,15 +8,13 @@
         </div>
         <div class="mt-5 md:col-span-2 md:mt-0">
             <div class="overflow-y-auto shadow sm:rounded-md">
-                <form method="POST" action="{{ route('Dashboard.Admin.Roles.UpdatePermissions', $permission->id) }}"
+                <form method="POST" action="{{ route('Dashboard.Admin.Roles.UpdatePermissions', $role->id) }}"
                     id="Wrapper" style="height: 32em;">
                     @csrf
                     @method('PUT')
                     <div class="bg-white px-4 py-5 sm:p-6">
                         <fieldset class="space-y-5">
-                            @include('Dashboard.Components.PermissionsCheckboxes', [
-                                'model' => $permission,
-                            ])
+                            @include('Dashboard.Components.Roles.Edit.PermissionsCheckboxes')
                         </fieldset>
                     </div>
                     <x-Dashboard.Save-Button name="Guardar Permisos" />

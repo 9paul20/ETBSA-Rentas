@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('estadoPagoRenta')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvEstadoPagoRenta');
+            $table->index('estadoPagoRenta');
         });
     }
 

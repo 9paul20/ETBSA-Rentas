@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->unsignedInteger('clvCiudad');
             $table->timestamps();
+
+            $table->index('clvLocalidad');
+            $table->index('clvCiudad');
         });
     }
 

@@ -7,6 +7,7 @@ use App\Models\Equipments\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Equipment extends Model
 {
@@ -23,6 +24,7 @@ class Equipment extends Model
         'clvDisponibilidad',
         'clvCategoria',
         'descripcion',
+        'precioEquipo',
     ];
 
     protected $hidden = [];
@@ -35,6 +37,7 @@ class Equipment extends Model
             'clvDisponibilidad' => 'required|not_in:[]',
             'clvCategoria' => 'required|not_in:[]',
             'descripcion' => 'string|max:255',
+            'precioEquipo' => 'numeric|between:0,9999999999.99',
         ];
         return $rules;
     }
@@ -47,5 +50,15 @@ class Equipment extends Model
     public function categoria(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'clvCategoria');
+    }
+
+    public function fixedExpensesCatalogs(): BelongsToMany
+    {
+        return $this->belongsToMany(FixedExpenses\Catalog::class, 't_equipos_has_gastos_fijos', 'clvEquipo', 'clvGastoFijo');
+    }
+
+    public function variablesExpenses(): BelongsToMany
+    {
+        return $this->belongsToMany(VariablesExpenses\VariableExpense::class, 't_equipos_has_gastos_variables', 'clvEquipo', 'clvGastoVariable');
     }
 }

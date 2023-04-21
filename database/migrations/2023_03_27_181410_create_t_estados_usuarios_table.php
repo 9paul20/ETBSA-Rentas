@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('estadoUsuario')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvEstadoUsuario');
         });
     }
 

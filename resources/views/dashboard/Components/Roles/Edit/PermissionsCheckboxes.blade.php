@@ -5,7 +5,7 @@
                 <input id="permissions{{ $permission->name }}" aria-describedby="{{ $permission->name }}-description"
                     name="permissions[]" value="{{ $permission->id }}" type="checkbox"
                     class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    {{ $model->permissions instanceof \Illuminate\Support\Collection && $model->permissions->contains($permission->id) ? 'checked' : '' }}>
+                    {{ $role->permissions instanceof \Illuminate\Support\Collection && $role->permissions->contains($permission->id) ? 'checked' : '' }}>
             </div>
             <div class="ml-3 text-sm">
                 <label for="permissions{{ $permission->name }}"

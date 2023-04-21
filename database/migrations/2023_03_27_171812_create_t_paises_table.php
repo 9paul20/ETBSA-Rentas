@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('pais')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvPais');
+            $table->index('pais');
         });
     }
 

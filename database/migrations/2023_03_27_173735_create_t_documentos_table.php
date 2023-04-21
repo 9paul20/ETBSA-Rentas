@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('imagenEscaneada')->nullable();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvDocumento');
+            $table->index('noDocumento');
         });
     }
 

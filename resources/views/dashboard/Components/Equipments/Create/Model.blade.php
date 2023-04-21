@@ -102,6 +102,21 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
+                            <label for="precioEquipo" class="block text-sm font-medium text-gray-700">Precio Del
+                                Equipo</label>
+                            <input type="number" name="precioEquipo" id="precioEquipo" pattern="[0-9]+(\.[0-9]+)?"
+                                autocomplete="given-precioEquipo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('precioEquipo') border-red-400 @enderror"
+                                value="{{ old('precioEquipo', $equipment->precioEquipo) }}" required step="0.01">
+                            @error('precioEquipo')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"required>{{ old('descripcion', $equipment->descripcion) }}</textarea>

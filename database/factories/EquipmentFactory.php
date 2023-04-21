@@ -21,9 +21,10 @@ class EquipmentFactory extends Factory
         return [
             'noSerie' => fake()->unique()->ean8(),
             'modelo' => fake()->word(),
-            'descripcion' => fake()->sentence(),
             'clvDisponibilidad' => Status::inRandomOrder()->first()->clvDisponibilidad,
             'clvCategoria' => Category::inRandomOrder()->first()->clvCategoria,
+            'descripcion' => fake()->sentence(),
+            'precioEquipo' => fake()->randomFloat(2, 1000000, 2500000),
         ];
     }
 }

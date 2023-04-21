@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::group(
     [
         // 'middleware' => '',
@@ -24,6 +23,7 @@ Route::group(
     ],
     function () {
         Route::get('/', 'HomeController@index')->name('Front.Home');
+        Route::get('/Examples/Modal', 'ExamplesController@Modal')->name('Examples.Modal');
     }
 );
 
@@ -128,6 +128,11 @@ Route::group(
             'destroy' => 'Dashboard.Admin.Equipments.Destroy',
         ]);
 
+        Route::put('Admin/Equipments/{clvEquipo}/updateFixedExpensionsCatalogs', 'Admin\EquipmentsController@updateFixedExpensesCatalogs')->name('Dashboard.Admin.Equipments.UpdateFixedExpensesCatalogs');
+
+        Route::post('Admin/Equipments/{clvEquipo}/storeVariablesExpenses', 'Admin\EquipmentsController@storeVariablesExpenses')->name('Dashboard.Admin.Equipments.StoreVariablesExpenses');
+        Route::delete('Admin/Equipments/{clvGastoVariable}/destroyVariablesExpenses', 'Admin\EquipmentsController@destroyVariablesExpenses')->name('Dashboard.Admin.Equipments.DestroyVariablesExpenses');
+
         //Rentas
         Route::get('Panel/Rents', 'Admin\Rents\PanelController@Panel')->name('Dashboard.Admin.Rents.Panel');
 
@@ -152,5 +157,12 @@ Route::group(
             'update' => 'Dashboard.Admin.Rents.Update',
             'destroy' => 'Dashboard.Admin.Rents.Destroy',
         ]);
+
+        //Gastos Fijos
+        Route::get('Panel/FixedExpenses', 'Admin\FixedExpenses\PanelController@Panel')->name('Dashboard.Admin.FixedExpenses.Panel');
+
+        Route::get('Panel/FixedExpenses/Catalogs/store', 'Admin\FixedExpenses\CatalogsController@store')->name('Dashboard.Admin.Panel.FixedExpenses.Catalogs.Store');
+        Route::put('Panel/FixedExpenses/Catalogs/update/{clvGastoFijo}', 'Admin\FixedExpenses\CatalogsController@update')->name('Dashboard.Admin.Panel.FixedExpenses.Catalogs.Update');
+        Route::delete('Panel/FixedExpenses/Catalogs/destroy/{clvGastoFijo}', 'Admin\FixedExpenses\CatalogsController@destroy')->name('Dashboard.Admin.Panel.FixedExpenses.Catalogs.Destroy');
     }
 );

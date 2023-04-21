@@ -15,10 +15,16 @@ return new class extends Migration
             $table->bigIncrements('clvEquipo');
             $table->string('noSerie')->unique();
             $table->string('modelo');
-            $table->unsignedTinyInteger('clvDisponibilidad')->nullable();
-            $table->unsignedTinyInteger('clvCategoria')->nullable();
-            $table->text('descripcion')->nullable();
+            $table->unsignedTinyInteger('clvDisponibilidad')->default(0);
+            $table->unsignedTinyInteger('clvCategoria')->default(0);
+            $table->longText('descripcion')->nullable();
+            $table->decimal('precioEquipo', 10, 2)->default(0.00);
             $table->timestamps();
+
+            // Agregar índices
+            $table->index('noSerie');
+            $table->index('clvDisponibilidad');
+            $table->index('clvCategoria');
         });
     }
 

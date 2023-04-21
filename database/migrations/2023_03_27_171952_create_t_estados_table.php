@@ -15,7 +15,11 @@ return new class extends Migration
             $table->smallIncrements('clvEstado');
             $table->string('estado')->unique();
             $table->text('descripcion')->nullable();
+            $table->unsignedTinyInteger('clvPais');
             $table->timestamps();
+
+            $table->index('clvEstado');
+            $table->index('estado');
         });
     }
 

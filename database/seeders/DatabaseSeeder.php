@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
         $this->call(Persons\ComTelSeeder::class);
         $this->call(Persons\NationalitySeeder::class);
 
+        //FixedExpenses
+        $this->call(FixedExpenses\CatalogSeeder::class);
+
         //Equipments
         $this->call(Equipments\StatusSeeder::class);
         $this->call(Equipments\TypeCategorySeeder::class);

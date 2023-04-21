@@ -17,13 +17,18 @@ namespace App\Models{
  * @property int $clvEquipo
  * @property string $noSerie
  * @property string $modelo
- * @property int|null $clvDisponibilidad
- * @property int|null $clvCategoria
+ * @property int $clvDisponibilidad
+ * @property int $clvCategoria
  * @property string|null $descripcion
+ * @property string $precioEquipo
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Equipments\Category|null $categoria
  * @property-read \App\Models\Equipments\Status|null $disponibilidad
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\FixedExpenses\Catalog> $fixedExpensesCatalogs
+ * @property-read int|null $fixed_expenses_catalogs_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VariablesExpenses\VariableExpense> $variablesExpenses
+ * @property-read int|null $variables_expenses_count
  * @method static \Database\Factories\EquipmentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment newQuery()
@@ -35,6 +40,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereModelo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerie($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePrecioEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereUpdatedAt($value)
  */
 	class Equipment extends \Eloquent {}
@@ -107,6 +113,27 @@ namespace App\Models\Equipments{
  * @method static \Illuminate\Database\Eloquent\Builder|TypeCategory whereUpdatedAt($value)
  */
 	class TypeCategory extends \Eloquent {}
+}
+
+namespace App\Models\FixedExpenses{
+/**
+ * App\Models\FixedExpenses\Catalog
+ *
+ * @property int $clvGastoFijo
+ * @property string $gastoFijo
+ * @property string|null $descripcion
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Catalog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Catalog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Catalog query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Catalog whereClvGastoFijo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Catalog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Catalog whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Catalog whereGastoFijo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Catalog whereUpdatedAt($value)
+ */
+	class Catalog extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -273,6 +300,7 @@ namespace App\Models\Rents{
  * @property string|null $pagoRenta
  * @property string|null $ivaRenta
  * @property int|null $clvEstadoPagoRenta
+ * @property string|null $descripcion
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Rents\StatusPaymentRent|null $estadoPagoRenta
@@ -283,6 +311,7 @@ namespace App\Models\Rents{
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereClvEstadoPagoRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereClvPagoRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereIvaRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent wherePagoRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereUpdatedAt($value)
@@ -319,16 +348,13 @@ namespace App\Models\Rents{
  * @property int $clvEstadoRenta
  * @property string $estadoRenta
  * @property string|null $descripcion
- * @property int|null $clvTazaRenta
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Rents\CupRent|null $tazaRenta
  * @method static \Database\Factories\Rents\StatusRentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|StatusRent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StatusRent newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StatusRent query()
  * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereClvEstadoRenta($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereClvTazaRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StatusRent whereEstadoRenta($value)
@@ -384,5 +410,31 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}
+}
+
+namespace App\Models\VariablesExpenses{
+/**
+ * App\Models\VariablesExpenses\VariableExpense
+ *
+ * @property int $clvGastoVariable
+ * @property string $gastoVariable
+ * @property string $descripcion
+ * @property string $costoGastoVariable
+ * @property int|null $clvEquipo
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Equipment|null $equipment
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense query()
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense whereClvEquipo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense whereClvGastoVariable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense whereCostoGastoVariable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense whereGastoVariable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense whereUpdatedAt($value)
+ */
+	class VariableExpense extends \Eloquent {}
 }
 

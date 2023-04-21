@@ -17,6 +17,9 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->unsignedTinyInteger('clvTipoCategoria')->nullable();
             $table->timestamps();
+
+            $table->index('clvCategoria');
+            $table->index('categoria');
         });
     }
 

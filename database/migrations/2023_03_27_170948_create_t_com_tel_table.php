@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('companiaTelefonica')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvComTel');
+            $table->index('companiaTelefonica');
         });
     }
 

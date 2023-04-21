@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('disponibilidad')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->index('clvDisponibilidad');
+            $table->index('disponibilidad');
         });
     }
 

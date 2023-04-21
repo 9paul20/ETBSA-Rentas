@@ -17,6 +17,9 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->unsignedSmallInteger('clvEstado');
             $table->timestamps();
+
+            $table->index('clvCiudad');
+            $table->index('ciudad');
         });
     }
 

@@ -25,6 +25,11 @@ return new class extends Migration
             $table->unsignedTinyInteger('clvNacionalidad')->nullable();
             $table->string('informacion')->nullable();
             $table->timestamps();
+
+            $table->index('clvPersona');
+            $table->index('clvLocalidad');
+            $table->index('clvComTel');
+            $table->index('clvNacionalidad');
         });
     }
 

@@ -21,6 +21,10 @@ return new class extends Migration
             $table->unsignedBigInteger('clvPagoRenta')->nullable();
             $table->unsignedBigInteger('clvEstadoRenta')->nullable();
             $table->timestamps();
+
+            $table->index('clvRenta');
+            $table->index('clvEquipo');
+            $table->index('clvCliente');
         });
     }
 

@@ -55,7 +55,7 @@
                                         <td class="px-6 py-4">
                                             <div class="flex justify-end gap-4">
                                                 <x-Dashboard.IconButton-Show_SA
-                                                    id="Status_{{ $rowStatusPaymentRent->clvEstadoPagoRenta }}"
+                                                    id="StatusPaymentsRents_{{ $rowStatusPaymentRent->clvEstadoPagoRenta }}"
                                                     name="{{ $rowStatusPaymentRent->estadoPagoRenta }}"
                                                     description="{{ $rowStatusPaymentRent->descripcion }}"
                                                     href="" />
@@ -65,7 +65,7 @@
                                                     descripcion="{{ $rowStatusPaymentRent->descripcion }}"
                                                     href="{{ route('Dashboard.Admin.Panel.Rents.StatusPaymentRent.Update', $rowStatusPaymentRent->clvEstadoPagoRenta) }}" />
                                                 <x-Dashboard.IconButton-Delete
-                                                    id="Status_{{ $rowStatusPaymentRent->clvEstadoPagoRenta }}"
+                                                    id="StatusPaymentsRents_{{ $rowStatusPaymentRent->clvEstadoPagoRenta }}"
                                                     name="{{ $rowStatusPaymentRent->estadoPagoRenta }}"
                                                     href="{{ route('Dashboard.Admin.Panel.Rents.StatusPaymentRent.Destroy', $rowStatusPaymentRent->clvEstadoPagoRenta) }}" />
                                             </div>
@@ -80,7 +80,7 @@
             @else
                 <main class="flex items-center justify-center flex-1 px-4 py-8">
                     <!-- Content -->
-                    <h1 class="text-5xl font-bold text-gray-500">No hay datos de EstadoPagoRenta</h1>
+                    <h1 class="text-5xl font-bold text-gray-500">No hay datos de Estados Pagos De Renta</h1>
                 </main>
             @endif
         </div>
