@@ -84,7 +84,7 @@ class EquipmentsController extends Controller
         $variableExpense->clvEquipo = $id;
         $variableExpense->save();
         $equipment = Equipment::findOrFail($id);
-        return back()->with('update', 'Equipo ' . $equipment->noSerie . ' se le agregado su gasto variable correctamente.');
+        return back()->with('update', 'Equipo ' . $equipment->noSerie . ' se le agregado su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.');
     }
 
     /**
@@ -147,30 +147,39 @@ class EquipmentsController extends Controller
 
     public function updateFixedExpensesCatalogs(Request $request, string $id)
     {
-
+        // return $request;
         $equipment = Equipment::findOrFail($id);
-        $validator = $request->validate([
-            'costoGastoFijo.*' => 'nullable|numeric|between:0,9999999999.99',
-        ]);
+        $rules = [
+            'costoGastoFijo.*' => 'nullable|numeric|between:0,9999999999.99'
+        ];
+        $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
-        // Sync fixed expenses catalog ids
-        $fixedExpensesCatalogs = $request->input('fixedExpensesCatalogs', []);
-        $equipment->fixedExpensesCatalogs()->sync($fixedExpensesCatalogs);
-
-        // Update costs for each fixed expense
+        $selectedCatalogs = $request->input('fixedExpensesCatalogs', []);
         $fixedExpensesValues = $request->input('costoGastoFijo', []);
-
-        // return $request;
-        foreach ($fixedExpensesCatalogs as $index => $catalogId) {
-            $cost = $fixedExpensesValues[$index] ?? null;
-            if ($cost) {
-                $equipment->fixedExpensesCatalogs()->updateExistingPivot($catalogId, ['costoGastoFijo' => $cost]);
-            }
+        $equipment->fixedExpensesCatalogs()->sync($selectedCatalogs);
+        foreach ($selectedCatalogs as $catalogId) {
+            $cost = $fixedExpensesValues[$catalogId] ?? null;
+            $equipment->fixedExpensesCatalogs()->updateExistingPivot($catalogId, ['costoGastoFijo' => $cost]);
         }
         return back()->with('update', 'Equipo ' . $equipment->noSerie . ' se le han actualizado sus gastos fijos correctamente.');
+    }
+
+    public function updateVariablesExpenses(Request $request, string $id)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, VariableExpense::getRules());
+        if ($validator->fails()) {
+            return redirect()->to(url()->previous())
+                ->withErrors($validator)
+                ->withInput()
+                ->withFragment('#editModalVariablesExpenses_' . $id);
+        }
+        $variableExpense = VariableExpense::findOrFail($id);
+        $variableExpense->update($data);
+        $equipment = Equipment::findOrFail($variableExpense->clvEquipo);
+        return back()->with('update', 'Equipo ' . $equipment->noSerie . ' se le actualizo su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.');
     }
 
 

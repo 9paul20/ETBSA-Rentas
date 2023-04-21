@@ -3,7 +3,7 @@
         <div class="sm:flex-auto">
             <h1 class="text-xl font-semibold text-gray-900">Gastos Variables</h1>
         </div>
-        <x-Dashboard.Equipments.VariablesExpenses.Button-Create-Modal text="Añadir Gasto Variable"
+        <x-Dashboard.Equipments.VariablesExpenses.Button-Create-Modal text="Añadir Gasto Variable" id="VariablesExpenses"
             action="{{ route('Dashboard.Admin.Equipments.StoreVariablesExpenses', $equipment->clvEquipo) }}" />
     </div>
     @if (count($rowVariablesExpenses) > 0)
@@ -44,9 +44,14 @@
                                         <x-Dashboard.IconButton-Show_SA id="{{ $rowVariableExpense->clvGastoVariable }}"
                                             name="{{ $rowVariableExpense->gastoVariable }}"
                                             description="{{ $rowVariableExpense->descripcion }}" href="" />
-                                        <x-Dashboard.IconButton-Edit href="{{-- {{ route('Dashboard.Admin.Equipments.Edit', $rowVariableExpense->clvGastoVariable) }} --}}" />
+                                        <x-Dashboard.Equipments.VariablesExpenses.Button-Edit-Modal
+                                            id="VariablesExpenses_{{ $rowVariableExpense->clvGastoVariable }}"
+                                            gastoVariable="{{ $rowVariableExpense->gastoVariable }}"
+                                            costoGastoVariable="{{ $rowVariableExpense->costoGastoVariable }}"
+                                            descripcion="{{ $rowVariableExpense->descripcion }}"
+                                            href="{{ route('Dashboard.Admin.Equipments.UpdateVariablesExpenses', $rowVariableExpense->clvGastoVariable) }}" />
                                         <x-Dashboard.IconButton-Delete id="{{ $rowVariableExpense->clvGastoVariable }}"
-                                            name="{{ $rowVariableExpense->noSerie }}"
+                                            name="{{ $rowVariableExpense->gastoVariable }}"
                                             href="{{ route('Dashboard.Admin.Equipments.DestroyVariablesExpenses', $rowVariableExpense->clvGastoVariable) }}" />
                                     </div>
                                 </td>

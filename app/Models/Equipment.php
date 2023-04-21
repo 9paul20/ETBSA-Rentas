@@ -54,11 +54,6 @@ class Equipment extends Model
 
     public function fixedExpensesCatalogs(): BelongsToMany
     {
-        return $this->belongsToMany(FixedExpenses\Catalog::class, 't_equipos_has_gastos_fijos', 'clvEquipo', 'clvGastoFijo');
-    }
-
-    public function variablesExpenses(): BelongsToMany
-    {
-        return $this->belongsToMany(VariablesExpenses\VariableExpense::class, 't_equipos_has_gastos_variables', 'clvEquipo', 'clvGastoVariable');
+        return $this->belongsToMany(FixedExpenses\Catalog::class, 't_equipos_has_gastos_fijos', 'clvEquipo', 'clvGastoFijo')->withPivot('costoGastoFijo');
     }
 }

@@ -27,8 +27,6 @@ namespace App\Models{
  * @property-read \App\Models\Equipments\Status|null $disponibilidad
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\FixedExpenses\Catalog> $fixedExpensesCatalogs
  * @property-read int|null $fixed_expenses_catalogs_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VariablesExpenses\VariableExpense> $variablesExpenses
- * @property-read int|null $variables_expenses_count
  * @method static \Database\Factories\EquipmentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment newQuery()

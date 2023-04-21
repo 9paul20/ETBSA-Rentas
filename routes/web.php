@@ -131,6 +131,7 @@ Route::group(
         Route::put('Admin/Equipments/{clvEquipo}/updateFixedExpensionsCatalogs', 'Admin\EquipmentsController@updateFixedExpensesCatalogs')->name('Dashboard.Admin.Equipments.UpdateFixedExpensesCatalogs');
 
         Route::post('Admin/Equipments/{clvEquipo}/storeVariablesExpenses', 'Admin\EquipmentsController@storeVariablesExpenses')->name('Dashboard.Admin.Equipments.StoreVariablesExpenses');
+        Route::put('Admin/Equipments/{clvGastoVariable}/updateVariablesExpenses', 'Admin\EquipmentsController@updateVariablesExpenses')->name('Dashboard.Admin.Equipments.UpdateVariablesExpenses');
         Route::delete('Admin/Equipments/{clvGastoVariable}/destroyVariablesExpenses', 'Admin\EquipmentsController@destroyVariablesExpenses')->name('Dashboard.Admin.Equipments.DestroyVariablesExpenses');
 
         //Rentas
