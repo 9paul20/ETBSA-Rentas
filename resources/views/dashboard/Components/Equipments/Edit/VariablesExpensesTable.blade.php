@@ -34,10 +34,11 @@
                                     </div>
                                 </th>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowVariableExpense->costoGastoVariable }}</div>
+                                    <div class="text-gray-600">{{ $rowVariableExpense->descripcion }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowVariableExpense->descripcion }}</div>
+                                    <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
+                                        {{ $rowVariableExpense->costoGastoVariable }}</div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-end gap-4">
@@ -57,6 +58,14 @@
                                 </td>
                             </tr>
                         @endforeach
+                        <tr class="bg-gray-50" id="total-gastos-variables">
+                            <td class="px-6 py-4 font-semibold text-gray-900">Total de Gastos Variables:</td>
+                            <td></td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold"
+                                id="total-costo-gastos-variables"><span class="font-medium text-green-600">$</span>
+                                {{ $sumVariablesExpenses }}</td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

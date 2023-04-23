@@ -4,6 +4,9 @@
             <div class="px-4 sm:px-0">
                 <h3 class="text-lg font-medium leading-6 text-gray-900">List Of Fixed Expenses</h3>
                 <p class="mt-1 text-sm text-gray-600">Use a checkbox for formulate the permission.</p>
+                @include('Dashboard.Components.Divisor')
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Total de Gastos Fijos: <span
+                        class="font-medium text-green-600">$</span> {{ $sumFixesExpenses }}</h3>
             </div>
         </div>
         <div class="mt-5 md:col-span-2 md:mt-0">

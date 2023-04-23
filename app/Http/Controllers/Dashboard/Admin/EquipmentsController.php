@@ -8,6 +8,7 @@ use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
 use App\Models\FixedExpenses\Catalog;
 use App\Models\VariablesExpenses\VariableExpense;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
@@ -111,6 +112,10 @@ class EquipmentsController extends Controller
         $categories = Category::all();
         $equipment = Equipment::findOrFail($id);
         $fixedExpensesCatalogs = Catalog::all();
+        $sumFixesExpenses = $equipment->fixedExpensesCatalogs()->sum('costoGastoFijo');
+        $sumVariablesExpenses = DB::table('t_gastos_variables')
+            ->where('clvEquipo', $id)
+            ->sum('costoGastoVariable');
 
         $variablesExpenses = VariableExpense::select('clvGastoVariable', 'gastoVariable', 'descripcion', 'costoGastoVariable', 'clvEquipo')
             ->where('clvEquipo', $id)
@@ -123,8 +128,8 @@ class EquipmentsController extends Controller
         $rowVariablesExpenses = new LengthAwarePaginator($pagedData, count($variablesExpenses), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Equipments.Index')
         ]);
-        $columnVariablesExpenses = ['Gasto Variable', 'Costo', 'Descripción', ''];
-        return view('Dashboard.Admin.Index', compact('equipment', 'status', 'categories', 'fixedExpensesCatalogs', 'rowVariablesExpenses', 'columnVariablesExpenses'));
+        $columnVariablesExpenses = ['Gasto Variable', 'Descripción', 'Costo', ''];
+        return view('Dashboard.Admin.Index', compact('equipment', 'status', 'categories', 'fixedExpensesCatalogs', 'rowVariablesExpenses', 'columnVariablesExpenses', 'sumFixesExpenses', 'sumVariablesExpenses'));
     }
 
     /**

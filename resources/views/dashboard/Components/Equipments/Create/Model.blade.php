@@ -4,6 +4,21 @@
             <div class="px-4 sm:px-0">
                 <h3 class="text-lg font-medium leading-6 text-gray-900">Equipment Information</h3>
                 <p class="mt-1 text-sm text-gray-600">Use a permanent address where you can receive mail.</p>
+                @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Equipments' &&
+                        getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
+                    @include('Dashboard.Components.Divisor')
+                    <h3 class="text-lg font-medium leading-6 text-gray-600">Precio Actual del Equipo: <span
+                            class="font-medium text-green-600">$</span> {{ $equipment->precioEquipo }}</h3>
+                    <h3 class="text-lg font-medium leading-6 text-gray-600">Total de Gastos Fijos del Equipo: <span
+                            class="font-medium text-green-600">$</span> {{ $sumFixesExpenses }}</h3>
+                    <h3 class="text-lg font-medium leading-6 text-gray-600">Total de Gastos Variables del Equipo: <span
+                            class="font-medium text-green-600">$</span> {{ $sumVariablesExpenses }}</h3>
+                    @include('Dashboard.Components.Divisor')
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Total: <span
+                            class="font-medium text-green-600">$</span>
+                        {{ $equipment->precioEquipo + $sumFixesExpenses + $sumVariablesExpenses }}
+                    </h3>
+                @endif
             </div>
         </div>
         <div class="mt-5 md:col-span-2 md:mt-0">

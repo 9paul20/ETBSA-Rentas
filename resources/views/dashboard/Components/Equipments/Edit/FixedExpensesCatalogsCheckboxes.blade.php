@@ -18,19 +18,15 @@
                 <p id="{{ $fixedExpenseCatalog->gastoFijo }}-description" class="text-gray-500">
                     {{ $fixedExpenseCatalog->descripcion }}</p>
                 <div class="mt-1">
-                    {{-- <input type="number" name="costoGastoFijo[]"
-                        id="costoGastoFijo{{ $fixedExpenseCatalog->gastoFijo }}"
-                        value="{{ old('costoGastoFijo.' . $loop->index, $equipment->costoGastoFijo[$loop->index] ?? '') }}"> --}}
                     <input type="number" name="costoGastoFijo[{{ $i }}]"
                         id="costoGastoFijo{{ $fixedExpenseCatalog->gastoFijo }}"
                         class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:bg-gray-200"
                         pattern="[0-9]+(\.[0-9]+)?" min="0" step="0.01"
                         {{ $equipment->fixedExpensesCatalogs->contains($fixedExpenseCatalog->clvGastoFijo) ? '' : 'disabled' }}
                         {{ $equipment->fixedExpensesCatalogs->contains($fixedExpenseCatalog->clvGastoFijo) ? 'required' : '' }}
-                        value="{{ old('costoGastoFijo.' . $i, $equipment->fixedExpensesCatalogs->contains($fixedExpenseCatalog->clvGastoFijo) ? $equipment->fixedExpensesCatalogs->find($fixedExpenseCatalog->clvGastoFijo)->pivot->costoGastoFijo : '') }}">
+                        value="{{ old('costoGastoFijo.' . $i, $equipment->fixedExpensesCatalogs->contains($fixedExpenseCatalog->clvGastoFijo) ? $equipment->fixedExpensesCatalogs->find($fixedExpenseCatalog->clvGastoFijo)->pivot->costoGastoFijo : '0.00') }}">
                     @if ($errors->has('costoGastoFijo.' . $i))
-                        <div class="flex
-                                    items-center mt-1 text-red-400">
+                        <div class="flex items-center mt-1 text-red-400">
                             <i class="fas fa-exclamation-triangle mr-2"></i>
                             <span>{{ $errors->first('costoGastoFijo.' . $i) }}</span>
                         </div>
