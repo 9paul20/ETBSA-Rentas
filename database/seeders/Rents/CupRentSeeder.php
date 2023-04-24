@@ -13,8 +13,8 @@ class CupRentSeeder extends Seeder
      */
     public function run(): void
     {
-        CupRent::factory()
-            ->count(25)
-            ->create();
+        // CupRent::factory()
+        //     ->count(25)
+        //     ->create();
     }
 }

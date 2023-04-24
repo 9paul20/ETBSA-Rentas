@@ -15,8 +15,8 @@ class CatalogSeeder extends Seeder
     {
         // Gastos Fijos
         $GastoFijo1 = Catalog::create([
-            'gastoFijo' => 'Comición de Apertura',
-            'descripcion' => 'Descripción de Comición de Apertura',
+            'gastoFijo' => 'Comisión de Apertura',
+            'descripcion' => 'Descripción de Comisión de Apertura',
         ]);
         $GastoFijo1->save();
 

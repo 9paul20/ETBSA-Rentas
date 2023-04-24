@@ -13,8 +13,8 @@ class PaymentRentSeeder extends Seeder
      */
     public function run(): void
     {
-        PaymentRent::factory()
-            ->count(25)
-            ->create();
+        // PaymentRent::factory()
+        //     ->count(25)
+        //     ->create();
     }
 }

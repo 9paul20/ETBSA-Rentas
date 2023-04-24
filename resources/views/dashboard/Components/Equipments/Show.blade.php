@@ -20,11 +20,12 @@
     <!-- component -->
     <!-- This is an example component -->
     <div
-        class='flex items-center justify-center min-h-screen from-[#F9F5E0] via-[#F9F5D0] to-[#F9F5C0] bg-gradient-to-br px-2 py-5'>
+        class='flex items-center justify-center min-h-screen from-[#F9F5E0] via-[#F9F5D0] to-[#F9F5C0] bg-gradient-to-br py-5'>
 
         @include('Dashboard.Components.Equipments.Show.Tractor')
 
         @include('Dashboard.Components.Equipments.Show.Services')
+
     </div>
 @endsection
 

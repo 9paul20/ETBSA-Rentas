@@ -13,8 +13,23 @@ class StatusRentSeeder extends Seeder
      */
     public function run(): void
     {
-        StatusRent::factory()
-            ->count(25)
-            ->create();
+        // StatusRent::factory()
+        //     ->count(25)
+        //     ->create();
+
+        $EstadoRentaPagado = StatusRent::create([
+            'estadoRenta' => 'Pagado',
+            'descripcion' => 'Este estado indica que el artículo o propiedad está pagado',
+        ]);
+
+        $EstadoRentaPendiente = StatusRent::create([
+            'estadoRenta' => 'Pendiente',
+            'descripcion' => 'Este estado indica que el artículo o propiedad está pendiente de pagar',
+        ]);
+
+        $EstadoRentaCancelado = StatusRent::create([
+            'estadoRenta' => 'Cancelado',
+            'descripcion' => 'Este estado indica que el artículo o propiedad está cancelado',
+        ]);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipment;
 use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
+use App\Models\Equipments\VariablesExpenses;
 use App\Models\FixedExpenses\Catalog;
 use App\Models\VariablesExpenses\VariableExpense;
 use DB;
@@ -49,10 +50,10 @@ class EquipmentsController extends Controller
      */
     public function create()
     {
-        $status = Status::all();
+        $variablesExpenses = VariablesExpenses::all();
         $categories = Category::all();
         $equipment = new Equipment();
-        return view('Dashboard.Admin.Index', compact('equipment', 'status', 'categories'));
+        return view('Dashboard.Admin.Index', compact('equipment', 'variablesExpenses', 'categories'));
     }
 
     /**
@@ -68,7 +69,7 @@ class EquipmentsController extends Controller
                 ->withInput();
         }
         $equipment = Equipment::create($data);
-        return redirect()->route('Dashboard.Admin.Equipments.Index')->with('success', 'Equipo ' . $equipment->modelo . ' Con No.Serie: ' . $equipment->noSerie . ' agregado correctamente.');
+        return back()->with('success', 'Equipo ' . $equipment->modelo . ' Con No.Serie: ' . $equipment->noSerie . ' agregado correctamente.');
     }
 
     public function storeVariablesExpenses(Request $request, string $id)
@@ -94,7 +95,62 @@ class EquipmentsController extends Controller
     public function show(string $id)
     {
         $equipment = Equipment::findOrFail($id);
-        return view('Dashboard.Admin.Index', compact('equipment'));
+        $sumFixesExpenses = $equipment->fixedExpensesCatalogs()->sum('costoGastoFijo');
+        $sumVariablesExpenses = DB::table('t_gastos_variables')
+            ->where('clvEquipo', $id)
+            ->sum('costoGastoVariable');
+
+        //Datos por pagina
+        $perPage = 10;
+
+        //Gastos Fijos del equipo
+        $fixedExpensesQuery = $equipment->fixedExpensesCatalogs()->withPivot('costoGastoFijo')->get();
+        $fixedExpenses = collect();
+        foreach ($fixedExpensesQuery as $fixedExpenseQuery) {
+            $fixedExpenses->push([
+                'gastoFijo' => $fixedExpenseQuery->gastoFijo,
+                'descripcion' => $fixedExpenseQuery->descripcion,
+                'costoGastoFijo' => $fixedExpenseQuery->pivot->costoGastoFijo,
+            ]);
+        }
+        $columnFixedExpenses = ['Gasto Fijo', 'Descripción', 'Costo Del Gato Fijo'];
+        $currentPageFixedExpenses = request()->get('fixedExpenses_page') ?? 1;
+        $pagedFixedExpensesData = $fixedExpenses->slice(($currentPageFixedExpenses - 1) * $perPage, $perPage)->all();
+        $rowFixedExpenses = new LengthAwarePaginator($pagedFixedExpensesData, count($fixedExpenses), $perPage, $currentPageFixedExpenses, [
+            'path' => route('Dashboard.Admin.Equipments.Show', $id),
+            'pageName' => 'fixedExpenses_page',
+        ]);
+        $tableFixedExpenses = [
+            'columnFixedExpenses' => $columnFixedExpenses,
+            'rowFixedExpenses' => $rowFixedExpenses,
+        ];
+        // return $tableFixedExpenses;
+
+        //Gastos Variables del equipo
+        $variablesExpenses = VariableExpense::select('gastoVariable', 'descripcion', 'costoGastoVariable')
+            ->where('clvEquipo', $id)->get();
+        $columnVariablesExpenses = ['Gasto Variable', 'Descripción', 'Costo Del Gasto Variable'];
+        $currentPageVariablesExpenses = request()->get('variablesExpenses_page') ?? 1;
+        $pagedVariablesExpensesData = $variablesExpenses->slice(($currentPageVariablesExpenses - 1) * $perPage, $perPage)->all();
+        $rowVariablesExpenses = new LengthAwarePaginator($pagedVariablesExpensesData, count($variablesExpenses), $perPage, $currentPageVariablesExpenses, [
+            'path' => route('Dashboard.Admin.Equipments.Show', $id),
+            'pageName' => 'variablesExpenses_page',
+        ]);
+        $tableVariablesExpenses = [
+            'columnVariablesExpenses' => $columnVariablesExpenses,
+            'rowVariablesExpenses' => $rowVariablesExpenses,
+        ];
+        // return $tableVariablesExpenses;
+
+        //Arreglo de todos los datos
+        $Data = [
+            'equipment' => $equipment,
+            'sumFixesExpenses' => $sumFixesExpenses,
+            'sumVariablesExpenses' => $sumVariablesExpenses,
+            'tableFixedExpenses' => $tableFixedExpenses,
+            'tableVariablesExpenses' => $tableVariablesExpenses,
+        ];
+        return view('Dashboard.Admin.Index', compact('Data'));
     }
 
     public function showApi($id)
@@ -108,8 +164,9 @@ class EquipmentsController extends Controller
      */
     public function edit(string $id)
     {
-        $status = Status::all();
+        $variablesExpenses = VariableExpense::all();
         $categories = Category::all();
+        $status = Status::all();
         $equipment = Equipment::findOrFail($id);
         $fixedExpensesCatalogs = Catalog::all();
         $sumFixesExpenses = $equipment->fixedExpensesCatalogs()->sum('costoGastoFijo');
@@ -129,7 +186,7 @@ class EquipmentsController extends Controller
             'path' => route('Dashboard.Admin.Equipments.Index')
         ]);
         $columnVariablesExpenses = ['Gasto Variable', 'Descripción', 'Costo', ''];
-        return view('Dashboard.Admin.Index', compact('equipment', 'status', 'categories', 'fixedExpensesCatalogs', 'rowVariablesExpenses', 'columnVariablesExpenses', 'sumFixesExpenses', 'sumVariablesExpenses'));
+        return view('Dashboard.Admin.Index', compact('equipment', 'variablesExpenses', 'status', 'categories', 'fixedExpensesCatalogs', 'rowVariablesExpenses', 'columnVariablesExpenses', 'sumFixesExpenses', 'sumVariablesExpenses'));
     }
 
     /**

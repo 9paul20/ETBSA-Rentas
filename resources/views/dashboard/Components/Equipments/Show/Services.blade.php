@@ -19,22 +19,8 @@
         </h4>
     </div>
 
-    {{-- <div class="w-full">
-                @include('Dashboard.Components.Equipments.Show.Tables.TableOne')
-            </div>
+    @include('Dashboard.Components.Equipments.Show.Tables.TableFixedExpenses')
 
-            <div class="mt-2 mb-8 w-full">
-                <h4 class="px-2 text-xl font-bold text-navy-700 dark:text-white">
-                    General Information
-                </h4>
-            </div>
+    @include('Dashboard.Components.Equipments.Show.Tables.TableVariablesExpenses')
 
-            <div class="w-full">
-                <div class="w-full">
-                    @include('Dashboard.Components.Equipments.Show.Tables.TableOne')
-                </div>
-            </div> --}}
-    @include('Dashboard.Components.Equipments.Show.Tables.TableTwo')
-
-    @include('Dashboard.Components.Equipments.Show.Tables.TableTwo')
 </div>
