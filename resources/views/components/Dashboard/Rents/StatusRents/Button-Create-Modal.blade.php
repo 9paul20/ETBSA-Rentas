@@ -39,6 +39,50 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
+                            <label for="textColor" class="block text-sm font-medium text-gray-700">Color Del
+                                Texto</label>
+                            <input type="text" name="textColor" id="textColor" autocomplete="given-textColor"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('textColor') border-red-400 @enderror"
+                                value="{{ old('textColor') }}" required>
+                            @error('textColor')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="bgColorPrimary" class="block text-sm font-medium text-gray-700">Color De Fondo
+                                Primario</label>
+                            <input type="text" name="bgColorPrimary" id="bgColorPrimary"
+                                autocomplete="given-bgColorPrimary"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('bgColorPrimary') border-red-400 @enderror"
+                                value="{{ old('bgColorPrimary') }}" required>
+                            @error('bgColorPrimary')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="bgColorSecondary" class="block text-sm font-medium text-gray-700">Color De Fondo
+                                Secundario</label>
+                            <input type="text" name="bgColorSecondary" id="bgColorSecondary"
+                                autocomplete="given-bgColorSecondary"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('bgColorSecondary') border-red-400 @enderror"
+                                value="{{ old('bgColorSecondary') }}" required>
+                            @error('bgColorSecondary')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"

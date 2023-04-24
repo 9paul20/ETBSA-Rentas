@@ -13,16 +13,21 @@ return new class extends Migration
     {
         Schema::create('t_equipos', function (Blueprint $table) {
             $table->bigIncrements('clvEquipo');
-            $table->string('noSerie')->unique();
+            $table->string('noSerieEquipo')->unique();
+            $table->string('noSerieMotor')->unique();
+            $table->string('noEconomico')->unique();
             $table->string('modelo');
             $table->unsignedTinyInteger('clvDisponibilidad')->default(0);
             $table->unsignedTinyInteger('clvCategoria')->default(0);
             $table->longText('descripcion')->nullable();
             $table->decimal('precioEquipo', 10, 2)->default(0.00);
+            $table->date('fechaAdquisicion');
             $table->timestamps();
 
             // Agregar índices
-            $table->index('noSerie');
+            $table->index('noSerieEquipo');
+            $table->index('noSerieMotor');
+            $table->index('noEconomico');
             $table->index('clvDisponibilidad');
             $table->index('clvCategoria');
         });

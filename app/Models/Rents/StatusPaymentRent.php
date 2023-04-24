@@ -17,6 +17,9 @@ class StatusPaymentRent extends Model
         'clvEstadoPagoRenta',
         'estadoPagoRenta',
         'descripcion',
+        'textColor',
+        'bgColorPrimary',
+        'bgColorSecondary',
     ];
 
     protected $hidden = [];
@@ -26,6 +29,9 @@ class StatusPaymentRent extends Model
         $rules = [
             'estadoPagoRenta' => 'required|string|min:3|max:255|unique:t_estados_pagos_rentas,estadoPagoRenta,' . $clvEstadoPagoRenta . ',clvEstadoPagoRenta',
             'descripcion' => 'string|max:255',
+            'textColor' => 'required|string|min:11|max:16',
+            'bgColorPrimary' => 'required|string|min:9|max:16',
+            'bgColorSecondary' => 'required|string|min:9|max:16',
         ];
         return $rules;
     }

@@ -14,9 +14,7 @@
                     @method('PUT')
                     <div class="bg-white px-4 py-5 sm:p-6">
                         <fieldset class="space-y-5">
-                            @include('Dashboard.Components.PermissionsCheckboxes', [
-                                'model' => $permission,
-                            ])
+                            @include('Dashboard.Components.Users.Edit.PermissionsCheckboxes')
                         </fieldset>
                     </div>
                     <x-Dashboard.Save-Button name="Guardar Permisos" />

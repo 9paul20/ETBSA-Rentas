@@ -20,26 +20,41 @@ class StatusPaymentRentSeeder extends Seeder
         $EstadoPagoRentaPendienteDePago = StatusPaymentRent::create([
             'estadoPagoRenta' => 'Pendiente de pago',
             'descripcion' => 'El inquilino aún no ha realizado el pago del alquiler correspondiente',
+            'textColor' => 'text-orange-600',
+            'bgColorPrimary' => 'bg-orange-50',
+            'bgColorSecondary' => 'bg-orange-600',
         ]);
 
         $EstadoPagoRentaPendienteDePago = StatusPaymentRent::create([
             'estadoPagoRenta' => 'Pagado',
             'descripcion' => 'El inquilino ha realizado el pago del alquiler correspondiente y se encuentra al día con sus pagos',
+            'textColor' => 'text-green-600',
+            'bgColorPrimary' => 'bg-green-50',
+            'bgColorSecondary' => 'bg-green-600',
         ]);
 
         $EstadoPagoRentaEnMora = StatusPaymentRent::create([
             'estadoPagoRenta' => 'En mora',
             'descripcion' => 'El inquilino no ha realizado el pago del alquiler correspondiente en el plazo acordado y ha superado el periodo de gracia establecido en el contrato',
+            'textColor' => 'text-orange-600',
+            'bgColorPrimary' => 'bg-orange-50',
+            'bgColorSecondary' => 'bg-orange-600',
         ]);
 
         $EstadoPagoRentaDisputa = StatusPaymentRent::create([
             'estadoPagoRenta' => 'En disputa',
             'descripcion' => 'El estado de renta se encuentra en disputa debido a un desacuerdo entre el arrendador y el inquilino en cuanto al pago del alquiler',
+            'textColor' => 'text-orange-600',
+            'bgColorPrimary' => 'bg-orange-50',
+            'bgColorSecondary' => 'bg-orange-600',
         ]);
 
         $EstadoPagoRentaEnProcesoDesalojo = StatusPaymentRent::create([
             'estadoPagoRenta' => 'En proceso de desalojo',
             'descripcion' => 'El inquilino ha incumplido con sus obligaciones de pago y se ha iniciado el proceso de desalojo para recuperar la propiedad',
+            'textColor' => 'text-red-600',
+            'bgColorPrimary' => 'bg-red-50',
+            'bgColorSecondary' => 'bg-red-600',
         ]);
     }
 }

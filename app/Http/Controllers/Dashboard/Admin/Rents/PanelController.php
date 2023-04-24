@@ -17,18 +17,6 @@ class PanelController extends Controller
         //Todos -> Estados Pagos de Rentas
         $allStatusPaymentsRents = StatusPaymentRent::get(['clvEstadoPagoRenta', 'estadoPagoRenta', 'descripcion']);
 
-        // // Todos -> Tazas De Renta
-        // $allCupsRents = CupRent::get([
-        //     'clvTazaRenta',
-        //     'tazaRenta',
-        //     'rentaUnMes',
-        //     'rentaDosMeses',
-        //     'rentaTresMeses',
-        //     'ivaUnMes',
-        //     'ivaDosMeses',
-        //     'ivaTresMeses',
-        // ]);
-
         //Paginación
         $perPage = 10;
 

@@ -38,11 +38,12 @@
                                 @foreach ($Data['tableStatusPaymentsRents']['rowStatusPaymentsRents'] as $rowStatusPaymentRent)
                                     <tr class="hover:bg-gray-100">
                                         <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                                            <div class="text-sm">
-                                                <div class="font-medium text-gray-700">
-                                                    {{ $rowStatusPaymentRent->estadoPagoRenta }}
-                                                </div>
-                                            </div>
+                                            <span
+                                                class="inline-flex items-center gap-1 rounded-full {{ $rowStatusPaymentRent->bgColorPrimary }} px-2 py-1 text-xs font-semibold {{ $rowStatusPaymentRent->textColor }}">
+                                                <span
+                                                    class="h-1.5 w-1.5 rounded-full {{ $rowStatusPaymentRent->bgColorSecondary }}"></span>
+                                                {{ $rowStatusPaymentRent->estadoPagoRenta }}
+                                            </span>
                                         </th>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                             @if (!empty($rowStatusPaymentRent->descripcion))
@@ -62,6 +63,9 @@
                                                 <x-Dashboard.Rents.StatusPaymentsRents.Button-Edit-Modal
                                                     id="StatusPaymentsRents_{{ $rowStatusPaymentRent->clvEstadoPagoRenta }}"
                                                     estadoPagoRenta="{{ $rowStatusPaymentRent->estadoPagoRenta }}"
+                                                    textColor="{{ $rowStatusPaymentRent->textColor }}"
+                                                    bgColorPrimary="{{ $rowStatusPaymentRent->bgColorPrimary }}"
+                                                    bgColorSecondary="{{ $rowStatusPaymentRent->bgColorSecondary }}"
                                                     descripcion="{{ $rowStatusPaymentRent->descripcion }}"
                                                     href="{{ route('Dashboard.Admin.Panel.Rents.StatusPaymentRent.Update', $rowStatusPaymentRent->clvEstadoPagoRenta) }}" />
                                                 <x-Dashboard.IconButton-Delete

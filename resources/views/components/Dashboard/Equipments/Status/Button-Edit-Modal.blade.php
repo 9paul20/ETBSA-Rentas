@@ -1,4 +1,4 @@
-@props(['id', 'disponibilidad', 'descripcion', 'href'])
+@props(['id', 'disponibilidad', 'descripcion', 'textColor', 'bgColorPrimary', 'bgColorSecondary', 'href'])
 
 <a href="" x-data="{ tooltip: 'Edit' }" @click="openModal{{ $id }}()" id="link-edit-{{ $id }}">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -48,6 +48,51 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
                                 required>{{ $descripcion }}</textarea>
                             @error('descripcion')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="textColor" class="block text-sm font-medium text-gray-700">Color Del
+                                Texto</label>
+                            <input type="text" name="textColor" id="textColor-{{ $id }}"
+                                autocomplete="given-textColor"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('textColor') border-red-400 @enderror"
+                                value="{{ $textColor }}" required>
+                            @error('textColor')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="bgColorPrimary" class="block text-sm font-medium text-gray-700">Color De Fondo
+                                Primario</label>
+                            <input type="text" name="bgColorPrimary" id="bgColorPrimary-{{ $id }}"
+                                autocomplete="given-bgColorPrimary"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('bgColorPrimary') border-red-400 @enderror"
+                                value="{{ $bgColorPrimary }}" required>
+                            @error('bgColorPrimary')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="bgColorSecondary" class="block text-sm font-medium text-gray-700">Color De Fondo
+                                Secundario</label>
+                            <input type="text" name="bgColorSecondary" id="bgColorSecondary-{{ $id }}"
+                                autocomplete="given-bgColorSecondary"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('bgColorSecondary') border-red-400 @enderror"
+                                value="{{ $bgColorSecondary }}" required>
+                            @error('bgColorSecondary')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>

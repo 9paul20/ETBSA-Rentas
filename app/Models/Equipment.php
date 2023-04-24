@@ -19,12 +19,15 @@ class Equipment extends Model
 
     protected $fillable = [
         'clvEquipo',
-        'noSerie',
+        'noSerieEquipo',
+        'noSerieMotor',
+        'noEconomico',
         'modelo',
         'clvDisponibilidad',
         'clvCategoria',
         'descripcion',
         'precioEquipo',
+        'fechaAdquisicion',
     ];
 
     protected $hidden = [];
@@ -32,12 +35,15 @@ class Equipment extends Model
     public static function getRules($clvEquipo = null)
     {
         $rules = [
-            'noSerie' => 'required|string|min:4|max:255|unique:t_equipos,noSerie,' . $clvEquipo . ',clvEquipo',
+            'noSerieEquipo' => 'required|string|min:4|max:255|unique:t_equipos,noSerieEquipo,' . $clvEquipo . ',clvEquipo',
+            'noSerieMotor' => 'required|string|min:4|max:255|unique:t_equipos,noSerieMotor,' . $clvEquipo . ',clvEquipo',
+            'noEconomico' => 'required|string|min:4|max:255|unique:t_equipos,noEconomico,' . $clvEquipo . ',clvEquipo',
             'modelo' => 'required|string|min:4|max:255',
             'clvDisponibilidad' => 'required|not_in:[]',
             'clvCategoria' => 'required|not_in:[]',
-            'descripcion' => 'string|max:255',
-            'precioEquipo' => 'numeric|between:0,9999999999.99',
+            'descripcion' => 'string',
+            'precioEquipo' => 'required|numeric|between:0,99999999.99',
+            'fechaAdquisicion' => 'required|date|before_or_equal:' . now()->toDateString(),
         ];
         return $rules;
     }

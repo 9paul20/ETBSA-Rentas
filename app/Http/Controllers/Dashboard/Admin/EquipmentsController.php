@@ -22,9 +22,9 @@ class EquipmentsController extends Controller
     public function index()
     {
         // $equipments = Equipment::all();
-        $equipments = Equipment::select('clvEquipo', 'noSerie', 'modelo', 'clvDisponibilidad', 'clvCategoria', 'descripcion', 'precioEquipo')
+        $equipments = Equipment::select('clvEquipo', 'noSerieEquipo', 'noSerieMotor', 'noEconomico', 'modelo', 'clvDisponibilidad', 'clvCategoria', 'descripcion', 'precioEquipo', 'fechaAdquisicion')
             ->with(['disponibilidad' => function ($query) {
-                $query->select('clvDisponibilidad', 'disponibilidad');
+                $query->select('clvDisponibilidad', 'disponibilidad', 'textColor', 'bgColorPrimary', 'bgColorSecondary');
             }, 'categoria' => function ($query) {
                 $query->select('clvCategoria', 'categoria');
             }])
@@ -35,7 +35,7 @@ class EquipmentsController extends Controller
         $rowDatas = new LengthAwarePaginator($pagedData, count($equipments), $perPage, $currentPage, [
             'path' => route('Dashboard.Admin.Equipments.Index')
         ]);
-        $columnNames = ['noSerie', 'Modelo', 'Disponibilidad', 'Categoria', 'Precio', 'Descripción', ''];
+        $columnNames = ['No. Serie Equipo', 'Modelo', 'Disponibilidad', 'Categoria', 'Precio', 'Descripción', ''];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 
@@ -50,10 +50,10 @@ class EquipmentsController extends Controller
      */
     public function create()
     {
-        $variablesExpenses = VariablesExpenses::all();
+        $status = Status::all();
         $categories = Category::all();
         $equipment = new Equipment();
-        return view('Dashboard.Admin.Index', compact('equipment', 'variablesExpenses', 'categories'));
+        return view('Dashboard.Admin.Index', compact('equipment', 'status', 'categories'));
     }
 
     /**
@@ -69,7 +69,7 @@ class EquipmentsController extends Controller
                 ->withInput();
         }
         $equipment = Equipment::create($data);
-        return back()->with('success', 'Equipo ' . $equipment->modelo . ' Con No.Serie: ' . $equipment->noSerie . ' agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Equipments.Edit', $equipment->clvEquipo)->with('success', 'Equipo ' . $equipment->modelo . ' Con No.Serie: ' . $equipment->noSerieEquipo . ' agregado correctamente.');
     }
 
     public function storeVariablesExpenses(Request $request, string $id)
@@ -86,7 +86,7 @@ class EquipmentsController extends Controller
         $variableExpense->clvEquipo = $id;
         $variableExpense->save();
         $equipment = Equipment::findOrFail($id);
-        return back()->with('update', 'Equipo ' . $equipment->noSerie . ' se le agregado su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.');
+        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le agregado su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.');
     }
 
     /**
@@ -204,7 +204,7 @@ class EquipmentsController extends Controller
         }
         $equipment = Equipment::findOrFail($id);
         $equipment->update($data);
-        return back()->with('update', 'Equipo ' . $equipment->noSerie . ' actualizado correctamente.');
+        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' actualizado correctamente.');
     }
 
     public function updateFixedExpensesCatalogs(Request $request, string $id)
@@ -225,7 +225,7 @@ class EquipmentsController extends Controller
             $cost = $fixedExpensesValues[$catalogId] ?? null;
             $equipment->fixedExpensesCatalogs()->updateExistingPivot($catalogId, ['costoGastoFijo' => $cost]);
         }
-        return back()->with('update', 'Equipo ' . $equipment->noSerie . ' se le han actualizado sus gastos fijos correctamente.');
+        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le han actualizado sus gastos fijos correctamente.');
     }
 
     public function updateVariablesExpenses(Request $request, string $id)
@@ -241,7 +241,7 @@ class EquipmentsController extends Controller
         $variableExpense = VariableExpense::findOrFail($id);
         $variableExpense->update($data);
         $equipment = Equipment::findOrFail($variableExpense->clvEquipo);
-        return back()->with('update', 'Equipo ' . $equipment->noSerie . ' se le actualizo su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.');
+        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.');
     }
 
 
@@ -252,13 +252,13 @@ class EquipmentsController extends Controller
     {
         $equipment = Equipment::findOrFail($id);
         $equipment->delete();
-        return redirect()->route('Dashboard.Admin.Equipments.Index')->with('danger', 'Equipo ' . $equipment->noSerie . ' eliminado correctamente.');
+        return redirect()->route('Dashboard.Admin.Equipments.Index')->with('danger', 'Equipo ' . $equipment->noSerieEquipo . ' eliminado correctamente.');
     }
 
     public function destroyVariablesExpenses(string $id)
     {
         $variableExpense = VariableExpense::findOrFail($id);
         $variableExpense->delete();
-        return back()->with('danger', 'Equipo ' . $variableExpense->gastoVariable . ' eliminado correctamente.');
+        return back()->with('danger', 'Gasto Variable ' . $variableExpense->gastoVariable . ' eliminado correctamente.');
     }
 }

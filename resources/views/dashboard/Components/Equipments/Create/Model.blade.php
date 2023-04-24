@@ -36,11 +36,42 @@
                 <div class="bg-white px-4 py-5 sm:p-6">
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="noSerie" class="block text-sm font-medium text-gray-700">No. Serie</label>
-                            <input type="text" name="noSerie" id="noSerie" autocomplete="given-noSerie"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('noSerie') border-red-400 @enderror"
-                                value="{{ old('noSerie', $equipment->noSerie) }}" required autofocus>
-                            @error('noSerie')
+                            <label for="noSerieEquipo" class="block text-sm font-medium text-gray-700">No. Serie Del
+                                Equipo</label>
+                            <input type="text" name="noSerieEquipo" id="noSerieEquipo"
+                                autocomplete="given-noSerieEquipo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('noSerieEquipo') border-red-400 @enderror"
+                                value="{{ old('noSerieEquipo', $equipment->noSerieEquipo) }}" required autofocus>
+                            @error('noSerieEquipo')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="noSerieMotor" class="block text-sm font-medium text-gray-700">No. Serie Del
+                                Motor</label>
+                            <input type="text" name="noSerieMotor" id="noSerieMotor"
+                                autocomplete="given-noSerieMotor"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('noSerieMotor') border-red-400 @enderror"
+                                value="{{ old('noSerieMotor', $equipment->noSerieMotor) }}" required>
+                            @error('noSerieMotor')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="noEconomico" class="block text-sm font-medium text-gray-700">No.
+                                Económico</label>
+                            <input type="text" name="noEconomico" id="noEconomico" autocomplete="given-noEconomico"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('noEconomico') border-red-400 @enderror"
+                                value="{{ old('noEconomico', $equipment->noEconomico) }}" required>
+                            @error('noEconomico')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -120,7 +151,7 @@
                             <label for="precioEquipo" class="block text-sm font-medium text-gray-700">Precio Del
                                 Equipo</label>
                             <input type="number" name="precioEquipo" id="precioEquipo" pattern="[0-9]+(\.[0-9]+)?"
-                                autocomplete="given-precioEquipo"
+                                min="0" max="99999999.99" autocomplete="given-precioEquipo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('precioEquipo') border-red-400 @enderror"
                                 value="{{ old('precioEquipo', $equipment->precioEquipo) }}" required step="0.01">
                             @error('precioEquipo')
@@ -132,7 +163,23 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                            <label for="fechaAdquisicion" class="block text-sm font-medium text-gray-700">Fecha De
+                                Adquisición</label>
+                            <input type="date" name="fechaAdquisicion" id="fechaAdquisicion"
+                                autocomplete="given-fechaAdquisicion"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fechaAdquisicion') border-red-400 @enderror"
+                                value="{{ old('fechaAdquisicion', $equipment->fechaAdquisicion) }}" required>
+                            @error('fechaAdquisicion')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="descripcion"
+                                class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"required>{{ old('descripcion', $equipment->descripcion) }}</textarea>
                             @error('descripcion')
@@ -143,43 +190,6 @@
                                 </div>
                             @enderror
                         </div>
-                        {{-- <div class="col-span-6 sm:col-span-3">
-                                <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
-                                <select id="country" name="country" autocomplete="country-name"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                    <option>United States</option>
-                                    <option>Canada</option>
-                                    <option>Mexico</option>
-                                </select>
-                            </div>
-
-                            <div class="col-span-6">
-                                <label for="street-address" class="block text-sm font-medium text-gray-700">Street
-                                    address</label>
-                                <input type="text" name="street-address" id="street-address"
-                                    autocomplete="street-address"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                                <input type="text" name="city" id="city" autocomplete="address-level2"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                <label for="region" class="block text-sm font-medium text-gray-700">State /
-                                    Province</label>
-                                <input type="text" name="region" id="region" autocomplete="address-level1"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                <label for="postal-code" class="block text-sm font-medium text-gray-700">ZIP / Postal
-                                    code</label>
-                                <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div> --}}
                     </div>
                 </div>
                 <x-Dashboard.Save-Button name="Guardar Equipo" />

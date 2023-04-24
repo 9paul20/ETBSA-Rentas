@@ -15,12 +15,15 @@ namespace App\Models{
  * App\Models\Equipment
  *
  * @property int $clvEquipo
- * @property string $noSerie
+ * @property string $noSerieEquipo
+ * @property string $noSerieMotor
+ * @property string $noEconomico
  * @property string $modelo
  * @property int $clvDisponibilidad
  * @property int $clvCategoria
  * @property string|null $descripcion
  * @property string $precioEquipo
+ * @property string $fechaAdquisicion
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Equipments\Category|null $categoria
@@ -36,8 +39,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereClvEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereFechaAdquisicion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereModelo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerie($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoEconomico($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerieEquipo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerieMotor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePrecioEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereUpdatedAt($value)
  */
@@ -76,16 +82,22 @@ namespace App\Models\Equipments{
  * @property int $clvDisponibilidad
  * @property string $disponibilidad
  * @property string|null $descripcion
+ * @property string|null $textColor
+ * @property string|null $bgColorPrimary
+ * @property string|null $bgColorSecondary
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\Equipments\StatusFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Status newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Status newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Status query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Status whereBgColorPrimary($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Status whereBgColorSecondary($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Status whereClvDisponibilidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Status whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Status whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Status whereDisponibilidad($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Status whereTextColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Status whereUpdatedAt($value)
  */
 	class Status extends \Eloquent {}

@@ -4,7 +4,7 @@
     </div>
     <div class='p-4 sm:p-6'>
         <p class='font-bold text-gray-700 text-[22px] leading-7 mb-1'>{{ $Data['equipment']['modelo'] }} -
-            {{ $Data['equipment']['noSerie'] }}</p>
+            {{ $Data['equipment']['noSerieEquipo'] }}</p>
         <div class='flex flex-row'>
             <p class='text-[17px] font-bold text-[#0FB478]'>$</p>
             <p class='text-[#3C3C4399] text-[17px] mr-2'>{{ $Data['equipment']['precioEquipo'] }}</p>
@@ -22,8 +22,9 @@
                 class="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 dark:!bg-navy-700 dark:shadow-none">
                 <p class="text-sm text-gray-600">Disponibilidad</p>
                 <span
-                    class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-sm font-semibold text-green-600">
-                    <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                    class="inline-flex items-center gap-1 rounded-full {{ $Data['equipment']->disponibilidad->bgColorPrimary }} px-2 py-1 text-sm font-semibold {{ $Data['equipment']->disponibilidad->textColor }}">
+                    <span
+                        class="h-1.5 w-1.5 rounded-full {{ $Data['equipment']->disponibilidad->bgColorSecondary }}"></span>
                     {{ $Data['equipment']->disponibilidad->disponibilidad }}
                 </span>
             </div>

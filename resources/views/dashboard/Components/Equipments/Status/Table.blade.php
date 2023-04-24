@@ -38,11 +38,12 @@
                                 @foreach ($Data['tableStatus']['rowStatus'] as $rowStatus)
                                     <tr class="hover:bg-gray-100">
                                         <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                                            <div class="text-sm">
-                                                <div class="font-medium text-gray-700">
-                                                    {{ $rowStatus->disponibilidad }}
-                                                </div>
-                                            </div>
+                                            <span
+                                                class="inline-flex items-center gap-1 rounded-full {{ $rowStatus->bgColorPrimary }} px-2 py-1 text-xs font-semibold {{ $rowStatus->textColor }}">
+                                                <span
+                                                    class="h-1.5 w-1.5 rounded-full {{ $rowStatus->bgColorSecondary }}"></span>
+                                                {{ $rowStatus->disponibilidad }}
+                                            </span>
                                         </th>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                             @if (!empty($rowStatus->descripcion))
@@ -62,6 +63,9 @@
                                                     id="Status_{{ $rowStatus->clvDisponibilidad }}"
                                                     disponibilidad="{{ $rowStatus->disponibilidad }}"
                                                     descripcion="{{ $rowStatus->descripcion }}"
+                                                    textColor="{{ $rowStatus->textColor }}"
+                                                    bgColorPrimary="{{ $rowStatus->bgColorPrimary }}"
+                                                    bgColorSecondary="{{ $rowStatus->bgColorSecondary }}"
                                                     href="{{ route('Dashboard.Admin.Panel.Equipments.Status.Update', $rowStatus->clvDisponibilidad) }}" />
                                                 <x-Dashboard.IconButton-Delete
                                                     id="Status_{{ $rowStatus->clvDisponibilidad }}"

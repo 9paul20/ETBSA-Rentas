@@ -15,6 +15,9 @@ return new class extends Migration
             $table->tinyIncrements('clvEstadoRenta');
             $table->string('estadoRenta')->unique();
             $table->text('descripcion')->nullable();
+            $table->text('textColor')->nullable();
+            $table->text('bgColorPrimary')->nullable();
+            $table->text('bgColorSecondary')->nullable();
             $table->timestamps();
 
             $table->index('clvEstadoRenta');

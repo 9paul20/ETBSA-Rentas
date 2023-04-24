@@ -20,16 +20,25 @@ class StatusRentSeeder extends Seeder
         $EstadoRentaPagado = StatusRent::create([
             'estadoRenta' => 'Pagado',
             'descripcion' => 'Este estado indica que el artículo o propiedad está pagado',
+            'textColor' => 'text-green-600',
+            'bgColorPrimary' => 'bg-green-50',
+            'bgColorSecondary' => 'bg-green-600',
         ]);
 
         $EstadoRentaPendiente = StatusRent::create([
             'estadoRenta' => 'Pendiente',
             'descripcion' => 'Este estado indica que el artículo o propiedad está pendiente de pagar',
+            'textColor' => 'text-orange-600',
+            'bgColorPrimary' => 'bg-orange-50',
+            'bgColorSecondary' => 'bg-orange-600',
         ]);
 
         $EstadoRentaCancelado = StatusRent::create([
             'estadoRenta' => 'Cancelado',
             'descripcion' => 'Este estado indica que el artículo o propiedad está cancelado',
+            'textColor' => 'text-red-600',
+            'bgColorPrimary' => 'bg-red-50',
+            'bgColorSecondary' => 'bg-red-600',
         ]);
     }
 }
