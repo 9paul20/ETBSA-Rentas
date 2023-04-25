@@ -1,4 +1,4 @@
-@props(['id', 'gastoVariable', 'fechaGastoVariable', 'costoGastoVariable', 'descripcion', 'href', 'today'])
+@props(['id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'today','folioFactura', 'href'])
 
 <a href="" x-data="{ tooltip: 'Edit' }" @click="modalHandler{{ $id }}(true)" id="link-edit-{{ $id }}"
     data-target="scroll-target-{{ $id }}">
@@ -30,14 +30,13 @@
                         @method('PUT')
                         @csrf
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="gastoVariable" class="block text-sm font-medium text-gray-700">Gasto
+                            <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Gasto
                                 Variable</label>
-                            <input type="text" name="gastoVariable" id="input_{{ $id }}"
-                                autocomplete="given-gastoVariable"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('gastoVariable') border-red-400 @enderror"
+                            <input type="text" name="gastoFijo" id="input_{{ $id }}" autocomplete="given-gastoFijo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('gastoFijo') border-red-400 @enderror"
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
-                                value="{{ old('gastoVariable', $gastoVariable) }}" required autofocus>
-                            @error('gastoVariable')
+                                value="{{ old('gastoFijo', $gastoFijo) }}" required autofocus>
+                            @error('gastoFijo')
                             <div class="flex
                                     items-center mt-1 text-red-400">
                                 <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -46,15 +45,14 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="fechaGastoVariable" class="block text-sm font-medium text-gray-700">Fecha Del
+                            <label for="fechaGastoFijo" class="block text-sm font-medium text-gray-700">Fecha Del
                                 Gasto
                                 Variable</label>
-                            <input type="date" name="fechaGastoVariable" id="fechaGastoVariable"
-                                autocomplete="given-fechaGastoVariable"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fechaGastoVariable') border-red-400 @enderror"
-                                value="{{ old('fechaGastoVariable', $fechaGastoVariable) }}" required
-                                max='{{ $today }}'>
-                            @error('fechaGastoVariable')
+                            <input type="date" name="fechaGastoFijo" id="fechaGastoFijo"
+                                autocomplete="given-fechaGastoFijo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
+                                value="{{ old('fechaGastoFijo', $fechaGastoFijo) }}" required max='{{ $today }}'>
+                            @error('fechaGastoFijo')
                             <div class="flex items-center mt-1 text-red-400">
                                 <i class="fas fa-exclamation-triangle mr-2"></i>
                                 <span>{{ $message }}</span>
@@ -62,15 +60,14 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="costoGastoVariable" class="block text-sm font-medium text-gray-700">Costo Del
+                            <label for="costoGastoFijo" class="block text-sm font-medium text-gray-700">Costo Del
                                 Gasto
                                 Variable</label>
-                            <input type="number" name="costoGastoVariable" id="costoGastoVariable"
-                                pattern="[0-9]+(\.[0-9]+)?" min="0" max="99999999.99" step="0.01"
-                                autocomplete="given-costoGastoVariable"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('costoGastoVariable') border-red-400 @enderror"
-                                value="{{ old('costoGastoVariable', $costoGastoVariable) }}" required>
-                            @error('costoGastoVariable')
+                            <input type="number" name="costoGastoFijo" id="costoGastoFijo" pattern="[0-9]+(\.[0-9]+)?"
+                                min="0" max="99999999.99" step="0.01" autocomplete="given-costoGastoFijo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('costoGastoFijo') border-red-400 @enderror"
+                                value="{{ old('costoGastoFijo', $costoGastoFijo) }}" required>
+                            @error('costoGastoFijo')
                             <div class="flex
                                     items-center mt-1 text-red-400">
                                 <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -79,11 +76,13 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                            <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
-                                minlength="4" maxlength="255" required>{{ old('descripcion', $descripcion) }}</textarea>
-                            @error('descripcion')
+                            <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio
+                                Del Gasto Fijo</label>
+                            <textarea rows="3" name="folioFactura" id="folioFactura" autocomplete="given-folioFactura"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('folioFactura') border-red-400 @enderror"
+                                minlength="4" maxlength="255"
+                                required>{{ old('folioFactura', $folioFactura) }}</textarea>
+                            @error('folioFactura')
                             <div class="flex
                                     items-center mt-1 text-red-400">
                                 <i class="fas fa-exclamation-triangle mr-2"></i>

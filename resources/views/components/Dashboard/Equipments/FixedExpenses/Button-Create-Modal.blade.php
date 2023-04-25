@@ -1,4 +1,4 @@
-@props(['text', 'action', 'id', 'today'])
+@props(['text', 'action', 'id', 'SelectTypeFixedExpense', 'today'])
 
 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
     <button id="btn-create-modal-{{ $id }}" type="button"
@@ -20,21 +20,21 @@
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full max-w-2xl p-8 text-xl leading-7">
                     <div>
-                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Agregar Gasto Variable
+                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Agregar Gasto Fijo
                         </h3>
                         <p class="mt-2 text-sm text-gray-500">Por favor, completa los siguientes campos:</p>
                     </div>
                     <form action="{{ $action }}" class="mt-4 space-y-4" method="POST">
                         @csrf
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="gastoVariable" class="block text-sm font-medium text-gray-700">Gasto
-                                Variable</label>
-                            <input type="text" name="gastoVariable" id="input_{{ $id }}"
-                                autocomplete="given-gastoVariable" min="4" max="255"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('gastoVariable') border-red-400 @enderror"
+                            <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Gasto
+                                Fijo</label>
+                            <input type="text" name="gastoFijo" id="input_{{ $id }}" autocomplete="given-gastoFijo"
+                                min="4" max="255"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('gastoFijo') border-red-400 @enderror"
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
-                                value="{{ old('gastoVariable') }}" required autofocus>
-                            @error('gastoVariable')
+                                value="{{ old('gastoFijo') }}" required autofocus>
+                            @error('gastoFijo')
                             <div class="flex
                                     items-center mt-1 text-red-400">
                                 <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -43,14 +43,14 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="fechaGastoVariable" class="block text-sm font-medium text-gray-700">Fecha Del
+                            <label for="fechaGastoFijo" class="block text-sm font-medium text-gray-700">Fecha Del
                                 Gasto
-                                Variable</label>
-                            <input type="date" name="fechaGastoVariable" id="fechaGastoVariable"
-                                autocomplete="given-fechaGastoVariable"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fechaGastoVariable') border-red-400 @enderror"
-                                value="{{ old('fechaGastoVariable') }}" required max='{{ $today }}'>
-                            @error('fechaGastoVariable')
+                                Fijo</label>
+                            <input type="date" name="fechaGastoFijo" id="fechaGastoFijo"
+                                autocomplete="given-fechaGastoFijo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
+                                value="{{ old('fechaGastoFijo') }}" required max='{{ $today }}'>
+                            @error('fechaGastoFijo')
                             <div class="flex items-center mt-1 text-red-400">
                                 <i class="fas fa-exclamation-triangle mr-2"></i>
                                 <span>{{ $message }}</span>
@@ -58,14 +58,14 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="costoGastoVariable" class="block text-sm font-medium text-gray-700">Costo Del
+                            <label for="costoGastoFijo" class="block text-sm font-medium text-gray-700">Costo Del
                                 Gasto
-                                Variable</label>
-                            <input type="number" name="costoGastoVariable" id="costoGastoVariable"
-                                pattern="[0-9]+(\.[0-9]+)?" step="0.01" autocomplete="given-costoGastoVariable"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('costoGastoVariable') border-red-400 @enderror"
-                                min="0" max="99999999.99" value="{{ old('costoGastoVariable') }}" required step="0.01">
-                            @error('costoGastoVariable')
+                                Fijo</label>
+                            <input type="number" name="costoGastoFijo" id="costoGastoFijo" pattern="[0-9]+(\.[0-9]+)?"
+                                min="0" step="0.01" autocomplete="given-costoGastoFijo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('costoGastoFijo') border-red-400 @enderror"
+                                min="0" max="99999999.99" value="{{ old('costoGastoFijo') }}" required step="0.01">
+                            @error('costoGastoFijo')
                             <div class="flex
                                     items-center mt-1 text-red-400">
                                 <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -73,13 +73,15 @@
                             </div>
                             @enderror
                         </div>
+                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                            <textarea rows="3" name="descripcion" id="create-descripcion"
-                                autocomplete="given-descripcion"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
-                                minlength="4" maxlength="255" required>{{ old('descripcion') }}</textarea>
-                            @error('descripcion')
+                            <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio Del Gasto
+                                Fijo</label>
+                            <textarea rows="3" name="folioFactura" id="create-folioFactura"
+                                autocomplete="given-folioFactura"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('folioFactura') border-red-400 @enderror"
+                                minlength="4" maxlength="255" required>{{ old('folioFactura') }}</textarea>
+                            @error('folioFactura')
                             <div class="flex
                                     items-center mt-1 text-red-400">
                                 <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -117,8 +119,8 @@
                 var scrollTarget = document.getElementById(showModalButtonCreate{{ $id }}.getAttribute(
                     'data-target'));
                 document.getElementById("input_{{ $id }}").value = "";
-                document.getElementById("costoGastoVariable").value = "";
-                document.getElementById("create-descripcion").value = "";
+                document.getElementById("costoGastoFijo").value = "";
+                document.getElementById("create-folioFactura").value = "";
                 if (val) {
                     fadeIn(createModal{{ $id }});
                     window.location.hash = "createModal{{ $id }}";

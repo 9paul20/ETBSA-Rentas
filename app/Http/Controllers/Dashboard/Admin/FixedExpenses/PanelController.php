@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Admin\FixedExpenses;
 
 use App\Http\Controllers\Controller;
-use App\Models\FixedExpenses\Catalog;
+use App\Models\FixedExpenses\TypeFixedExpense;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -15,22 +15,22 @@ class PanelController extends Controller
         $perPage = 10;
 
         //Estados Pagos de Renta
-        $FixedExpensesCatalogs = Catalog::all();
-        $columnFixedExpensesCatalogs = ['Gasto Fijo', 'Descripción', ''];
-        $currentPageFixedExpensesCatalogs = request()->get('fixedExpensesCatalogs_page') ?? 1;
-        $pagedFixedExpensesCatalogsData = $FixedExpensesCatalogs->slice(($currentPageFixedExpensesCatalogs - 1) * $perPage, $perPage)->all();
-        $rowFixedExpensesCatalogs = new LengthAwarePaginator($pagedFixedExpensesCatalogsData, count($FixedExpensesCatalogs), $perPage, $currentPageFixedExpensesCatalogs, [
+        $TypeFixedExpenses = TypeFixedExpense::all();
+        $columnTypeFixedExpenses = ['Tipo de Gasto Fijo', 'Descripción', ''];
+        $currentPageFixedExpenses = request()->get('typeFixedExpensesCatalogs_page') ?? 1;
+        $pagedTypeFixedExpensesData = $TypeFixedExpenses->slice(($currentPageFixedExpenses - 1) * $perPage, $perPage)->all();
+        $rowTypeFixedExpenses = new LengthAwarePaginator($pagedTypeFixedExpensesData, count($TypeFixedExpenses), $perPage, $currentPageFixedExpenses, [
             'path' => route('Dashboard.Admin.FixedExpenses.Panel'),
-            'pageName' => 'fixedExpensesCatalogs_page',
+            'pageName' => 'typeFixedExpensesCatalogs_page',
         ]);
-        $tableFixedExpensesCatalogs = [
-            'columnFixedExpensesCatalogs' => $columnFixedExpensesCatalogs,
-            'rowFixedExpensesCatalogs' => $rowFixedExpensesCatalogs,
+        $tableTypeFixedExpensesCatalogs = [
+            'columnTypeFixedExpenses' => $columnTypeFixedExpenses,
+            'rowTypeFixedExpenses' => $rowTypeFixedExpenses,
         ];
 
         //Arreglo de todos los datos
         $Data = [
-            'tableFixedExpensesCatalogs' => $tableFixedExpensesCatalogs,
+            'tableTypeFixedExpensesCatalogs' => $tableTypeFixedExpensesCatalogs,
         ];
         // return $Data;
         return view('Dashboard.Admin.Index', compact('Data'));

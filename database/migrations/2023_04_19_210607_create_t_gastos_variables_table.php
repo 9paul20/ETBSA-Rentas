@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('clvGastoVariable');
             $table->string('gastoVariable');
             $table->text('descripcion');
+            $table->date('fechaGastoVariable');
             $table->decimal('costoGastoVariable', 10, 2)->default(0.00);
             $table->unsignedBigInteger('clvEquipo')->nullable();
             $table->timestamps();

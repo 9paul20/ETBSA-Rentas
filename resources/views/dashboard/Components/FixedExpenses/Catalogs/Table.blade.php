@@ -3,19 +3,19 @@
     <!-- header -->
     <div class="accordion-header cursor-pointer transition flex space-x-5 px-5 items-center h-16">
         <i class="fas fa-angle-down"></i>
-        <h3>Catalogo De Los Gastos Fijos</h3>
+        <h3>Tipos De Gastos Fijos</h3>
     </div>
     <!-- Content -->
     <div class="accordion-content px-2 pt-0 overflow-hidden max-h-0 mb-2">
         <div class="bg-white rounded-lg border px-4 sm:px-6 lg:px-8 py-6">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-xl font-semibold text-gray-900">Catalogo De Los Gastos Fijos</h1>
+                    <h1 class="text-xl font-semibold text-gray-900">Tipos De Gastos Fijos</h1>
                 </div>
                 <x-Dashboard.FixedExpenses.Catalogs.Button-Create-Modal text="Añadir Gasto Fijo"
-                    action="{{ route('Dashboard.Admin.Panel.FixedExpenses.Catalogs.Store') }}" />
+                    action="{{ route('Dashboard.Admin.Panel.TypeFixedExpenses.Store') }}" />
             </div>
-            @if (count($Data['tableFixedExpensesCatalogs']['rowFixedExpensesCatalogs']) > 0)
+            @if (count($Data['tableTypeFixedExpensesCatalogs']['rowTypeFixedExpenses']) > 0)
                 <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                     <div class="relative text-gray-600 py-1">
                         <input type="search" name="serch" placeholder="Realizar Busqueda"
@@ -26,21 +26,21 @@
                             class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    @foreach ($Data['tableFixedExpensesCatalogs']['columnFixedExpensesCatalogs'] as $columnFixedExpenseCatalog)
+                                    @foreach ($Data['tableTypeFixedExpensesCatalogs']['columnTypeFixedExpenses'] as $columnTypeFixedExpense)
                                         <th scope="col"
                                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                            {{ $columnFixedExpenseCatalog }}
+                                            {{ $columnTypeFixedExpense }}
                                         </th>
                                     @endforeach
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 border-t  bg-white">
-                                @foreach ($Data['tableFixedExpensesCatalogs']['rowFixedExpensesCatalogs'] as $rowFixedExpenseCatalog)
+                                @foreach ($Data['tableTypeFixedExpensesCatalogs']['rowTypeFixedExpenses'] as $rowFixedExpenseCatalog)
                                     <tr class="hover:bg-gray-100">
                                         <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
                                             <div class="text-sm">
                                                 <div class="font-medium text-gray-700">
-                                                    {{ $rowFixedExpenseCatalog->gastoFijo }}
+                                                    {{ $rowFixedExpenseCatalog->tipoGastoFijo }}
                                                 </div>
                                             </div>
                                         </th>
@@ -55,19 +55,19 @@
                                         <td class="px-6 py-4">
                                             <div class="flex justify-end gap-4">
                                                 <x-Dashboard.IconButton-Show_SA
-                                                    id="FixedExpensesCatalogs_{{ $rowFixedExpenseCatalog->clvGastoFijo }}"
-                                                    name="{{ $rowFixedExpenseCatalog->gastoFijo }}"
+                                                    id="TypeFixedExpenses_{{ $rowFixedExpenseCatalog->clvTipoGastoFijo }}"
+                                                    name="{{ $rowFixedExpenseCatalog->tipoGastoFijo }}"
                                                     description="{{ $rowFixedExpenseCatalog->descripcion }}"
                                                     href="" />
                                                 <x-Dashboard.FixedExpenses.Catalogs.Button-Edit-Modal
-                                                    id="FixedExpensesCatalogs_{{ $rowFixedExpenseCatalog->clvGastoFijo }}"
-                                                    gastoFijo="{{ $rowFixedExpenseCatalog->gastoFijo }}"
+                                                    id="TypeFixedExpenses_{{ $rowFixedExpenseCatalog->clvTipoGastoFijo }}"
+                                                    tipoGastoFijo="{{ $rowFixedExpenseCatalog->tipoGastoFijo }}"
                                                     descripcion="{{ $rowFixedExpenseCatalog->descripcion }}"
-                                                    href="{{ route('Dashboard.Admin.Panel.FixedExpenses.Catalogs.Update', $rowFixedExpenseCatalog->clvGastoFijo) }}" />
+                                                    href="{{ route('Dashboard.Admin.Panel.TypeFixedExpenses.Update', $rowFixedExpenseCatalog->clvTipoGastoFijo) }}" />
                                                 <x-Dashboard.IconButton-Delete
-                                                    id="FixedExpensesCatalogs_{{ $rowFixedExpenseCatalog->clvGastoFijo }}"
-                                                    name="{{ $rowFixedExpenseCatalog->gastoFijo }}"
-                                                    href="{{ route('Dashboard.Admin.Panel.FixedExpenses.Catalogs.Destroy', $rowFixedExpenseCatalog->clvGastoFijo) }}" />
+                                                    id="TypeFixedExpenses_{{ $rowFixedExpenseCatalog->clvTipoGastoFijo }}"
+                                                    name="{{ $rowFixedExpenseCatalog->tipoGastoFijo }}"
+                                                    href="{{ route('Dashboard.Admin.Panel.TypeFixedExpenses.Destroy', $rowFixedExpenseCatalog->clvTipoGastoFijo) }}" />
                                             </div>
                                         </td>
                                     </tr>
@@ -75,7 +75,7 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $Data['tableFixedExpensesCatalogs']['rowFixedExpensesCatalogs']->appends(['statusPaymentsRents_page' => $Data['tableFixedExpensesCatalogs']['rowFixedExpensesCatalogs']->currentPage()])->links('vendor.pagination.tailwind') }}
+                    {{ $Data['tableTypeFixedExpensesCatalogs']['rowTypeFixedExpenses']->appends(['statusPaymentsRents_page' => $Data['tableTypeFixedExpensesCatalogs']['rowTypeFixedExpenses']->currentPage()])->links('vendor.pagination.tailwind') }}
                 </div>
             @else
                 <main class="flex items-center justify-center flex-1 px-4 py-8">

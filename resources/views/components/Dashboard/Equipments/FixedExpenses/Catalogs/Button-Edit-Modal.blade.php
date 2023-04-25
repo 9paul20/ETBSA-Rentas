@@ -1,4 +1,4 @@
-@props(['id', 'gastoFijo', 'descripcion', 'href'])
+@props(['id', 'tipoGastoFijo', 'descripcion', 'href'])
 
 <a href="" x-data="{ tooltip: 'Edit' }" @click="openModal{{ $id }}()" id="link-edit-{{ $id }}">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -28,12 +28,13 @@
                         @method('PUT')
                         @csrf
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Gasto Fijo</label>
-                            <input type="text" name="gastoFijo" id="gastoFijo-{{ $id }}"
-                                autocomplete="given-gastoFijo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('gastoFijo') border-red-400 @enderror"
-                                value="{{ $gastoFijo }}" required autofocus>
-                            @error('gastoFijo')
+                            <label for="tipoGastoFijo" class="block text-sm font-medium text-gray-700">Tipo De Gasto
+                                Fijo</label>
+                            <input type="text" name="tipoGastoFijo" id="tipoGastoFijo-{{ $id }}"
+                                autocomplete="given-tipoGastoFijo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('tipoGastoFijo') border-red-400 @enderror"
+                                value="{{ $tipoGastoFijo }}" required autofocus>
+                            @error('tipoGastoFijo')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -70,8 +71,8 @@
     @if (request()->is('Dashboard/Panel/FixedExpenses'))
         <script>
             var editModal{{ $id }} = document.getElementById('edit-modal-{{ $id }}');
-            var nombreGastoFijoInput{{ $id }} = document.getElementById(
-                'gastoFijo-{{ $id }}');
+            var nombreTipoGastoFijoInput{{ $id }} = document.getElementById(
+                'tipoGastoFijo-{{ $id }}');
 
             document.getElementById('link-edit-{{ $id }}').addEventListener('click', function(event) {
                 // Prevenir el comportamiento predeterminado del enlace
@@ -81,7 +82,7 @@
             function openModal{{ $id }}() {
                 editModal{{ $id }}.classList.remove('hidden');
                 window.location.hash = "editModal{{ $id }}";
-                nombreGastoFijoInput{{ $id }}.focus();
+                nombreTipoGastoFijoInput{{ $id }}.focus();
             }
 
             document.getElementById('background').addEventListener('click', function() {
@@ -96,7 +97,7 @@
 
             if (window.location.hash === "#editModal{{ $id }}") {
                 editModal{{ $id }}.classList.remove("hidden");
-                nombreGastoFijoInput{{ $id }}.focus();
+                nombreTipoGastoFijoInput{{ $id }}.focus();
             }
         </script>
     @endif

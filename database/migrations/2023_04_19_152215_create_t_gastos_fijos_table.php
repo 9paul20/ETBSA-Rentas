@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('t_gastos_fijos', function (Blueprint $table) {
             $table->tinyIncrements('clvGastoFijo');
-            $table->string('gastoFijo')->unique();
-            $table->text('descripcion')->nullable();
+            $table->string('gastoFijo');
+            $table->decimal('costoGastoFijo', 10, 2)->default(0.00)->nullable();
+            $table->text('folioFactura')->nullable();
+            $table->date('fechaGastoFijo');
+            $table->unsignedTinyInteger('clvTipoGastoFijo')->nullable();
+            $table->unsignedBigInteger('clvEquipo')->nullable();
             $table->timestamps();
 
             $table->index('clvGastoFijo');

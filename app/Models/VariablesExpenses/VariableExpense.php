@@ -19,6 +19,7 @@ class VariableExpense extends Model
         'clvGastoVariable',
         'gastoVariable',
         'descripcion',
+        'fechaGastoVariable',
         'costoGastoVariable',
     ];
 
@@ -31,6 +32,7 @@ class VariableExpense extends Model
         $rules = [
             'gastoVariable' => 'required|string|min:4|max:255',
             'descripcion' => 'required|string|min:4|max:255',
+            'fechaGastoVariable' => 'required|date|before_or_equal:' . now()->toDateString(),
             'costoGastoVariable' => 'numeric|between:0,9999999999.99',
         ];
         return $rules;

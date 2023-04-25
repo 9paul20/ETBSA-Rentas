@@ -20,6 +20,14 @@
             </div>
             <div
                 class="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 dark:!bg-navy-700 dark:shadow-none">
+                <p class="text-sm text-gray-600">Fecha De Adquisición</p>
+                <span class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-sm font-semibold">
+                    <span class="h-1.5 w-1.5 rounded-full"></span>
+                    {{ $Data['equipment']['fechaAdquisicion'] }}
+                </span>
+            </div>
+            <div
+                class="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 dark:!bg-navy-700 dark:shadow-none">
                 <p class="text-sm text-gray-600">Disponibilidad</p>
                 <span
                     class="inline-flex items-center gap-1 rounded-full {{ $Data['equipment']->disponibilidad->bgColorPrimary }} px-2 py-1 text-sm font-semibold {{ $Data['equipment']->disponibilidad->textColor }}">

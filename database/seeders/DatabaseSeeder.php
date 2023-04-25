@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(Persons\NationalitySeeder::class);
 
         //FixedExpenses
-        $this->call(FixedExpenses\CatalogSeeder::class);
+        $this->call(FixedExpenses\TypeFixedExpenseSeeder::class);
 
         //Equipments
         $this->call(Equipments\StatusSeeder::class);
