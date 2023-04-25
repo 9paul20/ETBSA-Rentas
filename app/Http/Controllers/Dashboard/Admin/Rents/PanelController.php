@@ -38,7 +38,7 @@ class PanelController extends Controller
         // $paymentsRents = PaymentRent::all();
         $paymentsRents = PaymentRent::select('clvPagoRenta', 'pagoRenta', 'ivaRenta', 'clvEstadoPagoRenta', 'descripcion')
             ->with(['estadoPagoRenta' => function ($query) {
-                $query->select('clvEstadoPagoRenta', 'estadoPagoRenta');
+                $query->select('clvEstadoPagoRenta', 'estadoPagoRenta', 'textColor', 'bgColorPrimary', 'bgColorSecondary');
             }])
             ->get();
         $columnPaymentsRents = ['Pago de Renta', 'IVA de Renta', 'Total de Renta', 'Estado Del Pago de Renta', 'Descripción', ''];

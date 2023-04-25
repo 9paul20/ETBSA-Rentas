@@ -60,7 +60,7 @@
                                     fechaGastoFijo="{{ $rowFixedExpense['fechaGastoFijo'] }}"
                                     costoGastoFijo="{{ $rowFixedExpense['costoGastoFijo'] }}"
                                     today="{{ $Data['today'] }}"
-                                    SelectTypeFixedExpense="{{ view('Components.Dashboard.Equipments.FixedExpenses.Selects.SelectEdit-TypeFixedExpense', compact('Data','rowFixedExpense'))->render() }}"
+                                    SelectTypeFixedExpense="{{ view('Components.Dashboard.Equipments.FixedExpenses.Selects.SelectEdit-TypeFixedExpense', ['Data' => $Data, 'clvTipoGastoFijo' => $rowFixedExpense['clvTipoGastoFijo']])->render() }}"
                                     folioFactura="{{ $rowFixedExpense['folioFactura'] }}"
                                     href="{{ route('Dashboard.Admin.Equipments.UpdateFixedExpenses', $rowFixedExpense['clvGastoFijo']) }}" />
                                 <x-Dashboard.IconButton-Delete id="{{ $rowFixedExpense['clvGastoFijo'] }}"

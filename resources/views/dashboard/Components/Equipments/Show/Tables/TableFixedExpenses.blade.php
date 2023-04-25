@@ -41,7 +41,7 @@
                                     </div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
+                                    <div class="text-gray-600">
                                         {{ $rowFixedExpense['fechaGastoFijo'] }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -56,10 +56,10 @@
                             <tr class="bg-gray-50" id="total-gastos-fijos">
                                 <td class="px-6 py-4 font-semibold text-gray-900">Total de Gastos Fijos:</td>
                                 <td></td>
+                                <td></td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold"
                                     id="total-costo-gastos-fijos"><span class="font-medium text-green-600">$</span>
                                     {{ $Data['sumFixedExpenses'] }}</td>
-                                <td></td>
                                 <td></td>
                             </tr>
                         </tbody>

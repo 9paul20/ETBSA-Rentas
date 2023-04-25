@@ -116,6 +116,14 @@ class EquipmentsController extends Controller
     public function show(string $id)
     {
         $equipment = Equipment::findOrFail($id);
+        // $equipment = Equipment::select('clvEquipo', 'noSerieEquipo', 'noSerieMotor', 'noEconomico', 'modelo', 'clvDisponibilidad', 'clvCategoria', 'descripcion', 'precioEquipo', 'fechaAdquisicion')
+        //     ->with(['disponibilidad' => function ($query) {
+        //         $query->select('clvDisponibilidad', 'disponibilidad', 'textColor', 'bgColorPrimary', 'bgColorSecondary');
+        //     }, 'categoria' => function ($query) {
+        //         $query->select('clvCategoria', 'categoria');
+        //     }])
+        //     ->where('clvEquipo', $id)
+        //     ->firstOrFail();
         $sumFixedExpenses = DB::table('t_gastos_fijos')
             ->where('clvEquipo', $id)
             ->sum('costoGastoFijo');
@@ -127,8 +135,7 @@ class EquipmentsController extends Controller
         $perPage = 10;
 
         //Gastos Fijos del equipo
-        $fixedExpenses = FixedExpense::select('gastoFijo', 'clvTipoGastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'folioFactura')
-            ->where('clvEquipo', $id)->get();
+        $fixedExpenses = FixedExpense::select('gastoFijo', 'clvTipoGastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'folioFactura')->where('clvEquipo', $id)->get();
         $columnFixedExpenses = ['Gasto Fijo', 'Tipo De Gasto Fijo', 'Fecha Del Gasto Fijo', 'Costo Del Gasto Fijo', 'Folio'];
         $currentPageFixedExpenses = request()->get('fixedExpenses_page') ?? 1;
         $pagedFixedExpensesData = $fixedExpenses->slice(($currentPageFixedExpenses - 1) * $perPage, $perPage)->all();
@@ -142,8 +149,7 @@ class EquipmentsController extends Controller
         ];
 
         //Gastos Variables del equipo
-        $variablesExpenses = VariableExpense::select('gastoVariable', 'fechaGastoVariable', 'costoGastoVariable', 'descripcion')
-            ->where('clvEquipo', $id)->get();
+        $variablesExpenses = VariableExpense::select('gastoVariable', 'fechaGastoVariable', 'costoGastoVariable', 'descripcion')->where('clvEquipo', $id)->get();
         $columnVariablesExpenses = ['Gasto Variable', 'Fecha Del Gasto Variable', 'Costo Del Gasto Variable'];
         $currentPageVariablesExpenses = request()->get('variablesExpenses_page') ?? 1;
         $pagedVariablesExpensesData = $variablesExpenses->slice(($currentPageVariablesExpenses - 1) * $perPage, $perPage)->all();

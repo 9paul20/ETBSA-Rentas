@@ -8,7 +8,7 @@
             Seleccione Un Tipo De Gasto Fijo</option>
         @foreach ($Data['allTypeFixedExpense'] as $rowTypeFixedExpense)
         <option value="{{ $rowTypeFixedExpense['clvTipoGastoFijo'] }}"
-            @if($rowTypeFixedExpense['clvTipoGastoFijo']==$rowFixedExpense['clvTipoGastoFijo']) selected @endif>
+            @if($rowTypeFixedExpense['clvTipoGastoFijo']==$clvTipoGastoFijo) selected @endif>
             {{ $rowTypeFixedExpense['tipoGastoFijo'] }}
         </option>
         @endforeach
