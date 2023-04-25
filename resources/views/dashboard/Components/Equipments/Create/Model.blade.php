@@ -109,8 +109,8 @@
                                             Seleccione Una Disponibilidad</option>
                                         @foreach ($Data['status'] as $disponibilidad)
                                         <option value="{{ $disponibilidad['clvDisponibilidad'] }}" @if (
-                                            $disponibilidad['Disponibilidad']==$Data['equipment']['clvDisponibilidad'] )
-                                            selected @endif>
+                                            $disponibilidad['clvDisponibilidad']==$Data['equipment']['clvDisponibilidad']
+                                            ) selected @endif>
                                             {{ $disponibilidad['disponibilidad'] }}
                                         </option>
                                         @endforeach

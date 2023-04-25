@@ -28,7 +28,8 @@
     {{-- Color principal del tema. --}}
     <meta name="theme-color" content="#000000" />
     {{-- Icono de pestaña de la página web --}}
-    {{-- <link rel="shortcut icon" href="{{ url('/images/og-image.ico') }}" /> --}}
+    {{--
+    <link rel="shortcut icon" href="{{ url('/images/og-image.ico') }}" /> --}}
 
     {{-- Importación de fuentes externas --}}
     <link rel="preload" href="/fonts/Inter-roman.var.woff2?v=3.18" as="font" type="font/woff2" crossorigin="">
@@ -46,7 +47,8 @@
 
     {{-- Enlaces a hojas de estilo CSS --}}
     <link rel="stylesheet" href="{{ url('/css/styles.css') }}">
-    {{-- <link rel="stylesheet" href="{{ url('/css/components.css') }}"> --}}
+    {{--
+    <link rel="stylesheet" href="{{ url('/css/components.css') }}"> --}}
 
     {{-- Clases CSS incorporados --}}
     @stack('styles')
@@ -64,7 +66,8 @@
     {{-- Enlaces a Scripts de JS --}}
     {{-- <script src="{{ url('/js/components.js') }}"></script> --}}
     <script src="{{ url('/js/jquery-3.6.4.min.js') }}"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ url('/js/SweetAlert2.js') }}"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
 
     {{-- Scripts Vite Compiled --}}
     @vite('resources/js/app.js')
@@ -76,7 +79,7 @@
 
     {{-- <footer> --}}
 
-    {{-- </footer> --}}
+        {{-- </footer> --}}
 
 </body>
 
