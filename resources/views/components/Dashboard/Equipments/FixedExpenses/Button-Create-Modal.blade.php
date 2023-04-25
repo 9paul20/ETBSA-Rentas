@@ -42,6 +42,7 @@
                             </div>
                             @enderror
                         </div>
+                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
                         <div class="col-span-6 sm:col-span-6">
                             <label for="fechaGastoFijo" class="block text-sm font-medium text-gray-700">Fecha Del
                                 Gasto
@@ -73,7 +74,6 @@
                             </div>
                             @enderror
                         </div>
-                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
                         <div class="col-span-6 sm:col-span-6">
                             <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio Del Gasto
                                 Fijo</label>

@@ -287,10 +287,10 @@ class EquipmentsController extends Controller
                 ->withInput()
                 ->withFragment('#editModalFixedExpenses_' . $id);
         }
-        $variableExpense = FixedExpense::findOrFail($id);
-        $variableExpense->update($data);
-        $equipment = Equipment::findOrFail($variableExpense->clvEquipo);
-        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.');
+        $fixedExpense = FixedExpense::findOrFail($id);
+        $fixedExpense->update($data);
+        $equipment = Equipment::findOrFail($fixedExpense->clvEquipo);
+        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Fijo ' . $fixedExpense->gastoFijo . ' correctamente.');
     }
 
     public function updateVariablesExpenses(Request $request, string $id)

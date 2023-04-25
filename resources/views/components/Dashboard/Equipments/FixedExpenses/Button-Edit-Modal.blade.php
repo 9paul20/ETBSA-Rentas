@@ -1,4 +1,5 @@
-@props(['id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'today','folioFactura', 'href'])
+@props(['id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'today', 'SelectTypeFixedExpense','folioFactura',
+'href'])
 
 <a href="" x-data="{ tooltip: 'Edit' }" @click="modalHandler{{ $id }}(true)" id="link-edit-{{ $id }}"
     data-target="scroll-target-{{ $id }}">
@@ -22,7 +23,7 @@
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full max-w-2xl p-8 text-xl leading-7">
                     <div>
-                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Editar Gasto Variable
+                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Editar Gasto Fijo
                         </h3>
                         <p class="mt-2 text-sm text-gray-500">Por favor, completa los siguientes campos:</p>
                     </div>
@@ -31,7 +32,7 @@
                         @csrf
                         <div class="col-span-6 sm:col-span-6">
                             <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Gasto
-                                Variable</label>
+                                Fijo</label>
                             <input type="text" name="gastoFijo" id="input_{{ $id }}" autocomplete="given-gastoFijo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('gastoFijo') border-red-400 @enderror"
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
@@ -44,10 +45,11 @@
                             </div>
                             @enderror
                         </div>
+                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
                         <div class="col-span-6 sm:col-span-6">
                             <label for="fechaGastoFijo" class="block text-sm font-medium text-gray-700">Fecha Del
                                 Gasto
-                                Variable</label>
+                                Fijo</label>
                             <input type="date" name="fechaGastoFijo" id="fechaGastoFijo"
                                 autocomplete="given-fechaGastoFijo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
@@ -62,7 +64,7 @@
                         <div class="col-span-6 sm:col-span-6">
                             <label for="costoGastoFijo" class="block text-sm font-medium text-gray-700">Costo Del
                                 Gasto
-                                Variable</label>
+                                Fijo</label>
                             <input type="number" name="costoGastoFijo" id="costoGastoFijo" pattern="[0-9]+(\.[0-9]+)?"
                                 min="0" max="99999999.99" step="0.01" autocomplete="given-costoGastoFijo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('costoGastoFijo') border-red-400 @enderror"
