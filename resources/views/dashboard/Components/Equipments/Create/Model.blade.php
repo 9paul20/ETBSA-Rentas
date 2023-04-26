@@ -43,7 +43,7 @@
                                         Equipo</label>
                                     <input type="text" name="noSerieEquipo" id="noSerieEquipo"
                                         autocomplete="given-noSerieEquipo"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('noSerieEquipo') border-red-400 @enderror"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('noSerieEquipo') border-red-400 @enderror"
                                         value="{{ old('noSerieEquipo', $Data['equipment']['noSerieEquipo']) }}" required
                                         autofocus>
                                     @error('noSerieEquipo')
@@ -60,7 +60,7 @@
                                         Motor</label>
                                     <input type="text" name="noSerieMotor" id="noSerieMotor"
                                         autocomplete="given-noSerieMotor"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('noSerieMotor') border-red-400 @enderror"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('noSerieMotor') border-red-400 @enderror"
                                         value="{{ old('noSerieMotor', $Data['equipment']['noSerieMotor']) }}" required>
                                     @error('noSerieMotor')
                                     <div class="flex
@@ -75,7 +75,7 @@
                                         Económico</label>
                                     <input type="text" name="noEconomico" id="noEconomico"
                                         autocomplete="given-noEconomico"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('noEconomico') border-red-400 @enderror"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('noEconomico') border-red-400 @enderror"
                                         value="{{ old('noEconomico', $Data['equipment']['noEconomico']) }}" required>
                                     @error('noEconomico')
                                     <div class="flex
@@ -88,7 +88,7 @@
                                 <div class="col-span-6 sm:col-span-6">
                                     <label for="modelo" class="block text-sm font-medium text-gray-700">Modelo</label>
                                     <input type="text" name="modelo" id="modelo" autocomplete="given-modelo"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('modelo') border-red-400 @enderror"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('modelo') border-red-400 @enderror"
                                         value="{{ old('modelo', $Data['equipment']['modelo']) }}" required>
                                     @error('modelo')
                                     <div class="flex
@@ -102,7 +102,7 @@
                                     <label for="clvDisponibilidad"
                                         class="block text-sm font-medium text-gray-700">Disponibilidad</label>
                                     <select id="clvDisponibilidad" name="clvDisponibilidad"
-                                        class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvDisponibilidad') border-red-400 @enderror"
+                                        class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('clvDisponibilidad') border-red-400 @enderror"
                                         required>
                                         @if (count($Data['status']) > 0)
                                         <option value="" disabled selected>
@@ -131,7 +131,7 @@
                                     <label for="clvCategoria"
                                         class="block text-sm font-medium text-gray-700">Categoria</label>
                                     <select id="clvCategoria" name="clvCategoria"
-                                        class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvCategoria') border-red-400 @enderror"
+                                        class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('clvCategoria') border-red-400 @enderror"
                                         required>
                                         @if (count($Data['categories']) > 0)
                                         <option value="" disabled selected>
@@ -162,7 +162,7 @@
                                     <input type="number" name="precioEquipo" id="precioEquipo"
                                         pattern="[0-9]+(\.[0-9]+)?" min="0" max="99999999.99"
                                         autocomplete="given-precioEquipo"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('precioEquipo') border-red-400 @enderror"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('precioEquipo') border-red-400 @enderror"
                                         value="{{ old('precioEquipo', $Data['equipment']['precioEquipo']) }}" required
                                         step="0.01">
                                     @error('precioEquipo')
@@ -179,7 +179,7 @@
                                         Adquisición</label>
                                     <input type="date" name="fechaAdquisicion" id="fechaAdquisicion"
                                         autocomplete="given-fechaAdquisicion"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fechaAdquisicion') border-red-400 @enderror"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaAdquisicion') border-red-400 @enderror"
                                         value="{{ old('fechaAdquisicion', $Data['equipment']['fechaAdquisicion']) }}"
                                         required>
                                     @error('fechaAdquisicion')
@@ -195,7 +195,7 @@
                                         class="block text-sm font-medium text-gray-700">Descripción</label>
                                     <textarea rows="3" name="descripcion" id="descripcion"
                                         autocomplete="given-descripcion"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
                                         required>{{ old('descripcion', $Data['equipment']['descripcion']) }}</textarea>
                                     @error('descripcion')
                                     <div class="flex

@@ -15,40 +15,40 @@
                             <div class="col-span-6 sm:col-span-6">
                                 <label for="name" class="block text-sm font-medium text-gray-700">Username</label>
                                 <input type="text" name="name" id="name" autocomplete="given-name"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-400 @enderror"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('name') border-red-400 @enderror"
                                     value="{{ old('name') }}" required autofocus>
                                 @error('name')
-                                    <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                                        <span>{{ $message }}</span>
-                                    </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                                 @enderror
                             </div>
                             <div class="col-span-6 sm:col-span-6">
                                 <label for="email" class="block text-sm font-medium text-gray-700">Email
                                     address</label>
                                 <input type="email" name="email" id="email" autocomplete="email"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('email') border-red-400 @enderror"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('email') border-red-400 @enderror"
                                     value="{{ old('email') }}" required>
                                 @error('email')
-                                    <div class="flex
+                                <div class="flex
                             items-center mt-1 text-red-400">
-                                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                                        <span>{{ $message }}</span>
-                                    </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                                 @enderror
                             </div>
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                                 <input type="password" name="password" id="password"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('password') border-red-400 @enderror"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('password') border-red-400 @enderror"
                                     required>
                                 @error('password')
-                                    <div class="flex items-center mt-1 text-red-400">
-                                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                                        <span>{{ $message }}</span>
-                                    </div>
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                                 @enderror
                             </div>
                             <div class="col-span-6 sm:col-span-3">
@@ -56,13 +56,13 @@
                                     class="block text-sm font-medium text-gray-700">Confirm
                                     Password</label>
                                 <input type="password" name="password_confirmation" id="password_confirmation"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('password-confirm') border-red-400 @enderror"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('password-confirm') border-red-400 @enderror"
                                     required>
                                 @error('password-confirm')
-                                    <div class="flex items-center mt-1 text-red-400">
-                                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                                        <span>{{ $message }}</span>
-                                    </div>
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                                 @enderror
                             </div>
                         </div>
@@ -74,8 +74,8 @@
 </div>
 
 @push('scripts')
-    <script>
-        // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
+<script>
+    // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('click', () => {
                 const errorDiv = input.nextElementSibling;
@@ -91,5 +91,5 @@
                 }
             });
         });
-    </script>
+</script>
 @endpush

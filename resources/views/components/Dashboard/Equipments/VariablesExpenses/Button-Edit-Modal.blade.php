@@ -34,7 +34,7 @@
                                 Variable</label>
                             <input type="text" name="gastoVariable" id="input_{{ $id }}"
                                 autocomplete="given-gastoVariable"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('gastoVariable') border-red-400 @enderror"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('gastoVariable') border-red-400 @enderror"
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
                                 value="{{ old('gastoVariable', $gastoVariable) }}" required autofocus>
                             @error('gastoVariable')
@@ -51,7 +51,7 @@
                                 Variable</label>
                             <input type="date" name="fechaGastoVariable" id="fechaGastoVariable"
                                 autocomplete="given-fechaGastoVariable"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fechaGastoVariable') border-red-400 @enderror"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGastoVariable') border-red-400 @enderror"
                                 value="{{ old('fechaGastoVariable', $fechaGastoVariable) }}" required
                                 max='{{ $today }}'>
                             @error('fechaGastoVariable')
@@ -68,7 +68,7 @@
                             <input type="number" name="costoGastoVariable" id="costoGastoVariable"
                                 pattern="[0-9]+(\.[0-9]+)?" min="0" max="99999999.99" step="0.01"
                                 autocomplete="given-costoGastoVariable"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('costoGastoVariable') border-red-400 @enderror"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoGastoVariable') border-red-400 @enderror"
                                 value="{{ old('costoGastoVariable', $costoGastoVariable) }}" required>
                             @error('costoGastoVariable')
                             <div class="flex
@@ -81,7 +81,7 @@
                         <div class="col-span-6 sm:col-span-6">
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
                                 minlength="4" maxlength="255" required>{{ old('descripcion', $descripcion) }}</textarea>
                             @error('descripcion')
                             <div class="flex
@@ -93,7 +93,7 @@
                         </div>
                         <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
                             <button type="submit"
-                                class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-md">Guardar</button>
+                                class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 rounded-md">Guardar</button>
                             <button type="button" id="btn-edit-modal-{{ $id }}-close"
                                 class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
                                 onclick="modalHandler{{ $id }}()">Cancelar</button>

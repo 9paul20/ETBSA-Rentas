@@ -23,41 +23,40 @@
                         </h3>
                         <p class="mt-2 text-sm text-gray-500">Por favor, completa los siguientes campos:</p>
                     </div>
-                    <form action="{{ $href }}" class="mt-4 space-y-4" method="POST"
-                        id="edit-form-{{ $id }}">
+                    <form action="{{ $href }}" class="mt-4 space-y-4" method="POST" id="edit-form-{{ $id }}">
                         @method('PUT')
                         @csrf
                         <div class="col-span-6 sm:col-span-6">
                             <label for="categoria" class="block text-sm font-medium text-gray-700">Categoria</label>
-                            <input type="text" name="categoria" id="categoria-{{ $id }}"
-                                autocomplete="given-categoria"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('categoria') border-red-400 @enderror"
+                            <input type="text" name="categoria" id="categoria-{{ $id }}" autocomplete="given-categoria"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('categoria') border-red-400 @enderror"
                                 value="{{ $categoria }}" required autofocus>
                             @error('categoria')
-                                <div class="flex
+                            <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
-                                </div>
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
                             @enderror
                         </div>
                         {!! html_entity_decode($SelectTypeCategory) !!}
                         <div class="col-span-6 sm:col-span-6">
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                            <textarea rows="3" name="descripcion" id="descripcion-{{ $id }}" autocomplete="given-descripcion"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
+                            <textarea rows="3" name="descripcion" id="descripcion-{{ $id }}"
+                                autocomplete="given-descripcion"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
                                 required>{{ $descripcion }}</textarea>
                             @error('descripcion')
-                                <div class="flex
+                            <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
-                                </div>
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                <span>{{ $message }}</span>
+                            </div>
                             @enderror
                         </div>
                         <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
                             <button type="submit"
-                                class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-md">Guardar</button>
+                                class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 rounded-md">Guardar</button>
                             <button type="button" id="btn-edit-modal-close-{{ $id }}"
                                 class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md">Cancelar</button>
                         </div>
@@ -69,9 +68,9 @@
 </div>
 
 @push('scripts')
-    @if (request()->is('Dashboard/Panel/Equipments'))
-        <script>
-            var editModal{{ $id }} = document.getElementById('edit-modal-{{ $id }}');
+@if (request()->is('Dashboard/Panel/Equipments'))
+<script>
+    var editModal{{ $id }} = document.getElementById('edit-modal-{{ $id }}');
             var nombreCategoriaInput{{ $id }} = document.getElementById(
                 'categoria-{{ $id }}');
 
@@ -100,6 +99,6 @@
                 editModal{{ $id }}.classList.remove("hidden");
                 nombreCategoriaInput{{ $id }}.focus();
             }
-        </script>
-    @endif
+</script>
+@endif
 @endpush

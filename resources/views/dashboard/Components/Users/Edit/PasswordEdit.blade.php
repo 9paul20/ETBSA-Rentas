@@ -16,13 +16,13 @@
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                                 <input type="password" name="password" id="password"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('password') border-red-400 @enderror"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('password') border-red-400 @enderror"
                                     required>
                                 @error('password')
-                                    <div class="flex items-center mt-1 text-red-400">
-                                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                                        <span>{{ $message }}</span>
-                                    </div>
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                                 @enderror
                             </div>
                             <div class="col-span-6 sm:col-span-3">
@@ -30,19 +30,19 @@
                                     class="block text-sm font-medium text-gray-700">Confirm
                                     Password</label>
                                 <input type="password" name="password_confirmation" id="password_confirmation"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('password-confirm') border-red-400 @enderror"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('password-confirm') border-red-400 @enderror"
                                     required>
                                 @error('password-confirm')
-                                    <div class="flex items-center mt-1 text-red-400">
-                                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                                        <span>{{ $message }}</span>
-                                    </div>
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                                 @enderror
                             </div>
                             {{-- <div class="col-span-6 sm:col-span-3">
                                 <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
                                 <select id="country" name="country" autocomplete="country-name"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                    class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm">
                                     <option>United States</option>
                                     <option>Canada</option>
                                     <option>Mexico</option>
@@ -54,27 +54,27 @@
                                     address</label>
                                 <input type="text" name="street-address" id="street-address"
                                     autocomplete="street-address"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
                             </div>
 
                             <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                 <label for="city" class="block text-sm font-medium text-gray-700">City</label>
                                 <input type="text" name="city" id="city" autocomplete="address-level2"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
                             </div>
 
                             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                                 <label for="region" class="block text-sm font-medium text-gray-700">State /
                                     Province</label>
                                 <input type="text" name="region" id="region" autocomplete="address-level1"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
                             </div>
 
                             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                                 <label for="postal-code" class="block text-sm font-medium text-gray-700">ZIP / Postal
                                     code</label>
                                 <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
                             </div> --}}
                         </div>
                     </div>
@@ -85,8 +85,8 @@
 </div>
 
 @push('scripts')
-    <script>
-        // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
+<script>
+    // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('click', () => {
                 const errorDiv = input.nextElementSibling;
@@ -102,5 +102,5 @@
                 }
             });
         });
-    </script>
+</script>
 @endpush

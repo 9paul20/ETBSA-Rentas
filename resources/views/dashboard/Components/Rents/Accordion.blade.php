@@ -1,14 +1,14 @@
 @push('styles')
-    <style>
-        .accordion-content {
-            transition: max-height 0.2s ease-out, padding 0.2s ease;
-        }
+<style>
+    .accordion-content {
+        transition: max-height 0.2s ease-out, padding 0.2s ease;
+    }
 
-        .swal2-container.swal2-center>.swal2-popup {
-            background-color: #FFFCF2;
-            /* Cambiar a tu color deseado */
-        }
-    </style>
+    .swal2-container.swal2-center>.swal2-popup {
+        background-color: #FFFCF2;
+        /* Cambiar a tu color deseado */
+    }
+</style>
 @endpush
 
 <div class="bg-white p-10 overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
@@ -30,8 +30,8 @@
 </div>
 
 @push('scripts')
-    <script>
-        // Obtener el último acordeón abierto del almacenamiento local
+<script>
+    // Obtener el último acordeón abierto del almacenamiento local
         const lastAccordionIndex = localStorage.getItem('lastAccordionIndex');
 
         // Obtener todos los encabezados de los acordeones
@@ -45,7 +45,7 @@
                     content.style.maxHeight = `0px`;
                     header.querySelector(".fas").classList.add("fa-angle-down");
                     header.querySelector(".fas").classList.remove("fa-angle-up");
-                    header.parentElement.classList.remove("bg-indigo-50");
+                    header.parentElement.classList.remove("bg-green-50");
                 }
             });
         }
@@ -65,12 +65,12 @@
                     accordionContent.style.maxHeight = `${accordionContent.scrollHeight + 32}px`;
                     icon.classList.remove("fa-angle-down");
                     icon.classList.add("fa-angle-up");
-                    header.parentElement.classList.add("bg-indigo-50");
+                    header.parentElement.classList.add("bg-green-50");
                 } else {
                     accordionContent.style.maxHeight = `0px`;
                     icon.classList.add("fa-angle-down");
                     icon.classList.remove("fa-angle-up");
-                    header.parentElement.classList.remove("bg-indigo-50");
+                    header.parentElement.classList.remove("bg-green-50");
                 }
 
                 // Guardar el índice del acordeón abierto en el almacenamiento local
@@ -104,5 +104,5 @@
                 }
             });
         });
-    </script>
+</script>
 @endpush

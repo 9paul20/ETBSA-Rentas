@@ -1,5 +1,5 @@
 <!-- Categoria -->
-<div class="transition hover:bg-indigo-50 overflow-hidden rounded-lg p-2 mb-2">
+<div class="transition hover:bg-green-50 overflow-hidden rounded-lg p-2 mb-2">
     <!-- header -->
     <div class="accordion-header cursor-pointer transition flex space-x-5 px-5 items-center h-16">
         <i class="fas fa-angle-down"></i>

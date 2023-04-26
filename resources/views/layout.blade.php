@@ -65,9 +65,9 @@
 
     {{-- Enlaces a Scripts de JS --}}
     {{-- <script src="{{ url('/js/components.js') }}"></script> --}}
-    <script src="{{ url('/js/jquery-3.6.4.min.js') }}"></script>
-    <script src="{{ url('/js/SweetAlert2.js') }}"></script>
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    {{-- <script src="{{ url('js/Tailwind-3.3.1.js') }}"></script> --}}
+    <script src="{{ url('js/jquery-3.6.4.min.js') }}"></script>
 
     {{-- Scripts Vite Compiled --}}
     @vite('resources/js/app.js')

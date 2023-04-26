@@ -17,7 +17,7 @@
                                 <div class="flex items-start">
                                     <div class="flex h-5 items-center">
                                         <input id="comments" name="comments" type="checkbox"
-                                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                            class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
                                     </div>
                                     <div class="ml-3 text-sm">
                                         <label for="comments" class="font-medium text-gray-700">Comments</label>
@@ -28,7 +28,7 @@
                                 <div class="flex items-start">
                                     <div class="flex h-5 items-center">
                                         <input id="candidates" name="candidates" type="checkbox"
-                                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                            class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
                                     </div>
                                     <div class="ml-3 text-sm">
                                         <label for="candidates" class="font-medium text-gray-700">Candidates</label>
@@ -38,7 +38,7 @@
                                 <div class="flex items-start">
                                     <div class="flex h-5 items-center">
                                         <input id="offers" name="offers" type="checkbox"
-                                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                            class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
                                     </div>
                                     <div class="ml-3 text-sm">
                                         <label for="offers" class="font-medium text-gray-700">Offers</label>
@@ -54,19 +54,19 @@
                             <div class="mt-4 space-y-4">
                                 <div class="flex items-center">
                                     <input id="push-everything" name="push-notifications" type="radio"
-                                        class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                        class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
                                     <label for="push-everything"
                                         class="ml-3 block text-sm font-medium text-gray-700">Everything</label>
                                 </div>
                                 <div class="flex items-center">
                                     <input id="push-email" name="push-notifications" type="radio"
-                                        class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                        class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
                                     <label for="push-email" class="ml-3 block text-sm font-medium text-gray-700">Same
                                         as email</label>
                                 </div>
                                 <div class="flex items-center">
                                     <input id="push-nothing" name="push-notifications" type="radio"
-                                        class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                        class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
                                     <label for="push-nothing" class="ml-3 block text-sm font-medium text-gray-700">No
                                         push notifications</label>
                                 </div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                         <button type="submit"
-                            class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
+                            class="inline-flex justify-center rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Save</button>
                     </div>
                 </div>
             </form>

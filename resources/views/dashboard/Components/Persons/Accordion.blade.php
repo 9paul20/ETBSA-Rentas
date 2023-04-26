@@ -1,14 +1,14 @@
 @push('styles')
-    <style>
-        .accordion-content {
-            transition: max-height 0.2s ease-out, padding 0.2s ease;
-        }
+<style>
+    .accordion-content {
+        transition: max-height 0.2s ease-out, padding 0.2s ease;
+    }
 
-        .swal2-container.swal2-center>.swal2-popup {
-            background-color: #FFFCF2;
-            /* Cambiar a tu color deseado */
-        }
-    </style>
+    .swal2-container.swal2-center>.swal2-popup {
+        background-color: #FFFCF2;
+        /* Cambiar a tu color deseado */
+    }
+</style>
 @endpush
 
 <div class="bg-white p-10 overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
@@ -26,8 +26,9 @@
 
     @include('Dashboard.Components.Persons.Nacionalidad.Table')
 
-    {{-- <!-- Extra -->
-    <div class="transition hover:bg-indigo-50 overflow-hidden rounded-lg p-2 mb-2">
+    {{--
+    <!-- Extra -->
+    <div class="transition hover:bg-green-50 overflow-hidden rounded-lg p-2 mb-2">
         <!-- header -->
         <div class="accordion-header cursor-pointer transition flex space-x-5 px-5 items-center h-16">
             <i class="fas fa-angle-down"></i>
@@ -40,15 +41,15 @@
                 my woody. Him children bringing goodness suitable she entirely put
                 far daughter.
             </p>
-            <button class="rounded-full bg-indigo-600 text-white font-medium font-lg px-6 py-2 my-5 ml-9">Learn
+            <button class="rounded-full bg-green-600 text-white font-medium font-lg px-6 py-2 my-5 ml-9">Learn
                 more</button>
         </div>
     </div> --}}
 </div>
 
 @push('scripts')
-    <script>
-        // Obtener el último acordeón abierto del almacenamiento local
+<script>
+    // Obtener el último acordeón abierto del almacenamiento local
         const lastAccordionIndex = localStorage.getItem('lastAccordionIndex');
 
         // Obtener todos los encabezados de los acordeones
@@ -62,7 +63,7 @@
                     content.style.maxHeight = `0px`;
                     header.querySelector(".fas").classList.add("fa-angle-down");
                     header.querySelector(".fas").classList.remove("fa-angle-up");
-                    header.parentElement.classList.remove("bg-indigo-50");
+                    header.parentElement.classList.remove("bg-green-50");
                 }
             });
         }
@@ -82,12 +83,12 @@
                     accordionContent.style.maxHeight = `${accordionContent.scrollHeight + 32}px`;
                     icon.classList.remove("fa-angle-down");
                     icon.classList.add("fa-angle-up");
-                    header.parentElement.classList.add("bg-indigo-50");
+                    header.parentElement.classList.add("bg-green-50");
                 } else {
                     accordionContent.style.maxHeight = `0px`;
                     icon.classList.add("fa-angle-down");
                     icon.classList.remove("fa-angle-up");
-                    header.parentElement.classList.remove("bg-indigo-50");
+                    header.parentElement.classList.remove("bg-green-50");
                 }
 
                 // Guardar el índice del acordeón abierto en el almacenamiento local
@@ -121,5 +122,5 @@
                 }
             });
         });
-    </script>
+</script>
 @endpush

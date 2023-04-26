@@ -39,13 +39,13 @@ class="bg-gray-100"
                 <!-- Logo -->
                 <a href="{{ route('Dashboard.Menu.Index') }}">
                     <img class="w-10 h-auto"
-                        src="https://raw.githubusercontent.com/kamona-ui/dashboard-alpine/main/public/assets/images/logo.png"
+                        src="https://www.clipartmax.com/png/full/300-3006505_john-deere-decal-sticker-logo-tractor-john-deere-logo-vector.png"
                         alt="K-UI" />
                 </a>
                 <!-- User avatar button -->
                 {{-- <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
                     <button @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})"
-                        class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2">
+                        class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none focus:ring focus:ring-green-600 focus:ring-offset-white focus:ring-offset-2">
                         <img class="w-8 h-8 rounded-lg shadow-md"
                             src="https://avatars.githubusercontent.com/u/57622665?s=460&u=8f581f4c4acd4c18c33a87b3e6476112325e8b38&v=4"
                             alt="Ahmed Kamel" />
@@ -137,7 +137,7 @@ class="bg-gray-100"
                 <!-- User avatar -->
                 {{-- <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
                     <button @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})"
-                        class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2">
+                        class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none focus:ring focus:ring-green-600 focus:ring-offset-white focus:ring-offset-2">
                         <img class="w-10 h-10 rounded-lg shadow-md"
                             src="https://avatars.githubusercontent.com/u/57622665?s=460&u=8f581f4c4acd4c18c33a87b3e6476112325e8b38&v=4"
                             alt="Ahmed Kamel" />

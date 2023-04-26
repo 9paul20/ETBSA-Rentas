@@ -1,5 +1,6 @@
 @push('styles')
-    {{-- <link rel="stylesheet" href="{{ url('/css/components.css') }}"> --}}
+{{--
+<link rel="stylesheet" href="{{ url('/css/components.css') }}"> --}}
 @endpush
 
 <div class="mt-10 sm:mt-0">
@@ -12,194 +13,201 @@
         </div>
         <div class="mt-5 md:col-span-2 md:mt-0">
             @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Persons' &&
-                    getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
-                <form action="{{ route('Dashboard.Admin.Persons.Store') }}" method="POST">
+            getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
+            <form action="{{ route('Dashboard.Admin.Persons.Store') }}" method="POST">
                 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Persons' &&
-                        getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
-                    <form action="{{ route('Dashboard.Admin.Persons.Update', $person->clvPersona) }}" method="POST">
-                        @method('PUT')
-            @endif
-            @csrf
-            <div class="overflow-hidden shadow sm:rounded-md">
-                <div class="bg-white px-4 py-5 sm:p-6">
-                    <div class="grid grid-cols-6 gap-6">
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="nombrePersona" class="block text-sm font-medium text-gray-700">Nombre</label>
-                            <input type="text" name="nombrePersona" id="nombrePersona"
-                                autocomplete="given-nombrePersona"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('nombrePersona') border-red-400 @enderror"
-                                value="{{ old('nombrePersona', $person->nombrePersona) }}" required autofocus>
-                            @error('nombrePersona')
-                                <div class="flex
+                getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
+                <form action="{{ route('Dashboard.Admin.Persons.Update', $person->clvPersona) }}" method="POST">
+                    @method('PUT')
+                    @endif
+                    @csrf
+                    <div class="overflow-hidden shadow sm:rounded-md">
+                        <div class="bg-white px-4 py-5 sm:p-6">
+                            <div class="grid grid-cols-6 gap-6">
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="nombrePersona"
+                                        class="block text-sm font-medium text-gray-700">Nombre</label>
+                                    <input type="text" name="nombrePersona" id="nombrePersona"
+                                        autocomplete="given-nombrePersona"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('nombrePersona') border-red-400 @enderror"
+                                        value="{{ old('nombrePersona', $person->nombrePersona) }}" required autofocus>
+                                    @error('nombrePersona')
+                                    <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="apePaternoPersona" class="block text-sm font-medium text-gray-700">Apellido
-                                Paterno</label>
-                            <input type="text" name="apePaternoPersona" id="apePaternoPersona"
-                                autocomplete="given-apePaternoPersona"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('apePaternoPersona') border-red-400 @enderror"
-                                value="{{ old('apePaternoPersona', $person->apePaternoPersona) }}" required>
-                            @error('apePaternoPersona')
-                                <div class="flex
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="apePaternoPersona"
+                                        class="block text-sm font-medium text-gray-700">Apellido
+                                        Paterno</label>
+                                    <input type="text" name="apePaternoPersona" id="apePaternoPersona"
+                                        autocomplete="given-apePaternoPersona"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('apePaternoPersona') border-red-400 @enderror"
+                                        value="{{ old('apePaternoPersona', $person->apePaternoPersona) }}" required>
+                                    @error('apePaternoPersona')
+                                    <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="apeMaternoPersona" class="block text-sm font-medium text-gray-700">Apellido
-                                Materno</label>
-                            <input type="text" name="apeMaternoPersona" id="apeMaternoPersona"
-                                autocomplete="given-apeMaternoPersona"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('apeMaternoPersona') border-red-400 @enderror"
-                                value="{{ old('apeMaternoPersona', $person->apeMaternoPersona) }}" required>
-                            @error('apeMaternoPersona')
-                                <div class="flex
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="apeMaternoPersona"
+                                        class="block text-sm font-medium text-gray-700">Apellido
+                                        Materno</label>
+                                    <input type="text" name="apeMaternoPersona" id="apeMaternoPersona"
+                                        autocomplete="given-apeMaternoPersona"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('apeMaternoPersona') border-red-400 @enderror"
+                                        value="{{ old('apeMaternoPersona', $person->apeMaternoPersona) }}" required>
+                                    @error('apeMaternoPersona')
+                                    <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="nacimiento" class="block text-sm font-medium text-gray-700">Nacimiento</label>
-                            <input type="date" name="nacimiento" id="nacimiento" autocomplete="given-nacimiento"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('nacimiento') border-red-400 @enderror"
-                                value="{{ old('nacimiento', $person->nacimiento) }}" required>
-                            @error('nacimiento')
-                                <div class="flex
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="nacimiento"
+                                        class="block text-sm font-medium text-gray-700">Nacimiento</label>
+                                    <input type="date" name="nacimiento" id="nacimiento" autocomplete="given-nacimiento"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('nacimiento') border-red-400 @enderror"
+                                        value="{{ old('nacimiento', $person->nacimiento) }}" required>
+                                    @error('nacimiento')
+                                    <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="clvNacionalidad"
-                                class="block text-sm font-medium text-gray-700">Nacionalidad</label>
-                            <select id="clvNacionalidad" name="clvNacionalidad"
-                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvNacionalidad') border-red-400 @enderror"
-                                required>
-                                @if (count($nacionalidades) > 0)
-                                    <option value="" disabled selected>
-                                        Seleccione Una Nacionalidad</option>
-                                    @foreach ($nacionalidades as $nacionalidad)
-                                        <option value="{{ $nacionalidad->clvNacionalidad }}"
-                                            @if ($nacionalidad->clvNacionalidad == $person->clvNacionalidad) selected @endif>
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="clvNacionalidad"
+                                        class="block text-sm font-medium text-gray-700">Nacionalidad</label>
+                                    <select id="clvNacionalidad" name="clvNacionalidad"
+                                        class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('clvNacionalidad') border-red-400 @enderror"
+                                        required>
+                                        @if (count($nacionalidades) > 0)
+                                        <option value="" disabled selected>
+                                            Seleccione Una Nacionalidad</option>
+                                        @foreach ($nacionalidades as $nacionalidad)
+                                        <option value="{{ $nacionalidad->clvNacionalidad }}" @if ($nacionalidad->
+                                            clvNacionalidad == $person->clvNacionalidad) selected @endif>
                                             {{ $nacionalidad->nacionalidad }}
                                         </option>
-                                    @endforeach
-                                @else
-                                    <option value="" disabled selected>
-                                        No Hay Opciones De Nacionalidad Disponibles</option>
-                                @endif
-                            </select>
-                            @error('clvNacionalidad')
-                                <div class="flex
+                                        @endforeach
+                                        @else
+                                        <option value="" disabled selected>
+                                            No Hay Opciones De Nacionalidad Disponibles</option>
+                                        @endif
+                                    </select>
+                                    @error('clvNacionalidad')
+                                    <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="telefono" class="block text-sm font-medium text-gray-700">Telefono</label>
-                            <input type="tel" pattern="[0-9]{10}" name="telefono" id="telefono"
-                                autocomplete="given-telefono"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('telefono') border-red-400 @enderror"
-                                value="{{ old('telefono', $person->telefono) }}" required>
-                            @error('telefono')
-                                <div class="flex items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="telefono"
+                                        class="block text-sm font-medium text-gray-700">Telefono</label>
+                                    <input type="tel" pattern="[0-9]{10}" name="telefono" id="telefono"
+                                        autocomplete="given-telefono"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('telefono') border-red-400 @enderror"
+                                        value="{{ old('telefono', $person->telefono) }}" required>
+                                    @error('telefono')
+                                    <div class="flex items-center mt-1 text-red-400">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="celular" class="block text-sm font-medium text-gray-700">Celular</label>
-                            <input type="tel" pattern="[0-9]{10}" name="celular" id="celular"
-                                autocomplete="given-celular"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('celular') border-red-400 @enderror"
-                                value="{{ old('celular', $person->celular) }}" required>
-                            @error('celular')
-                                <div class="flex items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="celular" class="block text-sm font-medium text-gray-700">Celular</label>
+                                    <input type="tel" pattern="[0-9]{10}" name="celular" id="celular"
+                                        autocomplete="given-celular"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('celular') border-red-400 @enderror"
+                                        value="{{ old('celular', $person->celular) }}" required>
+                                    @error('celular')
+                                    <div class="flex items-center mt-1 text-red-400">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="clvComTel" class="block text-sm font-medium text-gray-700">Compañia
-                                Telefónica</label>
-                            <select id="clvComTel" name="clvComTel"
-                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm @error('clvComTel') border-red-400 @enderror"
-                                required>
-                                @if (count($comtels) > 0)
-                                    <option value="" disabled selected>
-                                        Seleccione Una Compañia Telefónica</option>
-                                    @foreach ($comtels as $comtel)
-                                        <option value="{{ $comtel->clvComTel }}"
-                                            @if ($comtel->clvComTel == $person->clvComTel) selected @endif>
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="clvComTel" class="block text-sm font-medium text-gray-700">Compañia
+                                        Telefónica</label>
+                                    <select id="clvComTel" name="clvComTel"
+                                        class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('clvComTel') border-red-400 @enderror"
+                                        required>
+                                        @if (count($comtels) > 0)
+                                        <option value="" disabled selected>
+                                            Seleccione Una Compañia Telefónica</option>
+                                        @foreach ($comtels as $comtel)
+                                        <option value="{{ $comtel->clvComTel }}" @if ($comtel->clvComTel ==
+                                            $person->clvComTel) selected @endif>
                                             {{ $comtel->companiaTelefonica }}
                                         </option>
-                                    @endforeach
-                                @else
-                                    <option value="" disabled selected>
-                                        No Hay Opciones De Compañias Telefónicas Disponible</option>
-                                @endif
-                            </select>
-                            @error('clvComTel')
-                                <div class="flex
+                                        @endforeach
+                                        @else
+                                        <option value="" disabled selected>
+                                            No Hay Opciones De Compañias Telefónicas Disponible</option>
+                                        @endif
+                                    </select>
+                                    @error('clvComTel')
+                                    <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="ocupacion" class="block text-sm font-medium text-gray-700">Ocupación</label>
-                            <input type="text" name="ocupacion" id="ocupacion" autocomplete="given-ocupacion"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('ocupacion') border-red-400 @enderror"
-                                value="{{ old('ocupacion', $person->ocupacion) }}" required>
-                            @error('ocupacion')
-                                <div class="flex
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="ocupacion"
+                                        class="block text-sm font-medium text-gray-700">Ocupación</label>
+                                    <input type="text" name="ocupacion" id="ocupacion" autocomplete="given-ocupacion"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('ocupacion') border-red-400 @enderror"
+                                        value="{{ old('ocupacion', $person->ocupacion) }}" required>
+                                    @error('ocupacion')
+                                    <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="informacion"
-                                class="block text-sm font-medium text-gray-700">Información</label>
-                            <textarea rows="3" name="informacion" id="informacion" autocomplete="given-informacion"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('informacion') border-red-400 @enderror"
-                                required>{{ old('informacion', $person->informacion) }}</textarea>
-                            @error('informacion')
-                                <div class="flex
+                                <div class="col-span-6 sm:col-span-6">
+                                    <label for="informacion"
+                                        class="block text-sm font-medium text-gray-700">Información</label>
+                                    <textarea rows="3" name="informacion" id="informacion"
+                                        autocomplete="given-informacion"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('informacion') border-red-400 @enderror"
+                                        required>{{ old('informacion', $person->informacion) }}</textarea>
+                                    @error('informacion')
+                                    <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                    @enderror
                                 </div>
-                            @enderror
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <x-Dashboard.Save-Button name="Guardar Persona" />
+                        <x-Dashboard.Save-Button name="Guardar Persona" />
                 </form>
-            </div>
         </div>
     </div>
+</div>
 
-    @push('scripts')
-        <script>
-            // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
+@push('scripts')
+<script>
+    // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
             document.querySelectorAll('input').forEach(input => {
                 input.addEventListener('click', () => {
                     const errorDiv = input.nextElementSibling;
@@ -280,5 +288,5 @@
                     }
                 },
             }
-        </script>
-    @endpush
+</script>
+@endpush

@@ -34,7 +34,7 @@
                             <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Gasto
                                 Fijo</label>
                             <input type="text" name="gastoFijo" id="input_{{ $id }}" autocomplete="given-gastoFijo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('gastoFijo') border-red-400 @enderror"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('gastoFijo') border-red-400 @enderror"
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
                                 value="{{ old('gastoFijo', $gastoFijo) }}" required autofocus>
                             @error('gastoFijo')
@@ -52,7 +52,7 @@
                                 Fijo</label>
                             <input type="date" name="fechaGastoFijo" id="fechaGastoFijo"
                                 autocomplete="given-fechaGastoFijo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
                                 value="{{ old('fechaGastoFijo', $fechaGastoFijo) }}" required max='{{ $today }}'>
                             @error('fechaGastoFijo')
                             <div class="flex items-center mt-1 text-red-400">
@@ -67,7 +67,7 @@
                                 Fijo</label>
                             <input type="number" name="costoGastoFijo" id="costoGastoFijo" pattern="[0-9]+(\.[0-9]+)?"
                                 min="0" max="99999999.99" step="0.01" autocomplete="given-costoGastoFijo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('costoGastoFijo') border-red-400 @enderror"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoGastoFijo') border-red-400 @enderror"
                                 value="{{ old('costoGastoFijo', $costoGastoFijo) }}" required>
                             @error('costoGastoFijo')
                             <div class="flex
@@ -81,7 +81,7 @@
                             <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio
                                 Del Gasto Fijo</label>
                             <textarea rows="3" name="folioFactura" id="folioFactura" autocomplete="given-folioFactura"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('folioFactura') border-red-400 @enderror"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('folioFactura') border-red-400 @enderror"
                                 minlength="4" maxlength="255"
                                 required>{{ old('folioFactura', $folioFactura) }}</textarea>
                             @error('folioFactura')
@@ -94,7 +94,7 @@
                         </div>
                         <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
                             <button type="submit"
-                                class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-md">Guardar</button>
+                                class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 rounded-md">Guardar</button>
                             <button type="button" id="btn-edit-modal-{{ $id }}-close"
                                 class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 rounded-md"
                                 onclick="modalHandler{{ $id }}()">Cancelar</button>

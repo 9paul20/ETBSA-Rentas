@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(
     [
-        // 'middleware' => '',
+        'middleware' => 'web',
         'name' => 'front',
         'namespace' => 'App\Http\Controllers\Front',
         'prefix' => ''
