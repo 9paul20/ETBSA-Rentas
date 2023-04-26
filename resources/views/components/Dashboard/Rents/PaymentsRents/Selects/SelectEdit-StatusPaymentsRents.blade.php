@@ -7,8 +7,10 @@
         <option value="" disabled selected>
             Seleccione Un Estado Pago De Renta</option>
         @foreach ($Data['allStatusPaymentsRents'] as $rowStatusPaymentRent)
-        <option value="{{ $rowStatusPaymentRent->clvEstadoPagoRenta }}" @if
-            ($clvEstadoPagoRenta==$rowStatusPaymentRent->clvEstadoPagoRenta) selected @endif>
+        <option value="{{ $rowStatusPaymentRent->clvEstadoPagoRenta }}" @if($clvEstadoPagoRenta==$rowStatusPaymentRent->
+            clvEstadoPagoRenta)
+            selected
+            @endif>
             {{ $rowStatusPaymentRent->estadoPagoRenta }}
         </option>
         @endforeach

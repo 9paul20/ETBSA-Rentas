@@ -26,8 +26,8 @@
                         class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
-                                @foreach ($Data['tableStatusPaymentsRents']['columnStatusPaymentsRents'] as
-                                $columnStatusPaymentRent)
+                                @foreach ($Data['tableStatusPaymentsRents']['columnStatusPaymentsRents']
+                                as $columnStatusPaymentRent)
                                 <th scope="col"
                                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                     {{ $columnStatusPaymentRent }}
@@ -36,8 +36,8 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 border-t  bg-white">
-                            @foreach ($Data['tableStatusPaymentsRents']['rowStatusPaymentsRents'] as
-                            $rowStatusPaymentRent)
+                            @foreach ($Data['tableStatusPaymentsRents']['rowStatusPaymentsRents']
+                            as $rowStatusPaymentRent)
                             <tr class="hover:bg-gray-100">
                                 <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
                                     <span
