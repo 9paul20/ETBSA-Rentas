@@ -1,8 +1,7 @@
 @extends('layout')
 
 @push('styles')
-    <link rel="stylesheet"
-        href="https://horizon-tailwind-react-git-tailwind-components-horizon-ui.vercel.app/static/css/main.ad49aa9b.css" />
+    <link rel="stylesheet" href="{{ url('/css/main.ad49aa9b.css.map') }}" />
 
     <style>
         .accordion-content {
@@ -19,13 +18,17 @@
 @section('content')
     <!-- component -->
     <!-- This is an example component -->
-    <div
-        class='flex items-center justify-center min-h-screen from-[#F9F5E0] via-[#F9F5D0] to-[#F9F5C0] bg-gradient-to-br py-5'>
 
-        @include('Dashboard.Components.Equipments.Show.Tractor')
+    <div class="bg-no-repeat bg-cover bg-center bg-fixed relative"
+        style="background-image: url({{ url('/images/Show_Equipment_Background.png') }});">
+        <div class="absolute bg-gradient-to-r from-gray-950 to-gray-950 opacity-30 inset-0 z-0"></div>
+        <div class='flex items-center justify-center min-h-screen relative bg-gradient-to-br py-5'>
 
-        @include('Dashboard.Components.Equipments.Show.Services')
+            @include('Dashboard.Components.Equipments.Show.Tractor')
 
+            @include('Dashboard.Components.Equipments.Show.Services')
+
+        </div>
     </div>
 @endsection
 

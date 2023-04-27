@@ -48,16 +48,23 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
-                                            {{ $rowData->precioEquipo }}
+                                            {{ number_format($rowData->precioEquipo, 2) }}
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        @if (!empty($rowData->descripcion))
-                                            <div class="text-gray-700 truncate break-words max-w-sm">
-                                                {{ $rowData->descripcion }}</div>
-                                        @else
-                                            <div class="font-medium text-orange-700">Sin Descripción</div>
-                                        @endif
+                                        <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
+                                            {{ number_format($rowData->sum_gastos_fijos, 2) }}
+                                        </div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
+                                            {{ number_format($rowData->sum_gastos_variables, 2) }}
+                                        </div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
+                                            {{ number_format($rowData->costo_base, 2) }}
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex justify-end gap-4">

@@ -21,7 +21,10 @@ return new class extends Migration
             $table->unsignedTinyInteger('clvCategoria')->default(0);
             $table->longText('descripcion')->nullable();
             $table->decimal('precioEquipo', 10, 2)->default(0.00);
+            $table->string('folioEquipo')->unique();
             $table->date('fechaAdquisicion');
+            $table->date('fechaGarantiaExtendida');
+            $table->decimal('porcentajeDepreciacionAnual', 3, 2)->default(25.00);
             $table->timestamps();
 
             // Agregar índices

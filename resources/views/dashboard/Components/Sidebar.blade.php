@@ -38,9 +38,7 @@ class="bg-gray-100"
                 </button>
                 <!-- Logo -->
                 <a href="{{ route('Dashboard.Menu.Index') }}">
-                    <img class="w-10 h-auto"
-                        src="https://www.clipartmax.com/png/full/300-3006505_john-deere-decal-sticker-logo-tractor-john-deere-logo-vector.png"
-                        alt="K-UI" />
+                    <img class="w-10 h-auto" src="{{ url('/images/John_Deere_Logo.png') }}" alt="John_Deere_Logo" />
                 </a>
                 <!-- User avatar button -->
                 {{-- <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
@@ -73,9 +71,7 @@ class="bg-gray-100"
                 <!-- Logo -->
                 <div class="flex-shrink-0 py-4">
                     <a href="{{ route('Dashboard.Menu.Index') }}">
-                        <img class="w-10 h-auto"
-                            src="https://www.clipartmax.com/png/full/300-3006505_john-deere-decal-sticker-logo-tractor-john-deere-logo-vector.png"
-                            alt="John Deere Logo" />
+                        <img class="w-10 h-auto" src="{{ url('/images/John_Deere_Logo.png') }}" alt="John_Deere_Logo" />
                     </a>
                 </div>
                 <div class="flex flex-col items-center flex-1 p-2 space-y-4">
@@ -172,9 +168,8 @@ class="bg-gray-100"
                     <!-- Logo -->
                     <div class="flex items-center justify-center flex-shrink-0 py-10">
                         <a href="{{ route('Dashboard.Menu.Index') }}">
-                            <img class="w-24 h-auto"
-                                src="https://www.clipartmax.com/png/full/300-3006505_john-deere-decal-sticker-logo-tractor-john-deere-logo-vector.png"
-                                alt="John Deere Logo" />
+                            <img class="w-24 h-auto" src="{{ url('/images/John_Deere_Logo.png') }}"
+                                alt="John_Deere_Logo" />
                         </a>
                     </div>
                     <!-- Title -->

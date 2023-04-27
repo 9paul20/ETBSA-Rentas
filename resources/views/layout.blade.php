@@ -24,12 +24,11 @@
     {{-- Título que se muestra cuando se comparte el enlace del documento en redes sociales. --}}
     <meta property="og:title" content="@yield('og-title', config('app.name'))">
     {{-- URL de la imagen que se muestra cuando se comparte el enlace del documento en redes sociales. --}}
-    <meta property="og:image" content="@yield('og-image', url('/images/og-image.jpg'))">
+    <meta property="og:image" content="@yield('og-image', url('/images/John_Deere_Logo.png'))">
     {{-- Color principal del tema. --}}
     <meta name="theme-color" content="#000000" />
     {{-- Icono de pestaña de la página web --}}
-    {{--
-    <link rel="shortcut icon" href="{{ url('/images/og-image.ico') }}" /> --}}
+    <link rel="shortcut icon" href="{{ url('/images/John_Deere_Logo.png') }}" />
 
     {{-- Importación de fuentes externas --}}
     <link rel="preload" href="/fonts/Inter-roman.var.woff2?v=3.18" as="font" type="font/woff2" crossorigin="">

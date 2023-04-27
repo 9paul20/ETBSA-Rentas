@@ -1,5 +1,4 @@
-@props(['id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'today', 'SelectTypeFixedExpense','folioFactura',
-'href'])
+@props(['id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'today', 'SelectTypeFixedExpense', 'folioFactura', 'href'])
 
 <a href="" x-data="{ tooltip: 'Edit' }" @click="modalHandler{{ $id }}(true)" id="link-edit-{{ $id }}"
     data-target="scroll-target-{{ $id }}">
@@ -30,22 +29,24 @@
                     <form action="{{ $href }}" class="mt-4 space-y-4" method="POST">
                         @method('PUT')
                         @csrf
+                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Gasto
+                            <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Descripción Corta Del
+                                Gasto
                                 Fijo</label>
-                            <input type="text" name="gastoFijo" id="input_{{ $id }}" autocomplete="given-gastoFijo"
+                            <input type="text" name="gastoFijo" id="input_{{ $id }}"
+                                autocomplete="given-gastoFijo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('gastoFijo') border-red-400 @enderror"
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
                                 value="{{ old('gastoFijo', $gastoFijo) }}" required autofocus>
                             @error('gastoFijo')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
-                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
                         <div class="col-span-6 sm:col-span-6">
                             <label for="fechaGastoFijo" class="block text-sm font-medium text-gray-700">Fecha Del
                                 Gasto
@@ -53,12 +54,13 @@
                             <input type="date" name="fechaGastoFijo" id="fechaGastoFijo"
                                 autocomplete="given-fechaGastoFijo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
-                                value="{{ old('fechaGastoFijo', $fechaGastoFijo) }}" required max='{{ $today }}'>
+                                value="{{ old('fechaGastoFijo', $fechaGastoFijo) }}" required
+                                max='{{ $today }}'>
                             @error('fechaGastoFijo')
-                            <div class="flex items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -70,11 +72,11 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoGastoFijo') border-red-400 @enderror"
                                 value="{{ old('costoGastoFijo', $costoGastoFijo) }}" required>
                             @error('costoGastoFijo')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -82,14 +84,13 @@
                                 Del Gasto Fijo</label>
                             <textarea rows="3" name="folioFactura" id="folioFactura" autocomplete="given-folioFactura"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('folioFactura') border-red-400 @enderror"
-                                minlength="4" maxlength="255"
-                                required>{{ old('folioFactura', $folioFactura) }}</textarea>
+                                minlength="4" maxlength="255" required>{{ old('folioFactura', $folioFactura) }}</textarea>
                             @error('folioFactura')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
@@ -107,9 +108,9 @@
 </div>
 
 @push('scripts')
-@if (request()->is('Dashboard/Admin/Equipments/*'))
-<script>
-    var showModalButtonEdit{{ $id }} = document.getElementById('link-edit-{{ $id }}');
+    @if (request()->is('Dashboard/Admin/Equipments/*'))
+        <script>
+            var showModalButtonEdit{{ $id }} = document.getElementById('link-edit-{{ $id }}');
             var editModal{{ $id }} = document.getElementById('edit-modal-{{ $id }}');
             var input{{ $id }} = document.getElementById('input_{{ $id }}');
 
@@ -139,6 +140,6 @@
             }
 
             // Debe existir los metodos de FadeIn y FadeOut ya sea en el botón de agregar o de editar para que salgan los modales
-</script>
-@endif
+        </script>
+    @endif
 @endpush
