@@ -6,15 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipment;
 use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
-use App\Models\Equipments\VariablesExpenses;
-use App\Models\FixedExpenses\Catalog;
 use App\Models\FixedExpenses\FixedExpense;
 use App\Models\FixedExpenses\TypeFixedExpense;
 use App\Models\VariablesExpenses\VariableExpense;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 use Validator;
 
 class EquipmentsController extends Controller
@@ -24,7 +22,12 @@ class EquipmentsController extends Controller
      */
     public function index()
     {
-        $equipments = Equipment::select(
+        $rowDatas = Equipment::with([
+            'disponibilidad:clvDisponibilidad,disponibilidad,textColor,bgColorPrimary,bgColorSecondary',
+            'categoria:clvCategoria,categoria',
+            'fixedExpenses:clvEquipo,costoGastoFijo',
+            'variablesExpenses:clvEquipo,costoGastoVariable',
+        ])->paginate(10, [
             'clvEquipo',
             'noSerieEquipo',
             'noSerieMotor',
@@ -34,47 +37,19 @@ class EquipmentsController extends Controller
             'clvCategoria',
             'descripcion',
             'precioEquipo',
-            'fechaAdquisicion'
-        )
-            ->with(['disponibilidad' => function ($query) {
-                $query->select(
-                    'clvDisponibilidad',
-                    'disponibilidad',
-                    'textColor',
-                    'bgColorPrimary',
-                    'bgColorSecondary'
-                );
-            }, 'categoria' => function ($query) {
-                $query->select(
-                    'clvCategoria',
-                    'categoria'
-                );
-            }])
-            ->get()
-            /* ->map(function ($equipment) {
-                $equipment->sumFixedExpenses = DB::table('t_gastos_fijos')
-                    ->where('clvEquipo', $equipment->clvEquipo)
-                    ->sum('costoGastoFijo');
-                $equipment->sumVariablesExpenses = DB::table('t_gastos_variables')
-                    ->where('clvEquipo', $equipment->clvEquipo)
-                    ->sum('costoGastoVariable');
-                return $equipment;
-            }) */;
-        $perPage = 10;
-        $currentPage = request()->get('page') ?? 1;
-        $pagedData = $equipments->slice(($currentPage - 1) * $perPage, $perPage)->all();
-        $rowDatas = new LengthAwarePaginator($pagedData, count($equipments), $perPage, $currentPage, [
-            'path' => route('Dashboard.Admin.Equipments.Index')
+            'fechaAdquisicion',
+            'porDeprAnual',
         ]);
+        // $rowDatas->setPageName('equipment_page');
         $columnNames = [
             'No. Serie Equipo',
             'Modelo',
             'Disponibilidad',
             'Categoria',
-            'Precio',
+            'Precio Actual',
             'Gastos Fijos',
             'Gastos Variables',
-            'Total',
+            'Total Actual',
             ''
         ];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
@@ -124,7 +99,7 @@ class EquipmentsController extends Controller
     {
         // return $request;
         $data = $request->all();
-        $validator = Validator::make($data, FixedExpense::getRules());
+        $validator = Validator::make($data, FixedExpense::getRulesEquipment());
         if ($validator->fails()) {
             return redirect()->to(url()->previous())
                 ->withErrors($validator)
@@ -141,7 +116,7 @@ class EquipmentsController extends Controller
     public function storeVariablesExpenses(Request $request, string $id)
     {
         $data = $request->all();
-        $validator = Validator::make($data, VariableExpense::getRules());
+        $validator = Validator::make($data, VariableExpense::getRulesEquipment());
         if ($validator->fails()) {
             return redirect()->to(url()->previous())
                 ->withErrors($validator)
@@ -158,81 +133,98 @@ class EquipmentsController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show(string $id)
     {
-        $equipment = Equipment::findOrFail($id);
-        // $equipment = Equipment::select('clvEquipo', 'noSerieEquipo', 'noSerieMotor', 'noEconomico', 'modelo', 'clvDisponibilidad', 'clvCategoria', 'descripcion', 'precioEquipo', 'fechaAdquisicion')
-        //     ->with(['disponibilidad' => function ($query) {
-        //         $query->select('clvDisponibilidad', 'disponibilidad', 'textColor', 'bgColorPrimary', 'bgColorSecondary');
-        //     }, 'categoria' => function ($query) {
-        //         $query->select('clvCategoria', 'categoria');
-        //     }])
-        //     ->where('clvEquipo', $id)
-        //     ->firstOrFail();
-
-        //Datos por pagina
+        //Rows o Filas Por Pagina
         $perPage = 10;
 
-        //Gastos Fijos del equipo
-        $fixedExpenses = FixedExpense::select(
-            'gastoFijo',
-            'clvTipoGastoFijo',
-            'fechaGastoFijo',
-            'costoGastoFijo',
-            'folioFactura'
-        )
-            ->with(['TypeFixedExpense' => function ($query) {
+        $equipment = Equipment::with([
+            'fixedExpenses' => function ($query) {
+                $query->with(
+                    'TypeFixedExpense:' .
+                        'clvTipoGastoFijo,' .
+                        'tipoGastoFijo'
+                )
+                    ->select(
+                        'clvGastoFijo',
+                        'gastoFijo',
+                        'costoGastoFijo',
+                        'folioFactura',
+                        'fechaGastoFijo',
+                        'clvTipoGastoFijo',
+                        'clvEquipo',
+                    );
+            },
+            'variablesExpenses' => function ($query) {
                 $query->select(
-                    'clvTipoGastoFijo',
-                    'tipoGastoFijo'
+                    'clvGastoVariable',
+                    'gastoVariable',
+                    'descripcion',
+                    'fechaGastoVariable',
+                    'costoGastoVariable',
+                    'clvEquipo',
                 );
-            }])
-            ->where('clvEquipo', $id)
-            ->get();
+            }
+        ])
+            ->select(
+                'clvEquipo',
+                'noSerieEquipo',
+                'modelo',
+                'noSerieMotor',
+                'noEconomico',
+                'modelo',
+                'clvDisponibilidad',
+                'clvCategoria',
+                'descripcion',
+                'precioEquipo',
+                'folioEquipo',
+                'fechaAdquisicion',
+                'fechaGarantiaExtendida',
+                'porDeprAnual',
+            )
+            ->findOrFail($id);
+
+        //Dia de hoy
+        $today = Carbon::today()->format('Y-m-d');
+
+        //Tabla de Gastos Fijos Al Equipo
+        $currentPage = request()->get('fixedExpenses_page') ?? 1;
+        $rowFixedExpenses = new LengthAwarePaginator($equipment->fixedExpenses->forPage($currentPage, $perPage), $equipment->fixedExpenses->count(), $perPage, $currentPage, [
+            'path' => route('Dashboard.Admin.Equipments.Edit', $id),
+            'pageName' => 'fixedExpenses_page',
+        ]);
         $columnFixedExpenses = [
             'Gasto Fijo',
             'Descripción Corta Del Gasto Fijo',
             'Fecha Del Gasto Fijo',
-            'Costo Del Gasto Fijo',
-            'Folio'
+            'Costo',
+            'Folio',
         ];
-        $currentPageFixedExpenses = request()->get('fixedExpenses_page') ?? 1;
-        $pagedFixedExpensesData = $fixedExpenses->slice(($currentPageFixedExpenses - 1) * $perPage, $perPage)->all();
-        $rowFixedExpenses = new LengthAwarePaginator($pagedFixedExpensesData, count($fixedExpenses), $perPage, $currentPageFixedExpenses, [
-            'path' => route('Dashboard.Admin.Equipments.Show', $id),
-            'pageName' => 'fixedExpenses_page',
-        ]);
         $tableFixedExpenses = [
             'columnFixedExpenses' => $columnFixedExpenses,
             'rowFixedExpenses' => $rowFixedExpenses,
         ];
 
-        //Gastos Variables del equipo
-        $variablesExpenses = VariableExpense::select(
-            'gastoVariable',
-            'fechaGastoVariable',
-            'costoGastoVariable',
-            'descripcion'
-        )->where('clvEquipo', $id)->get();
+        //Tabla de Gastos Variables Al Equipo
+        $currentPage = request()->get('variablesExpenses_page') ?? 1;
+        $rowVariablesExpenses = new LengthAwarePaginator($equipment->variablesExpenses->forPage($currentPage, $perPage), $equipment->variablesExpenses->count(), $perPage, $currentPage, [
+            'path' => route('Dashboard.Admin.Equipments.Edit', $id),
+            'pageName' => 'variablesExpenses_page',
+        ]);
         $columnVariablesExpenses = [
             'Gasto Variable',
             'Fecha Del Gasto Variable',
-            'Costo Del Gasto Variable'
+            'Costo',
         ];
-        $currentPageVariablesExpenses = request()->get('variablesExpenses_page') ?? 1;
-        $pagedVariablesExpensesData = $variablesExpenses->slice(($currentPageVariablesExpenses - 1) * $perPage, $perPage)->all();
-        $rowVariablesExpenses = new LengthAwarePaginator($pagedVariablesExpensesData, count($variablesExpenses), $perPage, $currentPageVariablesExpenses, [
-            'path' => route('Dashboard.Admin.Equipments.Show', $id),
-            'pageName' => 'variablesExpenses_page',
-        ]);
         $tableVariablesExpenses = [
             'columnVariablesExpenses' => $columnVariablesExpenses,
             'rowVariablesExpenses' => $rowVariablesExpenses,
         ];
 
-        //Arreglo de todos los datos
         $Data = [
             'equipment' => $equipment,
+            'today' => $today,
             'tableFixedExpenses' => $tableFixedExpenses,
             'tableVariablesExpenses' => $tableVariablesExpenses,
         ];
@@ -295,11 +287,14 @@ class EquipmentsController extends Controller
                 'folioEquipo',
                 'fechaAdquisicion',
                 'fechaGarantiaExtendida',
-                // 'porcentajeDepreciacionAnual',
+                'porDeprAnual',
             )
             ->findOrFail($id);
 
-        $allTypeFixedExpense = TypeFixedExpense::whereIn('clvTipoGastoFijo', $equipment->fixedExpenses->pluck('clvTipoGastoFijo')->unique())->get();
+        $allTypeFixedExpense = TypeFixedExpense::select(
+            'clvTipoGastoFijo',
+            'tipoGastoFijo',
+        )->get();;
         $categories = Category::all();
         $status = Status::all();
         $today = Carbon::today()->format('Y-m-d');
@@ -372,7 +367,7 @@ class EquipmentsController extends Controller
     public function updateFixedExpenses(Request $request, string $id)
     {
         $data = $request->all();
-        $validator = Validator::make($data, FixedExpense::getRules());
+        $validator = Validator::make($data, FixedExpense::getRulesEquipment());
         if ($validator->fails()) {
             return redirect()->to(url()->previous())
                 ->withErrors($validator)
@@ -382,7 +377,6 @@ class EquipmentsController extends Controller
         $fixedExpense = FixedExpense::findOrFail($id);
         $fixedExpense->update($data);
         $equipment = Equipment::findOrFail($fixedExpense->clvEquipo);
-        // return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Fijo ' . $fixedExpense->gastoFijo . ' correctamente.')->withFragment('fixedExpensesScroll');
         return redirect()->to(url()->previous())
             ->withFragment('#fixedExpensesScroll')
             ->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Fijo ' . $fixedExpense->gastoFijo . ' correctamente.')->withFragment('#fixedExpensesScroll');
@@ -391,7 +385,7 @@ class EquipmentsController extends Controller
     public function updateVariablesExpenses(Request $request, string $id)
     {
         $data = $request->all();
-        $validator = Validator::make($data, VariableExpense::getRules());
+        $validator = Validator::make($data, VariableExpense::getRulesEquipment());
         if ($validator->fails()) {
             return redirect()->to(url()->previous() . '#fixedExpensesScroll')
                 ->withErrors($validator)

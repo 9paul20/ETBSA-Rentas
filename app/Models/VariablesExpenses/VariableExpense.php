@@ -21,13 +21,12 @@ class VariableExpense extends Model
         'descripcion',
         'fechaGastoVariable',
         'costoGastoVariable',
-    ];
-
-    protected $hidden = [
         'clvEquipo',
     ];
 
-    public static function getRules($clvGastoVariable = null)
+    protected $hidden = [];
+
+    public static function getRulesEquipment($clvGastoVariable = null)
     {
         $rules = [
             'gastoVariable' => 'required|string|min:4|max:255',
@@ -38,8 +37,28 @@ class VariableExpense extends Model
         return $rules;
     }
 
+    public static function getRulesVariableExpense($clvGastoVariable = null)
+    {
+        $rules = [
+            'gastoVariable' => 'required|string|min:4|max:255',
+            'descripcion' => 'required|string|min:4|max:255',
+            'fechaGastoVariable' => 'required|date|before_or_equal:' . now()->toDateString(),
+            'costoGastoVariable' => 'numeric|between:0,9999999999.99',
+            'clvEquipo' => 'required|not_in:[]',
+        ];
+        return $rules;
+    }
+
     public function equipment(): BelongsTo
     {
         return $this->belongsTo(Equipment::class, 'clvEquipo');
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where('folioFactura', 'like', '%' . $search . '%');
+            // ->orWhere('name', 'like', '%' . $search . '%');
+        });
     }
 }

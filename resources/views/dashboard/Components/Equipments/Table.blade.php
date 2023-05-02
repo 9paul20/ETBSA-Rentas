@@ -48,22 +48,22 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
-                                            {{ number_format($rowData->precioEquipo, 2) }}
+                                            {{ number_format($rowData->precioActualPorDepreciacionAnual, 2) }}
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
-                                            {{ number_format($rowData->sum_gastos_fijos, 2) }}
+                                            {{ number_format($rowData->sumGastosFijos, 2) }}
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
-                                            {{ number_format($rowData->sum_gastos_variables, 2) }}
+                                            {{ number_format($rowData->sumGastosVariables, 2) }}
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
-                                            {{ number_format($rowData->costo_base, 2) }}
+                                            {{ number_format($rowData->costoNetoAnual, 2) }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">

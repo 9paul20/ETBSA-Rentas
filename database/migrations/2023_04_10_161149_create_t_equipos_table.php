@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('folioEquipo')->unique();
             $table->date('fechaAdquisicion');
             $table->date('fechaGarantiaExtendida');
-            $table->decimal('porcentajeDepreciacionAnual', 3, 2)->default(25.00);
+            $table->decimal('porDeprAnual', 10, 2)->default(25.00);
             $table->timestamps();
 
             // Agregar índices

@@ -26,6 +26,7 @@ namespace App\Models{
  * @property string $folioEquipo
  * @property string $fechaAdquisicion
  * @property string $fechaGarantiaExtendida
+ * @property string $porDeprAnual
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Equipments\Category|null $categoria
@@ -50,6 +51,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoEconomico($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerieEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerieMotor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePorDeprAnual($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePrecioEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereUpdatedAt($value)
  */

@@ -25,6 +25,8 @@
                     <span class="h-1.5 w-1.5 rounded-full"></span>
                     {{ $Data['equipment']['fechaAdquisicion'] }}
                 </span>
+                <span class="text-xs text-gray-500">{{ $Data['equipment']->antiguedadEquipo }}
+                    de antigüedad</span>
             </div>
             <div
                 class="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 dark:!bg-navy-700 dark:shadow-none">
@@ -36,6 +38,7 @@
                     {{ $Data['equipment']->disponibilidad->disponibilidad }}
                 </span>
             </div>
+            @include('Dashboard.Components.Equipments.Show.Tables.TractorDepreciation')
         </div>
     </div>
     <div
@@ -43,7 +46,7 @@
         <div class="bg-white shadow-2xl p-6 rounded-2xl border-2 border-gray-50">
             <div class="flex flex-col">
                 <div>
-                    <h2 class="font-bold text-gray-600 text-center">Rendimiento</h2>
+                    <h2 class="font-bold text-gray-600 text-center">Precio Total Del Equipo</h2>
                 </div>
                 <div class="my-6">
                     <div class="flex flex-row space-x-4 items-center">
@@ -59,9 +62,10 @@
                         </div>
                         <div id="temp">
                             <span class="text-4xl text-[37px] font-bold text-[#0FB478]">$</span>
-                            <span class="text-4xl">{{ number_format(12000, 2) }}</span>
-                            <p class="text-xm text-gray-500">Ganancia de Renta Del equipo Por Mes/Año</p>
-                            <p class="text-xs text-gray-500">Precio Fijo(Aun falta por funcionar)</p>
+                            <span
+                                class="text-4xl text-yellow-400 font-semibold">{{ number_format($Data['equipment']->costoBase, 2) }}</span>
+                            {{-- <p class="text-xm text-gray-500">Ganancia de Renta Del equipo Por Mes/Año</p> --}}
+                            <p class="text-xs text-gray-500">Precio de compra del equipo mas gastos</p>
                         </div>
                     </div>
                 </div>

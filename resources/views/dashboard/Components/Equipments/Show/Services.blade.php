@@ -33,51 +33,53 @@
                 </div>
             </div>
         </div> --}}
-        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8">
-            <div class=" flex items-center  justify-between p-4  rounded-lg bg-orange-50 shadow-indigo-100 shadow-md">
-                <div>
-                    <h2 class="text-gray-900 text-lg font-bold">Depreciación Mensual</h2>
-                    <h3 class="mt-2 text-xl font-bold text-orange-500 text-left">$
-                        {{ number_format($Data['equipment']->depreciacion_mensual_equipo, 2) }}
-                    </h3>
-                    <p class="text-sm font-semibold text-gray-400">Last Transaction</p>
-                </div>
-            </div>
-        </div>
-        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8">
-            <div class=" flex items-center  justify-between p-4  rounded-lg bg-orange-50 shadow-indigo-100 shadow-md">
+        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8 h-full">
+            <div
+                class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
                 <div>
                     <h2 class="text-gray-900 text-lg font-bold">Gastos Fijos</h2>
                     <h3 class="mt-2 text-xl font-bold text-orange-500 text-left">$
-                        {{ number_format($Data['equipment']->sum_gastos_fijos, 2) }}
-                    </h3>
-                    <p class="text-sm font-semibold text-gray-400">Last Transaction</p>
+                        {{ number_format($Data['equipment']->sumGastosFijos, 2) }}</h3>
+                    <span class="text-xs text-gray-500">Total De Gastos Fijos</span>
                 </div>
             </div>
         </div>
-        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8">
-            <div class=" flex items-center  justify-between p-4  rounded-lg bg-orange-50 shadow-indigo-100 shadow-md">
+        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8 h-full">
+            <div
+                class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
                 <div>
                     <h2 class="text-gray-900 text-lg font-bold">Gastos Variables</h2>
                     <h3 class="mt-2 text-xl font-bold text-orange-500 text-left">$
-                        {{ number_format($Data['equipment']->sum_gastos_variables, 2) }}</h3>
-                    <p class="text-sm font-semibold text-gray-400">Last Transaction</p>
+                        {{ number_format($Data['equipment']->sumGastosVariables, 2) }}</h3>
+                    <span class="text-xs text-gray-500">Total De Gastos Variables</span>
                 </div>
             </div>
         </div>
-        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8">
-            <div class=" flex items-center  justify-between p-4  rounded-lg bg-orange-50 shadow-indigo-100 shadow-md">
+        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8 h-full">
+            <div
+                class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
                 <div>
-                    <h2 class="text-gray-900 text-lg font-bold">Costo Base</h2>
-                    <h3 class="mt-2 text-xl font-bold text-green-500 text-left">$
-                        {{ number_format($Data['equipment']->costo_base, 2) }}
+                    <h2 class="text-gray-900 text-lg font-bold">Costo Bruto Actual</h2>
+                    <h3 class="mt-2 text-xl font-bold text-yellow-500 text-left">$
+                        {{ number_format($Data['equipment']->precioActualPorDepreciacionAnual, 2) }}
                     </h3>
-                    <p class="text-sm font-semibold text-gray-400">Last Transaction</p>
+                    <span class="text-xs text-gray-500">Descuento Con Depreciación Anual</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8 h-full">
+            <div
+                class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
+                <div>
+                    <h2 class="text-gray-900 text-lg font-bold">Costo Neto Actual</h2>
+                    <h3 class="mt-2 text-xl font-bold text-yellow-500 text-left">$
+                        {{ number_format($Data['equipment']->costoNetoAnual, 2) }}
+                    </h3>
+                    <span class="text-xs text-gray-500">Descuento Con Depreciación Anual</span>
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="mt-2 mb-8 w-full">
         <h4 class="px-2 text-xl font-bold text-navy-700">

@@ -43,6 +43,7 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600">{{ $rowData->fecha_fin }}</div>
+                                    </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600">
                                             <span class="font-medium text-green-600">$</span>

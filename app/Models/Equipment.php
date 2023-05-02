@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Equipment as ModelsEquipment;
 use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
-use DB;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Equipment extends Model
@@ -34,7 +32,7 @@ class Equipment extends Model
         'folioEquipo',
         'fechaAdquisicion',
         'fechaGarantiaExtendida',
-        'porcentajeDepreciacionAnual',
+        'porDeprAnual',
     ];
 
     protected $hidden = [];
@@ -53,7 +51,7 @@ class Equipment extends Model
             'folioEquipo' => 'required|string|min:6|max:20|unique:t_equipos,folioEquipo,' . $clvEquipo . ',clvEquipo',
             'fechaAdquisicion' => 'required|date|before_or_equal:' . now()->toDateString(),
             'fechaGarantiaExtendida' => 'date|before_or_equal:' . now()->toDateString(),
-            'porcentajeDepreciacionAnual' => 'required|numeric|between:0,100.00',
+            'porDeprAnual' => 'required|numeric|between:0,100.00',
         ];
         return $rules;
     }
@@ -68,11 +66,6 @@ class Equipment extends Model
         return $this->belongsTo(Category::class, 'clvCategoria');
     }
 
-    public function fixedExpensesCatalogs(): BelongsToMany
-    {
-        return $this->belongsToMany(FixedExpenses\Catalog::class, 't_equipos_has_gastos_fijos', 'clvEquipo', 'clvGastoFijo')->withPivot('costoGastoFijo');
-    }
-
     public function fixedExpenses(): HasMany
     {
         return $this->hasMany(FixedExpenses\FixedExpense::class, 'clvEquipo');
@@ -83,14 +76,7 @@ class Equipment extends Model
         return $this->hasMany(VariablesExpenses\VariableExpense::class, 'clvEquipo');
     }
 
-    protected function depreciacionMensualEquipo(): Attribute
-    {
-        $depreciacionMensualEquipo = round((($this['precioEquipo'] * 0.25) / 12), 2);
-        return Attribute::make(
-            get: fn () => $depreciacionMensualEquipo
-        );
-    }
-
+    //*Funciones de los Atributos Principales del Equipo
     protected function sumGastosFijos(): Attribute
     {
         $sumGastosFijos = round($this->fixedExpenses->sum('costoGastoFijo'), 2);
@@ -109,9 +95,189 @@ class Equipment extends Model
 
     protected function costoBase(): Attribute
     {
-        $costoBase = round($this['precioEquipo'] + $this->sum_gastos_fijos + $this->sum_gastos_variables, 2);
+        $costoBase = round($this['precioEquipo'] + $this->sumGastosFijos + $this->sumGastosVariables, 2);
         return Attribute::make(
             get: fn () => $costoBase
+        );
+    }
+
+    protected function antiguedadEquipo(): Attribute
+    {
+        if (isset($this['fechaAdquisicion'])) {
+            $fechaCompra = Carbon::createFromFormat('Y-m-d', $this['fechaAdquisicion']);
+            $fechaActual = Carbon::now();
+
+            // $antiguedadAnios = $fechaCompra->diffInYears($fechaActual);
+            // $antiguedadMeses = $fechaCompra->diffInMonths($fechaActual) % 12;
+            $antiguedadMeses = $fechaCompra->diffInMonths($fechaActual);
+            $antiguedadDias = $fechaCompra->diffInDays($fechaActual) % 30;
+
+            // if ($antiguedadAnios > 0)
+            //     $antiguedadEquipo =  "$antiguedadAnios Año(s), $antiguedadMeses Mes(es), $antiguedadDias Dia(s)";
+            if ($antiguedadMeses > 0)
+                $antiguedadEquipo =  "$antiguedadMeses Mes(es), $antiguedadDias Dia(s)";
+            else
+                $antiguedadEquipo =  "$antiguedadDias Dia(s)";
+            return Attribute::make(
+                get: fn () => $antiguedadEquipo
+            );
+        } else {
+            $antiguedadEquipo = null;
+            return Attribute::make(
+                get: fn () =>
+                $antiguedadEquipo
+            );
+        }
+    }
+
+    //TODO-> Tiempo residual del equipo
+    protected function tiempoAmortizacionAnios(): Attribute
+    {
+        if (isset($this['porDeprAnual']) || $this['porDeprAnual'] > 0)
+            $tiempoAmortizacionAnios = 100 / $this['porDeprAnual'];
+        else
+            $tiempoAmortizacionAnios = 0;
+        return Attribute::make(
+            get: fn () => $tiempoAmortizacionAnios
+        );
+    }
+
+    protected function tiempoAmortizacionMeses(): Attribute
+    {
+        $tiempoAmortizacionMeses = $this->tiempoAmortizacionAnios * 12;
+        return Attribute::make(
+            get: fn () => $tiempoAmortizacionMeses
+        );
+    }
+
+    protected function tiempoAmortizacionDias(): Attribute
+    {
+        $tiempoAmortizacionDias = $this->tiempoAmortizacionAnios * 365;
+        return Attribute::make(
+            get: fn () => $tiempoAmortizacionDias
+        );
+    }
+
+    //*Depreciación Por Días
+    protected function depreciacionPorDias(): Attribute
+    {
+        $depreciacionPorDias = round(($this['precioEquipo'] * ($this['porDeprAnual'] / 100) / 365), 2);
+        return Attribute::make(
+            get: fn () => $depreciacionPorDias
+        );
+    }
+
+    protected function depreciacionAcumuladaPorDias(): Attribute
+    {
+        $diferenciaDias = Carbon::now()->diffInDays($this['fechaAdquisicion']);
+        $depreciacionAcumuladaPorDias = round($this->depreciacion_por_dias * $diferenciaDias, 2);
+        if ($depreciacionAcumuladaPorDias > $this['precioEquipo'])
+            $depreciacionAcumuladaPorDias = $this['precioEquipo'];
+        return Attribute::make(
+            get: fn () => $depreciacionAcumuladaPorDias
+        );
+    }
+
+    //Costo Bruto Diario
+    protected function precioActualPorDepreciacionDiaria(): Attribute
+    {
+        if ($this->depreciacion_acumulada_por_dias < $this['precioEquipo'])
+            $precioActualPorDepreciacionDiaria = round($this['precioEquipo'] - $this->depreciacion_acumulada_por_dias, 2);
+        else
+            $precioActualPorDepreciacionDiaria = 0;
+        return Attribute::make(
+            get: fn () => $precioActualPorDepreciacionDiaria
+        );
+    }
+
+    //Costo Neto Diario
+    protected function costoNetoDiario(): Attribute
+    {
+        $CostoNetoDiario = round($this->costoBase - $this->depreciacion_acumulada_por_dias, 2);
+        return Attribute::make(
+            get: fn () => $CostoNetoDiario
+        );
+    }
+
+    //*Depreciación Por Meses
+    protected function depreciacionPorMeses(): Attribute
+    {
+        $depreciacionPorMeses = round(($this['precioEquipo'] * ($this['porDeprAnual'] / 100) / 12), 2);
+        return Attribute::make(
+            get: fn () => $depreciacionPorMeses
+        );
+    }
+
+    protected function depreciacionAcumuladaPorMeses(): Attribute
+    {
+        $diferenciaMeses = Carbon::now()->diffInMonths($this['fechaAdquisicion']);
+        $depreciacionAcumuladaPorMeses = round($this->depreciacion_por_meses * $diferenciaMeses, 2);
+        if ($depreciacionAcumuladaPorMeses > $this['precioEquipo'])
+            $depreciacionAcumuladaPorMeses = $this['precioEquipo'];
+        return Attribute::make(
+            get: fn () => $depreciacionAcumuladaPorMeses
+        );
+    }
+
+    //Costo Bruto Mensual
+    protected function precioActualPorDepreciacionMensual(): Attribute
+    {
+        if ($this->depreciacion_acumulada_por_meses < $this['precioEquipo'])
+            $precioActualPorDepreciacionMensual = round($this['precioEquipo'] - $this->depreciacion_acumulada_por_meses, 2);
+        else
+            $precioActualPorDepreciacionMensual = 0;
+        return Attribute::make(
+            get: fn () => $precioActualPorDepreciacionMensual
+        );
+    }
+
+    //Costo Neto Mensual
+    protected function costoNetoMensual(): Attribute
+    {
+        $CostoNetoMensual = round($this->costoBase - $this->depreciacion_acumulada_por_meses, 2);
+        return Attribute::make(
+            get: fn () => $CostoNetoMensual
+        );
+    }
+
+    //*Depreciación Por Año
+    protected function depreciacionPorAnios(): Attribute
+    {
+        $depreciacionPorAnios = round(($this['precioEquipo'] * ($this['porDeprAnual'] / 100)), 2);
+        return Attribute::make(
+            get: fn () => $depreciacionPorAnios
+        );
+    }
+
+    protected function depreciacionAcumuladaPorAnios(): Attribute
+    {
+        $diferenciaAnios = Carbon::now()->diffInYears($this['fechaAdquisicion']);
+        $depreciacionAcumuladaPorAnios = round($this->depreciacion_por_anios * $diferenciaAnios, 2);
+        if ($depreciacionAcumuladaPorAnios > $this['precioEquipo'])
+            $depreciacionAcumuladaPorAnios = $this['precioEquipo'];
+        return Attribute::make(
+            get: fn () => $depreciacionAcumuladaPorAnios
+        );
+    }
+
+    //Costo Bruto Anual
+    protected function precioActualPorDepreciacionAnual(): Attribute
+    {
+        if ($this->depreciacion_acumulada_por_anios < $this['precioEquipo'])
+            $precioActualPorDepreciacionAnual = round($this['precioEquipo'] - $this->depreciacion_acumulada_por_anios, 2);
+        else
+            $precioActualPorDepreciacionAnual = 0;
+        return Attribute::make(
+            get: fn () => $precioActualPorDepreciacionAnual
+        );
+    }
+
+    //Costo Neto Anual
+    protected function costoNetoAnual(): Attribute
+    {
+        $CostoNetoAnual = round($this->costoBase - $this->depreciacion_acumulada_por_anios, 2);
+        return Attribute::make(
+            get: fn () => $CostoNetoAnual
         );
     }
 }

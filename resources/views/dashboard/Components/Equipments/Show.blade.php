@@ -23,11 +23,20 @@
         style="background-image: url({{ url('/images/Show_Equipment_Background.png') }});">
         <div class="absolute bg-gradient-to-r from-gray-950 to-gray-950 opacity-30 inset-0 z-0"></div>
         <div class='flex items-center justify-center min-h-screen relative bg-gradient-to-br py-5'>
+            {{-- <div class='flex justify-center min-h-screen relative bg-gradient-to-br py-5'> --}}
 
             @include('Dashboard.Components.Equipments.Show.Tractor')
 
             @include('Dashboard.Components.Equipments.Show.Services')
 
+        </div>
+
+        <div class='flex justify-center min-h-screen relative bg-gradient-to-br py-5'>
+            <div class="bg-gray-100 px-2 py-2 rounded-3xl shadow-xl overflow-hidden">
+
+                @include('Dashboard.Components.Equipments.Show.Tables.TableAmortization')
+
+            </div>
         </div>
     </div>
 @endsection

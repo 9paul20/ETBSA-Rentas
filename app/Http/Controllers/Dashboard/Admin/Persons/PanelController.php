@@ -13,7 +13,7 @@ class PanelController extends Controller
     public function Panel()
     {
         //Paginación
-        $perPage = 10;
+        $perPage = 5;
 
         //Compañias Telefónicas
         $comTels = ComTel::all();

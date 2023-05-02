@@ -60,7 +60,7 @@
                                     <td></td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold"
                                         id="total-costo-gastos-fijos"><span class="font-medium text-green-600">$</span>
-                                        {{ number_format($Data['equipment']->sum_gastos_fijos, 2) }}</td>
+                                        {{ number_format($Data['equipment']->sumGastosFijos, 2) }}</td>
                                     <td></td>
                                 </tr>
                             </tbody>

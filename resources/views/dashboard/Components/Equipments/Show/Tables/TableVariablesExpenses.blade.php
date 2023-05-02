@@ -19,8 +19,6 @@
                             class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    {{-- <p>{{ dd($Data['tableVariablesExpenses']['columnVariablesExpenses']) }}</p> --}}
-                                    {{-- @foreach ($Data['tableVariablesExpenses']['columnVariablesExpenses'] as $columnVariableExpense) --}}
                                     @foreach ($Data['tableVariablesExpenses']['columnVariablesExpenses'] as $columnVariableExpense)
                                         <th scope="col"
                                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
@@ -53,7 +51,7 @@
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold"
                                         id="total-costo-gastos-variables"><span
                                             class="font-medium text-green-600">$</span>
-                                        {{ number_format($Data['equipment']->sum_gastos_variables, 2) }}</td>
+                                        {{ number_format($Data['equipment']->sumGastosVariables, 2) }}</td>
                                 </tr>
                             </tbody>
                         </table>

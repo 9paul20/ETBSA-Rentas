@@ -7,21 +7,8 @@
                 @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Equipments' &&
                         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
                     @include('Dashboard.Components.Divisor')
-                    <h3 class="text-lg font-medium leading-6 text-gray-600">Precio Actual del Equipo: <span
-                            class="font-medium text-green-600">$</span>
-                        {{ number_format($Data['equipment']['precioEquipo'], 2) }}</h3>
-                    <h3 class="text-lg font-medium leading-6 text-gray-600">Total de Gastos Fijos del Equipo: <span
-                            class="font-medium text-green-600">$</span>
-                        {{ number_format($Data['equipment']->sum_gastos_fijos, 2) }}</h3>
-                    <h3 class="text-lg font-medium leading-6 text-gray-600">Total de Gastos Variables del Equipo: <span
-                            class="font-medium text-green-600">$</span>
-                        {{ number_format($Data['equipment']->sum_gastos_variables, 2) }}
-                    </h3>
-                    @include('Dashboard.Components.Divisor')
-                    <h3 class="text-lg font-medium leading-6 text-gray-900">Total: <span
-                            class="font-medium text-green-600">$</span>
-                        {{ number_format($Data['equipment']->costo_base, 2) }}
-                    </h3>
+
+                    @include('Dashboard.Components.Equipments.Create.Tables.TableValues')
                 @endif
             </div>
         </div>
@@ -203,17 +190,15 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="porcentajeDepreciacionAnual"
-                                class="block text-sm font-medium text-gray-700">Depreciación Anual Del Equipo
+                            <label for="porDeprAnual" class="block text-sm font-medium text-gray-700">Depreciación
+                                Anual Del Equipo
                                 (Porcentaje)</label>
-                            <input type="number" name="porcentajeDepreciacionAnual" id="porcentajeDepreciacionAnual"
-                                pattern="[0-9]+(\.[0-9]+)?" min="0" max="100.00" step="0.01"
-                                autocomplete="given-porcentajeDepreciacionAnual"
+                            <input type="number" name="porDeprAnual" id="porDeprAnual" pattern="[0-9]+(\.[0-9]+)?"
+                                min="0" max="100.00" step="0.01" autocomplete="given-porDeprAnual"
                                 placeholder="Porcentaje actual para cada Equipo es del %25"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('porcentajeDepreciacionAnual') border-red-400 @enderror"
-                                value="{{ old('porcentajeDepreciacionAnual', $Data['equipment']['porcentajeDepreciacionAnual']) }}"
-                                required>
-                            @error('porcentajeDepreciacionAnual')
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('porDeprAnual') border-red-400 @enderror"
+                                value="{{ old('porDeprAnual', $Data['equipment']['porDeprAnual']) }}" required>
+                            @error('porDeprAnual')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>

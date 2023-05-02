@@ -26,18 +26,35 @@ class FixedExpense extends Model
     ];
 
     protected $hidden = [
-        'clvEquipo',
+        // 'clvEquipo',
     ];
 
-    public static function getRules($clvGastoFijo = null)
+    //Reglas de validación para el controlador de equipos
+    public static function getRulesEquipment($clvGastoFijo = null)
     {
         $rules = [
             'gastoFijo' => 'required|string|min:4|max:255',
             'costoGastoFijo' => 'required|numeric|between:0,99999999.99',
-            'folioFactura' => 'required|string|min:4|max:255',
+            'folioFactura' =>
+            'nullable|string|max:20|unique:t_gastos_fijos,folioFactura,' . $clvGastoFijo . ',clvGastoFijo',
             'fechaGastoFijo' => 'required|date|before_or_equal:' . now()->toDateString(),
             'clvTipoGastoFijo' => 'required|not_in:[]',
             'clvEquipo' => 'int',
+        ];
+        return $rules;
+    }
+
+    //Reglas de validación para el controlador de Gastos Fijos
+    public static function getRulesFixedExpense($clvGastoFijo = null)
+    {
+        $rules = [
+            'gastoFijo' => 'required|string|min:4|max:255',
+            'costoGastoFijo' => 'required|numeric|between:0,99999999.99',
+            'folioFactura' =>
+            'nullable|string|max:20|unique:t_gastos_fijos,folioFactura,' . $clvGastoFijo . ',clvGastoFijo',
+            'fechaGastoFijo' => 'required|date|before_or_equal:' . now()->toDateString(),
+            'clvTipoGastoFijo' => 'required|not_in:[]',
+            'clvEquipo' => 'required|not_in:[]',
         ];
         return $rules;
     }
@@ -50,5 +67,13 @@ class FixedExpense extends Model
     public function TypeFixedExpense(): BelongsTo
     {
         return $this->belongsTo(TypeFixedExpense::class, 'clvTipoGastoFijo');
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where('folioFactura', 'like', '%' . $search . '%');
+            // ->orWhere('name', 'like', '%' . $search . '%');
+        });
     }
 }

@@ -30,7 +30,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -46,7 +46,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -62,7 +62,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -78,7 +78,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -94,7 +94,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -110,7 +110,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -126,7 +126,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -142,7 +142,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -158,7 +158,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -174,7 +174,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
 
         $fechaAdquisicion = fake()->dateTimeBetween('-15 year', 'now');
@@ -190,7 +190,7 @@ class EquipmentSeeder extends Seeder
             'folioEquipo' => fake()->unique()->regexify('[A-Za-z0-9]{8,20}'),
             'fechaAdquisicion' => $fechaAdquisicion,
             'fechaGarantiaExtendida' => fake()->dateTimeBetween($fechaAdquisicion, 'now'),
-            'porcentajeDepreciacionAnual' => 25.00,
+            'porDeprAnual' => 25.00,
         ]);
     }
 }

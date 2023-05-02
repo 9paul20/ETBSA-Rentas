@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -69,6 +70,10 @@ class LoginController extends Controller
         if ($this->attemptLogin($request)) {
 
             $this->guard()->user()->logLastLogin();
+
+            $user = Cache::remember('user_' . $this->guard()->user()->id, 3600, function () {
+                return $this->guard()->user();
+            });
 
             return $this->sendLoginResponse($request);
         }
