@@ -15,22 +15,45 @@ class PersonsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $persons = Person::select('clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona', 'nacimiento', 'clvNacionalidad', 'telefono', 'celular', 'clvComTel', 'ocupacion')
-            ->with(['nacionalidad' => function ($query) {
-                $query->select('clvNacionalidad', 'nacionalidad');
-            }, 'companiaTelefonica' => function ($query) {
-                $query->select('clvComTel', 'companiaTelefonica');
-            }])
-            ->get();
-        $perPage = 10;
-        $currentPage = request()->get('page') ?? 1;
-        $pagedData = $persons->slice(($currentPage - 1) * $perPage, $perPage)->all();
-        $rowDatas = new LengthAwarePaginator($pagedData, count($persons), $perPage, $currentPage, [
-            'path' => route('Dashboard.Admin.Persons.Index')
-        ]);
-        $columnNames = ['Nombre', 'Nacimiento', 'Nacionalidad', 'Telefono', 'Celular', 'Compañia Telefónica', 'Ocupación', ''];
+        $search = $request->all();
+        $rowDatas = Person::filter($search)
+            ->with([
+                'nacionalidad' => function ($query) {
+                    $query->select(
+                        'clvNacionalidad',
+                        'nacionalidad',
+                    );
+                },
+                'companiaTelefonica' => function ($query) {
+                    $query->select(
+                        'clvComTel',
+                        'companiaTelefonica',
+                    );
+                }
+            ])->paginate(10, [
+                'clvPersona',
+                'nombrePersona',
+                'apePaternoPersona',
+                'apeMaternoPersona',
+                'nacimiento',
+                'clvNacionalidad',
+                'telefono',
+                'celular',
+                'clvComTel',
+                'ocupacion',
+            ]);
+        $columnNames = [
+            'Nombre',
+            'Nacimiento',
+            'Nacionalidad',
+            'Telefono',
+            'Celular',
+            'Compañia Telefónica',
+            'Ocupación',
+            '',
+        ];
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
     }
 

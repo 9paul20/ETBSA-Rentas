@@ -22,7 +22,7 @@ class RentsController extends Controller
         // $rents = Rent::all();
         $rents = Rent::select('clvRenta', 'clvEquipo', 'clvCliente', 'descripcion', 'fecha_inicio', 'fecha_fin', 'clvPagoRenta', 'clvEstadoRenta')
             ->with(['equipo' => function ($query) {
-                $query->select('clvEquipo', 'noSerie', 'modelo');
+                $query->select('clvEquipo', 'noSerieEquipo', 'modelo');
             }, 'cliente' => function ($query) {
                 $query->select('clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona');
             }, 'pagoRenta' => function ($query) {
@@ -52,12 +52,19 @@ class RentsController extends Controller
      */
     public function create()
     {
-        $equipments = Equipment::get(['clvEquipo', 'noSerie', 'modelo', 'descripcion']);
-        $clients = Person::get(['clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona']);
-        $statusRents = StatusRent::get(['clvEstadoRenta', 'estadoRenta', 'descripcion', 'clvTazaRenta']);
-        $paymentsRents = PaymentRent::get(['clvPagoRenta', 'pagoRenta', 'ivaRenta', 'clvEstadoPagoRenta']);
         $rent = new Rent();
-        return view('Dashboard.Admin.Index', compact('rent', 'clients', 'equipments', 'statusRents', 'paymentsRents'));
+        $equipments = Equipment::get(['clvEquipo', 'noSerieEquipo', 'modelo', 'descripcion']);
+        $clients = Person::get(['clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona']);
+        $statusRents = StatusRent::get(['clvEstadoRenta', 'estadoRenta']);
+        $paymentsRents = PaymentRent::get(['clvPagoRenta', 'pagoRenta', 'ivaRenta', 'clvEstadoPagoRenta']);
+        $Data = [
+            'rent' => $rent,
+            'equipments' => $equipments,
+            'clients' => $clients,
+            'statusRents' => $statusRents,
+            'paymentsRents' => $paymentsRents,
+        ];
+        return view('Dashboard.Admin.Index', compact('Data'));
     }
 
     /**

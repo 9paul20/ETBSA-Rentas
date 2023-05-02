@@ -107,4 +107,21 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Person::class, 'clvPersona');
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where('name', 'like', '%' . $search . '%');
+            $query->orWhere('email', 'like', '%' . $search . '%');
+            $query->orWhereHas('persona', function ($query) use ($search) {
+                $query->where('nombrePersona', 'like', '%' . $search . '%');
+            });
+            $query->orWhereHas('persona', function ($query) use ($search) {
+                $query->where('apePaternoPersona', 'like', '%' . $search . '%');
+            });
+            $query->orWhereHas('persona', function ($query) use ($search) {
+                $query->where('apeMaternoPersona', 'like', '%' . $search . '%');
+            });
+        });
+    }
 }

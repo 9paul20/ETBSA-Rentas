@@ -36,6 +36,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VariablesExpenses\VariableExpense> $variablesExpenses
  * @property-read int|null $variables_expenses_count
  * @method static \Database\Factories\EquipmentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment filter(array $filters)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment query()
@@ -148,6 +149,7 @@ namespace App\Models\FixedExpenses{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\FixedExpenses\TypeFixedExpense|null $TypeFixedExpense
  * @property-read \App\Models\Equipment|null $equipment
+ * @method static \Illuminate\Database\Eloquent\Builder|FixedExpense filter(array $filters)
  * @method static \Illuminate\Database\Eloquent\Builder|FixedExpense newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|FixedExpense newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|FixedExpense query()
@@ -206,6 +208,7 @@ namespace App\Models{
  * @property-read \App\Models\Persons\ComTel|null $companiaTelefonica
  * @property-read \App\Models\Persons\Nationality|null $nacionalidad
  * @method static \Database\Factories\PersonFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Person filter(array $filters)
  * @method static \Illuminate\Database\Eloquent\Builder|Person newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Person newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Person query()
@@ -451,6 +454,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|User filter(array $filters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)
@@ -486,6 +490,7 @@ namespace App\Models\VariablesExpenses{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Equipment|null $equipment
+ * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense filter(array $filters)
  * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|VariableExpense query()

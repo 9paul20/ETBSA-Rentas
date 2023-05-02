@@ -9,7 +9,7 @@
         @if (count($rowDatas) > 0)
             <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                 <div class="relative text-gray-600 py-1">
-                    <input type="search" name="serch" placeholder="Realizar Busqueda"
+                    <input id="searchInput" type="search" name="search" placeholder="Realizar Busqueda"
                         class="bg-white h-10 px-5 pr-4 rounded-full text-sm focus:outline-none">
                     {{-- <button type="submit" class="absolute right-0 top-0 mt-3 mr-4">
                 <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
@@ -100,6 +100,8 @@
         <!-- Content -->
         <h1 class="text-5xl font-bold text-gray-500">No hay datos de
             {{ getDashboardNameFromUrlSecond(request()->fullUrl()) }}</h1>
+        @include('Dashboard.Components.Divisor')
+        <x-Dashboard.Button-Create text="Regresar a Persons" href="{{ route('Dashboard.Admin.Persons.Index') }}" />
     </main>
 @endif
 @else
@@ -109,3 +111,21 @@
 </main>
 </div>
 @endif
+
+@push('scripts')
+    <script>
+        const input = document.getElementById("searchInput");
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('search');
+        const searchInput = document.querySelector('input[name="search"]');
+        input.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                const value = input.value;
+                const url = new URL(window.location.href);
+                url.searchParams.set("search", value);
+                window.location.href = url.toString();
+            }
+        });
+        searchInput.value = searchParam;
+    </script>
+@endpush

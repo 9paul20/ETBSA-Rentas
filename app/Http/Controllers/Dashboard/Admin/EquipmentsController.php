@@ -20,9 +20,10 @@ class EquipmentsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rowDatas = Equipment::with([
+        $search = $request->all();
+        $rowDatas = Equipment::filter($search)->with([
             'disponibilidad:clvDisponibilidad,disponibilidad,textColor,bgColorPrimary,bgColorSecondary',
             'categoria:clvCategoria,categoria',
             'fixedExpenses:clvEquipo,costoGastoFijo',

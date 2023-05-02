@@ -57,4 +57,19 @@ class Person extends Model
     {
         return $this->belongsTo(ComTel::class, 'clvComTel');
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where('nombrePersona', 'like', '%' . $search . '%');
+            $query->orWhere('apePaternoPersona', 'like', '%' . $search . '%');
+            $query->orWhere('apeMaternoPersona', 'like', '%' . $search . '%');
+            $query->orWhere('telefono', 'like', '%' . $search . '%');
+            $query->orWhere('celular', 'like', '%' . $search . '%');
+            $query->orWhere('ocupacion', 'like', '%' . $search . '%');
+            $query->orWhereHas('companiaTelefonica', function ($query) use ($search) {
+                $query->where('companiaTelefonica', 'like', '%' . $search . '%');
+            });
+        });
+    }
 }

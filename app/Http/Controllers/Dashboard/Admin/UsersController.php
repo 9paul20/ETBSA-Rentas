@@ -16,11 +16,12 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('view', User::class);
 
-        $rowDatas = User::with([
+        $search = $request->all();
+        $rowDatas = User::filter($search)->with([
             'persona:clvPersona,nombrePersona,apePaternoPersona,apeMaternoPersona',
             'roles.permissions',
         ])->paginate(10, [

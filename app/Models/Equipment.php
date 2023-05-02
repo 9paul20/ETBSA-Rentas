@@ -280,4 +280,18 @@ class Equipment extends Model
             get: fn () => $CostoNetoAnual
         );
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where('noSerieEquipo', 'like', '%' . $search . '%');
+            $query->orWhere('modelo', 'like', '%' . $search . '%');
+            $query->orWhereHas('disponibilidad', function ($query) use ($search) {
+                $query->where('disponibilidad', 'like', '%' . $search . '%');
+            });
+            $query->orWhereHas('categoria', function ($query) use ($search) {
+                $query->where('categoria', 'like', '%' . $search . '%');
+            });
+        });
+    }
 }
