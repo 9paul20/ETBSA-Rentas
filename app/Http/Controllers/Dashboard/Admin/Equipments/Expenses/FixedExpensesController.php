@@ -18,6 +18,8 @@ class FixedExpensesController extends Controller
     public function index(Request $request)
     {
         $search = $request->all();
+        // $search = $request->input('search');
+        // $search = explode(',', $search);
         $rowDatas = FixedExpense::filter($search)->with([
             'equipment:clvEquipo,noSerieEquipo,modelo',
             'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo',

@@ -10,7 +10,7 @@
         @if (count($Table['rowDatas']) > 0)
             <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                 <div class="relative text-gray-600 py-1">
-                    <input type="search" name="serch" placeholder="Realizar Busqueda"
+                    <input id="searchInput" type="search" name="search" placeholder="Realizar Busqueda"
                         class="bg-white h-10 px-5 pr-4 rounded-full text-sm focus:outline-none">
                 </div>
                 <div class="overflow-x-auto">
@@ -80,12 +80,34 @@
                 <!-- Content -->
                 <h1 class="text-5xl font-bold text-gray-500">No hay datos de
                     {{ getDashboardNameFromUrlSecond(request()->fullUrl()) }}</h1>
-            </main>
-        @endif
-    @else
-        <main class="flex items-center justify-center flex-1 px-4 py-8">
-            <!-- Content -->
-            <h1 class="text-5xl font-bold text-gray-500">@yield('meta-title', config('app.name'))</h1>
-        </main>
+                @include('Dashboard.Components.Divisor')
+                <x-Dashboard.Button-Create text="Regresar a Fixed Expenses"
+                    href="{{ route('Dashboard.Admin.FixedExpenses.Index') }}" />
     </div>
+    </main>
 @endif
+@else
+<main class="flex items-center justify-center flex-1 px-4 py-8">
+    <!-- Content -->
+    <h1 class="text-5xl font-bold text-gray-500">@yield('meta-title', config('app.name'))</h1>
+</main>
+</div>
+@endif
+
+@push('scripts')
+    <script>
+        const input = document.getElementById("searchInput");
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('search');
+        const searchInput = document.querySelector('input[name="search"]');
+        input.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                const value = input.value;
+                const url = new URL(window.location.href);
+                url.searchParams.set("search", value);
+                window.location.href = url.toString();
+            }
+        });
+        searchInput.value = searchParam;
+    </script>
+@endpush

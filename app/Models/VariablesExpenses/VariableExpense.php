@@ -57,8 +57,14 @@ class VariableExpense extends Model
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query->where('folioFactura', 'like', '%' . $search . '%');
-            // ->orWhere('name', 'like', '%' . $search . '%');
+            $query->where('gastoVariable', 'like', '%' . $search . '%');
+            $query->orWhere('descripcion', 'like', '%' . $search . '%');
+            $query->orWhereHas('equipment', function ($query) use ($search) {
+                $query->where('noSerieEquipo', 'like', '%' . $search . '%');
+            });
+            $query->orWhereHas('equipment', function ($query) use ($search) {
+                $query->where('modelo', 'like', '%' . $search . '%');
+            });
         });
     }
 }

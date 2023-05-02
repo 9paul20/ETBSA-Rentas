@@ -73,7 +73,16 @@ class FixedExpense extends Model
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('folioFactura', 'like', '%' . $search . '%');
-            // ->orWhere('name', 'like', '%' . $search . '%');
+            $query->orWhere('gastoFijo', 'like', '%' . $search . '%');
+            $query->orWhereHas('TypeFixedExpense', function ($query) use ($search) {
+                $query->where('tipoGastoFijo', 'like', '%' . $search . '%');
+            });
+            $query->orWhereHas('equipment', function ($query) use ($search) {
+                $query->where('noSerieEquipo', 'like', '%' . $search . '%');
+            });
+            $query->orWhereHas('equipment', function ($query) use ($search) {
+                $query->where('modelo', 'like', '%' . $search . '%');
+            });
         });
     }
 }
