@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Dashboard\Admin\Equipments\Expenses;
 
 use App\Http\Controllers\Controller;
+use App\Models\Equipment;
+use App\Models\FixedExpenses\TypeFixedExpense;
 use App\Models\MonthlyExpenses\MonthlyExpense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class MonthlyExpensesController extends Controller
 {
@@ -29,8 +33,8 @@ class MonthlyExpensesController extends Controller
         ]);
         $columnNames = [
             'Equipo',
-            'Gasto Fijo',
-            'Descripción del Gasto Fijo',
+            'Gasto Mensual',
+            'Descripción del Gasto Mensual',
             'Costo',
             ''
         ];
@@ -46,7 +50,38 @@ class MonthlyExpensesController extends Controller
      */
     public function create()
     {
-        //
+        $monthlyExpense = new MonthlyExpense();
+        $equipments = Equipment::select([
+            'clvEquipo',
+            'noSerieEquipo',
+            'modelo',
+            'precioEquipo',
+        ])->get();
+        $typeFixedExpenses = TypeFixedExpense::select([
+            'clvTipoGastoFijo',
+            'tipoGastoFijo',
+        ])->get();
+        $valoresFijos = [
+            // [
+            //     'gastoFijo' => 'Agregar Costo Personalmente',
+            //     'costo' => 0,
+            // ],
+            // [
+            //     'gastoFijo' => 'Precio Del Equipo',
+            //     'costo' => ($equipment->precioEquipo + 0),
+            // ],
+            // [
+            //     'gastoFijo' => 'Precio Del Equipo Más Gastos Fijos',
+            //     'costo' => ($equipment->precioEquipo + $equipment->sumGastosFijos),
+            // ],
+        ];
+        $Data = [
+            'monthlyExpense' => $monthlyExpense,
+            'equipments' => $equipments,
+            'typeFixedExpenses' => $typeFixedExpenses,
+            'valoresFijos' => $valoresFijos,
+        ];
+        return view('Dashboard.Admin.Index', compact('Data'));
     }
 
     /**
@@ -54,7 +89,15 @@ class MonthlyExpensesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $validator = Validator::make($data, MonthlyExpense::getRulesMontlyExpenses());
+        if ($validator->fails()) {
+            return redirect()->route('Dashboard.Admin.MonthlyExpenses.Create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $monthlyExpense = MonthlyExpense::create($data);
+        return redirect()->route('Dashboard.Admin.MonthlyExpenses.Index')->with('success', 'Gasto Mensual ' . $monthlyExpense->TypeFixedExpense->tipoGastoFijo . ' Del Equipo ' . $monthlyExpense->equipment->modelo . ' - ' . $monthlyExpense->equipment->noSerieEquipo . 'agregado correctamente.');
     }
 
     /**
@@ -62,7 +105,8 @@ class MonthlyExpensesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $monthlyExpense = MonthlyExpense::findOrFail($id);
+        return view('Dashboard.Admin.Index', compact('monthlyExpense'));
     }
 
     /**
@@ -70,7 +114,25 @@ class MonthlyExpensesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $monthlyExpense = MonthlyExpense::findOrFail($id);
+        $equipments = Equipment::select([
+            'clvEquipo',
+            'noSerieEquipo',
+            'modelo',
+            'precioEquipo',
+        ])->get();
+        $typeFixedExpenses = TypeFixedExpense::select([
+            'clvTipoGastoFijo',
+            'tipoGastoFijo',
+        ])->get();
+        $today = Carbon::today()->format('Y-m-d');
+        $Data = [
+            'monthlyExpense' => $monthlyExpense,
+            'equipments' => $equipments,
+            'typeFixedExpenses' => $typeFixedExpenses,
+            'today' => $today,
+        ];
+        return view('Dashboard.Admin.Index', compact('Data'));
     }
 
     /**
@@ -78,7 +140,16 @@ class MonthlyExpensesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->all();
+        $validator = Validator::make($data, MonthlyExpense::getRulesMontlyExpenses($id));
+        if ($validator->fails()) {
+            return redirect()->route('Dashboard.Admin.MonthlyExpenses.Edit', ['MonthlyExpense' => $id])
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $monthlyExpense = MonthlyExpense::findOrFail($id);
+        $monthlyExpense->update($data);
+        return redirect()->route('Dashboard.Admin.MonthlyExpenses.Index')->with('success', 'Gasto Mensual ' . $monthlyExpense->TypeFixedExpense->tipoGastoFijo . ' Del Equipo ' . $monthlyExpense->equipment->modelo . ' - ' . $monthlyExpense->equipment->noSerieEquipo . 'actualizado correctamente.');
     }
 
     /**
@@ -86,6 +157,14 @@ class MonthlyExpensesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $fixedExpense = MonthlyExpense::with([
+            'equipment:clvEquipo,noSerieEquipo,modelo',
+        ])->select(
+            'clvGastoFijo',
+            'gastoFijo',
+            'clvEquipo',
+        )->findOrFail($id);
+        $fixedExpense->delete();
+        return redirect()->route('Dashboard.Admin.MonthlyExpenses.Index')->with('danger', 'Gasto Fijo ' . $fixedExpense->gastoFijo . ' del equipo ' . $fixedExpense->equipment->modelo . ' - ' . $fixedExpense->equipment->noSerieEquipo . ' eliminado correctamente.');
     }
 }

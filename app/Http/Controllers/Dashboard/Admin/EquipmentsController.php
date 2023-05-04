@@ -44,10 +44,9 @@ class EquipmentsController extends Controller
         ]);
         // $rowDatas->setPageName('equipment_page');
         $columnNames = [
-            'No. Serie Equipo',
-            'Modelo',
+            'Equipo',
             'Disponibilidad',
-            'Categoria',
+            'Gasto Mensual',
             'Precio Actual',
             'Gastos Fijos',
             'Gastos Variables',
@@ -264,55 +263,24 @@ class EquipmentsController extends Controller
         $equipment = Equipment::with([
             'fixedExpenses' => function ($query) {
                 $query->select([
-                    'clvGastoFijo'
+                    'clvGastoFijo',
+                    'costoGastoFijo',
+                    'clvEquipo',
                 ]);
-                // ->with([
-                //     'typeFixedExpense:clvTipoGastoFijo,tipoGastoFijo'
-                // ])->paginate(10, [
-                //     'clvGastoFijo',
-                //     'gastoFijo',
-                //     'costoGastoFijo',
-                //     'folioFactura',
-                //     'fechaGastoFijo',
-                //     'clvTipoGastoFijo',
-                //     'clvEquipo',
-                // ]);
-                // )->with([
-                //     'typeFixedExpense' => function ($query) {
-                //         $query->select(
-                //             'clvTipoGastoFijo',
-                //             'tipoGastoFijo',
-                //         );
-                //     }
-                // ]);
             },
-            // 'variablesExpenses:clvGastoVariable,gastoVariable,descripcion,fechaGastoVariable,costoGastoVariable,clvEquipo',
             'variablesExpenses' => function ($query) {
                 $query->select([
                     'clvGastoVariable',
-                    // 'gastoVariable',
-                    // 'descripcion',
-                    // 'fechaGastoVariable',
-                    // 'costoGastoVariable',
-                    // 'clvEquipo',
+                    'costoGastoVariable',
+                    'clvEquipo',
                 ]);
             },
             'monthlyExpenses' => function ($query) {
                 $query->select([
-                    'clvGastoMensual'
+                    'clvGastoMensual',
+                    'costoMensual',
+                    'clvEquipo',
                 ]);
-                // ->with([
-                //     'typeFixedExpense:clvTipoGastoFijo,tipoGastoFijo'
-                // ])->paginate(10, [
-                //     'clvGastoMensual',
-                //     'gastoMensual',
-                //     'precioEquipo',
-                //     'porGastoMensual',
-                //     'costoMensual',
-                //     'descripcion',
-                //     'clvEquipo',
-                //     'clvTipoGastoFijo',
-                // ]);
             },
         ])->select(
             'clvEquipo',
@@ -330,7 +298,6 @@ class EquipmentsController extends Controller
             'fechaGarantiaExtendida',
             'porDeprAnual',
         )->findOrFail($id);
-        return $equipment;
 
         $allTypeFixedExpense = TypeFixedExpense::select(
             'clvTipoGastoFijo',
@@ -343,30 +310,37 @@ class EquipmentsController extends Controller
             [
                 'gastoFijo' => 'Agregar Costo Personalmente',
                 'costo' => 0,
+                'indiceValorFijo' => 1,
             ],
             [
                 'gastoFijo' => 'Precio Del Equipo',
                 'costo' => ($equipment->precioEquipo + 0),
+                'indiceValorFijo' => 2,
             ],
             [
                 'gastoFijo' => 'Precio Del Equipo Más Gastos Fijos',
                 'costo' => ($equipment->precioEquipo + $equipment->sumGastosFijos),
+                'indiceValorFijo' => 3,
             ],
         ];
 
         $rowFixedExpenses = FixedExpense::with([
             'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo',
         ])->where('clvEquipo', $id)
-            ->paginate(10, [
-                'clvGastoFijo',
-                'gastoFijo',
-                'costoGastoFijo',
-                'folioFactura',
-                'fechaGastoFijo',
-                'clvTipoGastoFijo',
-                'clvEquipo',
-            ]);
-        $rowFixedExpenses->setPageName('fixedExpenses_page');
+            ->paginate(
+                10,
+                [
+                    'clvGastoFijo',
+                    'gastoFijo',
+                    'costoGastoFijo',
+                    'folioFactura',
+                    'fechaGastoFijo',
+                    'clvTipoGastoFijo',
+                    'clvEquipo',
+                ],
+                'fixedExpenses_page'
+            );
+        // $rowFixedExpenses->setPageName('fixedExpenses_page');
         $columnFixedExpenses = [
             'Gasto Fijo',
             'Descripción Corta Del Gasto Fijo',
@@ -381,15 +355,19 @@ class EquipmentsController extends Controller
         ];
 
         $rowVariablesExpenses = VariableExpense::where('clvEquipo', $id)
-            ->paginate(10, [
-                'clvGastoVariable',
-                'gastoVariable',
-                'descripcion',
-                'fechaGastoVariable',
-                'costoGastoVariable',
-                'clvEquipo',
-            ]);
-        $rowVariablesExpenses->setPageName('variablesExpenses_page');
+            ->paginate(
+                10,
+                [
+                    'clvGastoVariable',
+                    'gastoVariable',
+                    'descripcion',
+                    'fechaGastoVariable',
+                    'costoGastoVariable',
+                    'clvEquipo',
+                ],
+                'variablesExpenses_page'
+            );
+        // $rowVariablesExpenses->setPageName('variablesExpenses_page');
         $columnVariablesExpenses = [
             'Gasto Variable',
             'Fecha Del Gasto Variable',
@@ -406,17 +384,21 @@ class EquipmentsController extends Controller
             'equipment:clvEquipo,noSerieEquipo,modelo',
             'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo',
         ])->where('clvEquipo', $id)
-            ->paginate(10, [
-                'clvGastoMensual',
-                'gastoMensual',
-                'precioEquipo',
-                'porGastoMensual',
-                'costoMensual',
-                'descripcion',
-                'clvEquipo',
-                'clvTipoGastoFijo',
-            ]);
-        $rowMonthlyExpenses->setPageName('montlhyExpenses_page');
+            ->paginate(
+                10,
+                [
+                    'clvGastoMensual',
+                    'gastoMensual',
+                    'precioEquipo',
+                    'indiceValorFijo',
+                    'porGastoMensual',
+                    'costoMensual',
+                    'descripcion',
+                    'clvEquipo',
+                    'clvTipoGastoFijo',
+                ],
+                'montlhyExpenses_page'
+            );
         $columnMonthlyExpenses = [
             'Gasto Mensual',
             'Gasto Fijo',
@@ -440,7 +422,6 @@ class EquipmentsController extends Controller
             'tableVariablesExpenses' => $tableVariablesExpenses,
             'tableMonthlyExpenses' => $tableMonthlyExpenses,
         ];
-        // return $Data;
         return view('Dashboard.Admin.Index', compact('Data'));
     }
 

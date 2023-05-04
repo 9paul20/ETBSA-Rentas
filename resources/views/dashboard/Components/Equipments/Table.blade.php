@@ -28,13 +28,19 @@
                             @foreach ($rowDatas as $rowData)
                                 <tr class="hover:bg-gray-100">
                                     <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                                        <div class="relative h-16 w-16">
+                                            <img class="h-full w-full rounded-full object-cover object-center"
+                                                src="{{ url('/images/TractorUE.jpg') }}"
+                                                alt="TractorUE_{{ $rowData->noSerieEquipo }}">
+                                        </div>
                                         <div class="text-sm">
-                                            <div class="font-medium text-gray-700">{{ $rowData->noSerieEquipo }}</div>
+                                            <div class="font-medium text-gray-700">No.Serie:
+                                                {{ $rowData->noSerieEquipo }}</div>
+                                            <div class="font-medium text-gray-700">Modelo: {{ $rowData->modelo }}</div>
+                                            <div class="text-gray-400">Categoria: {{ $rowData->categoria->categoria }}
+                                            </div>
                                         </div>
                                     </th>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        <div class="text-gray-600">{{ $rowData->modelo }}</div>
-                                    </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <span
                                             class="inline-flex items-center gap-1 rounded-full {{ $rowData->disponibilidad->bgColorPrimary }} px-2 py-1 text-xs font-semibold {{ $rowData->disponibilidad->textColor }}">
@@ -44,7 +50,9 @@
                                         </span>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        <div class="text-gray-600">{{ $rowData->categoria->categoria }}</div>
+                                        <div class="text-gray-600"><span
+                                                class="font-medium text-green-600">$</span>{{ number_format($rowData->sumGastosMensuales, 2) }}
+                                        </div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600"><span class="font-medium text-green-600">$</span>

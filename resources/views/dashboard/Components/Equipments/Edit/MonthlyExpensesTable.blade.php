@@ -68,9 +68,10 @@
                                                 'clvTipoGastoFijo' => $rowMonthlyExpense['clvTipoGastoFijo'],
                                             ])->render() }}"
                                             SelectMonthly="{{ view('Components.Dashboard.Equipments.MonthlyExpenses.Selects.SelectEdit-Monthly', [
+                                                'id' => 'MonthlyExpenses_' . $rowMonthlyExpense['clvGastoMensual'],
                                                 'Data' => $Data,
                                                 'precioEquipo' => $rowMonthlyExpense['precioEquipo'],
-                                                'id' => 'MonthlyExpenses_' . $rowMonthlyExpense['clvGastoMensual'],
+                                                'indiceValorFijo' => $rowMonthlyExpense['indiceValorFijo'],
                                             ])->render() }}"
                                             href="{{ route('Dashboard.Admin.Equipments.UpdateMonthlyExpenses', $rowMonthlyExpense['clvGastoMensual']) }}" />
                                         <x-Dashboard.IconButton-Delete

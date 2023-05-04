@@ -1,14 +1,14 @@
 @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Admin' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'MonthlyExpenses')
-    @include('Dashboard.Components.MounthlyExpenses.Table')
+    @include('Dashboard.Components.MonthlyExpenses.Table')
 @endif
-@if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'MounthlyExpenses' &&
+@if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'MonthlyExpenses' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
-    @include('Dashboard.Components.MounthlyExpenses.Create')
-@elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'MounthlyExpenses' &&
+    @include('Dashboard.Components.MonthlyExpenses.Create')
+@elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'MonthlyExpenses' &&
         is_numeric(getDashboardNameFromUrlSecond(request()->fullUrl())))
-    @include('Dashboard.Components.MounthlyExpenses.Show')
-@elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'MounthlyExpenses' &&
+    @include('Dashboard.Components.MonthlyExpenses.Show')
+@elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'MonthlyExpenses' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
-    @include('Dashboard.Components.MounthlyExpenses.Create')
+    @include('Dashboard.Components.MonthlyExpenses.Create')
 @endif

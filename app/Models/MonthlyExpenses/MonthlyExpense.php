@@ -20,6 +20,7 @@ class MonthlyExpense extends Model
         'clvGastoMensual',
         'gastoMensual',
         'precioEquipo',
+        'indiceValorFijo',
         'porGastoMensual',
         'costoMensual',
         'descripcion',
@@ -34,6 +35,7 @@ class MonthlyExpense extends Model
         $rules = [
             'gastoMensual' => 'required|string|min:4|max:255',
             'clvTipoGastoFijo' => 'not_in:[]',
+            'indiceValorFijo' => 'int',
             'precioEquipo' => 'nullable|numeric|between:0,99999999.99',
             'porGastoMensual' => 'nullable|numeric|between:0,100.00',
             'costoMensual' => 'required|numeric|between:0,99999999.99',
@@ -49,6 +51,7 @@ class MonthlyExpense extends Model
             'clvEquipo' => 'not_in:[]',
             'clvTipoGastoFijo' => 'not_in:[]',
             'gastoMensual' => 'required|string|min:4|max:255',
+            'indiceValorFijo' => 'int',
             'precioEquipo' => 'nullable|numeric|between:0,99999999.99',
             'porGastoMensual' => 'nullable|numeric|between:0,100.00',
             'costoMensual' => 'required|numeric|between:0,99999999.99',

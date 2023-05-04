@@ -7,7 +7,7 @@
             <option value="" disabled selected>
                 Seleccione Un Valor Fijo</option>
             @foreach ($Data['valoresFijos'] as $valorFijo)
-                <option value="{{ $valorFijo['costo'] }}">
+                <option value="{{ $valorFijo['costo'] }}" data-indice={{ $valorFijo['indiceValorFijo'] }}>
                     {{ $valorFijo['gastoFijo'] }} @if (isset($valorFijo['costo']))
                         - $ {{ $valorFijo['costo'] }}
                     @endif
@@ -24,4 +24,14 @@
             <span>{{ $message }}</span>
         </div>
     @enderror
+    <input type="hidden" name="indiceValorFijo" id="indiceValorFijo" value="">
 </div>
+
+@push('scripts')
+    <script>
+        $('#precioEquipoSelectCreate').on('change', function() {
+            var indiceSeleccionado = $('option:selected', this).data('indice');
+            $('#indiceValorFijo').val(indiceSeleccionado);
+        });
+    </script>
+@endpush

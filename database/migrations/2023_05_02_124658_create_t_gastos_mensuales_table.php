@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('clvGastoMensual')->comment('Clave principal del Gasto Mensual')->index();
             $table->string('gastoMensual');
             $table->decimal('precioEquipo', 10, 2)->nullable();
+            $table->unsignedTinyInteger('indiceValorFijo')->index();
             $table->decimal('porGastoMensual', 5, 2)->nullable();
             $table->decimal('costoMensual', 10, 2);
             $table->text('descripcion')->nullable();

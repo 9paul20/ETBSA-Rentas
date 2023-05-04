@@ -2,7 +2,7 @@
     <div class="mx-auto max-w-7xl">
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
-                <h1 class="text-xl font-semibold text-gray-900">Monthly</h1>
+                <h1 class="text-xl font-semibold text-gray-900">Todos Los Gastos Mensuales</h1>
             </div>
             <x-Dashboard.Button-Create text="Add Monthly Expense"
                 href="{{ route('Dashboard.Admin.MonthlyExpenses.Create') }}" />
@@ -30,7 +30,7 @@
                                 <tr class="hover:bg-gray-100">
                                     <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
                                         <div class="text-sm">
-                                            <div class="font-medium text-gray-700">{{ $rowData->equipment->modelo }} +
+                                            <div class="font-medium text-gray-700">{{ $rowData->equipment->modelo }} -
                                                 {{ $rowData->equipment->noSerieEquipo }}</div>
                                         </div>
                                     </th>
@@ -39,8 +39,11 @@
                                             {{ $rowData->gastoMensual }}</div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        <div class="font-medium text-gray-700 truncate break-words max-w-sm">
-                                            {{ $rowData->descripcion }}</div>
+                                        @if (isset($rowData->descripcion))
+                                            <div class="text-gray-600">{{ $rowData->descripcion }}</div>
+                                        @else
+                                            <div class="text-orange-600">Sin Descripción</div>
+                                        @endif
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
