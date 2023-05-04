@@ -38,11 +38,11 @@
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
                                 value="{{ old('gastoVariable', $gastoVariable) }}" required autofocus>
                             @error('gastoVariable')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -55,10 +55,10 @@
                                 value="{{ old('fechaGastoVariable', $fechaGastoVariable) }}" required
                                 max='{{ $today }}'>
                             @error('fechaGastoVariable')
-                            <div class="flex items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -71,24 +71,24 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoGastoVariable') border-red-400 @enderror"
                                 value="{{ old('costoGastoVariable', $costoGastoVariable) }}" required>
                             @error('costoGastoVariable')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
-                                minlength="4" maxlength="255" required>{{ old('descripcion', $descripcion) }}</textarea>
+                                minlength="4" maxlength="255">{{ old('descripcion', $descripcion) }}</textarea>
                             @error('descripcion')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
@@ -106,9 +106,9 @@
 </div>
 
 @push('scripts')
-@if (request()->is('Dashboard/Admin/Equipments/*'))
-<script>
-    var showModalButtonEdit{{ $id }} = document.getElementById('link-edit-{{ $id }}');
+    @if (request()->is('Dashboard/Admin/Equipments/*'))
+        <script>
+            var showModalButtonEdit{{ $id }} = document.getElementById('link-edit-{{ $id }}');
             var editModal{{ $id }} = document.getElementById('edit-modal-{{ $id }}');
             var input{{ $id }} = document.getElementById('input_{{ $id }}');
 
@@ -138,6 +138,6 @@
             }
 
             // Debe existir los metodos de FadeIn y FadeOut ya sea en el botón de agregar o de editar para que salgan los modales
-</script>
-@endif
+        </script>
+    @endif
 @endpush

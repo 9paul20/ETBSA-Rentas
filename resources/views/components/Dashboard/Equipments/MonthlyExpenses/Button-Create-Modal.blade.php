@@ -1,4 +1,4 @@
-@props(['text', 'action', 'id', 'SelectTypeFixedExpense', 'today'])
+@props(['text', 'action', 'SelectTypeFixedExpense', 'SelectMonthly', 'id'])
 
 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
     <button id="btn-create-modal-{{ $id }}" type="button"
@@ -20,23 +20,39 @@
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full max-w-2xl p-8 text-xl leading-7">
                     <div>
-                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Agregar Gasto Fijo
+                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Agregar Gasto Mensual
                         </h3>
                         <p class="mt-2 text-sm text-gray-500">Por favor, completa los siguientes campos:</p>
                     </div>
                     <form action="{{ $action }}" class="mt-4 space-y-4" method="POST">
                         @csrf
-                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Descripción Corta Del
-                                Gasto
-                                Fijo</label>
-                            <input type="text" name="gastoFijo" id="input_{{ $id }}"
-                                autocomplete="given-gastoFijo" min="4" max="255"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('gastoFijo') border-red-400 @enderror"
+                            <label for="gastoMensual" class="block text-sm font-medium text-gray-700">Gasto
+                                Mensual</label>
+                            <input type="text" name="gastoMensual" id="gastoMensual{{ $id }}"
+                                autocomplete="given-gastoMensual" min="4" max="255"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('gastoMensual') border-red-400 @enderror"
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
-                                value="{{ old('gastoFijo') }}" required autofocus>
-                            @error('gastoFijo')
+                                value="{{ old('gastoMensual') }}" required autofocus>
+                            @error('gastoMensual')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
+                        {!! html_entity_decode($SelectMonthly) !!}
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="porGastoMensual" class="block text-sm font-medium text-gray-700">Porcentaje Del
+                                Gasto Mensual</label>
+                            <input type="number" name="porGastoMensual" id="porGastoMensual"
+                                pattern="[0-9]+(\.[0-9]+)?" step="0.01" autocomplete="given-porGastoMensual"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm opacity-100 cursor-not-allowed @error('porGastoMensual') border-red-400 @enderror"
+                                min="0" max="100.00" value="{{ old('porGastoMensual') }}" step="0.01"
+                                disabled>
+                            @error('porGastoMensual')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -45,30 +61,15 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="fechaGastoFijo" class="block text-sm font-medium text-gray-700">Fecha Del
+                            <label for="costoMensual" class="block text-sm font-medium text-gray-700">Costo Del
                                 Gasto
-                                Fijo</label>
-                            <input type="date" name="fechaGastoFijo" id="fechaGastoFijo"
-                                autocomplete="given-fechaGastoFijo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
-                                value="{{ old('fechaGastoFijo') }}" required max='{{ $today }}'>
-                            @error('fechaGastoFijo')
-                                <div class="flex items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="costoGastoFijo" class="block text-sm font-medium text-gray-700">Costo Del
-                                Gasto
-                                Fijo</label>
-                            <input type="number" name="costoGastoFijo" id="costoGastoFijo" pattern="[0-9]+(\.[0-9]+)?"
-                                min="0" step="0.01" autocomplete="given-costoGastoFijo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoGastoFijo') border-red-400 @enderror"
-                                min="0" max="99999999.99" value="{{ old('costoGastoFijo') }}" required
+                                Mensual</label>
+                            <input type="number" name="costoMensual" id="costoMensual" pattern="[0-9]+(\.[0-9]+)?"
+                                step="0.01" autocomplete="given-costoMensual"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoMensual') border-red-400 @enderror"
+                                min="0" max="99999999.99" value="{{ old('costoMensual') }}" required
                                 step="0.01">
-                            @error('costoGastoFijo')
+                            @error('costoMensual')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -77,12 +78,11 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio Del Gasto
-                                Fijo</label>
-                            <textarea rows="3" name="folioFactura" id="create-folioFactura" autocomplete="given-folioFactura"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('folioFactura') border-red-400 @enderror"
-                                minlength="4" maxlength="255">{{ old('folioFactura') }}</textarea>
-                            @error('folioFactura')
+                            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                            <textarea rows="3" name="descripcion" id="create-descripcion" autocomplete="given-descripcion"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
+                                minlength="4" maxlength="255">{{ old('descripcion') }}</textarea>
+                            @error('descripcion')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -109,23 +109,23 @@
         <script>
             var showModalButtonCreate{{ $id }} = document.getElementById('btn-create-modal-{{ $id }}');
             var createModal{{ $id }} = document.getElementById('create-modal-{{ $id }}');
-            var input{{ $id }} = document.getElementById('input_{{ $id }}');
+            var gastoMensual{{ $id }} = document.getElementById('gastoMensual{{ $id }}');
 
             if (window.location.hash === "#createModal{{ $id }}") {
                 fadeIn(createModal{{ $id }});
-                input{{ $id }}.focus();
+                gastoMensual{{ $id }}.focus();
             }
 
             function modalHandler{{ $id }}(val) {
                 var scrollTarget = document.getElementById(showModalButtonCreate{{ $id }}.getAttribute(
                     'data-target'));
-                document.getElementById("input_{{ $id }}").value = "";
-                document.getElementById("costoGastoFijo").value = "";
-                document.getElementById("create-folioFactura").value = "";
+                document.getElementById("gastoMensual{{ $id }}").value = "";
+                document.getElementById("costoMensual").value = "";
+                document.getElementById("create-descripcion").value = "";
                 if (val) {
                     fadeIn(createModal{{ $id }});
                     window.location.hash = "createModal{{ $id }}";
-                    input{{ $id }}.focus();
+                    gastoMensual{{ $id }}.focus();
                 } else {
                     fadeOut(createModal{{ $id }});
                     window.location.hash = "";
@@ -157,6 +157,31 @@
                     }
                 })();
             }
+
+            const selectCreate = document.querySelector('#precioEquipoSelectCreate');
+            const porGastoMensualInput = document.querySelector('#porGastoMensual');
+            const costoMensualInput = document.querySelector('#costoMensual');
+
+            selectCreate.addEventListener('change', function() {
+                if (this.value > 0) {
+                    porGastoMensualInput.removeAttribute('disabled');
+                    porGastoMensualInput.classList.remove('opacity-100', 'cursor-not-allowed');
+                } else {
+                    porGastoMensualInput.setAttribute('disabled', '');
+                    porGastoMensualInput.classList.add('opacity-100', 'cursor-not-allowed');
+                    porGastoMensualInput.value = "";
+                    costoMensualInput.value = "";
+                }
+            });
+
+            porGastoMensualInput.addEventListener('input', function() {
+                const selectedOptionValue = selectCreate.value;
+                const porGastoMensualValue = porGastoMensualInput.value;
+                const calculatedCostoMensual = selectedOptionValue > 0 && porGastoMensualValue > 0 ?
+                    (selectedOptionValue * porGastoMensualValue / 100).toFixed(2) :
+                    '';
+                costoMensualInput.value = calculatedCostoMensual;
+            });
         </script>
     @endif
 @endpush

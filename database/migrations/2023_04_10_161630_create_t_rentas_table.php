@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->date('fecha_inicio')->nullable();
             $table->date('fecha_fin')->nullable();
-            $table->unsignedBigInteger('clvPagoRenta')->nullable();
             $table->unsignedBigInteger('clvEstadoRenta')->nullable();
             $table->timestamps();
 

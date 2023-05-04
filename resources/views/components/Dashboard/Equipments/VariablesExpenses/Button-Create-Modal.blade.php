@@ -35,11 +35,11 @@
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
                                 value="{{ old('gastoVariable') }}" required autofocus>
                             @error('gastoVariable')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -51,10 +51,10 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGastoVariable') border-red-400 @enderror"
                                 value="{{ old('fechaGastoVariable') }}" required max='{{ $today }}'>
                             @error('fechaGastoVariable')
-                            <div class="flex items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -64,27 +64,27 @@
                             <input type="number" name="costoGastoVariable" id="costoGastoVariable"
                                 pattern="[0-9]+(\.[0-9]+)?" step="0.01" autocomplete="given-costoGastoVariable"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoGastoVariable') border-red-400 @enderror"
-                                min="0" max="99999999.99" value="{{ old('costoGastoVariable') }}" required step="0.01">
+                                min="0" max="99999999.99" value="{{ old('costoGastoVariable') }}" required
+                                step="0.01">
                             @error('costoGastoVariable')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                            <textarea rows="3" name="descripcion" id="create-descripcion"
-                                autocomplete="given-descripcion"
+                            <textarea rows="3" name="descripcion" id="create-descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
-                                minlength="4" maxlength="255" required>{{ old('descripcion') }}</textarea>
+                                minlength="4" maxlength="255">{{ old('descripcion') }}</textarea>
                             @error('descripcion')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
@@ -102,9 +102,9 @@
 </div>
 
 @push('scripts')
-@if (request()->is('Dashboard/Admin/Equipments/*'))
-<script>
-    var showModalButtonCreate{{ $id }} = document.getElementById('btn-create-modal-{{ $id }}');
+    @if (request()->is('Dashboard/Admin/Equipments/*'))
+        <script>
+            var showModalButtonCreate{{ $id }} = document.getElementById('btn-create-modal-{{ $id }}');
             var createModal{{ $id }} = document.getElementById('create-modal-{{ $id }}');
             var input{{ $id }} = document.getElementById('input_{{ $id }}');
 
@@ -154,6 +154,6 @@
                     }
                 })();
             }
-</script>
-@endif
+        </script>
+    @endif
 @endpush

@@ -1,4 +1,4 @@
-@props(['id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'today', 'SelectTypeFixedExpense', 'folioFactura', 'href'])
+@props(['id', 'gastoMensual', 'precioEquipo', 'porGastoMensual', 'costoMensual', 'descripcion', 'SelectTypeFixedExpense', 'SelectMonthly', 'href'])
 
 <a href="" x-data="{ tooltip: 'Edit' }" @click="modalHandler{{ $id }}(true)" id="link-edit-{{ $id }}"
     data-target="scroll-target-{{ $id }}">
@@ -22,24 +22,40 @@
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full max-w-2xl p-8 text-xl leading-7">
                     <div>
-                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Editar Gasto Fijo
+                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Editar Gasto Variable
                         </h3>
                         <p class="mt-2 text-sm text-gray-500">Por favor, completa los siguientes campos:</p>
                     </div>
                     <form action="{{ $href }}" class="mt-4 space-y-4" method="POST">
                         @method('PUT')
                         @csrf
-                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Descripción Corta Del
-                                Gasto
-                                Fijo</label>
-                            <input type="text" name="gastoFijo" id="input_{{ $id }}"
-                                autocomplete="given-gastoFijo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('gastoFijo') border-red-400 @enderror"
+                            <label for="gastoMensual" class="block text-sm font-medium text-gray-700">Gasto
+                                Mensual</label>
+                            <input type="text" name="gastoMensual" id="gastoMensual{{ $id }}"
+                                autocomplete="given-gastoMensual" min="4" max="255"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('gastoMensual') border-red-400 @enderror"
                                 pattern=".{4,255}" title="El campo debe contener entre 4 y 255 caracteres"
-                                value="{{ old('gastoFijo', $gastoFijo) }}" required autofocus>
-                            @error('gastoFijo')
+                                value="{{ old('gastoMensual', $gastoMensual) }}" required autofocus>
+                            @error('gastoMensual')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
+                        {!! html_entity_decode($SelectMonthly) !!}
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="porGastoMensual" class="block text-sm font-medium text-gray-700">Porcentaje Del
+                                Gasto Mensual</label>
+                            <input type="number" name="porGastoMensual" id="porGastoMensual{{ $id }}"
+                                pattern="[0-9]+(\.[0-9]+)?" step="0.01" autocomplete="given-porGastoMensual"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm  @if ($porGastoMensual < 0) opacity-100 cursor-not-allowed @endif @error('porGastoMensual') border-red-400 @enderror"
+                                min="0" max="100.00" value="{{ old('porGastoMensual', $porGastoMensual) }}"
+                                step="0.01" @if ($porGastoMensual < 0) disabled @endif>
+                            @error('porGastoMensual')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -48,30 +64,15 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="fechaGastoFijo" class="block text-sm font-medium text-gray-700">Fecha Del
+                            <label for="costoMensual" class="block text-sm font-medium text-gray-700">Costo Del
                                 Gasto
-                                Fijo</label>
-                            <input type="date" name="fechaGastoFijo" id="fechaGastoFijo"
-                                autocomplete="given-fechaGastoFijo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
-                                value="{{ old('fechaGastoFijo', $fechaGastoFijo) }}" required
-                                max='{{ $today }}'>
-                            @error('fechaGastoFijo')
-                                <div class="flex items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="costoGastoFijo" class="block text-sm font-medium text-gray-700">Costo Del
-                                Gasto
-                                Fijo</label>
-                            <input type="number" name="costoGastoFijo" id="costoGastoFijo" pattern="[0-9]+(\.[0-9]+)?"
-                                min="0" max="99999999.99" step="0.01" autocomplete="given-costoGastoFijo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoGastoFijo') border-red-400 @enderror"
-                                value="{{ old('costoGastoFijo', $costoGastoFijo) }}" required>
-                            @error('costoGastoFijo')
+                                Mensual</label>
+                            <input type="number" name="costoMensual" id="costoMensual{{ $id }}"
+                                pattern="[0-9]+(\.[0-9]+)?" step="0.01" autocomplete="given-costoMensual"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoMensual') border-red-400 @enderror"
+                                min="0" max="99999999.99" value="{{ old('costoMensual', $costoMensual) }}"
+                                required step="0.01">
+                            @error('costoMensual')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -80,12 +81,11 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio
-                                Del Gasto Fijo</label>
-                            <textarea rows="3" name="folioFactura" id="folioFactura" autocomplete="given-folioFactura"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('folioFactura') border-red-400 @enderror"
-                                minlength="4" maxlength="255">{{ old('folioFactura', $folioFactura) }}</textarea>
-                            @error('folioFactura')
+                            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                            <textarea rows="3" name="descripcion" id="descripcion{{ $id }}" autocomplete="given-descripcion"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
+                                minlength="4" maxlength="255">{{ old('descripcion', $descripcion) }}</textarea>
+                            @error('descripcion')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -112,7 +112,7 @@
         <script>
             var showModalButtonEdit{{ $id }} = document.getElementById('link-edit-{{ $id }}');
             var editModal{{ $id }} = document.getElementById('edit-modal-{{ $id }}');
-            var input{{ $id }} = document.getElementById('input_{{ $id }}');
+            var gastoMensual{{ $id }} = document.getElementById('gastoMensual{{ $id }}');
 
             document.getElementById('link-edit-{{ $id }}').addEventListener('click', function(event) {
                 // Prevenir el comportamiento predeterminado del enlace
@@ -121,7 +121,7 @@
 
             if (window.location.hash === "#editModal{{ $id }}") {
                 fadeIn(editModal{{ $id }});
-                input{{ $id }}.focus();
+                gastoMensual{{ $id }}.focus();
             }
 
             function modalHandler{{ $id }}(val) {
@@ -129,7 +129,7 @@
                 if (val) {
                     fadeIn(editModal{{ $id }});
                     window.location.hash = "editModal{{ $id }}";
-                    input{{ $id }}.focus();
+                    gastoMensual{{ $id }}.focus();
                 } else {
                     fadeOut(editModal{{ $id }});
                     window.location.hash = "";
@@ -138,8 +138,34 @@
                     }
                 }
             }
-
             // Debe existir los metodos de FadeIn y FadeOut ya sea en el botón de agregar o de editar para que salgan los modales
+
+            // const select = document.querySelector('#precioEquipoSelectEdit');
+            const selectEdit{{ $id }} = document.querySelector('#precioEquipoSelectEdit{{ $id }}');
+            const porGastoMensualInput{{ $id }} = document.querySelector('#porGastoMensual{{ $id }}');
+            const costoMensualInput{{ $id }} = document.querySelector('#costoMensual{{ $id }}');
+            selectEdit{{ $id }}.addEventListener('change', function() {
+                if (this.value > 0) {
+                    porGastoMensualInput{{ $id }}.removeAttribute('disabled');
+                    porGastoMensualInput{{ $id }}.classList.remove('opacity-100', 'cursor-not-allowed');
+                } else {
+                    porGastoMensualInput{{ $id }}.setAttribute('disabled', '');
+                    porGastoMensualInput{{ $id }}.classList.add('opacity-100', 'cursor-not-allowed');
+                    porGastoMensualInput{{ $id }}.value = "";
+                    costoMensualInput{{ $id }}.value = "";
+                }
+            });
+
+            porGastoMensualInput{{ $id }}.addEventListener('input', function() {
+                const selectedOptionValue{{ $id }} = selectEdit{{ $id }}.value;
+                const porGastoMensualValue{{ $id }} = porGastoMensualInput{{ $id }}.value;
+                const calculatedCostoMensual{{ $id }} = selectedOptionValue{{ $id }} > 0 &&
+                    porGastoMensualValue{{ $id }} > 0 ?
+                    (selectedOptionValue{{ $id }} * porGastoMensualValue{{ $id }} / 100).toFixed(
+                        2) :
+                    '';
+                costoMensualInput{{ $id }}.value = calculatedCostoMensual{{ $id }};
+            });
         </script>
     @endif
 @endpush

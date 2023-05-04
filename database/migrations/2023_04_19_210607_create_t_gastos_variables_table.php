@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_gastos_variables', function (Blueprint $table) {
-            $table->bigIncrements('clvGastoVariable');
+            $table->bigIncrements('clvGastoVariable')->comment('Clave Principal de la tabla Gastos Variables');
             $table->string('gastoVariable');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->date('fechaGastoVariable');
             $table->decimal('costoGastoVariable', 10, 2)->default(0.00);
             $table->unsignedBigInteger('clvEquipo')->nullable();

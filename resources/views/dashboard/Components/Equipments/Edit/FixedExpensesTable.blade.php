@@ -48,11 +48,16 @@
                                         {{ number_format($rowFixedExpense['costoGastoFijo'], 2) }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600">{{ $rowFixedExpense['folioFactura'] }}</div>
+                                    @if (isset($rowFixedExpense['folioFactura']))
+                                        <div class="text-gray-600">{{ $rowFixedExpense['folioFactura'] }}</div>
+                                    @else
+                                        <div class="text-orange-600">Sin Folio</div>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-end gap-4">
-                                        <x-Dashboard.IconButton-Show_SA id="{{ $rowFixedExpense['clvGastoFijo'] }}"
+                                        <x-Dashboard.IconButton-Show_SA
+                                            id="FixedExpenses_{{ $rowFixedExpense['clvGastoFijo'] }}"
                                             name="{{ $rowFixedExpense['gastoFijo'] }}"
                                             description="Tipo de Gasto Fijo {{ $rowFixedExpense->TypeFixedExpense->tipoGastoFijo }} Con Día {{ $rowFixedExpense['fechaGastoFijo'] }} Del Folio {{ $rowFixedExpense['folioFactura'] }}"
                                             href="" />
@@ -65,7 +70,8 @@
                                             SelectTypeFixedExpense="{{ view('Components.Dashboard.Equipments.FixedExpenses.Selects.SelectEdit-TypeFixedExpense', ['Data' => $Data, 'clvTipoGastoFijo' => $rowFixedExpense['clvTipoGastoFijo']])->render() }}"
                                             folioFactura="{{ $rowFixedExpense['folioFactura'] }}"
                                             href="{{ route('Dashboard.Admin.Equipments.UpdateFixedExpenses', $rowFixedExpense['clvGastoFijo']) }}" />
-                                        <x-Dashboard.IconButton-Delete id="{{ $rowFixedExpense['clvGastoFijo'] }}"
+                                        <x-Dashboard.IconButton-Delete
+                                            id="FixedExpenses_{{ $rowFixedExpense['clvGastoFijo'] }}"
                                             name="{{ $rowFixedExpense['gastoFijo'] }}"
                                             href="{{ route('Dashboard.Admin.Equipments.DestroyFixedExpenses', $rowFixedExpense['clvGastoFijo']) }}" />
                                     </div>

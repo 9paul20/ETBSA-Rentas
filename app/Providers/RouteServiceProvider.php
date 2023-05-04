@@ -85,6 +85,9 @@ class RouteServiceProvider extends ServiceProvider
 
                     //Gastos Variables
                     include(base_path('routes/models/variablesExpenses.php'));
+
+                    //Gastos Mensuales
+                    include(base_path('routes/models/monthlyExpenses.php'));
                 });
             });
 

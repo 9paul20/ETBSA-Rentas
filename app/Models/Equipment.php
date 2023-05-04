@@ -76,6 +76,11 @@ class Equipment extends Model
         return $this->hasMany(VariablesExpenses\VariableExpense::class, 'clvEquipo');
     }
 
+    public function monthlyExpenses(): HasMany
+    {
+        return $this->hasMany(MonthlyExpenses\MonthlyExpense::class, 'clvEquipo');
+    }
+
     //*Funciones de los Atributos Principales del Equipo
     protected function sumGastosFijos(): Attribute
     {
@@ -90,6 +95,14 @@ class Equipment extends Model
         $sumGastosVariables = round($this->variablesExpenses->sum('costoGastoVariable'), 2);
         return Attribute::make(
             get: fn () => $sumGastosVariables
+        );
+    }
+
+    protected function sumGastosMensuales(): Attribute
+    {
+        $sumGastosMensuales = round($this->monthlyExpenses->sum('costoMensual'), 2);
+        return Attribute::make(
+            get: fn () => $sumGastosMensuales
         );
     }
 

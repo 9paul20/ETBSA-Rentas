@@ -197,7 +197,8 @@
                                 min="0" max="100.00" step="0.01" autocomplete="given-porDeprAnual"
                                 placeholder="Porcentaje actual para cada Equipo es del %25"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('porDeprAnual') border-red-400 @enderror"
-                                value="{{ old('porDeprAnual', $Data['equipment']['porDeprAnual']) }}" required>
+                                value="{{ old('porDeprAnual', $Data['equipment']['porDeprAnual']) }}"
+                                max='{{ $Data['today'] }}' required>
                             @error('porDeprAnual')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -214,7 +215,7 @@
                                 autocomplete="given-fechaGarantiaExtendida"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGarantiaExtendida') border-red-400 @enderror"
                                 value="{{ old('fechaGarantiaExtendida', $Data['equipment']['fechaGarantiaExtendida']) }}"
-                                required max='{{ $Data['today'] }}'>
+                                max='{{ $Data['today'] }}' required>
                             @error('fechaGarantiaExtendida')
                                 <div class="flex items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>

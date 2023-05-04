@@ -1,4 +1,4 @@
-@if (count($columnNames) > 0)
+@if (count($Data['columnNames']) > 0)
     <div class="mx-auto max-w-7xl">
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
@@ -6,7 +6,7 @@
             </div>
             <x-Dashboard.Button-Create text="Add Rent" href="{{ route('Dashboard.Admin.Rents.Create') }}" />
         </div>
-        @if (count($rowDatas) > 0)
+        @if (count($Data['rowDatas']) > 0)
             <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                 <div class="relative text-gray-600 py-1">
                     <input type="search" name="serch" placeholder="Realizar Busqueda"
@@ -17,7 +17,7 @@
                         class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
-                                @foreach ($columnNames as $columnName)
+                                @foreach ($Data['columnNames'] as $columnName)
                                     <th scope="col"
                                         class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                         {{ $columnName }}</th>
@@ -25,7 +25,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 border-t  bg-white">
-                            @foreach ($rowDatas as $rowData)
+                            @foreach ($Data['rowDatas'] as $rowData)
                                 <tr class="hover:bg-gray-100">
                                     <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
                                         <div class="text-sm">
@@ -73,7 +73,7 @@
                         </tbody>
                     </table>
                 </div>
-                {{ $rowDatas->links('vendor.pagination.tailwind') }}
+                {{ $Data['rowDatas']->links('vendor.pagination.tailwind') }}
             </div>
         @else
             <main class="flex items-center justify-center flex-1 px-4 py-8">

@@ -117,36 +117,6 @@
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="clvPagoRenta" class="block text-sm font-medium text-gray-700">Pago
-                                Renta</label>
-                            <select id="clvPagoRenta" name="clvPagoRenta"
-                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('clvPagoRenta') border-red-400 @enderror"
-                                required>
-                                @if (count($Data['paymentsRents']) > 0)
-                                    <option value="" disabled selected>
-                                        Seleccione Una Compañia Telefónica</option>
-                                    @foreach ($Data['paymentsRents'] as $paymentRent)
-                                        <option value="{{ $paymentRent->clvPagoRenta }}"
-                                            @if ($paymentRent->clvPagoRenta == $Data['rent']->clvPagoRenta) selected @endif>
-                                            Pago: ${{ $paymentRent->pagoRenta }} + IVA: ${{ $paymentRent->ivaRenta }}
-                                            =
-                                            ${{ $paymentRent->pagoRenta + $paymentRent->ivaRenta }}
-                                        </option>
-                                    @endforeach
-                                @else
-                                    <option value="" disabled selected>
-                                        No Hay Opciones De Pago Renta Disponible</option>
-                                @endif
-                            </select>
-                            @error('clvPagoRenta')
-                                <div class="flex
-                                    items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
                             <label for="clvEstadoRenta" class="block text-sm font-medium text-gray-700">Estado
                                 De
                                 Renta</label>

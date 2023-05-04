@@ -9,10 +9,14 @@
     @include('Dashboard.Components.Divisor')
 
     @include('Dashboard.Components.Equipments.Edit.FixedExpensesTable')
-
+    {{-- 
     @include('Dashboard.Components.Divisor')
 
     @include('Dashboard.Components.Equipments.Edit.VariablesExpensesTable')
+
+    @include('Dashboard.Components.Divisor')
+
+    @include('Dashboard.Components.Equipments.Edit.MonthlyExpensesTable') --}}
 @endif
 
 @include('Dashboard.Components.Divisor')

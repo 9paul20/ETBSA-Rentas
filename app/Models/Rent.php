@@ -20,13 +20,12 @@ class Rent extends Model
         'descripcion',
         'fecha_inicio',
         'fecha_fin',
-        'clvPagoRenta',
         'clvEstadoRenta',
     ];
 
     protected $hidden = [];
 
-    public static function getRules($id = null)
+    public static function getRules($clvRenta = null)
     {
         $rules = [
             'clvEquipo' => 'required|not_in:[]',
@@ -34,7 +33,6 @@ class Rent extends Model
             'descripcion' => 'required|string|max:255',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date',
-            'clvPagoRenta' => 'required|not_in:[]',
             'clvEstadoRenta' => 'required|not_in:[]',
         ];
         return $rules;

@@ -44,12 +44,16 @@
                                             {{ number_format($rowVariableExpense['costoGastoVariable'], 2) }}</div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        <div class="text-gray-600">{{ $rowVariableExpense['descripcion'] }}</div>
+                                        @if (isset($rowVariableExpense['descripcion']))
+                                            <div class="text-gray-600">{{ $rowVariableExpense['descripcion'] }}</div>
+                                        @else
+                                            <div class="text-orange-600">Sin Descripción</div>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex justify-end gap-4">
                                             <x-Dashboard.IconButton-Show_SA
-                                                id="{{ $rowVariableExpense['clvGastoVariable'] }}"
+                                                id="VariablesExpenses_{{ $rowVariableExpense['clvGastoVariable'] }}"
                                                 name="Gasto Variable - {{ $rowVariableExpense['gastoVariable'] }}"
                                                 description="{{ $rowVariableExpense['descripcion'] }} con costo de ${{ $rowVariableExpense['costoGastoVariable'] }} del día {{ $rowVariableExpense['fechaGastoVariable'] }}"
                                                 href="" />
@@ -62,7 +66,7 @@
                                                 descripcion="{{ $rowVariableExpense['descripcion'] }}"
                                                 href="{{ route('Dashboard.Admin.Equipments.UpdateVariablesExpenses', $rowVariableExpense['clvGastoVariable']) }}" />
                                             <x-Dashboard.IconButton-Delete
-                                                id="{{ $rowVariableExpense['clvGastoVariable'] }}"
+                                                id="VariablesExpenses_{{ $rowVariableExpense['clvGastoVariable'] }}"
                                                 name="Gasto Variable - {{ $rowVariableExpense['gastoVariable'] }} con costo de ${{ $rowVariableExpense['costoGastoVariable'] }} del día {{ $rowVariableExpense['fechaGastoVariable'] }}"
                                                 href="{{ route('Dashboard.Admin.Equipments.DestroyVariablesExpenses', $rowVariableExpense['clvGastoVariable']) }}" />
                                         </div>
@@ -90,15 +94,16 @@
             </main>
         @endif
     </div>
+</div>
 
-    @push('scripts')
-        <script>
-            $(document).ready(function() {
-                if (window.location.hash === '#variablesExpensesScroll') {
-                    $('html, body').animate({
-                        scrollTop: $('#variablesExpensesScroll').offset().top
-                    }, 500);
-                }
-            });
-        </script>
-    @endpush
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            if (window.location.hash === '#variablesExpensesScroll') {
+                $('html, body').animate({
+                    scrollTop: $('#variablesExpensesScroll').offset().top
+                }, 500);
+            }
+        });
+    </script>
+@endpush

@@ -15,11 +15,14 @@ return new class extends Migration
             $table->tinyIncrements('clvPagoRenta');
             $table->decimal('pagoRenta', 10, 2)->nullable();
             $table->decimal('ivaRenta', 10, 2)->nullable();
+            $table->unsignedTinyInteger('clvRenta')->nullable();
             $table->unsignedTinyInteger('clvEstadoPagoRenta')->nullable();
             $table->text('descripcion')->nullable();
             $table->timestamps();
 
             $table->index('clvPagoRenta');
+            $table->index('clvRenta');
+            $table->index('clvEstadoPagoRenta');
         });
     }
 

@@ -8,6 +8,7 @@ use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
 use App\Models\FixedExpenses\FixedExpense;
 use App\Models\FixedExpenses\TypeFixedExpense;
+use App\Models\MonthlyExpenses\MonthlyExpense;
 use App\Models\VariablesExpenses\VariableExpense;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -131,6 +132,23 @@ class EquipmentsController extends Controller
         return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le agregado su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.')->withFragment('#variablesExpensesScroll');
     }
 
+    public function storeMonthlyExpenses(Request $request, string $id)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, MonthlyExpense::getRulesEquipment());
+        if ($validator->fails()) {
+            return redirect()->to(url()->previous())
+                ->withErrors($validator)
+                ->withInput()
+                ->withFragment('#createModalMonthlyExpenses');
+        }
+        $monthlyExpense = MonthlyExpense::create($data);
+        $monthlyExpense->clvEquipo = $id;
+        $monthlyExpense->save();
+        $equipment = Equipment::findOrFail($id);
+        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le agregado su Gasto Mensual ' . $monthlyExpense->gastoMensual . ' correctamente.')->withFragment('#monthlyExpensesScroll');
+    }
+
     /**
      * Display the specified resource.
      */
@@ -243,68 +261,112 @@ class EquipmentsController extends Controller
      */
     public function edit(string $id)
     {
-        //Rows o Filas Por Pagina
-        $perPage = 10;
-
         $equipment = Equipment::with([
             'fixedExpenses' => function ($query) {
-                $query->with(
-                    'TypeFixedExpense:' .
-                        'clvTipoGastoFijo,' .
-                        'tipoGastoFijo'
-                )
-                    ->select(
-                        'clvGastoFijo',
-                        'gastoFijo',
-                        'costoGastoFijo',
-                        'folioFactura',
-                        'fechaGastoFijo',
-                        'clvTipoGastoFijo',
-                        'clvEquipo',
-                    );
+                $query->select([
+                    'clvGastoFijo'
+                ]);
+                // ->with([
+                //     'typeFixedExpense:clvTipoGastoFijo,tipoGastoFijo'
+                // ])->paginate(10, [
+                //     'clvGastoFijo',
+                //     'gastoFijo',
+                //     'costoGastoFijo',
+                //     'folioFactura',
+                //     'fechaGastoFijo',
+                //     'clvTipoGastoFijo',
+                //     'clvEquipo',
+                // ]);
+                // )->with([
+                //     'typeFixedExpense' => function ($query) {
+                //         $query->select(
+                //             'clvTipoGastoFijo',
+                //             'tipoGastoFijo',
+                //         );
+                //     }
+                // ]);
             },
+            // 'variablesExpenses:clvGastoVariable,gastoVariable,descripcion,fechaGastoVariable,costoGastoVariable,clvEquipo',
             'variablesExpenses' => function ($query) {
-                $query->select(
+                $query->select([
                     'clvGastoVariable',
-                    'gastoVariable',
-                    'descripcion',
-                    'fechaGastoVariable',
-                    'costoGastoVariable',
-                    'clvEquipo',
-                );
-            }
-        ])
-            ->select(
-                'clvEquipo',
-                'noSerieEquipo',
-                'modelo',
-                'noSerieMotor',
-                'noEconomico',
-                'modelo',
-                'clvDisponibilidad',
-                'clvCategoria',
-                'descripcion',
-                'precioEquipo',
-                'folioEquipo',
-                'fechaAdquisicion',
-                'fechaGarantiaExtendida',
-                'porDeprAnual',
-            )
-            ->findOrFail($id);
+                    // 'gastoVariable',
+                    // 'descripcion',
+                    // 'fechaGastoVariable',
+                    // 'costoGastoVariable',
+                    // 'clvEquipo',
+                ]);
+            },
+            'monthlyExpenses' => function ($query) {
+                $query->select([
+                    'clvGastoMensual'
+                ]);
+                // ->with([
+                //     'typeFixedExpense:clvTipoGastoFijo,tipoGastoFijo'
+                // ])->paginate(10, [
+                //     'clvGastoMensual',
+                //     'gastoMensual',
+                //     'precioEquipo',
+                //     'porGastoMensual',
+                //     'costoMensual',
+                //     'descripcion',
+                //     'clvEquipo',
+                //     'clvTipoGastoFijo',
+                // ]);
+            },
+        ])->select(
+            'clvEquipo',
+            'noSerieEquipo',
+            'modelo',
+            'noSerieMotor',
+            'noEconomico',
+            'modelo',
+            'clvDisponibilidad',
+            'clvCategoria',
+            'descripcion',
+            'precioEquipo',
+            'folioEquipo',
+            'fechaAdquisicion',
+            'fechaGarantiaExtendida',
+            'porDeprAnual',
+        )->findOrFail($id);
+        return $equipment;
 
         $allTypeFixedExpense = TypeFixedExpense::select(
             'clvTipoGastoFijo',
             'tipoGastoFijo',
-        )->get();;
+        )->get();
         $categories = Category::all();
         $status = Status::all();
         $today = Carbon::today()->format('Y-m-d');
+        $valoresFijos = [
+            [
+                'gastoFijo' => 'Agregar Costo Personalmente',
+                'costo' => 0,
+            ],
+            [
+                'gastoFijo' => 'Precio Del Equipo',
+                'costo' => ($equipment->precioEquipo + 0),
+            ],
+            [
+                'gastoFijo' => 'Precio Del Equipo Más Gastos Fijos',
+                'costo' => ($equipment->precioEquipo + $equipment->sumGastosFijos),
+            ],
+        ];
 
-        $currentPage = request()->get('fixedExpenses_page') ?? 1;
-        $rowFixedExpenses = new LengthAwarePaginator($equipment->fixedExpenses->forPage($currentPage, $perPage), $equipment->fixedExpenses->count(), $perPage, $currentPage, [
-            'path' => route('Dashboard.Admin.Equipments.Edit', $id),
-            'pageName' => 'fixedExpenses_page',
-        ]);
+        $rowFixedExpenses = FixedExpense::with([
+            'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo',
+        ])->where('clvEquipo', $id)
+            ->paginate(10, [
+                'clvGastoFijo',
+                'gastoFijo',
+                'costoGastoFijo',
+                'folioFactura',
+                'fechaGastoFijo',
+                'clvTipoGastoFijo',
+                'clvEquipo',
+            ]);
+        $rowFixedExpenses->setPageName('fixedExpenses_page');
         $columnFixedExpenses = [
             'Gasto Fijo',
             'Descripción Corta Del Gasto Fijo',
@@ -318,11 +380,16 @@ class EquipmentsController extends Controller
             'rowFixedExpenses' => $rowFixedExpenses,
         ];
 
-        $currentPage = request()->get('variablesExpenses_page') ?? 1;
-        $rowVariablesExpenses = new LengthAwarePaginator($equipment->variablesExpenses->forPage($currentPage, $perPage), $equipment->variablesExpenses->count(), $perPage, $currentPage, [
-            'path' => route('Dashboard.Admin.Equipments.Edit', $id),
-            'pageName' => 'variablesExpenses_page',
-        ]);
+        $rowVariablesExpenses = VariableExpense::where('clvEquipo', $id)
+            ->paginate(10, [
+                'clvGastoVariable',
+                'gastoVariable',
+                'descripcion',
+                'fechaGastoVariable',
+                'costoGastoVariable',
+                'clvEquipo',
+            ]);
+        $rowVariablesExpenses->setPageName('variablesExpenses_page');
         $columnVariablesExpenses = [
             'Gasto Variable',
             'Fecha Del Gasto Variable',
@@ -335,15 +402,45 @@ class EquipmentsController extends Controller
             'rowVariablesExpenses' => $rowVariablesExpenses,
         ];
 
+        $rowMonthlyExpenses = MonthlyExpense::with([
+            'equipment:clvEquipo,noSerieEquipo,modelo',
+            'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo',
+        ])->where('clvEquipo', $id)
+            ->paginate(10, [
+                'clvGastoMensual',
+                'gastoMensual',
+                'precioEquipo',
+                'porGastoMensual',
+                'costoMensual',
+                'descripcion',
+                'clvEquipo',
+                'clvTipoGastoFijo',
+            ]);
+        $rowMonthlyExpenses->setPageName('montlhyExpenses_page');
+        $columnMonthlyExpenses = [
+            'Gasto Mensual',
+            'Gasto Fijo',
+            'Costo Mensual',
+            'Descripción',
+            ''
+        ];
+        $tableMonthlyExpenses = [
+            'columnMonthlyExpenses' => $columnMonthlyExpenses,
+            'rowMonthlyExpenses' => $rowMonthlyExpenses,
+        ];
+
         $Data = [
             'categories' => $categories,
             'status' => $status,
             'equipment' => $equipment,
             'today' => $today,
+            'valoresFijos' => $valoresFijos,
             'allTypeFixedExpense' => $allTypeFixedExpense,
             'tableFixedExpenses' => $tableFixedExpenses,
             'tableVariablesExpenses' => $tableVariablesExpenses,
+            'tableMonthlyExpenses' => $tableMonthlyExpenses,
         ];
+        // return $Data;
         return view('Dashboard.Admin.Index', compact('Data'));
     }
 
@@ -378,7 +475,7 @@ class EquipmentsController extends Controller
         $fixedExpense = FixedExpense::findOrFail($id);
         $fixedExpense->update($data);
         $equipment = Equipment::findOrFail($fixedExpense->clvEquipo);
-        return redirect()->to(url()->previous())
+        return redirect()->to(url()->previous() . '#fixedExpensesScroll')
             ->withFragment('#fixedExpensesScroll')
             ->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Fijo ' . $fixedExpense->gastoFijo . ' correctamente.')->withFragment('#fixedExpensesScroll');
     }
@@ -388,7 +485,7 @@ class EquipmentsController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, VariableExpense::getRulesEquipment());
         if ($validator->fails()) {
-            return redirect()->to(url()->previous() . '#fixedExpensesScroll')
+            return redirect()->to(url()->previous() . '#variablesExpensesScroll')
                 ->withErrors($validator)
                 ->withInput()
                 ->withFragment('#editModalVariablesExpenses_' . $id);
@@ -397,6 +494,22 @@ class EquipmentsController extends Controller
         $variableExpense->update($data);
         $equipment = Equipment::findOrFail($variableExpense->clvEquipo);
         return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.')->withFragment('#variablesExpensesScroll');
+    }
+
+    public function updateMonthlyExpenses(Request $request, string $id)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, MonthlyExpense::getRulesEquipment());
+        if ($validator->fails()) {
+            return redirect()->to(url()->previous() . '#monthlyExpensesScroll')
+                ->withErrors($validator)
+                ->withInput()
+                ->withFragment('#editModalMonthlyExpenses_' . $id);
+        }
+        $monthlyExpense = MonthlyExpense::findOrFail($id);
+        $monthlyExpense->update($data);
+        $equipment = Equipment::findOrFail($monthlyExpense->clvEquipo);
+        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Mensual ' . $monthlyExpense->gastoMensual . ' correctamente.')->withFragment('#monthlyExpensesScroll');
     }
 
 
@@ -422,5 +535,12 @@ class EquipmentsController extends Controller
         $variableExpense = VariableExpense::findOrFail($id);
         $variableExpense->delete();
         return back()->with('danger', 'Gasto Variable ' . $variableExpense->gastoVariable . ' eliminado correctamente.')->withFragment('#variablesExpensesScroll');
+    }
+
+    public function destroyMonthlyExpenses(string $id)
+    {
+        $monthlyExpense = MonthlyExpense::findOrFail($id);
+        $monthlyExpense->delete();
+        return back()->with('danger', 'Gasto Mensual ' . $monthlyExpense->gastoMensual . ' eliminado correctamente.')->withFragment('#monthlyExpensesScroll');
     }
 }

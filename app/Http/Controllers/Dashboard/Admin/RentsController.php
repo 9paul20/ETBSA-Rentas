@@ -19,26 +19,43 @@ class RentsController extends Controller
      */
     public function index()
     {
-        // $rents = Rent::all();
-        $rents = Rent::select('clvRenta', 'clvEquipo', 'clvCliente', 'descripcion', 'fecha_inicio', 'fecha_fin', 'clvPagoRenta', 'clvEstadoRenta')
-            ->with(['equipo' => function ($query) {
-                $query->select('clvEquipo', 'noSerieEquipo', 'modelo');
-            }, 'cliente' => function ($query) {
-                $query->select('clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona');
-            }, 'pagoRenta' => function ($query) {
-                $query->select('clvPagoRenta', 'pagoRenta', 'ivaRenta');
-            }, 'estadoRenta' => function ($query) {
-                $query->select('clvEstadoRenta', 'estadoRenta');
-            }])
-            ->get();
-        $perPage = 10;
-        $currentPage = request()->get('page') ?? 1;
-        $pagedData = $rents->slice(($currentPage - 1) * $perPage, $perPage)->all();
-        $rowDatas = new LengthAwarePaginator($pagedData, count($rents), $perPage, $currentPage, [
-            'path' => route('Dashboard.Admin.Rents.Index')
+        $rowDatas = Rent::with([
+            'equipo' => function ($query) {
+                $query->select(
+                    'clvEquipo',
+                    'noSerieEquipo',
+                    'modelo',
+                );
+            },
+            'cliente' => function ($query) {
+                $query->select(
+                    'clvPersona',
+                    'nombrePersona',
+                    'apePaternoPersona',
+                    'apeMaternoPersona',
+                );
+            },
+            'estadoRenta' => function ($query) {
+                $query->select(
+                    'clvEstadoRenta',
+                    'estadoRenta',
+                );
+            }
+        ])->paginate(10, [
+            'clvRenta',
+            'clvEquipo',
+            'clvCliente',
+            'descripcion',
+            'fecha_inicio',
+            'fecha_fin',
+            'clvEstadoRenta',
         ]);
-        $columnNames = ['Equipo', 'Cliente', 'Descripción', 'Fecha Inicio', 'Fecha Fin', 'Pago De Renta', 'Estado De Renta', ''];
-        return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
+        $columnNames = ['Equipo', 'Cliente', 'Descripción', 'Fecha Inicio', 'Fecha Fin', 'Estado De Renta', ''];
+        $Data = [
+            'rowDatas' => $rowDatas,
+            'columnNames' => $columnNames,
+        ];
+        return view('Dashboard.Admin.Index', compact('Data'));
     }
 
     public function indexAPI()
@@ -56,13 +73,11 @@ class RentsController extends Controller
         $equipments = Equipment::get(['clvEquipo', 'noSerieEquipo', 'modelo', 'descripcion']);
         $clients = Person::get(['clvPersona', 'nombrePersona', 'apePaternoPersona', 'apeMaternoPersona']);
         $statusRents = StatusRent::get(['clvEstadoRenta', 'estadoRenta']);
-        $paymentsRents = PaymentRent::get(['clvPagoRenta', 'pagoRenta', 'ivaRenta', 'clvEstadoPagoRenta']);
         $Data = [
             'rent' => $rent,
             'equipments' => $equipments,
             'clients' => $clients,
             'statusRents' => $statusRents,
-            'paymentsRents' => $paymentsRents,
         ];
         return view('Dashboard.Admin.Index', compact('Data'));
     }

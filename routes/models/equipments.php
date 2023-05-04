@@ -1,4 +1,5 @@
 <?php
+//*Panel Equipment
 Route::get('Panel/Equipments', 'Admin\Equipments\PanelController@Panel')->name('Dashboard.Admin.Equipments.Panel');
 
 Route::get('Panel/Equipments/Status/store', 'Admin\Equipments\StatusController@store')->name('Dashboard.Admin.Panel.Equipments.Status.Store');
@@ -17,6 +18,14 @@ Route::get('Panel/Equipments/CupRent/store', 'Admin\Equipments\CupsRentsControll
 Route::put('Panel/Equipments/CupRent/update/{clvTazaRenta}', 'Admin\Equipments\CupsRentsController@update')->name('Dashboard.Admin.Panel.Equipments.CupRent.Update');
 Route::delete('Panel/Equipments/CupRent/destroy/{clvTazaRenta}', 'Admin\Equipments\CupsRentsController@destroy')->name('Dashboard.Admin.Panel.Equipments.CupRent.Destroy');
 
+//*Panel Fixed Expenses
+Route::get('Panel/FixedExpenses', 'Admin\FixedExpenses\PanelController@Panel')->name('Dashboard.Admin.FixedExpenses.Panel');
+
+Route::get('Panel/FixedExpenses/Catalogs/store', 'Admin\FixedExpenses\TypeFixedExpensesController@store')->name('Dashboard.Admin.Panel.TypeFixedExpenses.Store');
+Route::put('Panel/FixedExpenses/Catalogs/update/{clvGastoFijo}', 'Admin\FixedExpenses\TypeFixedExpensesController@update')->name('Dashboard.Admin.Panel.TypeFixedExpenses.Update');
+Route::delete('Panel/FixedExpenses/Catalogs/destroy/{clvGastoFijo}', 'Admin\FixedExpenses\TypeFixedExpensesController@destroy')->name('Dashboard.Admin.Panel.TypeFixedExpenses.Destroy');
+
+//*Dashboard
 Route::resource('Admin/Equipments', 'Admin\EquipmentsController')->names([
     'index' => 'Dashboard.Admin.Equipments.Index',
     'create' => 'Dashboard.Admin.Equipments.Create',
@@ -27,6 +36,7 @@ Route::resource('Admin/Equipments', 'Admin\EquipmentsController')->names([
     'destroy' => 'Dashboard.Admin.Equipments.Destroy',
 ]);
 
+//*Edit
 Route::put('Admin/Equipments/{clvEquipo}/updateFixedExpensionsCatalogs', 'Admin\EquipmentsController@updateFixedExpensesCatalogs')->name('Dashboard.Admin.Equipments.UpdateFixedExpensesCatalogs');
 
 Route::post('Admin/Equipments/{clvEquipo}/storeFixedExpenses', 'Admin\EquipmentsController@storeFixedExpenses')->name('Dashboard.Admin.Equipments.StoreFixedExpenses');
@@ -37,8 +47,6 @@ Route::post('Admin/Equipments/{clvEquipo}/storeVariablesExpenses', 'Admin\Equipm
 Route::put('Admin/Equipments/{clvGastoVariable}/updateVariablesExpenses', 'Admin\EquipmentsController@updateVariablesExpenses')->name('Dashboard.Admin.Equipments.UpdateVariablesExpenses');
 Route::delete('Admin/Equipments/{clvGastoVariable}/destroyVariablesExpenses', 'Admin\EquipmentsController@destroyVariablesExpenses')->name('Dashboard.Admin.Equipments.DestroyVariablesExpenses');
 
-Route::get('Panel/FixedExpenses', 'Admin\FixedExpenses\PanelController@Panel')->name('Dashboard.Admin.FixedExpenses.Panel');
-
-Route::get('Panel/FixedExpenses/Catalogs/store', 'Admin\FixedExpenses\TypeFixedExpensesController@store')->name('Dashboard.Admin.Panel.TypeFixedExpenses.Store');
-Route::put('Panel/FixedExpenses/Catalogs/update/{clvGastoFijo}', 'Admin\FixedExpenses\TypeFixedExpensesController@update')->name('Dashboard.Admin.Panel.TypeFixedExpenses.Update');
-Route::delete('Panel/FixedExpenses/Catalogs/destroy/{clvGastoFijo}', 'Admin\FixedExpenses\TypeFixedExpensesController@destroy')->name('Dashboard.Admin.Panel.TypeFixedExpenses.Destroy');
+Route::post('Admin/Equipments/{clvEquipo}/storeMonthlyExpenses', 'Admin\EquipmentsController@storeMonthlyExpenses')->name('Dashboard.Admin.Equipments.StoreMonthlyExpenses');
+Route::put('Admin/Equipments/{clvGastoMensual}/updateMonthlyExpenses', 'Admin\EquipmentsController@updateMonthlyExpenses')->name('Dashboard.Admin.Equipments.UpdateMonthlyExpenses');
+Route::delete('Admin/Equipments/{clvGastoMensual}/destroyMonthlyExpenses', 'Admin\EquipmentsController@destroyMonthlyExpenses')->name('Dashboard.Admin.Equipments.DestroyMonthlyExpenses');

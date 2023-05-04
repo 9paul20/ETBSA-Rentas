@@ -18,6 +18,7 @@ class PaymentRent extends Model
         'pagoRenta',
         'ivaRenta',
         'descripcion',
+        'clvRenta',
         'clvEstadoPagoRenta',
     ];
 
@@ -29,6 +30,7 @@ class PaymentRent extends Model
             'pagoRenta' => 'numeric|between:0,999999.99',
             'ivaRenta' => 'numeric|between:0,999999.99',
             'descripcion' => 'string|max:255',
+            'clvRenta' => 'required|not_in:[]',
             'clvEstadoPagoRenta' => 'required|not_in:[]',
         ];
         return $rules;

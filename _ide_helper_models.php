@@ -33,6 +33,8 @@ namespace App\Models{
  * @property-read \App\Models\Equipments\Status|null $disponibilidad
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\FixedExpenses\FixedExpense> $fixedExpenses
  * @property-read int|null $fixed_expenses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MonthlyExpenses\MonthlyExpense> $monthlyExpenses
+ * @property-read int|null $monthly_expenses_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VariablesExpenses\VariableExpense> $variablesExpenses
  * @property-read int|null $variables_expenses_count
  * @method static \Database\Factories\EquipmentFactory factory($count = null, $state = [])
@@ -185,6 +187,37 @@ namespace App\Models\FixedExpenses{
  * @method static \Illuminate\Database\Eloquent\Builder|TypeFixedExpense whereUpdatedAt($value)
  */
 	class TypeFixedExpense extends \Eloquent {}
+}
+
+namespace App\Models\MonthlyExpenses{
+/**
+ * App\Models\MonthlyExpenses\MonthlyExpense
+ *
+ * @property int $clvGastoMensual Clave principal del Gasto Mensual
+ * @property string $gastoMensual
+ * @property string|null $precioEquipo
+ * @property string|null $porGastoMensual
+ * @property string $costoMensual
+ * @property string|null $descripcion
+ * @property int|null $clvEquipo Clave foranea del Equipo al Gasto Mensual
+ * @property int|null $clvTipoGastoFijo Clave foranea del Tipo Gasto Fijo para el Gasto Mensual
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense query()
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereClvEquipo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereClvGastoMensual($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereClvTipoGastoFijo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereCostoMensual($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereGastoMensual($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense wherePorGastoMensual($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense wherePrecioEquipo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereUpdatedAt($value)
+ */
+	class MonthlyExpense extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -483,7 +516,7 @@ namespace App\Models\VariablesExpenses{
  *
  * @property int $clvGastoVariable
  * @property string $gastoVariable
- * @property string $descripcion
+ * @property string|null $descripcion
  * @property string $fechaGastoVariable
  * @property string $costoGastoVariable
  * @property int|null $clvEquipo
