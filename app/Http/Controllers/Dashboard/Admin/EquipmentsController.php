@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class EquipmentsController extends Controller
@@ -42,7 +43,6 @@ class EquipmentsController extends Controller
             'fechaAdquisicion',
             'porDeprAnual',
         ]);
-        // $rowDatas->setPageName('equipment_page');
         $columnNames = [
             'Equipo',
             'Disponibilidad',
@@ -157,34 +157,21 @@ class EquipmentsController extends Controller
         //Rows o Filas Por Pagina
         $perPage = 10;
 
-        $equipment = Equipment::with([
-            'fixedExpenses' => function ($query) {
-                $query->with(
-                    'TypeFixedExpense:' .
-                        'clvTipoGastoFijo,' .
-                        'tipoGastoFijo'
-                )
-                    ->select(
-                        'clvGastoFijo',
-                        'gastoFijo',
-                        'costoGastoFijo',
-                        'folioFactura',
-                        'fechaGastoFijo',
-                        'clvTipoGastoFijo',
-                        'clvEquipo',
-                    );
-            },
-            'variablesExpenses' => function ($query) {
-                $query->select(
-                    'clvGastoVariable',
-                    'gastoVariable',
-                    'descripcion',
-                    'fechaGastoVariable',
-                    'costoGastoVariable',
-                    'clvEquipo',
-                );
-            }
-        ])
+        //Dia de hoy
+        $today = Carbon::today()->format('Y-m-d');
+
+        $equipment = Equipment::query()
+            ->with([
+                'fixedExpenses:' .
+                    'clvGastoFijo,gastoFijo,costoGastoFijo,folioFactura,fechaGastoFijo,clvTipoGastoFijo,clvEquipo',
+                'fixedExpenses.TypeFixedExpense:' .
+                    'clvTipoGastoFijo,tipoGastoFijo',
+                'variablesExpenses:' .
+                    'clvGastoVariable,gastoVariable,descripcion,fechaGastoVariable,costoGastoVariable,clvEquipo', 'monthlyExpenses:' .
+                    'clvGastoMensual,gastoMensual,costoMensual,descripcion,clvEquipo,clvTipoGastoFijo',
+                'monthlyExpenses.typeFixedExpense:' .
+                    'clvTipoGastoFijo,tipoGastoFijo'
+            ])
             ->select(
                 'clvEquipo',
                 'noSerieEquipo',
@@ -203,15 +190,19 @@ class EquipmentsController extends Controller
             )
             ->findOrFail($id);
 
-        //Dia de hoy
-        $today = Carbon::today()->format('Y-m-d');
-
         //Tabla de Gastos Fijos Al Equipo
-        $currentPage = request()->get('fixedExpenses_page') ?? 1;
-        $rowFixedExpenses = new LengthAwarePaginator($equipment->fixedExpenses->forPage($currentPage, $perPage), $equipment->fixedExpenses->count(), $perPage, $currentPage, [
-            'path' => route('Dashboard.Admin.Equipments.Edit', $id),
-            'pageName' => 'fixedExpenses_page',
-        ]);
+        $rowFixedExpenses = $equipment->fixedExpenses()
+            ->with('TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo')
+            ->orderByDesc('fechaGastoFijo')
+            ->paginate(10, [
+                'clvGastoFijo',
+                'gastoFijo',
+                'costoGastoFijo',
+                'folioFactura',
+                'fechaGastoFijo',
+                'clvTipoGastoFijo',
+                'clvEquipo',
+            ], 'fixedExpenses_page');
         $columnFixedExpenses = [
             'Gasto Fijo',
             'Descripción Corta Del Gasto Fijo',
@@ -225,14 +216,24 @@ class EquipmentsController extends Controller
         ];
 
         //Tabla de Gastos Variables Al Equipo
-        $currentPage = request()->get('variablesExpenses_page') ?? 1;
-        $rowVariablesExpenses = new LengthAwarePaginator($equipment->variablesExpenses->forPage($currentPage, $perPage), $equipment->variablesExpenses->count(), $perPage, $currentPage, [
-            'path' => route('Dashboard.Admin.Equipments.Edit', $id),
-            'pageName' => 'variablesExpenses_page',
-        ]);
+        $rowVariablesExpenses = $equipment->variablesExpenses()
+            ->orderByDesc('fechaGastoVariable')
+            ->paginate(
+                10,
+                [
+                    'clvGastoVariable',
+                    'gastoVariable',
+                    'descripcion',
+                    'fechaGastoVariable',
+                    'costoGastoVariable',
+                    'clvEquipo'
+                ],
+                'variablesExpenses_page'
+            );
         $columnVariablesExpenses = [
             'Gasto Variable',
             'Fecha Del Gasto Variable',
+            'Descripción',
             'Costo',
         ];
         $tableVariablesExpenses = [
@@ -240,11 +241,35 @@ class EquipmentsController extends Controller
             'rowVariablesExpenses' => $rowVariablesExpenses,
         ];
 
+        //Tabla de Gastos Mensuales Al Equipo
+        $rowMonthlyExpenses = $equipment->monthlyExpenses()
+            ->with('TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo')
+            ->orderByDesc('clvGastoMensual')
+            ->paginate(10, [
+                'clvGastoMensual',
+                'gastoMensual',
+                'costoMensual',
+                'descripcion',
+                'clvEquipo',
+                'clvTipoGastoFijo'
+            ], 'monthlyExpenses_page');
+        $columnMonthlyExpenses = [
+            'Gasto Mensual',
+            'Descripción del Gasto Mensual',
+            'Gasto Fijo',
+            'Costo',
+        ];
+        $tableMonthlyExpenses = [
+            'columnMonthlyExpenses' => $columnMonthlyExpenses,
+            'rowMonthlyExpenses' => $rowMonthlyExpenses,
+        ];
+
         $Data = [
-            'equipment' => $equipment,
             'today' => $today,
+            'equipment' => $equipment,
             'tableFixedExpenses' => $tableFixedExpenses,
             'tableVariablesExpenses' => $tableVariablesExpenses,
+            'tableMonthlyExpenses' => $tableMonthlyExpenses,
         ];
         return view('Dashboard.Admin.Index', compact('Data'));
     }

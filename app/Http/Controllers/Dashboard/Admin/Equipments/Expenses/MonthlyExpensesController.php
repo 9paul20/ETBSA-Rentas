@@ -19,7 +19,8 @@ class MonthlyExpensesController extends Controller
     {
         $search = $request->all();
         $rowDatas = MonthlyExpense::filter($search)->with([
-            'equipment:clvEquipo,noSerieEquipo,modelo',
+            'equipment:clvEquipo,noSerieEquipo,modelo,clvCategoria',
+            'equipment.categoria:clvCategoria,categoria',
             'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo',
         ])->paginate(15, [
             'clvGastoMensual',
@@ -61,20 +62,7 @@ class MonthlyExpensesController extends Controller
             'clvTipoGastoFijo',
             'tipoGastoFijo',
         ])->get();
-        $valoresFijos = [
-            // [
-            //     'gastoFijo' => 'Agregar Costo Personalmente',
-            //     'costo' => 0,
-            // ],
-            // [
-            //     'gastoFijo' => 'Precio Del Equipo',
-            //     'costo' => ($equipment->precioEquipo + 0),
-            // ],
-            // [
-            //     'gastoFijo' => 'Precio Del Equipo Más Gastos Fijos',
-            //     'costo' => ($equipment->precioEquipo + $equipment->sumGastosFijos),
-            // ],
-        ];
+        $valoresFijos = [];
         $Data = [
             'monthlyExpense' => $monthlyExpense,
             'equipments' => $equipments,

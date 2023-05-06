@@ -10,10 +10,6 @@
         <div class="mx-auto max-w-7xl">
             @if (count($Data['tableVariablesExpenses']['rowVariablesExpenses']) > 0)
                 <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5 bg-white">
-                    <div class="relative text-gray-600 py-1">
-                        <input type="search" name="serch" placeholder="Realizar Busqueda"
-                            class="bg-white h-10 px-5 pr-4 rounded-full text-sm focus:outline-none">
-                    </div>
                     <div class="overflow-x-auto">
                         <table
                             class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
@@ -39,6 +35,14 @@
                                             <div class="text-gray-600">
                                                 {{ $rowVariableExpense['fechaGastoVariable'] }}</div>
                                         </td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 truncate">
+                                            @if (isset($rowVariableExpense['descripcion']))
+                                                <div class="text-gray-600">{{ $rowVariableExpense['descripcion'] }}
+                                                </div>
+                                            @else
+                                                <div class="text-orange-600">Sin Descripción</div>
+                                            @endif
+                                        </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                             <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
                                                 {{ number_format($rowVariableExpense['costoGastoVariable'], 2) }}</div>
@@ -47,6 +51,7 @@
                                 @endforeach
                                 <tr class="bg-gray-50" id="total-gastos-variables">
                                     <td class="px-6 py-4 font-semibold text-gray-900">Total de Gastos Variables:</td>
+                                    <td></td>
                                     <td></td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold"
                                         id="total-costo-gastos-variables"><span

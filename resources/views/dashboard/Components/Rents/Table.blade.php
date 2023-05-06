@@ -43,13 +43,13 @@
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600">{{ $rowData->fecha_fin }}</div>
-                                    </td>
+                                        {{-- </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600">
                                             <span class="font-medium text-green-600">$</span>
                                             {{ $rowData->pagoRenta->pagoRenta + $rowData->pagoRenta->ivaRenta }}
                                         </div>
-                                    </td>
+                                    </td> --}}
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <span
                                             class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">

@@ -27,17 +27,26 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200 border-t  bg-white">
                             @foreach ($Table['rowDatas'] as $rowData)
-                                @php
-                                    $equipo = $rowData->equipment->modelo . ' - ' . $rowData->equipment->noSerieEquipo;
-                                @endphp
                                 <tr class="hover:bg-gray-100 text-left">
                                     <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                                        <div class="relative h-16 w-16">
+                                            <img class="h-full w-full rounded-full object-cover object-center"
+                                                src="{{ url('/images/TractorUE.jpg') }}"
+                                                alt="TractorUE_{{ $rowData->equipment->noSerieEquipo }}">
+                                        </div>
                                         <div class="text-sm">
-                                            <div class="font-medium text-gray-700">{{ $equipo }}</div>
+                                            <div class="font-medium text-gray-700">
+                                                {{ $rowData->equipment->noSerieEquipo }}</div>
+                                            <div class="font-medium text-gray-700">
+                                                {{ $rowData->equipment->modelo }}</div>
+                                            <div class="text-gray-400">
+                                                {{ $rowData->equipment->categoria->categoria }}
+                                            </div>
                                         </div>
                                     </th>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        <div class="text-gray-600">{{ $rowData['gastoVariable'] }}</div>
+                                        <div class="font-medium text-gray-700 truncate break-words max-w-sm">
+                                            {{ $rowData['gastoVariable'] }}</div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600">{{ $rowData['fechaGastoVariable'] }}</div>
@@ -61,7 +70,7 @@
                                             <x-Dashboard.IconButton-Edit
                                                 href="{{ route('Dashboard.Admin.VariablesExpenses.Edit', $rowData['clvGastoVariable']) }}" />
                                             <x-Dashboard.IconButton-Delete id="{{ $rowData['clvGastoVariable'] }}"
-                                                name="Gasto Fijo del Equipo: {{ $equipo }} Con Costo de ${{ number_format($rowData['costoGastoVariable'], 2) }}"
+                                                name="Gasto Fijo del Equipo: {{ $rowData['equipment']['noSerieEquipo'] }} - {{ $rowData['equipment']['modelo'] }} Con Costo de ${{ number_format($rowData['costoGastoVariable'], 2) }}"
                                                 href="{{ route('Dashboard.Admin.VariablesExpenses.Destroy', $rowData['clvGastoVariable']) }}" />
                                         </div>
                                     </td>

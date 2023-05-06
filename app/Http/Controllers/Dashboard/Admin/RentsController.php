@@ -95,6 +95,8 @@ class RentsController extends Controller
                 ->withInput();
         }
         $rent = Rent::create($data);
+        $fechaInicio = $rent->fechaInicio;
+        $fechaFin = $rent->fechaFin;
         return redirect()->route('Dashboard.Admin.Rents.Index')->with('success', 'Renta agregado correctamente.');
     }
 

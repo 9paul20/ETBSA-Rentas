@@ -31,6 +31,14 @@
                 </div>
                 <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
                     <p class="text-gray-600">
+                        Categoria
+                    </p>
+                    <p>
+                        {{ $variableExpense->equipment->categoria->categoria }}
+                    </p>
+                </div>
+                <div class="md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b">
+                    <p class="text-gray-600">
                         Gasto Variable
                     </p>
                     <p>

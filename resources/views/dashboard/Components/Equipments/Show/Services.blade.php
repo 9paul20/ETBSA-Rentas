@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div> --}}
-        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8 h-full">
+        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-2 h-full">
             <div
                 class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
                 <div>
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8 h-full">
+        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-2 h-full">
             <div
                 class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
                 <div>
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8 h-full">
+        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-2 h-full">
             <div
                 class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
                 <div>
@@ -67,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-8 h-full">
+        <div class="p-2 sm:w-1/4 lg:w-1/4 w-full hover:scale-105 duration-500 py-2 h-full">
             <div
                 class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
                 <div>
@@ -80,6 +80,45 @@
             </div>
         </div>
     </div>
+    <div class="flex -m-4 text-center py-2">
+        <div class="p-2 sm:w-1/4 lg:w-1/2 w-full hover:scale-105 duration-500 py-2 h-full">
+            <div
+                class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
+                <div>
+                    <h2 class="text-gray-900 text-lg font-bold">Costo Mensual</h2>
+                    <h3 class="mt-2 text-xl font-bold text-red-500 text-center">$
+                        {{ number_format($Data['equipment']->sumGastosMensuales, 2) }}
+                    </h3>
+                    <span class="text-xs text-gray-500">Gasto Actual Al Equipo por mes</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-2 sm:w-1/4 lg:w-1/2 w-full hover:scale-105 duration-500 py-2 h-full">
+            <div
+                class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
+                <div>
+                    <h2 class="text-gray-900 text-lg font-bold">Renta Mensual Recomendada</h2>
+                    <h3 class="mt-2 text-xl font-bold text-green-500 text-center">$
+                        {{ number_format($Data['equipment']->sumGastosMensuales / 0.8, 2) }}
+                    </h3>
+                    <span class="text-xs text-gray-500">Precio de Renta Mensual Recomendada (Se añade un %25 de
+                        rendimiento)</span>
+                </div>
+            </div>
+        </div>
+        {{-- <div class="p-2 sm:w-1/4 lg:w-1/2 w-full hover:scale-105 duration-500 py-2 h-full">
+            <div
+                class="flex items-center justify-between p-4 rounded-lg bg-orange-50 shadow-indigo-100 shadow-md h-full">
+                <div>
+                    <h2 class="text-gray-900 text-lg font-bold">Renta Mensual Recomendada</h2>
+                    <h3 class="mt-2 text-xl font-bold text-green-500 text-left">$
+                        {{ number_format($Data['equipment']->costoNetoAnual, 2) }}
+                    </h3>
+                    <span class="text-xs text-gray-500">Descuento Con Depreciación Anual</span>
+                </div>
+            </div>
+        </div> --}}
+    </div>
 
     <div class="mt-2 mb-8 w-full">
         <h4 class="px-2 text-xl font-bold text-navy-700">
@@ -90,5 +129,7 @@
     @include('Dashboard.Components.Equipments.Show.Tables.TableFixedExpenses')
 
     @include('Dashboard.Components.Equipments.Show.Tables.TableVariablesExpenses')
+
+    @include('Dashboard.Components.Equipments.Show.Tables.TableMonthlyExpenses')
 
 </div>

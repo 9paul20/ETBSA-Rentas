@@ -18,7 +18,8 @@ class VariablesExpensesController extends Controller
     {
         $search = $request->all();
         $rowDatas = VariableExpense::filter($search)->with([
-            'equipment:clvEquipo,noSerieEquipo,modelo',
+            'equipment:clvEquipo,noSerieEquipo,modelo,clvCategoria',
+            'equipment.categoria:clvCategoria,categoria',
         ])->orderByDesc('fechaGastoVariable')
             ->paginate(15, [
                 'clvGastoVariable',
@@ -29,7 +30,7 @@ class VariablesExpensesController extends Controller
                 'clvEquipo',
             ]);
         $columnNames = [
-            'Gasto Variable',
+            'Equipo',
             'Descripción del Gasto Variable',
             'Fecha del Gasto Variable',
             'Costo',

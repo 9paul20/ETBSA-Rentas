@@ -23,7 +23,8 @@
                 <p class="text-sm text-gray-600">Fecha De Adquisición</p>
                 <span class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-sm font-semibold">
                     <span class="h-1.5 w-1.5 rounded-full"></span>
-                    {{ $Data['equipment']['fechaAdquisicion'] }}
+                    {{ $Data['equipment']['fechaAdquisicion'] }} - ({{ $Data['equipment']->tiempoAmortizacionMeses }}
+                    Meses de Vida Util)
                 </span>
                 <span class="text-xs text-gray-500">{{ $Data['equipment']->antiguedadEquipo }}
                     de antigüedad</span>

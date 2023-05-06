@@ -25,7 +25,8 @@
                                 {{ number_format($Data['equipment']->depreciacionPorMeses, 2) }}</p>
                         </div>
                     </td>
-                    <td class="text-sm text-gray-600">{{ number_format($Data['equipment']->tiempoAmortizacionMeses, 0) }}
+                    <td class="text-sm text-gray-600">
+                        {{ number_format($Data['equipment']->tiempoAmortizacionMeses, 0) }}
                         Mes(es)</td>
                 </tr>
                 <tr>
@@ -37,7 +38,8 @@
                                 {{ number_format($Data['equipment']->depreciacionPorAnios, 2) }}</p>
                         </div>
                     </td>
-                    <td class="text-sm text-gray-600">{{ number_format($Data['equipment']->tiempoAmortizacionAnios, 0) }}
+                    <td class="text-sm text-gray-600">
+                        {{ number_format($Data['equipment']->tiempoAmortizacionAnios, 0) }}
                         Año(s)</td>
                 </tr>
             </tbody>

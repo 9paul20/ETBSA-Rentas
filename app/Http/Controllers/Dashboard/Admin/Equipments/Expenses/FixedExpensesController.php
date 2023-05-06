@@ -19,7 +19,8 @@ class FixedExpensesController extends Controller
     {
         $search = $request->all();
         $rowDatas = FixedExpense::filter($search)->with([
-            'equipment:clvEquipo,noSerieEquipo,modelo',
+            'equipment:clvEquipo,noSerieEquipo,modelo,clvCategoria',
+            'equipment.categoria:clvCategoria,categoria',
             'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo',
         ])->orderByDesc('fechaGastoFijo')
             ->paginate(15, [

@@ -31,10 +31,15 @@
 
         </div>
 
-        <div class='flex justify-center min-h-screen relative bg-gradient-to-br py-5'>
-            <div class="bg-gray-100 px-2 py-2 rounded-3xl shadow-xl overflow-hidden">
+        <div class='flex justify-center min-h-screen relative bg-gradient-to-br py-2'>
+            <div class="bg-gray-100 px-1 py-2 rounded-3xl shadow-xl overflow-hidden">
 
                 @include('Dashboard.Components.Equipments.Show.Tables.TableAmortization')
+
+            </div>
+            <div class="bg-gray-100 px-1 py-2 rounded-3xl shadow-xl overflow-hidden mx-2">
+
+                @include('Dashboard.Components.Equipments.Show.Tables.TableProfitsAndSales')
 
             </div>
         </div>
