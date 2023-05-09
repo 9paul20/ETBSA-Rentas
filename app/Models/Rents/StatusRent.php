@@ -18,7 +18,6 @@ class StatusRent extends Model
         'clvEstadoRenta',
         'estadoRenta',
         'descripcion',
-        'clvTazaRenta',
         'textColor',
         'bgColorPrimary',
         'bgColorSecondary',
@@ -30,7 +29,7 @@ class StatusRent extends Model
     {
         $rules = [
             'estadoRenta' => 'required|string|min:3|max:255|unique:t_estados_rentas,estadoRenta,' . $clvEstadoRenta . ',clvEstadoRenta',
-            'descripcion' => 'string|max:255',
+            'descripcion' => 'nullable|string|max:255',
             'textColor' => 'required|string|min:11|max:16',
             'bgColorPrimary' => 'required|string|min:9|max:16',
             'bgColorSecondary' => 'required|string|min:9|max:16',

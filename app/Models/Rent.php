@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Rent extends Model
 {
@@ -25,36 +28,36 @@ class Rent extends Model
 
     protected $hidden = [];
 
-    public static function getRules($clvRenta = null)
-    {
-        $rules = [
-            'clvEquipo' => 'required|not_in:[]',
-            'clvCliente' => 'required|not_in:[]',
-            'descripcion' => 'required|string|max:255',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date',
-            'clvEstadoRenta' => 'required|not_in:[]',
-        ];
-        return $rules;
-    }
-
-    public function equipo()
+    //*Todas las relaciones ELOQUENT de rentas
+    public function equipment(): BelongsTo
     {
         return $this->belongsTo(Equipment::class, 'clvEquipo');
     }
 
-    public function cliente()
+    public function person(): BelongsTo
     {
         return $this->belongsTo(Person::class, 'clvCliente');
     }
 
-    public function pagoRenta()
-    {
-        return $this->belongsTo(Rents\PaymentRent::class, 'clvPagoRenta');
-    }
-
-    public function estadoRenta()
+    public function statusRent(): BelongsTo
     {
         return $this->belongsTo(Rents\StatusRent::class, 'clvEstadoRenta');
     }
+
+    public function PaymentsRents(): HasMany
+    {
+        return $this->hasMany(Rents\PaymentRent::class, 'clvRenta');
+    }
+
+    //*Atributos de rentas
+    // public function sumPaymentsRents(): Attribute
+    // {
+    //     $sumPaymentsRents = $this->PaymentsRents()
+    //         ->selectRaw('SUM(pagoRenta) as sumPagosRenta, SUM(ivaRenta) as sumIVARenta, SUM(pagoRenta + ivaRenta) as total')
+    //         ->first();
+
+    //     return Attribute::make(
+    //         get: fn () => $sumPaymentsRents
+    //     );
+    // }
 }

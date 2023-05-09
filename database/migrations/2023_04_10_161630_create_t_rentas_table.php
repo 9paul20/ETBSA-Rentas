@@ -12,18 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_rentas', function (Blueprint $table) {
-            $table->bigIncrements('clvRenta');
-            $table->unsignedBigInteger('clvEquipo')->nullable();
-            $table->unsignedBigInteger('clvCliente')->nullable();
+            $table->bigIncrements('clvRenta')->index();
+            $table->unsignedBigInteger('clvEquipo')->nullable()->index();
+            $table->unsignedBigInteger('clvCliente')->nullable()->index();
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
             $table->text('descripcion')->nullable();
-            $table->date('fecha_inicio')->nullable();
-            $table->date('fecha_fin')->nullable();
-            $table->unsignedBigInteger('clvEstadoRenta')->nullable();
+            $table->unsignedBigInteger('clvEstadoRenta')->index();
             $table->timestamps();
-
-            $table->index('clvRenta');
-            $table->index('clvEquipo');
-            $table->index('clvCliente');
         });
     }
 

@@ -56,13 +56,6 @@
                                                 class="font-medium text-green-600">$</span>{{ number_format($rowData['costoGastoVariable'], 2) }}
                                         </div>
                                     </td>
-                                    {{-- <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        @if (isset($rowData['folioFactura']))
-                                            <div class="text-gray-600">{{ $rowData['folioFactura'] }}</div>
-                                        @else
-                                            <div class="text-orange-600">Sin Folio</div>
-                                        @endif
-                                    </td> --}}
                                     <td class="px-6 py-4">
                                         <div class="flex justify-end gap-4">
                                             <x-Dashboard.IconButton-Show

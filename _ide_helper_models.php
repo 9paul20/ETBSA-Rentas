@@ -196,6 +196,7 @@ namespace App\Models\MonthlyExpenses{
  * @property int $clvGastoMensual Clave principal del Gasto Mensual
  * @property string $gastoMensual
  * @property string|null $precioEquipo
+ * @property int $indiceValorFijo
  * @property string|null $porGastoMensual
  * @property string $costoMensual
  * @property string|null $descripcion
@@ -203,6 +204,9 @@ namespace App\Models\MonthlyExpenses{
  * @property int|null $clvTipoGastoFijo Clave foranea del Tipo Gasto Fijo para el Gasto Mensual
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Equipment|null $equipment
+ * @property-read \App\Models\FixedExpenses\TypeFixedExpense|null $typeFixedExpense
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense filter(array $filters)
  * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense query()
@@ -213,6 +217,7 @@ namespace App\Models\MonthlyExpenses{
  * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereGastoMensual($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereIndiceValorFijo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense wherePorGastoMensual($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense wherePrecioEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MonthlyExpense whereUpdatedAt($value)
@@ -317,14 +322,14 @@ namespace App\Models{
  * @property string|null $descripcion
  * @property string|null $fecha_inicio
  * @property string|null $fecha_fin
- * @property int|null $clvPagoRenta
  * @property int|null $clvEstadoRenta
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Person|null $cliente
- * @property-read \App\Models\Equipment|null $equipo
- * @property-read \App\Models\Rents\StatusRent|null $estadoRenta
- * @property-read \App\Models\Rents\PaymentRent|null $pagoRenta
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Rents\PaymentRent> $PaymentsRents
+ * @property-read int|null $payments_rents_count
+ * @property-read \App\Models\Equipment|null $equipment
+ * @property-read \App\Models\Person|null $person
+ * @property-read \App\Models\Rents\StatusRent|null $statusRent
  * @method static \Database\Factories\RentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Rent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Rent newQuery()
@@ -332,7 +337,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvCliente($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvEstadoRenta($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvPagoRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereClvRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereDescripcion($value)
@@ -384,17 +388,20 @@ namespace App\Models\Rents{
  * @property int $clvPagoRenta
  * @property string|null $pagoRenta
  * @property string|null $ivaRenta
+ * @property int $clvRenta
  * @property int|null $clvEstadoPagoRenta
  * @property string|null $descripcion
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Rents\StatusPaymentRent|null $estadoPagoRenta
+ * @property-read \App\Models\Rent|null $rent
  * @method static \Database\Factories\Rents\PaymentRentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent query()
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereClvEstadoPagoRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereClvPagoRenta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereClvRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereIvaRenta($value)
@@ -416,6 +423,8 @@ namespace App\Models\Rents{
  * @property string|null $bgColorSecondary
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Rents\PaymentRent> $paymentRent
+ * @property-read int|null $payment_rent_count
  * @method static \Database\Factories\Rents\StatusPaymentRentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StatusPaymentRent newQuery()

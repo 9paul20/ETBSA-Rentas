@@ -23,3 +23,5 @@ Route::resource('Admin/Rents', 'Admin\RentsController')->names([
     'update' => 'Dashboard.Admin.Rents.Update',
     'destroy' => 'Dashboard.Admin.Rents.Destroy',
 ]);
+
+Route::put('Admin/Rents/{PaymentRent}/ChangeStatusPaymentRent', 'Admin\RentsController@changeStatusPaymentRent')->name('Dashboard.Admin.Rents.ChangeStatusPaymentRent');

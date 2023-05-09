@@ -24,37 +24,49 @@
                                 @endforeach
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200 border-t  bg-white">
+                        <tbody class="divide-y divide-gray-200 border-t bg-white text-center">
                             @foreach ($Data['rowDatas'] as $rowData)
                                 <tr class="hover:bg-gray-100">
                                     <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                                        <div class="relative h-16 w-16">
+                                            <img class="h-full w-full rounded-full object-cover object-center"
+                                                src="{{ url('/images/TractorUE.jpg') }}"
+                                                alt="TractorUE_{{ $rowData->equipment->noSerieEquipo }}">
+                                        </div>
                                         <div class="text-sm">
-                                            <div class="font-medium text-gray-700">{{ $rowData->equipo->noSerie }}</div>
+                                            <div class="font-medium text-gray-700">No.Serie:
+                                                {{ $rowData->equipment->noSerieEquipo }}</div>
+                                            <div class="font-medium text-gray-700">Modelo:
+                                                {{ $rowData->equipment->modelo }}</div>
+                                            <div class="text-gray-400">Categoria:
+                                                {{ $rowData->equipment->categoria->categoria }}
+                                            </div>
                                         </div>
                                     </th>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        <div class="text-gray-600">{{ $rowData->cliente->nombrePersona }}</div>
+                                        <div class="text-gray-500">{{ $rowData->person->nombrePersona }}</div>
+                                        <div class="text-gray-500">{{ $rowData->person->apePaternoPersona }}</div>
+                                        <div class="text-gray-500">{{ $rowData->person->apeMaternoPersona }}</div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        <div class="text-gray-600">{{ $rowData->descripcion }}</div>
+                                        @if (isset($rowData->descripcion))
+                                            <div class="text-gray-600">{{ $rowData->descripcion }}</div>
+                                        @else
+                                            <div class="text-orange-600">Sin Descripción</div>
+                                        @endif
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600">{{ $rowData->fecha_inicio }}</div>
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <div class="text-gray-600">{{ $rowData->fecha_fin }}</div>
-                                        {{-- </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        <div class="text-gray-600">
-                                            <span class="font-medium text-green-600">$</span>
-                                            {{ $rowData->pagoRenta->pagoRenta + $rowData->pagoRenta->ivaRenta }}
-                                        </div>
-                                    </td> --}}
+                                    </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                                            {{ $rowData->estadoRenta->estadoRenta }}
+                                            class="inline-flex items-center gap-1 rounded-full {{ $rowData->statusRent->bgColorPrimary }} px-2 py-1 text-xs font-semibold {{ $rowData->statusRent->textColor }}">
+                                            <span
+                                                class="h-1.5 w-1.5 rounded-full {{ $rowData->statusRent->bgColorSecondary }}"></span>
+                                            {{ $rowData->statusRent->estadoRenta }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4">
@@ -64,7 +76,7 @@
                                             <x-Dashboard.IconButton-Edit
                                                 href="{{ route('Dashboard.Admin.Rents.Edit', $rowData->clvRenta) }}" />
                                             <x-Dashboard.IconButton-Delete id="{{ $rowData->clvRenta }}"
-                                                name="Renta con Equipo: {{ $rowData->equipo->noSerie }} El Cliente: {{ $rowData->cliente->nombrePersona }} Y Un Pago Total de ${{ $rowData->pagoRenta->pagoRenta + $rowData->pagoRenta->ivaRenta }}"
+                                                name="Renta con Equipo: {{ $rowData->equipment->noSerieEquipo }} El Cliente: {{ $rowData->person->nombrePersona }} Y Un Pago Total de $"
                                                 href="{{ route('Dashboard.Admin.Rents.Destroy', $rowData->clvRenta) }}" />
                                         </div>
                                     </td>

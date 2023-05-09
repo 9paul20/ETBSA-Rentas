@@ -2,8 +2,10 @@
 
 namespace App\Models\Rents;
 
+use App\Models\Rent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PaymentRent extends Model
 {
@@ -36,8 +38,13 @@ class PaymentRent extends Model
         return $rules;
     }
 
-    public function estadoPagoRenta()
+    public function estadoPagoRenta(): BelongsTo
     {
         return $this->belongsTo(StatusPaymentRent::class, 'clvEstadoPagoRenta');
+    }
+
+    public function rent(): BelongsTo
+    {
+        return $this->belongsTo(Rent::class, 'clvRenta');
     }
 }

@@ -12,16 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_estados_rentas', function (Blueprint $table) {
-            $table->tinyIncrements('clvEstadoRenta');
-            $table->string('estadoRenta')->unique();
+            $table->tinyIncrements('clvEstadoRenta')->index();
+            $table->string('estadoRenta')->unique()->index();
             $table->text('descripcion')->nullable();
             $table->text('textColor')->nullable();
             $table->text('bgColorPrimary')->nullable();
             $table->text('bgColorSecondary')->nullable();
             $table->timestamps();
-
-            $table->index('clvEstadoRenta');
-            $table->index('estadoRenta');
         });
     }
 

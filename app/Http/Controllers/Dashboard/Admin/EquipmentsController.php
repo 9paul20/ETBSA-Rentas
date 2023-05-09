@@ -365,7 +365,6 @@ class EquipmentsController extends Controller
                 ],
                 'fixedExpenses_page'
             );
-        // $rowFixedExpenses->setPageName('fixedExpenses_page');
         $columnFixedExpenses = [
             'Gasto Fijo',
             'Descripción Corta Del Gasto Fijo',
@@ -392,7 +391,6 @@ class EquipmentsController extends Controller
                 ],
                 'variablesExpenses_page'
             );
-        // $rowVariablesExpenses->setPageName('variablesExpenses_page');
         $columnVariablesExpenses = [
             'Gasto Variable',
             'Fecha Del Gasto Variable',

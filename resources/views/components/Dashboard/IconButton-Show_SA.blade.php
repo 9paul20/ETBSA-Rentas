@@ -1,7 +1,8 @@
 @props(['id', 'name', 'description', 'href'])
 
-<a href="{{ $href }}" x-data="{ tooltip: 'Show' }"
-    onclick="event.preventDefault(); show('{{ $id }}', '{{ $name }}', '{{ $description }}')" class="btn-show">
+<a href="{{ $href }}" x-data="{ tooltip: 'Show{{ $id }}' }"
+    onclick="event.preventDefault(); show{{ $id }}('{{ $id }}', '{{ $name }}', '{{ $description }}')"
+    class="btn-show">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="w-6 h-6 text-green-500">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -11,8 +12,8 @@
 </a>
 
 @push('scripts')
-<script>
-    function show(id, name, description) {
+    <script>
+        function show{{ $id }}(id, name, description) {
             Swal.fire({
                 title: `${name}`,
                 text: `${description}`,
@@ -21,5 +22,5 @@
                 cancelButtonText: 'Cerrar'
             })
         }
-</script>
+    </script>
 @endpush
