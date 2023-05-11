@@ -322,6 +322,7 @@ namespace App\Models{
  * @property string|null $descripcion
  * @property string|null $fecha_inicio
  * @property string|null $fecha_fin
+ * @property int $periodoRenta
  * @property int|null $clvEstadoRenta
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -342,6 +343,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereFechaFin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereFechaInicio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Rent wherePeriodoRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereUpdatedAt($value)
  */
 	class Rent extends \Eloquent {}
@@ -391,6 +393,8 @@ namespace App\Models\Rents{
  * @property int $clvRenta
  * @property int|null $clvEstadoPagoRenta
  * @property string|null $descripcion
+ * @property string $fecha_inicio
+ * @property string $fecha_fin
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Rents\StatusPaymentRent|null $estadoPagoRenta
@@ -404,6 +408,8 @@ namespace App\Models\Rents{
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereClvRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereFechaFin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereFechaInicio($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereIvaRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent wherePagoRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentRent whereUpdatedAt($value)

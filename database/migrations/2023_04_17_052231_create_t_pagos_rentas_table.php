@@ -12,17 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_pagos_rentas', function (Blueprint $table) {
-            $table->tinyIncrements('clvPagoRenta');
-            $table->decimal('pagoRenta', 10, 2)->nullable();
-            $table->decimal('ivaRenta', 10, 2)->nullable();
-            $table->unsignedBigInteger('clvRenta')->nullable();
-            $table->unsignedTinyInteger('clvEstadoPagoRenta')->nullable();
+            $table->tinyIncrements('clvPagoRenta')->index();
+            $table->decimal('pagoRenta', 10, 2);
+            $table->decimal('ivaRenta', 10, 2);
+            $table->unsignedBigInteger('clvRenta')->index();
+            $table->unsignedTinyInteger('clvEstadoPagoRenta')->index();
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
             $table->text('descripcion')->nullable();
             $table->timestamps();
-
-            $table->index('clvPagoRenta');
-            $table->index('clvRenta');
-            $table->index('clvEstadoPagoRenta');
         });
     }
 

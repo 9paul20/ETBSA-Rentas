@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('t_rentas', function (Blueprint $table) {
             $table->bigIncrements('clvRenta')->index();
-            $table->unsignedBigInteger('clvEquipo')->nullable()->index();
-            $table->unsignedBigInteger('clvCliente')->nullable()->index();
+            $table->unsignedBigInteger('clvEquipo')->index();
+            $table->unsignedBigInteger('clvCliente')->index();
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
+            $table->unsignedTinyInteger('periodoRenta');
             $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('clvEstadoRenta')->index();
             $table->timestamps();

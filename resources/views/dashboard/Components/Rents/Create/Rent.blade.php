@@ -116,13 +116,14 @@
                         </div>
                         @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Rents' &&
                                 getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
-                            <div class="col-span-6 sm:col-span-6">
+                            <div class="col-span-3 sm:col-span-3">
                                 <label for="fecha_inicio" class="block text-sm font-medium text-gray-700">Fecha
                                     Inicio</label>
                                 <input type="date" name="fecha_inicio" id="fecha_inicio"
                                     autocomplete="given-fecha_inicio"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fecha_inicio') border-red-400 @enderror"
-                                    value="{{ old('fecha_inicio', $Data['rent']->fecha_inicio) }}" required>
+                                    value="{{ old('fecha_inicio', $Data['rent']->fecha_inicio) }}" required
+                                    onchange="updateInputs()">
                                 @error('fecha_inicio')
                                     <div class="flex
                                     items-center mt-1 text-red-400">
@@ -131,12 +132,60 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="col-span-6 sm:col-span-6">
+                            <div class="col-span-1 sm:col-span-1">
+                                <label for="mesesARentar" class="block text-sm font-medium text-gray-700">Meses A
+                                    Rentar</label>
+                                <input type="number" name="mesesARentar" id="mesesARentar"
+                                    autocomplete="given-mesesARentar" min="0" step="1" pattern="[0-9]"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                                    value="{{ old('mesesARentar') }}">
+                            </div>
+                            {{--  --}}
+                            <div class="col-span-2 sm:col-span-2">
+                                <label for="periodoRenta" class="block text-sm font-medium text-gray-700">Periodos de
+                                    Renta</label>
+                                {{-- <input type="number" name="periodoDeRenta" id="periodoDeRenta"
+                                    autocomplete="given-periodoDeRenta" min="0" step="1"
+                                    pattern="[0-9]"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                                    value="{{ old('periodoDeRenta') }}" required> --}}
+                                <select id="periodoRenta" name="periodoRenta"
+                                    class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('periodoRenta') border-red-400 @enderror"
+                                    required>
+                                    <option value="" disabled selected>
+                                        Seleccione Un Periodo De Renta</option>
+                                    <option value="1" {{-- @if ($equipment->clvEquipo == $Data['rent']->clvEquipo) selected @endif --}}>
+                                        Mensual (Cada mes)
+                                    </option>
+                                    <option value="2">
+                                        Bimestral (Cada dos meses)
+                                    </option>
+                                    <option value="3">
+                                        Trimestral (Cada tres meses)
+                                    </option>
+                                    <option value="6">
+                                        Semestral (Cada seis meses)
+                                    </option>
+                                    <option value="12">
+                                        Anual (Cada doce meses)
+                                    </option>
+                                </select>
+                                @error('periodoRenta')
+                                    <div class="flex
+                                    items-center mt-1 text-red-400">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+                            {{--  --}}
+                            <div class="col-span-3 sm:col-span-3">
                                 <label for="fecha_fin" class="block text-sm font-medium text-gray-700">Fecha
                                     Fin</label>
                                 <input type="date" name="fecha_fin" id="fecha_fin" autocomplete="given-fecha_fin"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fecha_fin') border-red-400 @enderror"
-                                    value="{{ old('fecha_fin', $Data['rent']->fecha_fin) }}" required>
+                                    value="{{ old('fecha_fin', $Data['rent']->fecha_fin) }}" required
+                                    onchange="updateInputs()" readonly>
                                 @error('fecha_fin')
                                     <div class="flex
                                     items-center mt-1 text-red-400">
@@ -145,6 +194,75 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="col-span-1.5 sm:col-span-1.5">
+                                <label for="diasARentar" class="block text-sm font-medium text-gray-700">Días A
+                                    Rentar</label>
+                                <input type="number" name="diasARentar" id="diasARentar"
+                                    autocomplete="given-diasARentar" min="0" step="1" pattern="[0-9]"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                                    value="{{ old('diasARentar') }}" required disabled>
+                            </div>
+                            <div
+                                class="col-span-2 sm:col-span-2 {{ $Data['rent']['payments_rents_count'] > 0 ? 'pointer-events-none' : '' }}">
+                                <label for="preciosDiarios" class="block text-sm font-medium text-gray-700">Costo Por
+                                    Día <span class="text-gray-400">(<span class="text-green-400">Costo de renta
+                                            diaria</span>)
+                                    </span></label>
+                                <div class="flex flex-row col-span-6 sm:col-span-6">
+                                    <span
+                                        class="flex items-center bg-grey-lighter text-green-500 rounded rounded-r-none px-1 font-bold text-grey-darker">$</span>
+                                    <input type="text" min="0" max="99999999.99" step="0.01"
+                                        pattern="[0-9]+(\.[0-9]+)?" name="preciosDiarios" id="preciosDiarios"
+                                        autocomplete="given-preciosDiarios"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                                        value="" required disabled>
+                                </div>
+                            </div>
+                            <div
+                                class="col-span-3 sm:col-span-3 {{ $Data['rent']['payments_rents_count'] > 0 ? 'pointer-events-none' : '' }}">
+                                <label for="preciosMensuales" class="block text-sm font-medium text-gray-700">Costo
+                                    Por
+                                    Mes <span class="text-gray-400">(Calculo de los gastos mensuales con %25 de
+                                        rendimiento
+                                        adicional y <span class="text-green-400">Costo Personalizable</span>)
+                                    </span></label>
+                                <div class="flex flex-row col-span-6 sm:col-span-6">
+                                    <span
+                                        class="flex items-center bg-grey-lighter text-green-500 rounded rounded-r-none px-1 font-bold text-grey-darker">$</span>
+                                    <input type="{{ $Data['rent']['payments_rents_count'] > 0 ? 'text' : 'number' }}"
+                                        min="0" max="99999999.99" step="0.01" pattern="[0-9]+(\.[0-9]+)?"
+                                        name="preciosMensuales" id="preciosMensuales"
+                                        autocomplete="given-preciosMensuales"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm 
+                                {{ $Data['rent']['payments_rents_count'] > 0 ? 'border-transparent' : '' }}
+                                @error('preciosMensuales') border-red-400 @enderror"
+                                        value="{{ $Data['rent']['payments_rents_count'] > 0 ? $preciosMensuales : '' }}"
+                                        required {{ $Data['rent']['payments_rents_count'] > 0 ? 'disabled' : '' }}>
+                                    @error('preciosMensuales')
+                                        <div
+                                            class="flex
+                                    items-center mt-1 text-red-400">
+                                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                                            <span>{{ $message }}</span>
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-span-3 sm:col-span-3">
+                                <label for="totalDeRenta" class="block text-sm font-medium text-gray-700">Total <p
+                                        class="text-gray-400">(<span class="text-green-400">Precio de la renta en
+                                            total</span>)
+                                    </p></label>
+                                <div class="flex flex-row col-span-6 sm:col-span-6">
+                                    <span
+                                        class="flex items-center bg-grey-lighter text-green-500 rounded rounded-r-none px-1 font-bold text-grey-darker">$</span>
+                                    <input type="number" name="totalDeRenta" id="totalDeRenta"
+                                        autocomplete="given-totalDeRenta" min="0" step="1"
+                                        pattern="[0-9]"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                                        value="{{ old('total') }}" required disabled>
+                                </div>
+                            </div>
                         @endif
                         @php
                             if ($Data['rent']['payments_rents_count'] > 0) {
@@ -152,57 +270,38 @@
                                 $preciosMensuales = "$" . number_format($preciosMensuales, 2);
                             }
                         @endphp
-                        <div
-                            class="col-span-6 sm:col-span-6 {{ $Data['rent']['payments_rents_count'] > 0 ? 'pointer-events-none' : '' }}">
-                            <label for="preciosMensuales" class="block text-sm font-medium text-gray-700">Costo Por
-                                Mes <span class="text-gray-400">(Calculo de los gastos mensuales con %25 de rendimiento
-                                    adicional y <span class="text-green-400">Costo Personalizable</span>)
-                                </span></label>
-                            <input type="{{ $Data['rent']['payments_rents_count'] > 0 ? 'text' : 'number' }}"
-                                min="0" max="99999999.99" step="0.01" name="preciosMensuales"
-                                id="preciosMensuales" autocomplete="given-preciosMensuales"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm 
-                                {{ $Data['rent']['payments_rents_count'] > 0 ? 'border-transparent' : '' }}
-                                @error('preciosMensuales') border-red-400 @enderror"
-                                value="{{ $Data['rent']['payments_rents_count'] > 0 ? $preciosMensuales : '' }}"
-                                required {{ $Data['rent']['payments_rents_count'] > 0 ? 'disabled' : '' }}>
-                            @error('preciosMensuales')
-                                <div class="flex
+                        @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Rents' &&
+                                getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
+                            <div class="col-span-6 sm:col-span-6">
+                                <label for="clvEstadoRenta" class="block text-sm font-medium text-gray-700">Estado
+                                    De
+                                    Renta</label>
+                                <select id="clvEstadoRenta" name="clvEstadoRenta"
+                                    class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('clvEstadoRenta') border-red-400 @enderror"
+                                    required>
+                                    @if (count($Data['statusRents']) > 0)
+                                        <option value="" disabled selected>
+                                            Seleccione Un Estado De Renta</option>
+                                        @foreach ($Data['statusRents'] as $statusRent)
+                                            <option value="{{ $statusRent->clvEstadoRenta }}"
+                                                {{ $statusRent->clvEstadoRenta == $Data['rent']->clvEstadoRenta ? 'selected' : '' }}>
+                                                {{ $statusRent->estadoRenta }}
+                                            </option>
+                                        @endforeach
+                                    @else
+                                        <option value="" disabled selected>
+                                            No Hay Opciones De Estado De Renta Disponible</option>
+                                    @endif
+                                </select>
+                                @error('clvEstadoRenta')
+                                    <div class="flex
                                     items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="clvEstadoRenta" class="block text-sm font-medium text-gray-700">Estado
-                                De
-                                Renta</label>
-                            <select id="clvEstadoRenta" name="clvEstadoRenta"
-                                class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('clvEstadoRenta') border-red-400 @enderror"
-                                required>
-                                @if (count($Data['statusRents']) > 0)
-                                    <option value="" disabled selected>
-                                        Seleccione Un Estado De Renta</option>
-                                    @foreach ($Data['statusRents'] as $statusRent)
-                                        <option value="{{ $statusRent->clvEstadoRenta }}"
-                                            @if ($statusRent->clvEstadoRenta == $Data['rent']->clvEstadoRenta) selected @endif>
-                                            {{ $statusRent->estadoRenta }}
-                                        </option>
-                                    @endforeach
-                                @else
-                                    <option value="" disabled selected>
-                                        No Hay Opciones De Estado De Renta Disponible</option>
-                                @endif
-                            </select>
-                            @error('clvEstadoRenta')
-                                <div class="flex
-                                    items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
-                                </div>
-                            @enderror
-                        </div>
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <x-Dashboard.Save-Button name="Guardar Renta" />
@@ -243,5 +342,85 @@
             // Establece el valor del campo de entrada a precios
             preciosMensuales.value = (precios / 0.8).toFixed(2);
         }
+
+        const fechaInicio = document.getElementById('fecha_inicio');
+        const fechaFin = document.getElementById('fecha_fin');
+        const mesesARentar = document.getElementById('mesesARentar');
+        const diasARentar = document.getElementById('diasARentar');
+        const preciosMensuales = document.getElementById('preciosMensuales');
+        const preciosDiarios = document.getElementById('preciosDiarios');
+        const totalDeRenta = document.getElementById('totalDeRenta');
+
+        function updateInputs() {
+            // Asegurar que haya un mes de diferencia entre las fechas
+            if (fechaInicio.value && !fechaFin.value) {
+                const nuevaFecha = new Date(fechaInicio.value);
+                nuevaFecha.setMonth(nuevaFecha.getMonth() + 1);
+                fechaFin.value = nuevaFecha.toISOString().slice(0, 10);
+                fechaInicio.max = fechaFin.value;
+                fechaFin.min = fechaInicio.value; // deshabilitar día seleccionado en fechaInicio en fechaFin
+            } else if (fechaFin.value && !fechaInicio.value) {
+                const nuevaFecha = new Date(fechaFin.value);
+                nuevaFecha.setMonth(nuevaFecha.getMonth() - 1);
+                fechaInicio.value = nuevaFecha.toISOString().slice(0, 10);
+                fechaFin.min = fechaInicio.value;
+                fechaInicio.max = fechaFin.value; // deshabilitar día seleccionado en fechaFin en fechaInicio
+            } else {
+                // Si ambas fechas tienen valores, asegurar que fecha_inicio no sea mayor que fecha_fin
+                const inicioDate = new Date(fechaInicio.value);
+                const finDate = new Date(fechaFin.value);
+                if (inicioDate > finDate) {
+                    fechaInicio.value = fechaFin.value;
+                    fechaInicio.max = fechaFin.value;
+                    fechaFin.min = fechaInicio.value; // deshabilitar día seleccionado en fechaInicio en fechaFin
+                } else {
+                    fechaInicio.max = fechaFin.value;
+                    fechaFin.min = fechaInicio.value;
+                    fechaInicio.min = null; // habilitar todos los días previos a fechaFin en fechaInicio
+                    fechaFin.max = null; // habilitar todos los días posteriores a fechaInicio en fechaFin
+                }
+            }
+            // Calcular la cantidad de días entre las fechas y escribir el resultado en el input diasARentar
+            const inicioDate = new Date(fechaInicio.value);
+            const finDate = new Date(fechaFin.value);
+            const diffTime = Math.abs(finDate - inicioDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diffMonths = Math.round(diffDays / 30);
+            const totalRenta = diffMonths * parseFloat(preciosMensuales.value);
+            totalDeRenta.value = isNaN(totalRenta) ? "" : totalRenta.toFixed(2);
+            diasARentar.value = diffDays;
+
+            actualizarPreciosDiarios();
+        }
+
+        function sumarMeses() {
+            const meses = parseInt(mesesARentar.value);
+            if (meses > 0) {
+                const nuevaFecha = new Date(fechaInicio.value);
+                nuevaFecha.setMonth(nuevaFecha.getMonth() + meses);
+                fechaFin.value = nuevaFecha.toISOString().slice(0, 10);
+                updateInputs();
+            } else {
+                const nuevaFecha = new Date(fechaInicio.value);
+                nuevaFecha.setMonth(nuevaFecha.getMonth() + 1);
+                fechaFin.value = nuevaFecha.toISOString().slice(0, 10);
+                updateInputs();
+            }
+        }
+
+        function actualizarPreciosDiarios() {
+            const precioMensual = parseFloat(preciosMensuales.value);
+            if (!isNaN(precioMensual)) {
+                const precioDiario = precioMensual / 30;
+                preciosDiarios.value = precioDiario.toFixed(2);
+            } else {
+                preciosDiarios.value = "";
+            }
+        }
+
+        fechaInicio.addEventListener('change', updateInputs);
+        fechaFin.addEventListener('change', updateInputs);
+        mesesARentar.addEventListener('keyup', sumarMeses);
+        preciosMensuales.addEventListener('input', updateInputs);
     </script>
 @endpush

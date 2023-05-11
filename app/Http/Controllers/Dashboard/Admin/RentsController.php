@@ -29,17 +29,22 @@ class RentsController extends Controller
             'equipment.categoria:clvCategoria,categoria',
             'equipment.fixedExpenses:clvGastoFijo',
             'equipment.variablesExpenses:clvGastoVariable',
+            'equipment.monthlyExpenses:clvGastoMensual',
             'person:clvPersona,nombrePersona,apePaternoPersona,apeMaternoPersona',
             'statusRent:clvEstadoRenta,estadoRenta,textColor,bgColorPrimary,bgColorSecondary',
-        ])->paginate(10, [
-            'clvRenta',
-            'clvEquipo',
-            'clvCliente',
-            'descripcion',
-            'fecha_inicio',
-            'fecha_fin',
-            'clvEstadoRenta',
-        ]);
+        ])
+            ->withSum('PaymentsRents', 'pagoRenta')
+            ->withSum('PaymentsRents', 'ivaRenta')
+            ->paginate(10, [
+                'clvRenta',
+                'clvEquipo',
+                'clvCliente',
+                'descripcion',
+                'fecha_inicio',
+                'fecha_fin',
+                'clvEstadoRenta',
+            ]);
+        // return $rowDatas;
         $columnNames = [
             'Equipo',
             'Cliente',
@@ -110,27 +115,74 @@ class RentsController extends Controller
     public function store(StoreRent $request)
     {
         return DB::transaction(function () use ($request) {
-            $clvStatusRent_enRenta = StatusRent::where('estadoRenta', 'En Renta')->get()->first();
-            $clvStatusPaymentRent_enRenta = StatusPaymentRent::where('estadoPagoRenta', 'Pendiente de pago')->get()->first();
-            $clvStatus_enRenta = Status::where('disponibilidad', 'Ocupado')->get()->first();
+            $clvStatusRent_enRenta = StatusRent::where('estadoRenta', 'En Renta')->firstOrFail();
+            $clvStatusPaymentRent_pendienteDePagar = StatusPaymentRent::where('estadoPagoRenta', 'Pendiente de pago')->firstOrFail();
+            $clvStatus_enRenta = Status::where('disponibilidad', 'Ocupado')->firstOrFail();
+
             $data = $request->all();
             $rent = Rent::create($data);
             $rent->statusRent()->associate($clvStatusRent_enRenta);
+
             $fechaInicio = Carbon::createFromFormat('Y-m-d', $rent->fecha_inicio);
             $fechaFin = Carbon::createFromFormat('Y-m-d', $rent->fecha_fin);
-            $mesesAPagar = $fechaInicio->diffInMonths($fechaFin);
-            for ($i = 1; $i <= $mesesAPagar; $i++) {
+            // $diferenciaMeses = $fechaInicio->diffInMonths($fechaFin);
+
+            $preciosMensuales = $data['preciosMensuales'];
+            $mesesARentar = $data['mesesARentar'];
+            $costoPeriodo = round($preciosMensuales - $preciosMensuales * 0.16, 2);
+            $costoIVA = round($preciosMensuales * 0.16, 2);
+
+            $fechaInicioPagoRenta = $fechaInicio->copy();
+
+            // Calculamos la cantidad de pagos de renta necesarios
+            // $cantidadPagos = ceil($diferenciaMeses / $periodoRenta);
+
+            // Creamos los pagos de renta necesarios
+            for ($i = 1; $i <= $mesesARentar; $i++) {
+                // $fechaPagoInicio = $fechaInicio->copy()->addMonths(($i - 1) * $periodoRenta);
+                // $fechaPagoFin = $fechaPagoInicio->copy()->addMonths($periodoRenta)->subDay();
+
+                // Si queda un periodo menor al periodo de renta, se ajusta la fecha de fin
+                // if ($fechaPagoFin->greaterThan($fechaFin)) {
+                //     $fechaPagoFin = $fechaFin;
+                // }
+
+                // Calcular el número de meses que se están pagando para este pago de renta
+                // $mesesPagados = $periodoRenta;
+                // if ($fechaPagoFin->lessThanOrEqualTo($fechaInicio->copy()->addMonths($diferenciaMeses))) {
+                //     $mesesPagados = $diferenciaMeses;
+                // } else if ($fechaPagoInicio->lessThan($fechaInicio->copy()->addMonths($diferenciaMeses))) {
+                //     $mesesPagados = $fechaPagoInicio->diffInMonths($fechaInicio->copy()->addMonths($diferenciaMeses));
+                // }
+
+                // Calcular el costo y el IVA para el número de meses que se están pagando
+                // $costoPeriodo = round(($preciosMensuales * $mesesPagados) - ($preciosMensuales * $mesesPagados * 0.16), 2);
+                // $costoIVA = round(($preciosMensuales * $mesesPagados * 0.16), 2);
+
+                // Si se necesita un solo pago para todo el periodo, se ajusta la fecha de fin y el costo
+                // if ($cantidadPagos == 1 && $periodoRenta > $diferenciaMeses) {
+                //     $fechaPagoFin = $fechaInicio->copy()->addMonths($diferenciaMeses)->subDay();
+                // $costoPeriodo = round(($preciosMensuales * $diferenciaMeses) - ($preciosMensuales * $diferenciaMeses * 0.16), 2);
+                // $costoIVA = round(($preciosMensuales * $diferenciaMeses * 0.16), 2);
+                // }
+
+                $fechaFinPagoRenta = $fechaInicioPagoRenta->addMonth();
                 $paymentRent = $rent->PaymentsRents()->create([
-                    'pagoRenta' => round($data['preciosMensuales'] - $data['preciosMensuales'] * 0.16, 2),
-                    'ivaRenta' =>  round($data['preciosMensuales'] * 0.16, 2),
+                    'pagoRenta' => $costoPeriodo,
+                    'ivaRenta' => $costoIVA,
+                    'fecha_inicio' => $fechaInicioPagoRenta,
+                    'fecha_fin' => $fechaFinPagoRenta,
                 ]);
-                $paymentRent->estadoPagoRenta()->associate($clvStatusPaymentRent_enRenta);
+                $fechaInicioPagoRenta = $fechaFinPagoRenta;
+                $paymentRent->estadoPagoRenta()->associate($clvStatusPaymentRent_pendienteDePagar);
                 $paymentRent->save();
             }
-            $rent->save();
+
             $equipment = $rent->equipment;
             $equipment->disponibilidad()->associate($clvStatus_enRenta);
             $equipment->save();
+            $rent->save();
+
             return redirect()->route('Dashboard.Admin.Rents.Index')->with('success', 'Renta agregado correctamente.');
         });
     }
@@ -162,6 +214,7 @@ class RentsController extends Controller
                 'equipment.variablesExpenses:clvGastoVariable',
                 'equipment.monthlyExpenses:clvGastoMensual,costoMensual,clvEquipo',
                 'person:clvPersona,nombrePersona,apePaternoPersona,apeMaternoPersona',
+                'statusRent:clvEstadoRenta,estadoRenta',
             ])
             ->select([
                 'clvRenta',
@@ -170,6 +223,7 @@ class RentsController extends Controller
                 'descripcion',
                 'fecha_inicio',
                 'fecha_fin',
+                'clvEstadoRenta',
             ])
             ->withCount([
                 'PaymentsRents',
@@ -199,19 +253,19 @@ class RentsController extends Controller
         $columnPaymentsRents = [
             'Pago No.',
             'Estado Del Pago',
-            'Descripción',
+            'Fecha Limite De Pago',
             'Pago',
-            'IVA',
-            'Total',
             '',
         ];
         $rowPaymentsRents = $rent
             ->PaymentsRents()
             ->with('estadoPagoRenta:clvEstadoPagoRenta,estadoPagoRenta,textColor,bgColorPrimary,bgColorSecondary')
-            ->paginate(10, [
+            ->get([
                 'clvPagoRenta',
                 'pagoRenta',
                 'ivaRenta',
+                'fecha_inicio',
+                'fecha_fin',
                 'clvEstadoPagoRenta',
                 'descripcion',
             ]);
@@ -240,6 +294,7 @@ class RentsController extends Controller
             [
                 'Pendiente de pago',
                 'Pagado',
+                'En Mora',
             ]
         )
             ->get([
@@ -248,8 +303,10 @@ class RentsController extends Controller
             ->map(function ($statusPayment) {
                 if ($statusPayment['estadoPagoRenta'] == 'Pendiente de pago') {
                     $statusPayment['cambio'] = 'a Pagado';
+                } elseif ($statusPayment['estadoPagoRenta'] == 'En Mora') {
+                    $statusPayment['cambio'] = 'a Pagado';
                 } elseif ($statusPayment['estadoPagoRenta'] == 'Pagado') {
-                    $statusPayment['cambio'] = 'a Pendiente de pago';
+                    $statusPayment['cambio'] = 'a Pendiente de pago/En Mora';
                 }
                 return $statusPayment;
             })

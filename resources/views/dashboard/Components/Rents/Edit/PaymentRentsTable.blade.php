@@ -39,19 +39,11 @@
                                     </span>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    @if (isset($rowPaymentRent['descripcion']))
-                                        <div class="text-gray-600">{{ $rowPaymentRent['descripcion'] }}</div>
+                                    @if (isset($rowPaymentRent['fecha_fin']))
+                                        <div class="text-gray-600">{{ $rowPaymentRent['fecha_fin'] }}</div>
                                     @else
-                                        <div class="text-orange-600">Sin Descripción</div>
+                                        <div class="text-orange-600">Sin fecha</div>
                                     @endif
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
-                                        {{ number_format($rowPaymentRent['pagoRenta'], 2) }}</div>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
-                                        {{ number_format($rowPaymentRent['ivaRenta'], 2) }}</div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
@@ -94,14 +86,6 @@
                             <td></td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold"
                                 id="total-costo-gastos-variables"><span class="font-medium text-green-600">$</span>
-                                {{ number_format($Data['rent']['payments_rents_sum_pago_renta'], 2) }}
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold"
-                                id="total-costo-gastos-variables"><span class="font-medium text-green-600">$</span>
-                                {{ number_format($Data['rent']['payments_rents_sum_iva_renta'], 2) }}
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold"
-                                id="total-costo-gastos-variables"><span class="font-medium text-green-600">$</span>
                                 {{ number_format($Data['rent']['payments_rents_sum_pago_renta'] + $Data['rent']['payments_rents_sum_iva_renta'], 2) }}
                             </td>
                             <td></td>
@@ -109,7 +93,6 @@
                     </tbody>
                 </table>
             </div>
-            {{ $Data['tablePaymentsRents']['rowPaymentsRents']->links('vendor.pagination.tailwind') }}
         </div>
     @else
         <main class="flex items-center justify-center flex-1 px-4 py-8">

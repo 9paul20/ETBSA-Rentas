@@ -76,7 +76,7 @@
                                             <x-Dashboard.IconButton-Edit
                                                 href="{{ route('Dashboard.Admin.Rents.Edit', $rowData->clvRenta) }}" />
                                             <x-Dashboard.IconButton-Delete id="{{ $rowData->clvRenta }}"
-                                                name="Renta con Equipo: {{ $rowData->equipment->noSerieEquipo }} El Cliente: {{ $rowData->person->nombrePersona }} Y Un Pago Total de $"
+                                                name="Renta con Equipo: {{ $rowData->equipment->noSerieEquipo }}, Cliente: {{ $rowData->person->nombrePersona }} Y Una Renta Total de ${{ number_format($rowData->payments_rents_sum_pago_renta + $rowData->payments_rents_sum_iva_renta, 2) }}"
                                                 href="{{ route('Dashboard.Admin.Rents.Destroy', $rowData->clvRenta) }}" />
                                         </div>
                                     </td>

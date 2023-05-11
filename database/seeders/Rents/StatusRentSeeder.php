@@ -33,6 +33,14 @@ class StatusRentSeeder extends Seeder
             'bgColorSecondary' => 'bg-yellow-600',
         ]);
 
+        $EstadoRentaEnMora = StatusRent::create([
+            'estadoRenta' => 'En Mora',
+            'descripcion' => 'Este estado indica que el artículo, equipo o propiedad está en mora',
+            'textColor' => 'text-orange-600',
+            'bgColorPrimary' => 'bg-orange-50',
+            'bgColorSecondary' => 'bg-orange-600',
+        ]);
+
         $EstadoRentaPendiente = StatusRent::create([
             'estadoRenta' => 'Pendiente',
             'descripcion' => 'Este estado indica que el artículo, equipo o propiedad está pendiente de pagar',

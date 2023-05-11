@@ -20,9 +20,9 @@ class StatusPaymentRentSeeder extends Seeder
         $EstadoPagoRentaPendienteDePago = StatusPaymentRent::create([
             'estadoPagoRenta' => 'Pendiente de pago',
             'descripcion' => 'El inquilino aún no ha realizado el pago del alquiler correspondiente',
-            'textColor' => 'text-orange-600',
-            'bgColorPrimary' => 'bg-orange-50',
-            'bgColorSecondary' => 'bg-orange-600',
+            'textColor' => 'text-yellow-600',
+            'bgColorPrimary' => 'bg-yellow-50',
+            'bgColorSecondary' => 'bg-yellow-600',
         ]);
 
         $EstadoPagoRentaPendienteDePago = StatusPaymentRent::create([
