@@ -84,7 +84,7 @@
                                 <label for="equipo" class="block text-sm font-medium text-gray-700">Equipo</label>
                                 <input type="text" name="equipo" autocomplete="given-preciosMensuales"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm text-base font-semibold border-transparent"
-                                    value="{{ $Data['rent']->equipment->noSerieEquipo }} - {{ $Data['rent']->equipment->preciosMensuales }}"
+                                    value="{{ $Data['rent']->equipment->noSerieEquipo }} - {{ $Data['rent']->equipment->modelo }}"
                                     required disabled>
                             </div>
                             <div class="relative col-span-6 sm:col-span-6 pointer-events-none">
@@ -150,8 +150,7 @@
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
                                     value="{{ old('periodoDeRenta') }}" required> --}}
                                 <select id="periodoRenta" name="periodoRenta"
-                                    class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('periodoRenta') border-red-400 @enderror"
-                                    required>
+                                    class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('periodoRenta') border-red-400 @enderror">
                                     <option value="" disabled selected>
                                         Seleccione Un Periodo De Renta</option>
                                     <option value="1" {{-- @if ($equipment->clvEquipo == $Data['rent']->clvEquipo) selected @endif --}}>

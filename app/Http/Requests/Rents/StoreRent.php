@@ -27,7 +27,6 @@ class StoreRent extends FormRequest
             'descripcion' => 'nullable|string|max:255',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date',
-            'periodoRenta' => 'required|not_in:[]',
         ];
         return $rules;
     }

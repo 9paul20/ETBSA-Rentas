@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('clvCliente')->index();
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
-            $table->unsignedTinyInteger('periodoRenta');
             $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('clvEstadoRenta')->index();
             $table->timestamps();

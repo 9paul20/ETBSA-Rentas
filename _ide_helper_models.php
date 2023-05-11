@@ -322,7 +322,6 @@ namespace App\Models{
  * @property string|null $descripcion
  * @property string|null $fecha_inicio
  * @property string|null $fecha_fin
- * @property int $periodoRenta
  * @property int|null $clvEstadoRenta
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -343,7 +342,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereFechaFin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereFechaInicio($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Rent wherePeriodoRenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rent whereUpdatedAt($value)
  */
 	class Rent extends \Eloquent {}

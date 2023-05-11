@@ -26,7 +26,6 @@ class Rent extends Model
         'descripcion',
         'fecha_inicio',
         'fecha_fin',
-        'periodoRenta',
         'clvEstadoRenta',
     ];
 

@@ -44,7 +44,13 @@ class RentsController extends Controller
                 'fecha_fin',
                 'clvEstadoRenta',
             ]);
-        // return $rowDatas;
+        $rowDatas->map(function ($rowData) {
+            $fecha_inicio = strtotime($rowData->fecha_inicio);
+            $rowData->fecha_inicio = date('j M Y', $fecha_inicio);
+            $fecha_fin = strtotime($rowData->fecha_fin);
+            $rowData->fecha_fin = date('j M Y', $fecha_fin);
+            return $rowData;
+        });
         $columnNames = [
             'Equipo',
             'Cliente',
@@ -63,8 +69,48 @@ class RentsController extends Controller
 
     public function indexAPI()
     {
-        $rents = Rent::all();
-        return $rents;
+        $rowDatas = Rent::with([
+            'equipment:clvEquipo,noSerieEquipo,modelo,precioEquipo,clvDisponibilidad,clvCategoria',
+            'equipment.disponibilidad:clvDisponibilidad,disponibilidad,textColor,bgColorPrimary,bgColorSecondary',
+            'equipment.categoria:clvCategoria,categoria',
+            'equipment.fixedExpenses:clvGastoFijo',
+            'equipment.variablesExpenses:clvGastoVariable',
+            'equipment.monthlyExpenses:clvGastoMensual',
+            'person:clvPersona,nombrePersona,apePaternoPersona,apeMaternoPersona',
+            'statusRent:clvEstadoRenta,estadoRenta,textColor,bgColorPrimary,bgColorSecondary',
+        ])
+            ->withSum('PaymentsRents', 'pagoRenta')
+            ->withSum('PaymentsRents', 'ivaRenta')
+            ->paginate(10, [
+                'clvRenta',
+                'clvEquipo',
+                'clvCliente',
+                'descripcion',
+                'fecha_inicio',
+                'fecha_fin',
+                'clvEstadoRenta',
+            ]);
+        $rowDatas->map(function ($rowData) {
+            $fecha_inicio = strtotime($rowData->fecha_inicio);
+            $rowData->fecha_inicio = date('j M Y', $fecha_inicio);
+            $fecha_fin = strtotime($rowData->fecha_fin);
+            $rowData->fecha_fin = date('j M Y', $fecha_fin);
+            return $rowData;
+        });
+        $columnNames = [
+            'Equipo',
+            'Cliente',
+            'Descripción',
+            'Fecha Inicio',
+            'Fecha Fin',
+            'Estado De Renta',
+            ''
+        ];
+        $Data = [
+            'rowDatas' => $rowDatas,
+            'columnNames' => $columnNames,
+        ];
+        return $Data;
     }
 
     /**
@@ -123,57 +169,25 @@ class RentsController extends Controller
             $rent = Rent::create($data);
             $rent->statusRent()->associate($clvStatusRent_enRenta);
 
-            $fechaInicio = Carbon::createFromFormat('Y-m-d', $rent->fecha_inicio);
-            $fechaFin = Carbon::createFromFormat('Y-m-d', $rent->fecha_fin);
-            // $diferenciaMeses = $fechaInicio->diffInMonths($fechaFin);
-
             $preciosMensuales = $data['preciosMensuales'];
             $mesesARentar = $data['mesesARentar'];
             $costoPeriodo = round($preciosMensuales - $preciosMensuales * 0.16, 2);
             $costoIVA = round($preciosMensuales * 0.16, 2);
 
+            $fechaInicio = Carbon::createFromFormat('Y-m-d', $rent->fecha_inicio);
             $fechaInicioPagoRenta = $fechaInicio->copy();
-
-            // Calculamos la cantidad de pagos de renta necesarios
-            // $cantidadPagos = ceil($diferenciaMeses / $periodoRenta);
+            $fechaFinPagoRenta = $fechaInicio->copy()->addMonth();
 
             // Creamos los pagos de renta necesarios
             for ($i = 1; $i <= $mesesARentar; $i++) {
-                // $fechaPagoInicio = $fechaInicio->copy()->addMonths(($i - 1) * $periodoRenta);
-                // $fechaPagoFin = $fechaPagoInicio->copy()->addMonths($periodoRenta)->subDay();
-
-                // Si queda un periodo menor al periodo de renta, se ajusta la fecha de fin
-                // if ($fechaPagoFin->greaterThan($fechaFin)) {
-                //     $fechaPagoFin = $fechaFin;
-                // }
-
-                // Calcular el número de meses que se están pagando para este pago de renta
-                // $mesesPagados = $periodoRenta;
-                // if ($fechaPagoFin->lessThanOrEqualTo($fechaInicio->copy()->addMonths($diferenciaMeses))) {
-                //     $mesesPagados = $diferenciaMeses;
-                // } else if ($fechaPagoInicio->lessThan($fechaInicio->copy()->addMonths($diferenciaMeses))) {
-                //     $mesesPagados = $fechaPagoInicio->diffInMonths($fechaInicio->copy()->addMonths($diferenciaMeses));
-                // }
-
-                // Calcular el costo y el IVA para el número de meses que se están pagando
-                // $costoPeriodo = round(($preciosMensuales * $mesesPagados) - ($preciosMensuales * $mesesPagados * 0.16), 2);
-                // $costoIVA = round(($preciosMensuales * $mesesPagados * 0.16), 2);
-
-                // Si se necesita un solo pago para todo el periodo, se ajusta la fecha de fin y el costo
-                // if ($cantidadPagos == 1 && $periodoRenta > $diferenciaMeses) {
-                //     $fechaPagoFin = $fechaInicio->copy()->addMonths($diferenciaMeses)->subDay();
-                // $costoPeriodo = round(($preciosMensuales * $diferenciaMeses) - ($preciosMensuales * $diferenciaMeses * 0.16), 2);
-                // $costoIVA = round(($preciosMensuales * $diferenciaMeses * 0.16), 2);
-                // }
-
-                $fechaFinPagoRenta = $fechaInicioPagoRenta->addMonth();
                 $paymentRent = $rent->PaymentsRents()->create([
                     'pagoRenta' => $costoPeriodo,
                     'ivaRenta' => $costoIVA,
                     'fecha_inicio' => $fechaInicioPagoRenta,
                     'fecha_fin' => $fechaFinPagoRenta,
                 ]);
-                $fechaInicioPagoRenta = $fechaFinPagoRenta;
+                $fechaInicioPagoRenta = $fechaFinPagoRenta->copy();
+                $fechaFinPagoRenta->addMonth();
                 $paymentRent->estadoPagoRenta()->associate($clvStatusPaymentRent_pendienteDePagar);
                 $paymentRent->save();
             }
@@ -269,6 +283,13 @@ class RentsController extends Controller
                 'clvEstadoPagoRenta',
                 'descripcion',
             ]);
+        $rowPaymentsRents->map(function ($rowPaymentsRents) {
+            $fecha_inicio = strtotime($rowPaymentsRents->fecha_inicio);
+            $rowPaymentsRents->fecha_inicio = date('j M Y', $fecha_inicio);
+            $fecha_fin = strtotime($rowPaymentsRents->fecha_fin);
+            $rowPaymentsRents->fecha_fin = date('j M Y', $fecha_fin);
+            return $rowPaymentsRents;
+        });
         // $rowPaymentsRents->put('text', 'hola');
         // $rowPaymentsRents->put('otroDato', 'valor');
         // $nuevoDato = ['texto' => 'Hola', 'numero' => 123];
