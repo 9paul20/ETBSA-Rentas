@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_pagos_rentas', function (Blueprint $table) {
-            $table->tinyIncrements('clvPagoRenta')->index();
+            $table->bigIncrements('clvPagoRenta')->index();
             $table->decimal('pagoRenta', 10, 2);
             $table->decimal('ivaRenta', 10, 2);
             $table->unsignedBigInteger('clvRenta')->index();

@@ -23,7 +23,7 @@ class RentsController extends Controller
      */
     public function index()
     {
-        $rowDatas = Rent::with([
+        /* $rowDatas = Rent::with([
             'equipment:clvEquipo,noSerieEquipo,modelo,precioEquipo,clvDisponibilidad,clvCategoria',
             'equipment.disponibilidad:clvDisponibilidad,disponibilidad,textColor,bgColorPrimary,bgColorSecondary',
             'equipment.categoria:clvCategoria,categoria',
@@ -64,7 +64,8 @@ class RentsController extends Controller
             'rowDatas' => $rowDatas,
             'columnNames' => $columnNames,
         ];
-        return view('Dashboard.Admin.Index', compact('Data'));
+        return view('Dashboard.Admin.Index', compact('Data')); */
+        return view('Dashboard.Admin.Index');
     }
 
     public function indexAPI()
@@ -95,6 +96,9 @@ class RentsController extends Controller
             $rowData->fecha_inicio = date('j M Y', $fecha_inicio);
             $fecha_fin = strtotime($rowData->fecha_fin);
             $rowData->fecha_fin = date('j M Y', $fecha_fin);
+            $rowData->routeShowRent = route('Dashboard.Admin.Rents.Show', $rowData->clvRenta);
+            $rowData->routeUpdateRent = route('Dashboard.Admin.Rents.Edit', $rowData->clvRenta);
+            $rowData->routeDeleteRent = route('Dashboard.Admin.Rents.Destroy', $rowData->clvRenta);
             return $rowData;
         });
         $columnNames = [
@@ -111,6 +115,9 @@ class RentsController extends Controller
             'columnNames' => $columnNames,
         ];
         return $Data;
+        // return response()->json(
+        //     $Data
+        // );
     }
 
     /**
@@ -371,8 +378,18 @@ class RentsController extends Controller
      */
     public function destroy(string $id)
     {
-        $rent = Rent::findOrFail($id);
-        $rent->delete();
-        return redirect()->route('Dashboard.Admin.Rents.Index')->with('danger', 'Renta eliminado correctamente.');
+        if (request()->wantsJson()) {
+            try {
+                $rent = Rent::findOrFail($id);
+                $rent->delete();
+                return response()->json(['message' => 'La renta ha sido eliminado correctamente'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Error al eliminar la renta'], 500);
+            }
+        } else {
+            $rent = Rent::findOrFail($id);
+            $rent->delete();
+            return redirect()->route('Dashboard.Admin.Rents.Index')->with('danger', 'Renta eliminado correctamente.');
+        }
     }
 }

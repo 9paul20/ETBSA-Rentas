@@ -1,5 +1,6 @@
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     plugins: [
@@ -11,6 +12,14 @@ export default defineConfig({
                 refresh: true
             }
         ),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
     ],
     build: {
         rollupOptions: {
@@ -30,5 +39,10 @@ export default defineConfig({
         postcss: {
             plugins: [require('tailwindcss'), require('autoprefixer'),]
         }
+    },
+    resolve: {
+        alias: {
+            '@': '/resources'
+        },
     },
 });

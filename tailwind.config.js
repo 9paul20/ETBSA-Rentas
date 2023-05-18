@@ -1,14 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        "./app/**/*.php", "./resources/views/**/*.{php,vue,js,ts,jsx,tsx}", "./database/seeders/**/*.php",
+        "./app/**/*.php",
+        "./resources/views/**/*.{php,vue,js,ts,jsx,tsx}",
+        "./resources/js/**/*.{vue,js,ts,jsx,tsx}",
+        "./database/seeders/**/*.php",
     ],
     theme: {
         extend: {}
     },
     plugins: [
         require('@tailwindcss/forms'), require('tailwind-scrollbar')(
-            {nocompatible: true}
+            { nocompatible: true }
         ),
 
     ],

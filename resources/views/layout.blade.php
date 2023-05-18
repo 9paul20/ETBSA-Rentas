@@ -31,7 +31,7 @@
     <link rel="shortcut icon" href="{{ url('/images/John_Deere_Logo.png') }}" />
 
     {{-- Importación de fuentes externas --}}
-    <link rel="preload" href="/fonts/Inter-roman.var.woff2?v=3.18" as="font" type="font/woff2" crossorigin="">
+    {{-- <link rel="preload" href="/fonts/Inter-roman.var.woff2?v=3.18" as="font" type="font/woff2" crossorigin=""> --}}
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -68,7 +68,6 @@
     {{-- <script type="text/javascript" src="https://cdn.tailwindcss.com"></script> --}}
     <script type="text/javascript" src="{{ url('js/jquery-3.6.4.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    {{-- <script type="text/javascript" src="{{ url('js/Tailwind-3.3.1.js') }}"></script> --}}
 
     {{-- Scripts Vite Compiled --}}
     @vite('resources/js/app.js')
