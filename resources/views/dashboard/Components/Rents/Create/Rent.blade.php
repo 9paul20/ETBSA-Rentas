@@ -328,98 +328,101 @@
                 }
             });
         });
+        @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Rents' &&
+                getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
 
-        function updatePreciosMensuales() {
-            // Obtén el select y el campo de entrada
-            var select = document.getElementById("clvEquipo");
-            var preciosMensuales = document.getElementById("preciosMensuales");
+            function updatePreciosMensuales() {
+                // Obtén el select y el campo de entrada
+                var select = document.getElementById("clvEquipo");
+                var preciosMensuales = document.getElementById("preciosMensuales");
 
-            // Obtén el valor del atributo de datos "precios" de la opción seleccionada
-            var selectedOption = select.options[select.selectedIndex];
-            var precios = selectedOption.getAttribute("data-precios");
+                // Obtén el valor del atributo de datos "precios" de la opción seleccionada
+                var selectedOption = select.options[select.selectedIndex];
+                var precios = selectedOption.getAttribute("data-precios");
 
-            // Establece el valor del campo de entrada a precios
-            preciosMensuales.value = (precios / 0.8).toFixed(2);
-        }
+                // Establece el valor del campo de entrada a precios
+                preciosMensuales.value = (precios / 0.8).toFixed(2);
+            }
 
-        const fechaInicio = document.getElementById('fecha_inicio');
-        const fechaFin = document.getElementById('fecha_fin');
-        const mesesARentar = document.getElementById('mesesARentar');
-        const diasARentar = document.getElementById('diasARentar');
-        const preciosMensuales = document.getElementById('preciosMensuales');
-        const preciosDiarios = document.getElementById('preciosDiarios');
-        const totalDeRenta = document.getElementById('totalDeRenta');
+            const fechaInicio = document.getElementById('fecha_inicio');
+            const fechaFin = document.getElementById('fecha_fin');
+            const mesesARentar = document.getElementById('mesesARentar');
+            const diasARentar = document.getElementById('diasARentar');
+            const preciosMensuales = document.getElementById('preciosMensuales');
+            const preciosDiarios = document.getElementById('preciosDiarios');
+            const totalDeRenta = document.getElementById('totalDeRenta');
 
-        function updateInputs() {
-            // Asegurar que haya un mes de diferencia entre las fechas
-            if (fechaInicio.value && !fechaFin.value) {
-                const nuevaFecha = new Date(fechaInicio.value);
-                nuevaFecha.setMonth(nuevaFecha.getMonth() + 1);
-                fechaFin.value = nuevaFecha.toISOString().slice(0, 10);
-                fechaInicio.max = fechaFin.value;
-                fechaFin.min = fechaInicio.value; // deshabilitar día seleccionado en fechaInicio en fechaFin
-            } else if (fechaFin.value && !fechaInicio.value) {
-                const nuevaFecha = new Date(fechaFin.value);
-                nuevaFecha.setMonth(nuevaFecha.getMonth() - 1);
-                fechaInicio.value = nuevaFecha.toISOString().slice(0, 10);
-                fechaFin.min = fechaInicio.value;
-                fechaInicio.max = fechaFin.value; // deshabilitar día seleccionado en fechaFin en fechaInicio
-            } else {
-                // Si ambas fechas tienen valores, asegurar que fecha_inicio no sea mayor que fecha_fin
-                const inicioDate = new Date(fechaInicio.value);
-                const finDate = new Date(fechaFin.value);
-                if (inicioDate > finDate) {
-                    fechaInicio.value = fechaFin.value;
+            function updateInputs() {
+                // Asegurar que haya un mes de diferencia entre las fechas
+                if (fechaInicio.value && !fechaFin.value) {
+                    const nuevaFecha = new Date(fechaInicio.value);
+                    nuevaFecha.setMonth(nuevaFecha.getMonth() + 1);
+                    fechaFin.value = nuevaFecha.toISOString().slice(0, 10);
                     fechaInicio.max = fechaFin.value;
                     fechaFin.min = fechaInicio.value; // deshabilitar día seleccionado en fechaInicio en fechaFin
-                } else {
-                    fechaInicio.max = fechaFin.value;
+                } else if (fechaFin.value && !fechaInicio.value) {
+                    const nuevaFecha = new Date(fechaFin.value);
+                    nuevaFecha.setMonth(nuevaFecha.getMonth() - 1);
+                    fechaInicio.value = nuevaFecha.toISOString().slice(0, 10);
                     fechaFin.min = fechaInicio.value;
-                    fechaInicio.min = null; // habilitar todos los días previos a fechaFin en fechaInicio
-                    fechaFin.max = null; // habilitar todos los días posteriores a fechaInicio en fechaFin
+                    fechaInicio.max = fechaFin.value; // deshabilitar día seleccionado en fechaFin en fechaInicio
+                } else {
+                    // Si ambas fechas tienen valores, asegurar que fecha_inicio no sea mayor que fecha_fin
+                    const inicioDate = new Date(fechaInicio.value);
+                    const finDate = new Date(fechaFin.value);
+                    if (inicioDate > finDate) {
+                        fechaInicio.value = fechaFin.value;
+                        fechaInicio.max = fechaFin.value;
+                        fechaFin.min = fechaInicio.value; // deshabilitar día seleccionado en fechaInicio en fechaFin
+                    } else {
+                        fechaInicio.max = fechaFin.value;
+                        fechaFin.min = fechaInicio.value;
+                        fechaInicio.min = null; // habilitar todos los días previos a fechaFin en fechaInicio
+                        fechaFin.max = null; // habilitar todos los días posteriores a fechaInicio en fechaFin
+                    }
+                }
+                // Calcular la cantidad de días entre las fechas y escribir el resultado en el input diasARentar
+                const inicioDate = new Date(fechaInicio.value);
+                const finDate = new Date(fechaFin.value);
+                const diffTime = Math.abs(finDate - inicioDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const diffMonths = Math.round(diffDays / 30);
+                const totalRenta = diffMonths * parseFloat(preciosMensuales.value);
+                totalDeRenta.value = isNaN(totalRenta) ? "" : totalRenta.toFixed(2);
+                diasARentar.value = diffDays;
+
+                actualizarPreciosDiarios();
+            }
+
+            function sumarMeses() {
+                const meses = parseInt(mesesARentar.value);
+                if (meses > 0) {
+                    const nuevaFecha = new Date(fechaInicio.value);
+                    nuevaFecha.setMonth(nuevaFecha.getMonth() + meses);
+                    fechaFin.value = nuevaFecha.toISOString().slice(0, 10);
+                    updateInputs();
+                } else {
+                    const nuevaFecha = new Date(fechaInicio.value);
+                    nuevaFecha.setMonth(nuevaFecha.getMonth() + 1);
+                    fechaFin.value = nuevaFecha.toISOString().slice(0, 10);
+                    updateInputs();
                 }
             }
-            // Calcular la cantidad de días entre las fechas y escribir el resultado en el input diasARentar
-            const inicioDate = new Date(fechaInicio.value);
-            const finDate = new Date(fechaFin.value);
-            const diffTime = Math.abs(finDate - inicioDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            const diffMonths = Math.round(diffDays / 30);
-            const totalRenta = diffMonths * parseFloat(preciosMensuales.value);
-            totalDeRenta.value = isNaN(totalRenta) ? "" : totalRenta.toFixed(2);
-            diasARentar.value = diffDays;
 
-            actualizarPreciosDiarios();
-        }
-
-        function sumarMeses() {
-            const meses = parseInt(mesesARentar.value);
-            if (meses > 0) {
-                const nuevaFecha = new Date(fechaInicio.value);
-                nuevaFecha.setMonth(nuevaFecha.getMonth() + meses);
-                fechaFin.value = nuevaFecha.toISOString().slice(0, 10);
-                updateInputs();
-            } else {
-                const nuevaFecha = new Date(fechaInicio.value);
-                nuevaFecha.setMonth(nuevaFecha.getMonth() + 1);
-                fechaFin.value = nuevaFecha.toISOString().slice(0, 10);
-                updateInputs();
+            function actualizarPreciosDiarios() {
+                const precioMensual = parseFloat(preciosMensuales.value);
+                if (!isNaN(precioMensual)) {
+                    const precioDiario = precioMensual / 30;
+                    preciosDiarios.value = precioDiario.toFixed(2);
+                } else {
+                    preciosDiarios.value = "";
+                }
             }
-        }
 
-        function actualizarPreciosDiarios() {
-            const precioMensual = parseFloat(preciosMensuales.value);
-            if (!isNaN(precioMensual)) {
-                const precioDiario = precioMensual / 30;
-                preciosDiarios.value = precioDiario.toFixed(2);
-            } else {
-                preciosDiarios.value = "";
-            }
-        }
-
-        fechaInicio.addEventListener('change', updateInputs);
-        fechaFin.addEventListener('change', updateInputs);
-        mesesARentar.addEventListener('keyup', sumarMeses);
-        preciosMensuales.addEventListener('input', updateInputs);
+            fechaInicio.addEventListener('change', updateInputs);
+            fechaFin.addEventListener('change', updateInputs);
+            mesesARentar.addEventListener('keyup', sumarMeses);
+            preciosMensuales.addEventListener('input', updateInputs);
+        @endif
     </script>
 @endpush

@@ -18,13 +18,18 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 // Configura el token CSRF como encabezado por defecto en Axios
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
 
-const vueAppBundler = createApp({
-    mounted() {
-        // console.log('The app is working')
-    },
-    components: {
-        'indexRents': viewsRents.indexRents,
-    },
-});
+try {
+    const vueAppBundler = createApp({
+        mounted() {
+            // console.log('The app is working')
+        },
+        components: {
+            'indexRents': viewsRents.indexRents,
+        },
+    });
 
-vueAppBundler.mount('#vueApp');
+    vueAppBundler.mount('#vueApp');
+} catch (error) {
+    // Aquí puedes agregar el código para manejar el error de montaje
+    console.error('Error al montar la aplicación:', error);
+}
