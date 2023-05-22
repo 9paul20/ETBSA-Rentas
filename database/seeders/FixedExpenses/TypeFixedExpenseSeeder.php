@@ -30,8 +30,8 @@ class TypeFixedExpenseSeeder extends Seeder
         ]);
 
         $TipoGastoFijo4 = TypeFixedExpense::create([
-            'TipogastoFijo' => 'Seguro Inicial',
-            'descripcion' => 'Descripción de Seguro Inicial',
+            'TipogastoFijo' => 'Seguro',
+            'descripcion' => 'Descripción de Seguro',
         ]);
 
         $TipoGastoFijo5 = TypeFixedExpense::create([

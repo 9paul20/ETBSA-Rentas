@@ -382,7 +382,10 @@ class RentsController extends Controller
             try {
                 $rent = Rent::findOrFail($id);
                 $rent->delete();
-                return response()->json(['message' => 'La renta ha sido eliminado correctamente'], 200);
+                return response()->json([
+                    'message' => 'La renta ha sido eliminado correctamente',
+                    'danger' => 'Renta eliminado correctamente.'
+                ], 200);
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Error al eliminar la renta'], 500);
             }

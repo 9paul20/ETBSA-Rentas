@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="mx-auto max-w-7xl" v-if="columnNames">
+        <div class="mx-auto max-w-7xl">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-xl font-semibold text-gray-900">{{ routetitle }}</h1>
@@ -8,15 +8,24 @@
                 <button-component text="Add Rent" :href="createrentroute" color-button="green-600"
                     color-button-hober="green-700" color-ring-focus="green-500" />
             </div>
-            <Transition name="bounce">
-                <table-rents-component :routeTitle="routetitle" :imageTractor="imagetractor" :columnNames="columnNames"
-                    :rowDatas="rowDatas" v-if="tableRentsTransition" />
-            </Transition>
         </div>
-        <div class="mx-auto max-w-7xl" v-else>
-            <div class="sm:flex sm:items-center">
-                <div class="sm:flex-auto">
-                    <h1 class="text-5xl font-bold text-gray-500 text-center">{{ yieldtitle }}</h1>
+        <div class="grid xl:grid-cols-10 md:grid-cols-6 grid-cols-4">
+            <div class="xl:col-span-2 md:col-span-4 col-span-4 mx-auto items-center" v-if="columnNames">
+                <Transition name="bounce">
+                    <table-filter-rents-component />
+                </Transition>
+            </div>
+            <div class="xl:col-span-8 md:col-span-6 col-span-2 mx-auto" v-if="columnNames">
+                <Transition name="bounce">
+                    <table-rents-component :routeTitle="routetitle" :imageTractor="imagetractor" :columnNames="columnNames"
+                        :rowDatas="rowDatas" v-if="tableRentsTransition" />
+                </Transition>
+            </div>
+            <div class="mx-auto max-w-7xl" v-else>
+                <div class="sm:flex sm:items-center">
+                    <div class="sm:flex-auto">
+                        <h1 class="text-5xl font-bold text-gray-500 text-center">{{ yieldtitle }}</h1>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,6 +35,7 @@
 <script>
 import buttonComponent from '@/js/components/button.vue';
 import tableRentsComponent from '@/js/components/Rents/tableRentsComponent.vue';
+import tableFilterRentsComponent from '@/js/components/Rents/tableFilterRentsComponent.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
@@ -60,6 +70,7 @@ export default {
     components: {
         'buttonComponent': buttonComponent,
         'tableRentsComponent': tableRentsComponent,
+        'tableFilterRentsComponent': tableFilterRentsComponent,
     },
     setup(props) {
         onMounted(() => {

@@ -3,15 +3,17 @@ import 'feather-icons/dist/feather.js';
 import Swal from 'sweetalert2';
 import '../css/app.css';
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
+import axios from 'axios';
+import { createPinia } from 'pinia';
 import viewsRents from '@/js/views/Rents/index.js';
 // import components from '@/js/components/index.js';
-import axios from 'axios';
 
 window.AlpineJS = AlpineJS;
 window.Swal = Swal;
 
 AlpineJS.start();
 
+const pinia = createPinia();
 // Obtén el token CSRF del meta-tag en tu aplicación Laravel
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -26,8 +28,7 @@ try {
         components: {
             'indexRents': viewsRents.indexRents,
         },
-    });
-
+    }).use(pinia);
     vueAppBundler.mount('#vueApp');
 } catch (error) {
     // Aquí puedes agregar el código para manejar el error de montaje

@@ -44,11 +44,6 @@ export default {
             required: false,
             default: 0,
         },
-        method: {
-            type: String,
-            required: false,
-            default: "",
-        },
     },
     setup() {
         return {}

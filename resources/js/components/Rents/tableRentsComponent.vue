@@ -70,7 +70,7 @@
                                             getTitle(rowData.person.nombrePersona, rowData.person.apePaternoPersona, rowData.person.apeMaternoPersona),
                                             'warning',
                                             rowData,
-                                            rowData.routeDeleteRent)" method="delete" />
+                                            rowData.routeDeleteRent)" />
                                 </div>
                             </td>
                         </tr>
