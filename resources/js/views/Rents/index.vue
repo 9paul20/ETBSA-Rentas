@@ -10,93 +10,54 @@
             </div>
         </div>
         <div class="grid xl:grid-cols-10 md:grid-cols-6 grid-cols-4">
-            <div class="xl:col-span-2 md:col-span-4 col-span-4 mx-auto items-center" v-if="columnNames">
+            <div class="xl:col-span-2 md:col-span-4 col-span-4 mx-auto items-center">
                 <Transition name="bounce">
                     <table-filter-rents-component />
                 </Transition>
             </div>
-            <div class="xl:col-span-8 md:col-span-6 col-span-2 mx-auto" v-if="columnNames">
+            <div class="xl:col-span-8 md:col-span-6 col-span-2 mx-auto">
                 <Transition name="bounce">
-                    <table-rents-component :routeTitle="routetitle" :imageTractor="imagetractor" :columnNames="columnNames"
-                        :rowDatas="rowDatas" v-if="tableRentsTransition" />
+                    <table-rents-component :routeTitle="routetitle" :imageTractor="imagetractor" />
                 </Transition>
-            </div>
-            <div class="mx-auto max-w-7xl" v-else>
-                <div class="sm:flex sm:items-center">
-                    <div class="sm:flex-auto">
-                        <h1 class="text-5xl font-bold text-gray-500 text-center">{{ yieldtitle }}</h1>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-import buttonComponent from '@/js/components/button.vue';
+<script setup>
+import buttonComponent from '@/js/components/Common/button.vue';
 import tableRentsComponent from '@/js/components/Rents/tableRentsComponent.vue';
 import tableFilterRentsComponent from '@/js/components/Rents/tableFilterRentsComponent.vue';
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { defineComponent } from 'vue';
 
-let columnNames = ref([]);
-let rowDatas = ref({});
-let tableRentsTransition = ref(false);
-
-export default {
-    name: 'indexRents',
-    props: {
-        createrentroute: {
-            type: String,
-            required: false,
-            default: '#',
-        },
-        yieldtitle: {
-            type: String,
-            required: false,
-            default: 'Default',
-        },
-        routetitle: {
-            type: String,
-            required: false,
-            default: 'Default',
-        },
-        imagetractor: {
-            type: String,
-            required: false,
-            default: null,
-        },
+name: 'indexRents';
+defineProps({
+    createrentroute: {
+        type: String,
+        required: false,
+        default: '#',
     },
-    components: {
-        'buttonComponent': buttonComponent,
-        'tableRentsComponent': tableRentsComponent,
-        'tableFilterRentsComponent': tableFilterRentsComponent,
+    yieldtitle: {
+        type: String,
+        required: false,
+        default: 'Default',
     },
-    setup(props) {
-        onMounted(() => {
-            setTimeout(() => getAll(props), 0);
-        });
-        return { getAll, columnNames, rowDatas, tableRentsTransition };
+    routetitle: {
+        type: String,
+        required: false,
+        default: 'Default',
     },
-    data() {
-        return {
-            // tableRentsTransation: '',
-        };
-    }
-}
-
-export async function getAll(props) {
-    try {
-        const { data } = await axios.get('http://etbsa-rentas.test/api/RentsListAPI');
-        tableRentsTransition.value = !tableRentsTransition.value;
-        columnNames.value = [...data.columnNames];
-        rowDatas.value = { ...data.rowDatas };
-        // console.log("El arreglo es: ", columnNames, rowDatas);
-    } catch (error) {
-        console.error(error);
-    }
-    // nextTick(() => { })
-}
+    imagetractor: {
+        type: String,
+        required: false,
+        default: null,
+    },
+});
+defineComponent({
+    'buttonComponent': buttonComponent,
+    'tableRentsComponent': tableRentsComponent,
+    'tableFilterRentsComponent': tableFilterRentsComponent,
+});
 </script>
 
 <style lang="css" scoped>

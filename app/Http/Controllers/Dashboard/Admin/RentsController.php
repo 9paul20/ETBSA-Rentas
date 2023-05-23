@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Rents\StoreRent;
 use App\Http\Requests\Rents\UpdateRent;
 use App\Models\Equipment;
+use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
 use App\Models\Person;
 use App\Models\Rent;
@@ -91,6 +92,15 @@ class RentsController extends Controller
                 'fecha_fin',
                 'clvEstadoRenta',
             ]);
+        // ->get([
+        //     'clvRenta',
+        //     'clvEquipo',
+        //     'clvCliente',
+        //     'descripcion',
+        //     'fecha_inicio',
+        //     'fecha_fin',
+        //     'clvEstadoRenta',
+        // ]);
         $rowDatas->map(function ($rowData) {
             $fecha_inicio = strtotime($rowData->fecha_inicio);
             $rowData->fecha_inicio = date('j M Y', $fecha_inicio);
@@ -110,9 +120,33 @@ class RentsController extends Controller
             'Estado De Renta',
             ''
         ];
+        //Contador y relación de categorias de equipos existentes en rentas
+        $categoryCounts = $rowDatas->pluck('equipment.categoria')->countBy('clvCategoria');
+        $categories = Category::whereIn('clvCategoria', $categoryCounts->keys())
+            ->get([
+                'clvCategoria',
+                'categoria'
+            ])
+            ->map(function ($category) use ($categoryCounts) {
+                $category->count = $categoryCounts[$category->clvCategoria];
+                return $category;
+            });
+        //Contador y relación de estados de renta existentes en rentas
+        $statusRentsCounts = $rowDatas->pluck('statusRent')->countBy('clvEstadoRenta');
+        $statusRents = StatusRent::whereIn('clvEstadoRenta', $statusRentsCounts->keys())
+            ->get([
+                'clvEstadoRenta',
+                'estadoRenta'
+            ])
+            ->map(function ($statusRent) use ($statusRentsCounts) {
+                $statusRent->count = $statusRentsCounts[$statusRent->clvEstadoRenta];
+                return $statusRent;
+            });
         $Data = [
             'rowDatas' => $rowDatas,
             'columnNames' => $columnNames,
+            'categories' => $categories,
+            'statusRents' => $statusRents,
         ];
         return $Data;
         // return response()->json(

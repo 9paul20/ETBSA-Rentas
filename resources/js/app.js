@@ -5,7 +5,7 @@ import '../css/app.css';
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
 import axios from 'axios';
 import { createPinia } from 'pinia';
-import viewsRents from '@/js/views/Rents/index.js';
+import views from '@/js/views/index.js';
 // import components from '@/js/components/index.js';
 
 window.AlpineJS = AlpineJS;
@@ -26,7 +26,7 @@ try {
             // console.log('The app is working')
         },
         components: {
-            'indexRents': viewsRents.indexRents,
+            'indexRents': views.indexRents,
         },
     }).use(pinia);
     vueAppBundler.mount('#vueApp');

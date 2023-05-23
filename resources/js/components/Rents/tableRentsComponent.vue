@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" v-if="rowDatas">
+        <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" v-if="rentsIndex.filteredRowDatas">
             <div class="overflow-x-auto">
                 <table class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th v-for="columnName in columnNames" scope="col"
+                            <th v-for="columnName in rentsIndex.columnNames" scope="col"
                                 class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                 :key="columnName">
                                 {{ columnName }}</th>
@@ -13,7 +13,8 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200 border-t bg-white text-center" is="vue:transition-group"
                         tag="tbody" name="list">
-                        <tr v-for="rowData in rowDatas.data" class="hover:bg-gray-100" :key="rowData.clvRenta">
+                        <tr v-for="rowData in rentsIndex.filteredRowDatas" class="hover:bg-gray-100"
+                            :key="rowData.clvRenta">
                             <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
                                 <div class="relative h-16 w-16">
                                     <img class="h-full w-full rounded-full object-cover object-center" :src="imageTractor"
@@ -86,47 +87,31 @@
     </div>
 </template>
 
-<script>
-import iconButton from '@/js/components/iconButton.vue';
-import { ref, onMounted } from 'vue';
+<script setup>
+import iconButton from '@/js/components/Common/iconButton.vue';
+import { onMounted } from 'vue';
 import axios from 'axios';
+import { useRentsIndex } from '@/js/store/Admin/Rents.js'
 
-export default {
-    name: 'tableRentsComponent',
-    props: {
-        routeTitle: {
-            type: String,
-            required: false,
-            default: 'Default',
-        },
-        imageTractor: {
-            type: String,
-            required: false,
-            default: null,
-        },
-        columnNames: {
-            type: Array,
-            required: false,
-            default: [],
-        },
-        rowDatas: {
-            type: Object,
-            required: false,
-            default: {},
-        },
-    },
-    setup(props) {
-        onMounted(() => {
-            // console.log(rowDatas)
-        });
-        const rowDatasList = ref(props.rowDatas);
-        return { getTitle, getDescription, show, confirmDelete, rowDatasList };
-    },
-    components: {
-        iconButton,
-    },
-}
+const rentsIndex = useRentsIndex();
 
+defineProps({
+    routeTitle: {
+        type: String,
+        required: false,
+        default: 'Default',
+    },
+    imageTractor: {
+        type: String,
+        required: false,
+        default: null,
+    },
+});
+onMounted(async () => {
+    await rentsIndex.index();
+});
+
+//getTitle y getDescription son funciones para facilitar un string encadenandole los parametros que necesiten
 function getTitle(nombre, apePaterno, apeMaterno) {
     const name = "La renta de " + nombre + " " + apePaterno + " " + apeMaterno;
     return name;
@@ -140,6 +125,7 @@ function getDescription(noSerie, modelo, precio, iva) {
     return description;
 }
 
+//Función para ver el dato de renta con SA2
 function show(name, description, icon) {
     Swal.fire({
         title: name,
@@ -150,6 +136,7 @@ function show(name, description, icon) {
     })
 }
 
+//Función para eliminar el dato de renta con SA2
 function confirmDelete(name, icon, item, url) {
     Swal.fire({
         title: `¿Estás seguro de eliminar el dato de ${name}?`,
@@ -199,7 +186,6 @@ function confirmDelete(name, icon, item, url) {
         }
     })
 }
-
 </script>
 
 <style>

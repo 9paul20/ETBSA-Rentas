@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="w-full md:w-2/2 shadow p-5 rounded-lg bg-white hover:scale-105 transition-transform duration-150">
-            <search-input-component placeholder="Buscar por No. Serie" />
-            <!-- <search-input-component placeholder="Buscar por Nombre de cliente" /> -->
+            <search-inputs-rents-component />
 
             <div class="flex items-center justify-between mt-4">
                 <p class="font-medium">
@@ -20,7 +19,6 @@
                     <list-box-component :people="people" :selected="Number(2)" />
                     <list-box-component :people="people" :selected="Number(6)" />
                     <list-box-component :people="people" :selected="Number(5)" />
-                    <list-box-component :people="people" :selected="Number(3)" />
                 </div>
             </div>
         </div>
@@ -29,9 +27,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import listBoxComponent from '@/js/components/listBoxComponent.vue';
-import searchInputComponent from '@/js/components/searchInputComponent.vue';
-
+import listBoxComponent from '@/js/components/Common/listBoxComponent.vue';
+import searchInputsRentsComponent from '@/js/components/Rents/searchInputsRentsComponent.vue';
 const people = [
     {
         id: 1,
