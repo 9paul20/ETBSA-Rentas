@@ -1,12 +1,14 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 export const useRentsIndex = defineStore('rents-index', () => {
     let columnNames = ref([]);
     let rowDatas = ref({});
+    let filteredRowDatas = ref({});
     let tableRentsTransition = ref(false);
-    const filteredRowDatas = ref({});
+
+    //Metodos
     const index = async () => {
         try {
             const { data } = await axios.get('http://etbsa-rentas.test/api/RentsListAPI');
@@ -17,32 +19,41 @@ export const useRentsIndex = defineStore('rents-index', () => {
         } catch (error) {
             console.error(error);
         }
-        // nextTick(() => { })
     };
-    const filterByEquipmentNoSerie = (queryEquipmentNoSerie) => {
-        if (queryEquipmentNoSerie == '') {
-            filteredRowDatas.value = rowDatas.value.data;
-            return;
-        }
+    const filterRentsByNoSerieEquipo = (rowData, queryEquipmentNoSerie) => {
+        return (
+            queryEquipmentNoSerie == '' ||
+            queryEquipmentNoSerie == null ||
+            rowData.equipment.noSerieEquipo.toLowerCase().includes(queryEquipmentNoSerie.toLowerCase())
+        );
+    };
+
+    const filterRentsByClient = (rowData, queryClientName) => {
+        return (
+            queryClientName == '' ||
+            queryClientName == null ||
+            rowData.person.nombrePersona.toLowerCase().includes(queryClientName.toLowerCase()) ||
+            rowData.person.apePaternoPersona.toLowerCase().includes(queryClientName.toLowerCase()) ||
+            rowData.person.apeMaternoPersona.toLowerCase().includes(queryClientName.toLowerCase())
+        );
+    };
+    const filterRents = (queryEquipmentNoSerie, queryClientName) => {
         filteredRowDatas.value = rowDatas.value.data.filter(rowData => {
             return (
-                rowData.equipment.noSerieEquipo.toLowerCase().includes(queryEquipmentNoSerie.toLowerCase())
-            );
-        });
-    };
-    const filterByClientName = (queryClientName) => {
-        if (queryClientName === '') {
-            filteredRowDatas.value = rowDatas.value.data;
-            return;
-        }
-        filteredRowDatas.value = rowDatas.value.data.filter(rowData => {
-            return (
-                rowData.person.nombrePersona.toLowerCase().includes(queryClientName.toLowerCase()) ||
-                rowData.person.apePaternoPersona.toLowerCase().includes(queryClientName.toLowerCase()) ||
-                rowData.person.apeMaternoPersona.toLowerCase().includes(queryClientName.toLowerCase())
+                filterRentsByNoSerieEquipo(rowData, queryEquipmentNoSerie) &&
+                filterRentsByClient(rowData, queryClientName)
             );
         });
     };
 
-    return { columnNames, rowDatas, tableRentsTransition, index, filteredRowDatas, filterByEquipmentNoSerie, filterByClientName };
+    return {
+        columnNames,
+        rowDatas,
+        filteredRowDatas,
+        tableRentsTransition,
+        index,
+        filterRentsByNoSerieEquipo,
+        filterRentsByClient,
+        filterRents
+    };
 });

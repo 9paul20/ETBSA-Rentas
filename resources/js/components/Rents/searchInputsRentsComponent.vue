@@ -2,7 +2,7 @@
     <div>
         <div class="mt-2">
             <div class="relative">
-                <a class="absolute flex items-center ml-2 h-full" href="#" @click="executeSearch()">
+                <a class="absolute flex items-center ml-2 h-full" href="#" @click="filterInputs()">
                     <svg class="w-4 h-4 fill-current text-primary-gray-dark" viewBox="0 0 16 16" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -10,14 +10,14 @@
                         </path>
                     </svg>
                 </a>
-                <input v-model="queryEquipmentNoSerie" @keyup.enter="executeSearch()" type="text"
+                <input v-model="queryEquipmentNoSerie" @keyup.enter="filterInputs()" type="text"
                     placeholder="Buscar por No.Serie"
                     class="px-8 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
             </div>
         </div>
         <div class="mt-2">
             <div class="relative">
-                <a class="absolute flex items-center ml-2 h-full" href="#" @click="executeSearch()">
+                <a class="absolute flex items-center ml-2 h-full" href="#" @click="filterInputs()">
                     <svg class="w-4 h-4 fill-current text-primary-gray-dark" viewBox="0 0 16 16" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -25,7 +25,7 @@
                         </path>
                     </svg>
                 </a>
-                <input v-model="queryClientName" @keyup.enter="executeSearch()" type="text" placeholder="Buscar por Cliente"
+                <input v-model="queryClientName" @keyup.enter="filterInputs()" type="text" placeholder="Buscar por Cliente"
                     class="px-8 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
             </div>
         </div>
@@ -36,21 +36,15 @@
 import { ref } from 'vue';
 import { useRentsIndex } from '@/js/store/Admin/Rents.js';
 
-name: 'searchInputsComponent';
-
+const rentsIndex = useRentsIndex();
 const queryEquipmentNoSerie = ref('');
 const queryClientName = ref('');
-const rentsIndex = useRentsIndex();
-const searchEquipmentNoSerie = () => {
-    rentsIndex.filterByEquipmentNoSerie(queryEquipmentNoSerie.value);
+const filterInputs = () => {
+    // rentsIndex.filterRentsByNoSerieEquipo(queryEquipmentNoSerie.value);
+    // rentsIndex.filterRentsByClient(queryClientName.value);
+    rentsIndex.filterRents(queryEquipmentNoSerie.value, queryClientName.value);
 }
-const searchClientName = () => {
-    rentsIndex.filterByClientName(queryClientName.value);
-}
-const executeSearch = () => {
-    searchEquipmentNoSerie();
-    searchClientName();
-}
+
 </script>
 
 <style lang="scss" scoped></style>

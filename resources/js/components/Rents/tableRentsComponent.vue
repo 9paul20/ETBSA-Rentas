@@ -178,7 +178,7 @@ function confirmDelete(name, icon, item, url) {
                 console.error(error);
             }
 
-            //Transition de VueJS 3
+            //Transition de VueJS 3, al eliminar un dato
             const index = this.rowDatasList.data.indexOf(item);
             if (index !== -1) {
                 this.rowDatasList.data.splice(index, 1);

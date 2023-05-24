@@ -26,9 +26,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import listBoxComponent from '@/js/components/Common/listBoxComponent.vue';
 import searchInputsRentsComponent from '@/js/components/Rents/searchInputsRentsComponent.vue';
+
+name: 'tableFilterRentsComponent';
 const people = [
     {
         id: 1,
@@ -90,7 +92,7 @@ const people = [
         avatar:
             'https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
-]
+];
 </script>
 
 <style lang="css" scoped></style>
