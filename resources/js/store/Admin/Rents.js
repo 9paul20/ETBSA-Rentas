@@ -7,6 +7,8 @@ export const useRentsIndex = defineStore('rents-index', () => {
     let rowDatas = ref({});
     let filteredRowDatas = ref({});
     let tableRentsTransition = ref(false);
+    let categoriesList = ref([]);
+    let statusRentsList = ref([]);
 
     //Metodos
     const index = async () => {
@@ -15,6 +17,8 @@ export const useRentsIndex = defineStore('rents-index', () => {
             columnNames.value = [...data.columnNames];
             rowDatas.value = { ...data.rowDatas };
             filteredRowDatas.value = rowDatas.value.data;
+            categoriesList.value = [...data.categories];
+            statusRentsList.value = [...data.statusRents];
             tableRentsTransition.value = !tableRentsTransition.value;
         } catch (error) {
             console.error(error);
@@ -37,6 +41,7 @@ export const useRentsIndex = defineStore('rents-index', () => {
             rowData.person.apeMaternoPersona.toLowerCase().includes(queryClientName.toLowerCase())
         );
     };
+    //Filtro
     const filterRents = (queryEquipmentNoSerie, queryClientName) => {
         filteredRowDatas.value = rowDatas.value.data.filter(rowData => {
             return (
@@ -50,6 +55,8 @@ export const useRentsIndex = defineStore('rents-index', () => {
         columnNames,
         rowDatas,
         filteredRowDatas,
+        categoriesList,
+        statusRentsList,
         tableRentsTransition,
         index,
         filterRentsByNoSerieEquipo,

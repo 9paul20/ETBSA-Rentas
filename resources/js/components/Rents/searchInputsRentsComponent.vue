@@ -40,8 +40,6 @@ const rentsIndex = useRentsIndex();
 const queryEquipmentNoSerie = ref('');
 const queryClientName = ref('');
 const filterInputs = () => {
-    // rentsIndex.filterRentsByNoSerieEquipo(queryEquipmentNoSerie.value);
-    // rentsIndex.filterRentsByClient(queryClientName.value);
     rentsIndex.filterRents(queryEquipmentNoSerie.value, queryClientName.value);
 }
 
