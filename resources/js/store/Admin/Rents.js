@@ -24,14 +24,13 @@ export const useRentsIndex = defineStore('rents-index', () => {
             console.error(error);
         }
     };
-    const filterRentsByNoSerieEquipo = (rowData, queryEquipmentNoSerie) => {
+    const filterRentsByEquipmentNoSerie = (rowData, queryEquipmentNoSerie) => {
         return (
             queryEquipmentNoSerie == '' ||
             queryEquipmentNoSerie == null ||
             rowData.equipment.noSerieEquipo.toLowerCase().includes(queryEquipmentNoSerie.toLowerCase())
         );
     };
-
     const filterRentsByClient = (rowData, queryClientName) => {
         return (
             queryClientName == '' ||
@@ -41,12 +40,28 @@ export const useRentsIndex = defineStore('rents-index', () => {
             rowData.person.apeMaternoPersona.toLowerCase().includes(queryClientName.toLowerCase())
         );
     };
+    const filterRentsByEquipmentCategory = (rowData, queryEquipmentCategory) => {
+        return (
+            queryEquipmentCategory == '' ||
+            queryEquipmentCategory == null ||
+            rowData.equipment.categoria.categoria.toLowerCase().includes(queryEquipmentCategory.toLowerCase())
+        );
+    };
+    const filterRentsByRentSatus = (rowData, queryStatusRent) => {
+        return (
+            queryStatusRent == '' ||
+            queryStatusRent == null ||
+            rowData.status_rent.estadoRenta.toLowerCase().includes(queryStatusRent.toLowerCase())
+        );
+    };
     //Filtro
-    const filterRents = (queryEquipmentNoSerie, queryClientName) => {
+    const filterRents = (queryEquipmentNoSerie, queryClientName, queryEquipmentCategory, queryStatusRent) => {
         filteredRowDatas.value = rowDatas.value.data.filter(rowData => {
             return (
-                filterRentsByNoSerieEquipo(rowData, queryEquipmentNoSerie) &&
-                filterRentsByClient(rowData, queryClientName)
+                filterRentsByEquipmentNoSerie(rowData, queryEquipmentNoSerie) &&
+                filterRentsByClient(rowData, queryClientName) &&
+                filterRentsByEquipmentCategory(rowData, queryEquipmentCategory) &&
+                filterRentsByRentSatus(rowData, queryStatusRent)
             );
         });
     };
@@ -59,8 +74,10 @@ export const useRentsIndex = defineStore('rents-index', () => {
         statusRentsList,
         tableRentsTransition,
         index,
-        filterRentsByNoSerieEquipo,
+        filterRentsByEquipmentNoSerie,
         filterRentsByClient,
+        filterRentsByEquipmentCategory,
+        filterRentsByRentSatus,
         filterRents
     };
 });

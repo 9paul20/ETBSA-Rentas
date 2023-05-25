@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Listbox v-model="selected">
+        <Listbox v-model="selected" @click="handleSelection()" as="div">
             <ListboxLabel class="block text-sm font-medium text-gray-700">Selecciona</ListboxLabel>
             <div class="relative mt-1">
                 <ListboxButton
@@ -19,15 +19,16 @@
                     leave-to-class="opacity-0">
                     <ListboxOptions
                         class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                        <ListboxOption as="template" v-for="item in list" :key="item.id" :value="item"
+                        <ListboxOption as="div" v-for="item in list" :key="item.id" :value="item"
                             v-slot="{ active, selected }">
                             <li
                                 :class="[active ? 'text-white bg-indigo-600' : 'text-gray-900', 'relative cursor-default select-none py-2 pl-3 pr-9']">
                                 <div class="flex">
                                     <span :class="[selected ? 'font-semibold' : 'font-normal', 'truncate']">{{
                                         item.estadoRenta }}</span>
-                                    <span :class="[active ? 'text-indigo-200' : 'text-gray-500', 'ml-2 truncate']">{{
-                                        '(' + item.count + ')' }}</span>
+                                    <span :class="[active ? 'text-indigo-200' : 'text-gray-500', 'ml-2 truncate']"
+                                        class="font-semibold">{{
+                                            '(' + item.count + ')' }}</span>
                                 </div>
 
                                 <span v-if="selected"
@@ -44,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect, defineProps } from 'vue';
+import { ref, watchEffect, defineProps, defineEmits } from 'vue';
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
 
@@ -63,10 +64,17 @@ const props = defineProps({
 });
 
 const selected = ref(props.selected);
+const emit = defineEmits([
+    'status-selected'
+]);
 
 watchEffect(() => {
     selected.value = props.selected;
 });
+const handleSelection = () => {
+    const selectedStatus = selected.value.estadoRenta;
+    emit("status-selected", selectedStatus);
+};
 </script>
 
 <style lang="scss" scoped></style>

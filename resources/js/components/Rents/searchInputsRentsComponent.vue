@@ -33,14 +33,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRentsIndex } from '@/js/store/Admin/Rents.js';
+import { ref, defineEmits } from 'vue';
 
-const rentsIndex = useRentsIndex();
+name: 'searchInputsRentsComponent';
 const queryEquipmentNoSerie = ref('');
 const queryClientName = ref('');
+const emit = defineEmits([
+    'inputs-box',
+]);
 const filterInputs = () => {
-    rentsIndex.filterRents(queryEquipmentNoSerie.value, queryClientName.value);
+    const inputBoxNoSerieEquipo = queryEquipmentNoSerie.value;
+    const inputBoxCliente = queryClientName.value;
+    emit("inputs-box", inputBoxNoSerieEquipo, inputBoxCliente);
 }
 
 </script>
