@@ -182,6 +182,21 @@
                     '';
                 costoMensualInput.value = calculatedCostoMensual;
             });
+
+            const selectTypeFixedExpense = document.querySelector('#clvTipoGastoFijo');
+            const selectMonthly = document.querySelector('#precioEquipoSelectCreate');
+
+            selectTypeFixedExpense.addEventListener('change', function() {
+                const selectedOption = selectTypeFixedExpense.options[selectTypeFixedExpense.selectedIndex].text;
+                const seguroIndex = selectedOption.indexOf('Seguro');
+
+                if (seguroIndex === 0) {
+                    selectMonthly.value = selectMonthly.querySelector('option[data-indice="1"]').value;
+                    selectMonthly.setAttribute('disabled', 'disabled');
+                } else {
+                    selectMonthly.removeAttribute('disabled');
+                }
+            });
         </script>
     @endif
 @endpush

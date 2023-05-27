@@ -27,6 +27,7 @@ try {
         },
         components: {
             'indexRents': views.indexRents,
+            'createEquipments': views.createEquipments,
         },
     }).use(pinia);
     vueAppBundler.mount('#vueApp');

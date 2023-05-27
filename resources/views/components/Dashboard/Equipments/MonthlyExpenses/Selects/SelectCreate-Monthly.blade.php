@@ -1,5 +1,7 @@
 <div class="col-span-6 sm:col-span-6">
-    <label for="precioEquipo" class="block text-sm font-medium text-gray-700">Valor Fijo</label>
+    <label for="precioEquipo" class="block text-sm font-medium text-gray-700">Valor Fijo<span
+            class="text-gray-400 font-[150]">(En
+            caso de ser un seguro, trabajar con el valor adquirido del equipo)</span></label>
     <select id="precioEquipoSelectCreate" name="precioEquipo"
         class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('precioEquipo') border-red-400 @enderror"
         required>

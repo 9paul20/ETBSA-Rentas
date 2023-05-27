@@ -197,8 +197,7 @@
                                 min="0" max="100.00" step="0.01" autocomplete="given-porDeprAnual"
                                 placeholder="Porcentaje actual para cada Equipo es del %25"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('porDeprAnual') border-red-400 @enderror"
-                                value="{{ old('porDeprAnual', $Data['equipment']['porDeprAnual']) }}"
-                                max='{{ $Data['today'] }}' required>
+                                value="{{ old('porDeprAnual', $Data['equipment']['porDeprAnual']) }}" required>
                             @error('porDeprAnual')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -239,29 +238,30 @@
                         </div>
                     </div>
                 </div>
-                <x-Dashboard.Save-Button name="Guardar Equipo" />
-                </form>
             </div>
+            <x-Dashboard.Save-Button name="Guardar Equipo" />
+            </form>
         </div>
     </div>
+</div>
 
-    @push('scripts')
-        <script>
-            // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
-            document.querySelectorAll('input').forEach(input => {
-                input.addEventListener('click', () => {
-                    const errorDiv = input.nextElementSibling;
-                    if (errorDiv && errorDiv.classList.contains('text-red-400')) {
-                        errorDiv.style.opacity = '0';
-                        errorDiv.style.transition =
-                            'opacity 0.5s ease-in-out'; // cambiar la duración de la animación según tus necesidades
-                        setTimeout(() => {
-                                errorDiv.style.display = 'none';
-                            },
-                            500
-                        ); // ajustar el tiempo de espera para que coincida con la duración de la animación
-                    }
-                });
+@push('scripts')
+    <script>
+        // Eliminar mensaje de error cuando se hace clic en el campo de entrada correspondiente
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('click', () => {
+                const errorDiv = input.nextElementSibling;
+                if (errorDiv && errorDiv.classList.contains('text-red-400')) {
+                    errorDiv.style.opacity = '0';
+                    errorDiv.style.transition =
+                        'opacity 0.5s ease-in-out'; // cambiar la duración de la animación según tus necesidades
+                    setTimeout(() => {
+                            errorDiv.style.display = 'none';
+                        },
+                        500
+                    ); // ajustar el tiempo de espera para que coincida con la duración de la animación
+                }
             });
-        </script>
-    @endpush
+        });
+    </script>
+@endpush

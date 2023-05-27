@@ -1,9 +1,9 @@
 <template>
     <div>
-        <button type="button" :class="[
+        <button :type="type" :class="[
             'inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm',
             'bg-' + colorButton, // Usa el valor de la propiedad colorButton en la clase CSS
-            'hover:bg-' + colorButtonHober, // Usa el valor de la propiedad colorButtonHober en la clase CSS
+            'hover:bg-' + colorButtonHover, // Usa el valor de la propiedad colorButtonHober en la clase CSS
             'focus:outline-none focus:ring-2 focus:ring-' + colorRingFocus + ' focus:ring-offset-2',
             'sm:w-auto',
         ]" @click="redirectToLink(href)">
@@ -24,12 +24,17 @@ defineProps({
         required: false,
         default: null,
     },
+    type: {
+        type: String,
+        required: false,
+        default: "button",
+    },
     colorButton: {
         type: String,
         required: false,
         default: "indigo-600",
     },
-    colorButtonHober: {
+    colorButtonHover: {
         type: String,
         required: false,
         default: "indigo-700",
