@@ -11,7 +11,12 @@ class StatusController extends Controller
 {
     public function indexAPI()
     {
-        $status = Status::all();
+        $status = Status::query()
+            ->orderBy('clvDisponibilidad', 'asc')
+            ->get([
+                'clvDisponibilidad',
+                'disponibilidad',
+            ]);
         return $status;
     }
 

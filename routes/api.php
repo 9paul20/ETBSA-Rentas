@@ -61,6 +61,10 @@ Route::post('/EquipmentsListAPI', [App\Http\Controllers\Dashboard\Admin\Equipmen
 Route::get('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'showApi']);
 Route::put('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'update']);
 Route::delete('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'destroy']);
+//Categorias
+Route::get('/CategoriesListAPI', [App\Http\Controllers\Dashboard\Admin\Equipments\CategoriesController::class, 'indexAPI']);
+//Disponibilidad
+Route::get('/StatusListAPI', [App\Http\Controllers\Dashboard\Admin\Equipments\StatusController::class, 'indexAPI']);
 
 // Rentas
 Route::get('/RentsListAPI', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'indexAPI']);

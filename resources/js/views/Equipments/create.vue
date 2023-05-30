@@ -10,7 +10,7 @@
 <script setup>
 import backToButtonComponent from '@/js/components/Common/backToButton.vue';
 import divisorComponent from '@/js/components/Common/divisor.vue';
-import createEquipmentFormComponent from '@/js/components/Equipments/createEquipmentFormComponent.vue';
+import createEquipmentFormComponent from '@/js/components/Equipments/createEquipmentForm.vue';
 
 const props = defineProps({
     backtoindex: {
@@ -28,11 +28,6 @@ const props = defineProps({
         required: false,
         default: 'Default',
     },
-    // createroute: {
-    //     type: String,
-    //     required: false,
-    //     default: '',
-    // },
 });
 </script>
 

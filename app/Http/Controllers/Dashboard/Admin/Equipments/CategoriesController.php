@@ -11,7 +11,12 @@ class CategoriesController extends Controller
 {
     public function indexAPI()
     {
-        $categories = Category::all();
+        $categories = Category::query()
+            ->orderBy('clvCategoria', 'asc')
+            ->get([
+                'clvCategoria',
+                'categoria',
+            ]);
         return $categories;
     }
 

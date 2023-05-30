@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Equipment\StoreEquipment;
 use App\Models\Equipment;
 use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
@@ -83,17 +84,20 @@ class EquipmentsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreEquipment $request)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, Equipment::getRules());
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Create')
-                ->withErrors($validator)
+        $validatedData = $request->validated();
+        $equipment = Equipment::create($validatedData);
+        if ($equipment) {
+            return redirect()
+                ->route('Dashboard.Admin.Equipments.Edit', $equipment->clvEquipo)
+                ->with('success', 'Equipo ' . $equipment->modelo . ' con No.Serie: ' . $equipment->noSerieEquipo . ' agregado correctamente.');
+        } else {
+            return redirect()
+                ->route('Dashboard.Admin.Equipments.Create')
+                ->withErrors($validatedData)
                 ->withInput();
         }
-        $equipment = Equipment::create($data);
-        return redirect()->route('Dashboard.Admin.Equipments.Edit', $equipment->clvEquipo)->with('success', 'Equipo ' . $equipment->modelo . ' Con No.Serie: ' . $equipment->noSerieEquipo . ' agregado correctamente.');
     }
 
     public function storeFixedExpenses(Request $request, string $id)
