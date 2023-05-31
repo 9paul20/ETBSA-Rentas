@@ -46,6 +46,7 @@
 
     {{-- Enlaces a hojas de estilo CSS --}}
     <link rel="stylesheet" href="{{ url('/css/styles.css') }}">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.10/dist/sweetalert2.min.css" rel="stylesheet"> --}}
     {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
     {{--
     <link rel="stylesheet" href="{{ url('/css/components.css') }}"> --}}
@@ -67,6 +68,7 @@
     {{-- <script type="text/javascript" src="{{ url('/js/components.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="https://cdn.tailwindcss.com"></script> --}}
     <script type="text/javascript" src="{{ url('js/jquery-3.6.4.min.js') }}"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
     {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
 
     {{-- Scripts Vite Compiled --}}

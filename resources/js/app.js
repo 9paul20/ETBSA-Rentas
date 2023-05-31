@@ -1,6 +1,7 @@
 import AlpineJS from 'alpinejs';
 import 'feather-icons/dist/feather.js';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
 import '../css/app.css';
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
 import axios from 'axios';

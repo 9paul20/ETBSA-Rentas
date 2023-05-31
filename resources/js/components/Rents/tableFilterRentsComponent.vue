@@ -10,7 +10,7 @@
                     Reset Filter
                 </button>
             </div>
-            <search-inputs-rents-component ref="searchInputsComponent" @inputs-box="onInputs" />
+            <search-inputs-rents-component @inputs-box="onInputs" />
             <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-1 gap-4 mt-4">
                 <list-box-equipments-categories-component :list="rentsIndex.categoriesList"
                     @category-selected="onCategorySelected" />
@@ -31,18 +31,21 @@ name: 'tableFilterRentsComponent';
 
 const rentsIndex = useRentsIndex();
 const constInputBoxNoSerieEquipment = ref("");
-const constInputBoxClient = ref("");
+const constInputBoxClientName = ref("");
+const constInputBoxClientAP = ref("");
+const constInputBoxClientAM = ref("");
 const constSelectedCategory = ref("");
 const constSelectedStatus = ref("");
-const searchInputsComponent = ref(null);
 
 onMounted(async () => {
     await rentsIndex.index();
 });
 
-const onInputs = (noSerieEquipment, client) => {
+const onInputs = (noSerieEquipment, clientName, clientAP, clientAM) => {
     constInputBoxNoSerieEquipment.value = noSerieEquipment;
-    constInputBoxClient.value = client;
+    constInputBoxClientName.value = clientName;
+    constInputBoxClientAP.value = clientAP;
+    constInputBoxClientAM.value = clientAM;
     filterRentsVue();
 };
 
@@ -61,7 +64,9 @@ const filterRentsVue = () => {
     // Aquí puedes combinarlo con los valores de los inputs para enviarlos todos juntos
     rentsIndex.filterRents(
         constInputBoxNoSerieEquipment.value,
-        constInputBoxClient.value,
+        constInputBoxClientName.value,
+        constInputBoxClientAP.value,
+        constInputBoxClientAM.value,
         constSelectedCategory.value,
         constSelectedStatus.value,
     );
@@ -69,7 +74,9 @@ const filterRentsVue = () => {
 
 const resetFilter = () => {
     constInputBoxNoSerieEquipment.value = null;
-    constInputBoxClient.value = null;
+    constInputBoxClientName.value = null;
+    constInputBoxClientAP.value = null;
+    constInputBoxClientAM.value = null;
     constSelectedCategory.value = null;
     constSelectedStatus.value = null;
     filterRentsVue();

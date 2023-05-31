@@ -24,6 +24,8 @@ export const useRentsIndex = defineStore('rents-index', () => {
             console.error(error);
         }
     };
+
+    //Filtros especificos
     const filterRentsByEquipmentNoSerie = (rowData, queryEquipmentNoSerie) => {
         return (
             queryEquipmentNoSerie == '' ||
@@ -31,13 +33,25 @@ export const useRentsIndex = defineStore('rents-index', () => {
             rowData.equipment.noSerieEquipo.toLowerCase().includes(queryEquipmentNoSerie.toLowerCase())
         );
     };
-    const filterRentsByClient = (rowData, queryClientName) => {
+    const filterRentsByClientName = (rowData, queryClientName) => {
         return (
             queryClientName == '' ||
             queryClientName == null ||
-            rowData.person.nombrePersona.toLowerCase().includes(queryClientName.toLowerCase()) ||
-            rowData.person.apePaternoPersona.toLowerCase().includes(queryClientName.toLowerCase()) ||
-            rowData.person.apeMaternoPersona.toLowerCase().includes(queryClientName.toLowerCase())
+            rowData.person.nombrePersona.toLowerCase().includes(queryClientName.toLowerCase())
+        );
+    };
+    const filterRentsByClientAP = (rowData, queryClientAP) => {
+        return (
+            queryClientAP == '' ||
+            queryClientAP == null ||
+            rowData.person.apePaternoPersona.toLowerCase().includes(queryClientAP.toLowerCase())
+        );
+    };
+    const filterRentsByClientAM = (rowData, queryClientAM) => {
+        return (
+            queryClientAM == '' ||
+            queryClientAM == null ||
+            rowData.person.apeMaternoPersona.toLowerCase().includes(queryClientAM.toLowerCase())
         );
     };
     const filterRentsByEquipmentCategory = (rowData, queryEquipmentCategory) => {
@@ -54,12 +68,14 @@ export const useRentsIndex = defineStore('rents-index', () => {
             rowData.status_rent.estadoRenta.toLowerCase().includes(queryStatusRent.toLowerCase())
         );
     };
-    //Filtro
-    const filterRents = (queryEquipmentNoSerie, queryClientName, queryEquipmentCategory, queryStatusRent) => {
+    //Filtro General
+    const filterRents = (queryEquipmentNoSerie, queryClientName, queryClientAP, queryClientAM, queryEquipmentCategory, queryStatusRent) => {
         filteredRowDatas.value = rowDatas.value.data.filter(rowData => {
             return (
                 filterRentsByEquipmentNoSerie(rowData, queryEquipmentNoSerie) &&
-                filterRentsByClient(rowData, queryClientName) &&
+                filterRentsByClientName(rowData, queryClientName) &&
+                filterRentsByClientAP(rowData, queryClientAP) &&
+                filterRentsByClientAM(rowData, queryClientAM) &&
                 filterRentsByEquipmentCategory(rowData, queryEquipmentCategory) &&
                 filterRentsByRentSatus(rowData, queryStatusRent)
             );
@@ -75,7 +91,9 @@ export const useRentsIndex = defineStore('rents-index', () => {
         tableRentsTransition,
         index,
         filterRentsByEquipmentNoSerie,
-        filterRentsByClient,
+        filterRentsByClientName,
+        filterRentsByClientAP,
+        filterRentsByClientAM,
         filterRentsByEquipmentCategory,
         filterRentsByRentSatus,
         filterRents
