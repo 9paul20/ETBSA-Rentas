@@ -5,8 +5,7 @@
         </div>
         <x-Dashboard.Equipments.MonthlyExpenses.Button-Create-Modal text="Añadir Gasto Mensual" id="MonthlyExpenses"
             action="{{ route('Dashboard.Admin.Equipments.StoreMonthlyExpenses', $Data['equipment']['clvEquipo']) }}"
-            SelectTypeFixedExpense="{{ view('Components.Dashboard.Equipments.FixedExpenses.Selects.SelectCreate-TypeFixedExpense', compact('Data'))->render() }}"
-            SelectMonthly="{{ view('Components.Dashboard.Equipments.MonthlyExpenses.Selects.SelectCreate-Monthly', compact('Data'))->render() }}" />
+            Selects="{{ view('Components.Dashboard.Equipments.FixedExpenses.Selects.SelectsCreate', compact('Data'))->render() }}" />
     </div>
     @if (count($Data['tableMonthlyExpenses']['rowMonthlyExpenses']) > 0)
         <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
@@ -62,14 +61,12 @@
                                             precioEquipo="{{ $rowMonthlyExpense['precioEquipo'] }}"
                                             porGastoMensual="{{ $rowMonthlyExpense['porGastoMensual'] }}"
                                             costoMensual="{{ $rowMonthlyExpense['costoMensual'] }}"
+                                            opcionUnica="{{ $rowMonthlyExpense['typeFixedExpense']['opcionUnica'] }}"
                                             descripcion="{{ $rowMonthlyExpense['descripcion'] }}"
-                                            SelectTypeFixedExpense="{{ view('Components.Dashboard.Equipments.MonthlyExpenses.Selects.SelectEdit-TypeFixedExpense', [
+                                            Selects="{{ view('Components.Dashboard.Equipments.MonthlyExpenses.Selects.SelectEdit-Selects', [
                                                 'Data' => $Data,
                                                 'clvTipoGastoFijo' => $rowMonthlyExpense['clvTipoGastoFijo'],
-                                            ])->render() }}"
-                                            SelectMonthly="{{ view('Components.Dashboard.Equipments.MonthlyExpenses.Selects.SelectEdit-Monthly', [
                                                 'id' => 'MonthlyExpenses_' . $rowMonthlyExpense['clvGastoMensual'],
-                                                'Data' => $Data,
                                                 'precioEquipo' => $rowMonthlyExpense['precioEquipo'],
                                                 'indiceValorFijo' => $rowMonthlyExpense['indiceValorFijo'],
                                             ])->render() }}"

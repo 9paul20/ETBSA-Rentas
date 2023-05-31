@@ -1,4 +1,4 @@
-@props(['id', 'gastoMensual', 'precioEquipo', 'porGastoMensual', 'costoMensual', 'descripcion', 'SelectTypeFixedExpense', 'SelectMonthly', 'href'])
+@props(['id', 'gastoMensual', 'precioEquipo', 'porGastoMensual', 'costoMensual', 'opcionUnica', 'descripcion', 'Selects', 'href'])
 
 <a href="" x-data="{ tooltip: 'Edit' }" @click="modalHandler{{ $id }}(true)" id="link-edit-{{ $id }}"
     data-target="scroll-target-{{ $id }}">
@@ -45,8 +45,7 @@
                                 </div>
                             @enderror
                         </div>
-                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
-                        {!! html_entity_decode($SelectMonthly) !!}
+                        {!! html_entity_decode($Selects) !!}
                         <div class="col-span-6 sm:col-span-6">
                             <label for="porGastoMensual" class="block text-sm font-medium text-gray-700">Porcentaje Del
                                 Gasto Mensual</label>
@@ -140,10 +139,76 @@
             }
             // Debe existir los metodos de FadeIn y FadeOut ya sea en el botón de agregar o de editar para que salgan los modales
 
-            // const select = document.querySelector('#precioEquipoSelectEdit');
+            //Constantes que se asignan para los componentes html y trabajar con sus elementos y propiedades
+            const selectTipoGastoFijo{{ $id }} = document.querySelector('#tipoGastoFijoSelect{{ $id }}');
             const selectEdit{{ $id }} = document.querySelector('#precioEquipoSelectEdit{{ $id }}');
             const porGastoMensualInput{{ $id }} = document.querySelector('#porGastoMensual{{ $id }}');
             const costoMensualInput{{ $id }} = document.querySelector('#costoMensual{{ $id }}');
+            const indiceValorFijoInput{{ $id }} = document.querySelector('#indiceValorFijo{{ $id }}');
+            const labelPrecioEquipo{{ $id }} = document.querySelector('#precioEquipoLabel{{ $id }}');
+            let opcionUnica{{ $id }} = {{ $opcionUnica }};
+
+            if (opcionUnica{{ $id }} == 1) {
+                selectEdit{{ $id }}.disabled = true;
+                selectEdit{{ $id }}.classList.add('opacity-100', 'cursor-not-allowed');
+                selectEdit{{ $id }}.value = '';
+                indiceValorFijoInput{{ $id }}.value = '2';
+                porGastoMensualInput{{ $id }}.removeAttribute('disabled');
+                porGastoMensualInput{{ $id }}.classList.remove('opacity-100', 'cursor-not-allowed');
+                labelPrecioEquipo{{ $id }}.innerHTML =
+                    'Valor Fijo<span class="text-gray-400 font-[150]">(Trabajar con el valor adquirido del equipo)</span>';
+                const options = selectEdit{{ $id }}.options;
+                for (let i = 0; i < options.length; i++) {
+                    const opcion = options[i];
+                    if (opcion.dataset.indice === '2') {
+                        opcion.selected = true;
+                        break;
+                    }
+                }
+            }
+
+            //Seleccion automática de precio equipo en caso de ser una opción única de un tipo de gasto fijo y libera el input de porGastoMensual
+            //En caso de no serlo, deja disponible las tres opciones, deshabilita el input porGastoMensual cuando se selecciona una opción con opcionUnica igual a cero
+            selectTipoGastoFijo{{ $id }}.addEventListener('change', function() {
+                opcionUnica{{ $id }} = this.selectedOptions[0].dataset.opcionUnica;
+                if (opcionUnica{{ $id }} == 1) {
+                    selectEdit{{ $id }}.disabled = true;
+                    selectEdit{{ $id }}.classList.add('opacity-100', 'cursor-not-allowed');
+                    selectEdit{{ $id }}.value = '';
+                    //
+                    labelPrecioEquipo{{ $id }}.innerHTML =
+                        'Valor Fijo<span class="text-gray-400 font-[150]">(Trabajar con el valor adquirido del equipo)</span>';
+                    //
+                    indiceValorFijoInput{{ $id }}.value = '2';
+                    //
+                    porGastoMensualInput{{ $id }}.removeAttribute('disabled');
+                    porGastoMensualInput{{ $id }}.classList.remove('opacity-100', 'cursor-not-allowed');
+                    //
+                    const options = selectEdit{{ $id }}.options;
+                    for (let i = 0; i < options.length; i++) {
+                        const opcion = options[i];
+                        if (opcion.dataset.indice === '2') {
+                            opcion.selected = true;
+                            break;
+                        }
+                    }
+                } else {
+                    selectEdit{{ $id }}.disabled = false;
+                    selectEdit{{ $id }}.value = '';
+                    selectEdit{{ $id }}.querySelector('option[disabled]').selected = true;
+                    selectEdit{{ $id }}.classList.remove('opacity-100', 'cursor-not-allowed');
+                    //
+                    labelPrecioEquipo{{ $id }}.innerHTML = 'Valor Fijo';
+                    //
+                    porGastoMensualInput{{ $id }}.setAttribute('disabled', '');
+                    porGastoMensualInput{{ $id }}.classList.add('opacity-100', 'cursor-not-allowed');
+                    porGastoMensualInput{{ $id }}.value = "";
+                    //
+                    costoMensualInput{{ $id }}.value = "";
+                }
+            });
+
+            //Deshabilitar el input porGastoMensual siempre y cuando no sea una opción nula o menor o igual a cero
             selectEdit{{ $id }}.addEventListener('change', function() {
                 if (this.value > 0) {
                     porGastoMensualInput{{ $id }}.removeAttribute('disabled');
@@ -156,12 +221,15 @@
                 }
             });
 
+            //Calculo de el gasto mensual obtenido por el selectEdit{{ $id }} y el input de porGastoMensual
+            //El calculo se realiza cada vez que se escribe en el input porGastoMensual
             porGastoMensualInput{{ $id }}.addEventListener('input', function() {
                 const selectedOptionValue{{ $id }} = selectEdit{{ $id }}.value;
                 const porGastoMensualValue{{ $id }} = porGastoMensualInput{{ $id }}.value;
                 const calculatedCostoMensual{{ $id }} = selectedOptionValue{{ $id }} > 0 &&
                     porGastoMensualValue{{ $id }} > 0 ?
-                    (selectedOptionValue{{ $id }} * porGastoMensualValue{{ $id }} / 100).toFixed(
+                    (selectedOptionValue{{ $id }} * porGastoMensualValue{{ $id }} / 100)
+                    .toFixed(
                         2) :
                     '';
                 costoMensualInput{{ $id }}.value = calculatedCostoMensual{{ $id }};

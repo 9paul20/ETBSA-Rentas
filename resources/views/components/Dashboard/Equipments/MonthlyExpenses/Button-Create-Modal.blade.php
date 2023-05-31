@@ -1,4 +1,4 @@
-@props(['text', 'action', 'SelectTypeFixedExpense', 'SelectMonthly', 'id'])
+@props(['text', 'action', 'Selects', 'id'])
 
 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
     <button id="btn-create-modal-{{ $id }}" type="button"
@@ -42,8 +42,7 @@
                                 </div>
                             @enderror
                         </div>
-                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
-                        {!! html_entity_decode($SelectMonthly) !!}
+                        {!! html_entity_decode($Selects) !!}
                         <div class="col-span-6 sm:col-span-6">
                             <label for="porGastoMensual" class="block text-sm font-medium text-gray-700">Porcentaje Del
                                 Gasto Mensual</label>
@@ -135,6 +134,7 @@
                 }
             }
 
+            //Animación de entrada
             function fadeOut(el) {
                 el.style.opacity = 1;
                 (function fade() {
@@ -146,6 +146,7 @@
                 })();
             }
 
+            //Animación de salida
             function fadeIn(el, display) {
                 el.style.opacity = 0;
                 el.style.display = display || "flex";
@@ -158,10 +159,56 @@
                 })();
             }
 
+            //Constantes que se asignan para los componentes html y trabajar con sus elementos y propiedades
+            const selectTipoGastoFijo = document.querySelector('#tipoGastoFijoSelect');
             const selectCreate = document.querySelector('#precioEquipoSelectCreate');
             const porGastoMensualInput = document.querySelector('#porGastoMensual');
             const costoMensualInput = document.querySelector('#costoMensual');
+            const indiceValorFijoInput = document.querySelector('#indiceValorFijo');
+            const labelPrecioEquipo = document.querySelector('#precioEquipoLabel');
 
+            //Seleccion automática de precio equipo en caso de ser una opción única de un tipo de gasto fijo y libera el input de porGastoMensual
+            //En caso de no serlo, deja disponible las tres opciones, deshabilita el input porGastoMensual cuando se selecciona una opción con opcionUnica igual a cero
+            selectTipoGastoFijo.addEventListener('change', function() {
+                const opcionUnica = this.selectedOptions[0].dataset.opcionUnica;
+                if (opcionUnica == 1) {
+                    selectCreate.disabled = true;
+                    selectCreate.classList.add('opacity-100', 'cursor-not-allowed');
+                    selectCreate.value = '';
+                    //
+                    labelPrecioEquipo.innerHTML =
+                        'Valor Fijo<span class="text-gray-400 font-[150]">(Trabajar con el valor adquirido del equipo)</span>';
+                    //
+                    indiceValorFijoInput.value = '2';
+                    //
+                    porGastoMensualInput.removeAttribute('disabled');
+                    porGastoMensualInput.classList.remove('opacity-100', 'cursor-not-allowed');
+                    //
+                    const options = selectCreate.options;
+                    for (let i = 0; i < options.length; i++) {
+                        const opcion = options[i];
+                        if (opcion.dataset.indice === '2') {
+                            opcion.selected = true;
+                            break;
+                        }
+                    }
+                } else {
+                    selectCreate.disabled = false;
+                    selectCreate.value = '';
+                    selectCreate.querySelector('option[disabled]').selected = true;
+                    selectCreate.classList.remove('opacity-100', 'cursor-not-allowed');
+                    //
+                    labelPrecioEquipo.innerHTML = 'Valor Fijo';
+                    //
+                    porGastoMensualInput.setAttribute('disabled', '');
+                    porGastoMensualInput.classList.add('opacity-100', 'cursor-not-allowed');
+                    porGastoMensualInput.value = "";
+                    //
+                    costoMensualInput.value = "";
+                }
+            });
+
+            //Deshabilitar el input porGastoMensual siempre y cuando no sea una opción nula o menor o igual a cero
             selectCreate.addEventListener('change', function() {
                 if (this.value > 0) {
                     porGastoMensualInput.removeAttribute('disabled');
@@ -174,6 +221,8 @@
                 }
             });
 
+            //Calculo de el gasto mensual obtenido por el selectCreate y el input de porGastoMensual
+            //El calculo se realiza cada vez que se escribe en el input porGastoMensual
             porGastoMensualInput.addEventListener('input', function() {
                 const selectedOptionValue = selectCreate.value;
                 const porGastoMensualValue = porGastoMensualInput.value;
@@ -181,21 +230,6 @@
                     (selectedOptionValue * porGastoMensualValue / 100).toFixed(2) :
                     '';
                 costoMensualInput.value = calculatedCostoMensual;
-            });
-
-            const selectTypeFixedExpense = document.querySelector('#clvTipoGastoFijo');
-            const selectMonthly = document.querySelector('#precioEquipoSelectCreate');
-
-            selectTypeFixedExpense.addEventListener('change', function() {
-                const selectedOption = selectTypeFixedExpense.options[selectTypeFixedExpense.selectedIndex].text;
-                const seguroIndex = selectedOption.indexOf('Seguro');
-
-                if (seguroIndex === 0) {
-                    selectMonthly.value = selectMonthly.querySelector('option[data-indice="1"]').value;
-                    selectMonthly.setAttribute('disabled', 'disabled');
-                } else {
-                    selectMonthly.removeAttribute('disabled');
-                }
             });
         </script>
     @endif

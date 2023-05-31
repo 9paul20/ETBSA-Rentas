@@ -13,9 +13,6 @@ use App\Models\MonthlyExpenses\MonthlyExpense;
 use App\Models\VariablesExpenses\VariableExpense;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class EquipmentsController extends Controller
@@ -138,6 +135,7 @@ class EquipmentsController extends Controller
     public function storeMonthlyExpenses(Request $request, string $id)
     {
         $data = $request->all();
+        return $data;
         $validator = Validator::make($data, MonthlyExpense::getRulesEquipment());
         if ($validator->fails()) {
             return redirect()->to(url()->previous())
@@ -198,7 +196,7 @@ class EquipmentsController extends Controller
         $rowFixedExpenses = $equipment->fixedExpenses()
             ->with('TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo')
             ->orderByDesc('fechaGastoFijo')
-            ->paginate(10, [
+            ->paginate(20, [
                 'clvGastoFijo',
                 'gastoFijo',
                 'costoGastoFijo',
@@ -223,7 +221,7 @@ class EquipmentsController extends Controller
         $rowVariablesExpenses = $equipment->variablesExpenses()
             ->orderByDesc('fechaGastoVariable')
             ->paginate(
-                10,
+                20,
                 [
                     'clvGastoVariable',
                     'gastoVariable',
@@ -249,7 +247,7 @@ class EquipmentsController extends Controller
         $rowMonthlyExpenses = $equipment->monthlyExpenses()
             ->with('TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo')
             ->orderByDesc('clvGastoMensual')
-            ->paginate(10, [
+            ->paginate(20, [
                 'clvGastoMensual',
                 'gastoMensual',
                 'costoMensual',
@@ -275,6 +273,7 @@ class EquipmentsController extends Controller
             'tableVariablesExpenses' => $tableVariablesExpenses,
             'tableMonthlyExpenses' => $tableMonthlyExpenses,
         ];
+        // return $Data;
         return view('Dashboard.Admin.Index', compact('Data'));
     }
 
@@ -331,9 +330,18 @@ class EquipmentsController extends Controller
         $allTypeFixedExpense = TypeFixedExpense::select(
             'clvTipoGastoFijo',
             'tipoGastoFijo',
+            'opcionUnica',
         )->get();
-        $categories = Category::all();
-        $status = Status::all();
+        $categories = Category::query()
+            ->get([
+                'clvCategoria',
+                'categoria',
+            ]);
+        $status = Status::query()
+            ->get([
+                'clvDisponibilidad',
+                'disponibilidad',
+            ]);
         $today = Carbon::today()->format('Y-m-d');
         $valoresFijos = [
             [
@@ -409,7 +417,7 @@ class EquipmentsController extends Controller
 
         $rowMonthlyExpenses = MonthlyExpense::with([
             'equipment:clvEquipo,noSerieEquipo,modelo',
-            'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo',
+            'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo,opcionUnica',
         ])->where('clvEquipo', $id)
             ->paginate(
                 10,
@@ -449,6 +457,7 @@ class EquipmentsController extends Controller
             'tableVariablesExpenses' => $tableVariablesExpenses,
             'tableMonthlyExpenses' => $tableMonthlyExpenses,
         ];
+        // return $Data;
         return view('Dashboard.Admin.Index', compact('Data'));
     }
 

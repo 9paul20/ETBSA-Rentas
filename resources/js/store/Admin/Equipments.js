@@ -128,5 +128,18 @@ export const equipments = ('equipments-create', () => {
         equipment.value.fechaGarantiaExtendida = fechaGarantiaExtendida;
     };
 
-    return { datePickerFormat, formatDate, equipment, errors, getStatus, getCategories, clvs, post };
+    const get = async (id) => {
+        //
+        try {
+            //
+            const response = await axios.get(`http://etbsa-rentas.test/api/EquipmentsListAPI/${id}`)
+                .then(res => {
+                    console.log(res);
+                });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    return { datePickerFormat, formatDate, equipment, errors, getStatus, getCategories, clvs, post, get };
 });

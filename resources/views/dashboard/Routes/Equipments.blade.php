@@ -16,11 +16,11 @@
     @include('Dashboard.Components.Equipments.Show')
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Equipments' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
-    {{-- @include('Dashboard.Components.Equipments.Create') --}}
-    <div id="vueApp">
+    @include('Dashboard.Components.Equipments.Create')
+    {{-- <div id="vueApp">
         <div>
             <create-equipments backtoindex="{{ route('Dashboard.Admin.Equipments.Index') }}"
                 yieldtitle="@yield('meta-title', config('app.name'))" routetitle="{{ getDashboardNameFromUrlSecond(request()->fullUrl()) }}" />
         </div>
-    </div>
+    </div> --}}
 @endif

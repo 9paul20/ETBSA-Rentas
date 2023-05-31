@@ -7,6 +7,8 @@ use App\Models\FixedExpenses\TypeFixedExpense;
 use Illuminate\Http\Request;
 use Validator;
 
+use function PHPUnit\Framework\isEmpty;
+
 class TypeFixedExpensesController extends Controller
 {
     public function indexAPI()
@@ -33,6 +35,14 @@ class TypeFixedExpensesController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
+        if (array_key_exists('opcionUnica', $data)) {
+            // Verificar el valor de "opcionUnica"
+            if ($data['opcionUnica'] == "on") {
+                $data['opcionUnica'] = true;
+            }
+        } else {
+            $data['opcionUnica'] = false;
+        }
         $validator = Validator::make($data, TypeFixedExpense::getRules($id));
         if ($validator->fails()) {
             return redirect()->to(url()->previous())

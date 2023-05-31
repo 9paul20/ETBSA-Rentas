@@ -17,6 +17,7 @@ class TypeFixedExpense extends Model
     protected $fillable = [
         'clvTipoGastoFijo',
         'tipoGastoFijo',
+        'opcionUnica',
         'descripcion',
     ];
 
@@ -26,7 +27,8 @@ class TypeFixedExpense extends Model
     {
         $rules = [
             'tipoGastoFijo' => 'required|string|min:3|max:255|unique:t_tipos_gastos_fijos,tipoGastoFijo,' . $clvTipoGastoFijo . ',clvTipoGastoFijo',
-            'descripcion' => 'string|max:255',
+            'opcionUnica' => 'nullable|boolean',
+            'descripcion' => 'nullable|string|max:255',
         ];
         return $rules;
     }

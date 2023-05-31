@@ -32,11 +32,11 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('tipoGastoFijo') border-red-400 @enderror"
                                 value="{{ old('tipoGastoFijo') }}" required autofocus>
                             @error('tipoGastoFijo')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -44,11 +44,29 @@
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"> {{ old('descripcion') }}</textarea>
                             @error('descripcion')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="relative flex items-start">
+                            <div class="flex h-5 items-center">
+                                <input id="opcionUnica" aria-describedby="opcionUnica-description" name="opcionUnica"
+                                    type="checkbox"
+                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                             </div>
+                            <div class="ml-3 text-sm">
+                                <label for="opcionUnica" class="font-medium text-gray-700">Marcar como opción unica para
+                                    solo el precio del equipo</label>
+                            </div>
+                            @error('opcionUnica')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
@@ -65,9 +83,9 @@
 </div>
 
 @push('scripts')
-@if (request()->is('Dashboard/Panel/FixedExpenses'))
-<script>
-    var showModalButtonCreateTypeFixedExpenses = document.getElementById('btn-create-modal-typeFixedExpenses');
+    @if (request()->is('Dashboard/Panel/FixedExpenses'))
+        <script>
+            var showModalButtonCreateTypeFixedExpenses = document.getElementById('btn-create-modal-typeFixedExpenses');
             var createModalTypeFixedExpenses = document.getElementById('create-modal-typeFixedExpenses');
             var nombreTipoGastoFijoInput = document.getElementById('tipoGastoFijo');
             var nombreDescripcionInput = document.getElementById('descripcion');
@@ -99,6 +117,6 @@
             });
             var DOMContentLoadedCreateTypeFixedExpenses = new Event('DOMContentLoadedCreateTypeFixedExpenses');
             document.dispatchEvent(DOMContentLoadedCreateTypeFixedExpenses);
-</script>
-@endif
+        </script>
+    @endif
 @endpush

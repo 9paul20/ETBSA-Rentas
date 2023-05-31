@@ -58,7 +58,7 @@ Route::delete('/PersonsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\Pers
 // Equipos
 Route::get('/EquipmentsListAPI', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'indexAPI']);
 Route::post('/EquipmentsListAPI', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'store']);
-Route::get('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'showApi']);
+Route::get('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'show']);
 Route::put('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'update']);
 Route::delete('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'destroy']);
 //Categorias

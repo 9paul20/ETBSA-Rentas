@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('t_tipos_gastos_fijos', function (Blueprint $table) {
             $table->tinyIncrements('clvTipoGastoFijo');
             $table->string('tipoGastoFijo')->unique();
+            $table->boolean('opcionUnica');
             $table->text('descripcion')->nullable();
             $table->timestamps();
 

@@ -12,11 +12,16 @@ class PanelController extends Controller
     public function panel()
     {
         //Paginación
-        $perPage = 10;
+        $perPage = 20;
 
         //Estados Pagos de Renta
-        $TypeFixedExpenses = TypeFixedExpense::all();
-        $columnTypeFixedExpenses = ['Tipo de Gasto Fijo', 'Descripción', ''];
+        $TypeFixedExpenses = TypeFixedExpense::query()
+            ->get([
+                'clvTipoGastoFijo',
+                'tipoGastoFijo',
+                'opcionUnica',
+            ]);
+        $columnTypeFixedExpenses = ['Tipo de Gasto Fijo', 'Opción Única', 'Descripción', ''];
         $currentPageFixedExpenses = request()->get('typeFixedExpensesCatalogs_page') ?? 1;
         $pagedTypeFixedExpensesData = $TypeFixedExpenses->slice(($currentPageFixedExpenses - 1) * $perPage, $perPage)->all();
         $rowTypeFixedExpenses = new LengthAwarePaginator($pagedTypeFixedExpensesData, count($TypeFixedExpenses), $perPage, $currentPageFixedExpenses, [
