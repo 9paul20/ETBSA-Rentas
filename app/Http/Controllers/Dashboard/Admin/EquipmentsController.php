@@ -472,6 +472,7 @@ class EquipmentsController extends Controller
     public function update(FormRequestEquipment $request, String $id)
     {
         $validatedData = $request->validated();
+        return $validatedData;
         $equipment = Equipment::where('clvEquipo', $id)->update($validatedData);
         //Ya actualiza por medio de peticiones JSON; solo falta redireccionar de pagina y mandar mensaje de aviso
         if (request()->wantsJson()) {

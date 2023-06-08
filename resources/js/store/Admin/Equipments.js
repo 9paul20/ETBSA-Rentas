@@ -212,32 +212,38 @@ export const equipments = defineStore('equipments', () => {
         porDeprAnual,
         descripcion,
     ) => {
-        const getFechaAdquisicion = null, getFechaGarantiaExtendida = null;
+        let getFechaAdquisicion, formattedFechaAdquisicion, getFechaGarantiaExtendida, formattedFechaGarantiaExtendida, getFechaVenta, formattedFechaVenta;
         //Si se envia un valor diferente de disponibilidad desde el formulario, se reemplaza en el modelo equipment, de no ser así, se usa el valor original y no se realiza ningun cambio
         (clvDisponibilidad !== null) ? equipment.value.clvDisponibilidad = clvDisponibilidad : null;
         //Si se envia un valor diferente de categoria desde el formulario, se reemplaza en el modelo equipment, de no ser así, se usa el valor original y no se realiza ningun cambio
         (clvCategoria !== null) ? equipment.value.clvCategoria = clvCategoria : null;
         //si fechaAdquisicion es diferente al valor original de equipment, se modifica, de no ser así, se usa el valor original
-        if (!fechaAdquisicion == equipment.value.fechaAdquisicion) {
+        if (fechaAdquisicion !== equipment.value.fechaAdquisicion) {
             getFechaAdquisicion = fechaAdquisicion;
-            const formattedFechaAdquisicion = formatDate(fechaAdquisicion);
+            formattedFechaAdquisicion = formatDate(fechaAdquisicion);
             equipment.value.fechaAdquisicion = formattedFechaAdquisicion;
+            //Regresar su valor original para una futura validación si es que llega a necesitarse
+            fechaAdquisicion = getFechaAdquisicion;
         }
         else
             equipment.value.fechaAdquisicion = fechaAdquisicion;
         //si fechaGarantiaExtendida es diferente al valor original de equipment, se modifica, de no ser así, se usa el valor original
-        if (!fechaGarantiaExtendida == equipment.value.fechaGarantiaExtendida) {
+        if (fechaGarantiaExtendida !== equipment.value.fechaGarantiaExtendida) {
             getFechaGarantiaExtendida = fechaGarantiaExtendida;
-            const formattedFechaGarantiaExtendida = formatDate(fechaGarantiaExtendida);
+            formattedFechaGarantiaExtendida = formatDate(fechaGarantiaExtendida);
             equipment.value.fechaGarantiaExtendida = formattedFechaGarantiaExtendida;
+            //Regresar su valor original para una futura validación si es que llega a necesitarse
+            fechaAdquisicion = getFechaAdquisicion;
         }
         else
             equipment.value.fechaGarantiaExtendida = fechaGarantiaExtendida;
         //si fechaVenta es diferente al valor original de equipment, se modifica, de no ser así, se usa el valor original
         if (!fechaVenta == equipment.value.fechaVenta) {
-            const getFechaVenta = fechaVenta;
-            const formattedFechaVenta = formatDate(fechaVenta);
+            getFechaVenta = fechaVenta;
+            formattedFechaVenta = formatDate(fechaVenta);
             equipment.value.fechaVenta = formattedFechaVenta;
+            //Regresar su valor original para una futura validación si es que llega a necesitarse
+            fechaAdquisicion = getFechaAdquisicion;
         }
         else
             equipment.value.fechaVenta = fechaVenta;
@@ -294,9 +300,6 @@ export const equipments = defineStore('equipments', () => {
                     errors.value.porDeprAnual = error.response.data.errors.porDeprAnual;
             }
         }
-        //Asignación de valores originales(Necesario para volver a enviar el formulario en Date(), en caso de formular mal los datos)
-        (getFechaAdquisicion !== null) ? equipment.value.fechaAdquisicion = getFechaAdquisicion : null;
-        (getFechaGarantiaExtendida !== null) ? equipment.value.fechaGarantiaExtendida = getFechaGarantiaExtendida : null;
     }
 
     //Filtros especificos
@@ -343,6 +346,8 @@ export const equipments = defineStore('equipments', () => {
     return {
         listStatus,
         listCategories,
+        datePickerFormat,
+        formatDate,
         equipment,
         errors,
         Data,

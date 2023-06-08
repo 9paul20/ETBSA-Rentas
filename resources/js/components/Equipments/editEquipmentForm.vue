@@ -267,9 +267,8 @@
                                                     ' ',
                                                     loader.errors.fechaAdquisicion ? 'focus:ring-red-300' : 'focus:ring-green-500',
                                                     ' sm:text-sm'
-                                                ]" :max-date="new Date()" :format="loader.datePickerFormat"
-                                                position="left" locale="es-MX" cancel-text="Cerrar"
-                                                select-text="seleccionar" aria-invalid="true"
+                                                ]" :max-date="new Date()" :format="datePickerFormat" position="left"
+                                                cancel-text="Cerrar" select-text="seleccionar" aria-invalid="true"
                                                 aria-describedby="fechaAdquisicion-error"
                                                 :day-names="['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do']" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
@@ -296,9 +295,8 @@
                                                     ' ',
                                                     loader.errors.fechaGarantiaExtendida ? 'focus:ring-red-300' : 'focus:ring-green-500',
                                                     ' sm:text-sm'
-                                                ]" :max-date="new Date()" :format="loader.datePickerFormat"
-                                                position="left" locale="es-MX" cancel-text="Cerrar"
-                                                select-text="seleccionar" aria-invalid="true"
+                                                ]" :max-date="new Date()" :format="datePickerFormat" position="left"
+                                                cancel-text="Cerrar" select-text="seleccionar" aria-invalid="true"
                                                 aria-describedby="fechaGarantiaExtendida-error"
                                                 :day-names="['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do']" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
@@ -326,9 +324,8 @@
                                                     loader.errors.fechaVenta ? 'focus:ring-red-300' : 'focus:ring-green-500',
                                                     ' sm:text-sm'
                                                 ]" :max-date="new Date()" :format="loader.datePickerFormat"
-                                                position="left" locale="es-MX" cancel-text="Cerrar"
-                                                select-text="seleccionar" aria-invalid="true"
-                                                aria-describedby="fechaVenta-error"
+                                                position="left" cancel-text="Cerrar" select-text="seleccionar"
+                                                aria-invalid="true" aria-describedby="fechaVenta-error"
                                                 :day-names="['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do']" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.fechaVenta">
@@ -442,6 +439,11 @@ const props = defineProps({
         type: Object,
         required: false,
         default: null,
+    },
+    datePickerFormat: {
+        type: String,
+        required: false,
+        default: "",
     },
 });
 </script>

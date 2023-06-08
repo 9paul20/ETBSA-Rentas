@@ -3,8 +3,10 @@
         <back-to-button-component :href="backtoindex" text="Back to Equipments" textColor="white" bgColor="green-600"
             bgColorHover="green-700" ringColorFocus="green-600" />
         <divisor-component />
-        <edit-equipment-form-component v-if="editEquipment" :editEquipment="editEquipment" :id="Number(id)" />
+        <edit-equipment-form-component v-if="editEquipment" :editEquipment="editEquipment" :id="Number(id)"
+            :datePickerFormat="datePickerFormat" />
         <divisor-component />
+        <!-- Aqui las tablas que se van a ocupar para guardar los gastos del equipo -->
     </div>
 </template>
 
@@ -19,6 +21,7 @@ const loader = equipments();
 const currentUrl = window.location.href;
 const id = currentUrl.match(/Equipments\/(\d+)\/edit/)[1];
 let editEquipment = ref(null);
+let datePickerFormat = ref(null);
 
 defineProps({
     backtoindex: {
@@ -53,11 +56,13 @@ onMounted(async () => {
             precioEquipoActual: editer.equipment.precioEquipoActual,
             precioActualVenta: editer.equipment.precioActualVenta,
             folioEquipo: editer.equipment.folioEquipo,
-            fechaAdquisicion: editer.equipment.fechaAdquisicion,
+            // fechaAdquisicion: editer.equipment.fechaAdquisicion,
+            fechaAdquisicion: "2020-06-15",
             fechaGarantiaExtendida: editer.equipment.fechaGarantiaExtendida,
             fechaVenta: editer.equipment.fechaVenta,
             porDeprAnual: editer.equipment.porDeprAnual,
         };
+        datePickerFormat.value = loader.datePickerFormat;
         editEquipment.value = {
             status: editer.status,
             categories: editer.categories,
