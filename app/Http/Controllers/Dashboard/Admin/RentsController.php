@@ -22,55 +22,9 @@ class RentsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        /* $rowDatas = Rent::with([
-            'equipment:clvEquipo,noSerieEquipo,modelo,precioEquipo,clvDisponibilidad,clvCategoria',
-            'equipment.disponibilidad:clvDisponibilidad,disponibilidad,textColor,bgColorPrimary,bgColorSecondary',
-            'equipment.categoria:clvCategoria,categoria',
-            'equipment.fixedExpenses:clvGastoFijo',
-            'equipment.variablesExpenses:clvGastoVariable',
-            'equipment.monthlyExpenses:clvGastoMensual',
-            'person:clvPersona,nombrePersona,apePaternoPersona,apeMaternoPersona',
-            'statusRent:clvEstadoRenta,estadoRenta,textColor,bgColorPrimary,bgColorSecondary',
-        ])
-            ->withSum('PaymentsRents', 'pagoRenta')
-            ->withSum('PaymentsRents', 'ivaRenta')
-            ->paginate(10, [
-                'clvRenta',
-                'clvEquipo',
-                'clvCliente',
-                'descripcion',
-                'fecha_inicio',
-                'fecha_fin',
-                'clvEstadoRenta',
-            ]);
-        $rowDatas->map(function ($rowData) {
-            $fecha_inicio = strtotime($rowData->fecha_inicio);
-            $rowData->fecha_inicio = date('j M Y', $fecha_inicio);
-            $fecha_fin = strtotime($rowData->fecha_fin);
-            $rowData->fecha_fin = date('j M Y', $fecha_fin);
-            return $rowData;
-        });
-        $columnNames = [
-            'Equipo',
-            'Cliente',
-            'Descripción',
-            'Fecha Inicio',
-            'Fecha Fin',
-            'Estado De Renta',
-            ''
-        ];
-        $Data = [
-            'rowDatas' => $rowDatas,
-            'columnNames' => $columnNames,
-        ];
-        return view('Dashboard.Admin.Index', compact('Data')); */
-        return view('Dashboard.Admin.Index');
-    }
-
-    public function indexAPI()
-    {
+        $perPage = $request->wantsJson() ? 999999999999999999 : 10;
         $rowDatas = Rent::with([
             'equipment:clvEquipo,noSerieEquipo,modelo,precioEquipo,clvDisponibilidad,clvCategoria',
             'equipment.disponibilidad:clvDisponibilidad,disponibilidad,textColor,bgColorPrimary,bgColorSecondary',
@@ -83,7 +37,7 @@ class RentsController extends Controller
         ])
             ->withSum('PaymentsRents', 'pagoRenta')
             ->withSum('PaymentsRents', 'ivaRenta')
-            ->paginate(10, [
+            ->paginate($perPage, [
                 'clvRenta',
                 'clvEquipo',
                 'clvCliente',
@@ -92,15 +46,6 @@ class RentsController extends Controller
                 'fecha_fin',
                 'clvEstadoRenta',
             ]);
-        // ->get([
-        //     'clvRenta',
-        //     'clvEquipo',
-        //     'clvCliente',
-        //     'descripcion',
-        //     'fecha_inicio',
-        //     'fecha_fin',
-        //     'clvEstadoRenta',
-        // ]);
         $rowDatas->map(function ($rowData) {
             $fecha_inicio = strtotime($rowData->fecha_inicio);
             $rowData->fecha_inicio = date('j M Y', $fecha_inicio);
@@ -148,10 +93,9 @@ class RentsController extends Controller
             'categories' => $categories,
             'statusRents' => $statusRents,
         ];
-        return $Data;
-        // return response()->json(
-        //     $Data
-        // );
+        if (request()->wantsJson())
+            return $Data;
+        return view('Dashboard.Admin.Index', compact('Data'));
     }
 
     /**
@@ -248,13 +192,9 @@ class RentsController extends Controller
     public function show(string $id)
     {
         $rent = Rent::findOrFail($id);
+        if (request()->wantsJson())
+            return $rent;
         return view('Dashboard.Admin.Index', compact('rent'));
-    }
-
-    public function showApi($id)
-    {
-        $rent = Rent::findOrFail($id);
-        return $rent;
     }
 
     /**

@@ -5,17 +5,36 @@
                 <div class="px-4 sm:px-0">
                     <h3 class="text-lg font-medium leading-6 text-gray-900">Equipment Information</h3>
                     <p class="mt-1 text-sm text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. At
-                        laboriosam, iste quasi accusamus voluptatem, rerum molestias aliquam beatae similique, ab ex facere
+                        laboriosam, iste quasi accusamus voluptatem, rerum molestias aliquam beatae similique, ab ex
+                        facere
                         fuga perspiciatis soluta quia veritatis temporibus itaque libero.</p>
                 </div>
             </div>
             <Transition name="slide-fade">
-                <div class="mt-5 md:col-span-2 md:mt-0" v-if="show">
-                    <form method="POST" @submit.prevent="loader.store">
+                <div class="mt-5 md:col-span-2 md:mt-0">
+                    <form method="PUT" @submit.prevent="loader.update(
+                        id,
+                        editEquipment.equipment.noSerieEquipo,
+                        editEquipment.equipment.noSerieMotor,
+                        editEquipment.equipment.noEconomico,
+                        editEquipment.equipment.modelo,
+                        editEquipment.equipment.precioEquipo,
+                        editEquipment.equipment.precioEquipoActual,
+                        editEquipment.equipment.precioActualVenta,
+                        clvDisponibilidad,
+                        clvCategoria,
+                        editEquipment.equipment.folioEquipo,
+                        editEquipment.equipment.fechaAdquisicion,
+                        editEquipment.equipment.fechaGarantiaExtendida,
+                        editEquipment.equipment.fechaVenta,
+                        editEquipment.equipment.porDeprAnual,
+                        editEquipment.equipment.descripcion,
+                    )">
                         <div class="overflow-hidden shadow sm:rounded-md">
                             <div class="bg-white px-1 py-1 sm:p-6">
                                 <div class="grid grid-cols-6 gap-2">
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero serie -->
+
+                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero serie de motor -->
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="text" autocomplete="given-noSerieEquipo" :class="[
                                                 'mt-1 block w-full rounded-md ',
@@ -26,8 +45,8 @@
                                                 loader.errors.noSerieEquipo ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                 ' sm:text-sm'
                                             ]" aria-invalid="true" aria-describedby="noSerieEquipo-error"
-                                                v-model="loader.equipment.noSerieEquipo" placeholder="No. Serie Del Equipo"
-                                                autofocus />
+                                                v-model="editEquipment.equipment.noSerieEquipo"
+                                                placeholder="No. Serie Del Equipo" autofocus />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.noSerieEquipo">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -41,7 +60,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero serie del motor -->
+                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero serie de motor -->
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="text" autocomplete="given-noSerieMotor" :class="[
                                                 'mt-1 block w-full rounded-md ',
@@ -52,7 +71,8 @@
                                                 loader.errors.noSerieMotor ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                 ' sm:text-sm'
                                             ]" aria-invalid="true" aria-describedby="noSerieMotor-error"
-                                                v-model="loader.equipment.noSerieMotor" placeholder="No. Serie Del Motor" />
+                                                v-model="editEquipment.equipment.noSerieMotor"
+                                                placeholder="No. Serie Del Motor" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.noSerieMotor">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -66,7 +86,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero económico -->
+                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero Económico -->
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="text" autocomplete="given-noEconomico" :class="[
                                                 'mt-1 block w-full rounded-md ',
@@ -77,7 +97,7 @@
                                                 loader.errors.noEconomico ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                 ' sm:text-sm'
                                             ]" aria-invalid="true" aria-describedby="noEconomico-error"
-                                                v-model="loader.equipment.noEconomico" placeholder="No. Económico" />
+                                                v-model="editEquipment.equipment.noEconomico" placeholder="No. Económico" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.noEconomico">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -101,7 +121,7 @@
                                                 loader.errors.modelo ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                 ' sm:text-sm'
                                             ]" aria-invalid="true" aria-describedby="modelo-error"
-                                                v-model="loader.equipment.modelo" placeholder="Modelo" />
+                                                v-model="editEquipment.equipment.modelo" placeholder="Modelo" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.modelo">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -126,7 +146,7 @@
                                                     loader.errors.precioEquipo ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                     ' sm:text-sm'
                                                 ]" aria-invalid="true" aria-describedby="precioEquipo-error"
-                                                v-model="loader.equipment.precioEquipo"
+                                                v-model="editEquipment.equipment.precioEquipo"
                                                 placeholder="Precio de Compra Del Equipo" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.precioEquipo">
@@ -153,7 +173,7 @@
                                                     loader.errors.precioEquipoActual ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                     ' sm:text-sm'
                                                 ]" aria-invalid="true" aria-describedby="precioEquipoActual-error"
-                                                v-model="loader.equipment.precioEquipoActual"
+                                                v-model="editEquipment.equipment.precioEquipoActual"
                                                 placeholder="Precio del equipo actual" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.precioEquipoActual">
@@ -181,7 +201,7 @@
                                                     loader.errors.precioActualVenta ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                     ' sm:text-sm'
                                                 ]" aria-invalid="true" aria-describedby="precioActualVenta-error"
-                                                v-model="loader.equipment.precioActualVenta"
+                                                v-model="editEquipment.equipment.precioActualVenta"
                                                 placeholder="Precio de venta actual" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.precioActualVenta">
@@ -198,13 +218,16 @@
                                         </div>
                                     </div>
                                     <div class="col-span-3 sm:col-span-3"> <!-- Disponibilidad -->
-                                        <listBoxStatusComponent :list="status" @status-selected="onStatusSelected"
+                                        <listBoxStatusComponent :list="editEquipment.status"
+                                            :select="Number(editEquipment.equipment.clvDisponibilidad - 1)"
+                                            @status-selected="onStatusSelected"
                                             :errorsList="loader.errors.clvDisponibilidad" />
                                         <input v-model="clvDisponibilidad" class="hidden">
                                     </div>
-                                    <div class="col-span-3 sm:col-span-3"> <!-- Categoria -->
-                                        <listBoxCategoriesComponent :list="categories"
+                                    <div class="col-span-3 sm:col-span-3"> <!-- Categorias -->
+                                        <listBoxCategoriesComponent :list="editEquipment.categories"
                                             @category-selected="onCategorySelected"
+                                            :select="Number(editEquipment.equipment.clvCategoria - 1)"
                                             :errorsList="loader.errors.clvCategoria" />
                                         <input v-model="clvCategoria" class="hidden">
                                     </div>
@@ -219,7 +242,8 @@
                                                 loader.errors.folioEquipo ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                 ' sm:text-sm'
                                             ]" aria-invalid="true" aria-describedby="folioEquipo-error"
-                                                placeholder="Folio De Factura" v-model="loader.equipment.folioEquipo" />
+                                                placeholder="Folio De Factura"
+                                                v-model="editEquipment.equipment.folioEquipo" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.folioEquipo">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -232,9 +256,9 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-3 sm:col-span-3"> <!-- Fecha de adquisición -->
+                                    <div class="col-span-2 sm:col-span-2"> <!-- Fecha de adquisición -->
                                         <div class="relative mt-1 rounded-md shadow-sm">
-                                            <VueDatePicker v-model="loader.equipment.fechaAdquisicion"
+                                            <VueDatePicker v-model="editEquipment.equipment.fechaAdquisicion"
                                                 placeholder="Fecha De Adquisición" autocomplete="off" :class="[
                                                     'mt-1 block w-full rounded-md ',
                                                     loader.errors.fechaAdquisicion ? 'border-red-300' : 'border-gray-300',
@@ -261,10 +285,10 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-3 sm:col-span-3"> <!-- Fecha de garantia extendida -->
+                                    <div class="col-span-2 sm:col-span-2"> <!-- Fecha de garantia extendida -->
                                         <div class="relative mt-1 rounded-md shadow-sm">
-                                            <VueDatePicker v-model="loader.equipment.fechaGarantiaExtendida"
-                                                placeholder="Fecha De La Garantia Extendida" autocomplete="off" :class="[
+                                            <VueDatePicker v-model="editEquipment.equipment.fechaGarantiaExtendida"
+                                                placeholder="Fecha De Garantia Extendida" autocomplete="off" :class="[
                                                     'mt-1 block w-full rounded-md ',
                                                     loader.errors.fechaGarantiaExtendida ? 'border-red-300' : 'border-gray-300',
                                                     ' shadow-sm ',
@@ -290,7 +314,36 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Depreciación anual -->
+                                    <div class="col-span-2 sm:col-span-2"> <!-- Fecha de venta -->
+                                        <div class="relative mt-1 rounded-md shadow-sm">
+                                            <VueDatePicker v-model="editEquipment.equipment.fechaVenta"
+                                                placeholder="Fecha De Venta" autocomplete="off" :class="[
+                                                    'mt-1 block w-full rounded-md ',
+                                                    loader.errors.fechaVenta ? 'border-red-300' : 'border-gray-300',
+                                                    ' shadow-sm ',
+                                                    loader.errors.fechaVenta ? 'focus:border-red-300' : 'focus:border-green-500',
+                                                    ' ',
+                                                    loader.errors.fechaVenta ? 'focus:ring-red-300' : 'focus:ring-green-500',
+                                                    ' sm:text-sm'
+                                                ]" :max-date="new Date()" :format="loader.datePickerFormat"
+                                                position="left" locale="es-MX" cancel-text="Cerrar"
+                                                select-text="seleccionar" aria-invalid="true"
+                                                aria-describedby="fechaVenta-error"
+                                                :day-names="['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do']" />
+                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
+                                                v-if="loader.errors.fechaVenta">
+                                                <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
+                                            </div>
+                                        </div>
+                                        <div v-if="loader.errors.fechaVenta">
+                                            <ul>
+                                                <li class="mt-2 text-sm text-red-600" id="fechaVenta-error"
+                                                    v-for="error in loader.errors.fechaVenta" :key="error">{{
+                                                        error }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-6 sm:col-span-6"> <!-- Porcentaje de depresiación -->
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="number" pattern="[0-9]+(\.[0-9]+)?" min="0" max="100.00"
                                                 step="0.01" autocomplete="off" :class="[
@@ -302,7 +355,7 @@
                                                     loader.errors.porDeprAnual ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                     ' sm:text-sm'
                                                 ]" aria-invalid="true" aria-describedby="porDeprAnual-error"
-                                                v-model="loader.equipment.porDeprAnual"
+                                                v-model="editEquipment.equipment.porDeprAnual"
                                                 placeholder="Depreciación Anual Del Equipo (Porcentaje actual para cada Equipo es del %25)" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.porDeprAnual">
@@ -328,7 +381,8 @@
                                                 loader.errors.descripcion ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                 ' sm:text-sm'
                                             ]" aria-invalid="true" aria-describedby="descripcion-error"
-                                                v-model="loader.equipment.descripcion" placeholder="Descripción"></textarea>
+                                                v-model="editEquipment.equipment.descripcion"
+                                                placeholder="Descripción"></textarea>
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.descripcion">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -341,6 +395,7 @@
                                             </ul>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="bg-gray-50 px-4 py-3 text-right sm:px-6"> <!-- Botón -->
@@ -356,7 +411,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import buttonComponent from '@/js/components/Common/button.vue';
 import listBoxStatusComponent from '@/js/components/Equipments/listBoxStatus.vue';
 import listBoxCategoriesComponent from '@/js/components/Equipments/listBoxCategories.vue';
@@ -366,9 +421,6 @@ import { ExclamationCircleIcon } from '@heroicons/vue/20/solid';
 import { equipments } from '@/js/store/Admin/Equipments.js';
 
 const loader = equipments();
-const categories = ref([]);
-const status = ref([]);
-let show = ref(false);
 const clvDisponibilidad = ref(null);
 const clvCategoria = ref(null);
 const onStatusSelected = (status) => {
@@ -380,19 +432,17 @@ const onCategorySelected = (category) => {
     loader.clvs(clvDisponibilidad.value, clvCategoria.value);
 };
 
-defineProps({
-    routeTitle: {
-        type: String,
+const props = defineProps({
+    id: {
+        type: Number,
         required: false,
-        default: '',
+        default: null,
     },
-});
-onMounted(async () => {
-    await loader.getCategories();
-    categories.value = loader.listCategories;
-    await loader.getStatus();
-    status.value = await loader.listStatus;
-    show.value = !show.value;
+    editEquipment: {
+        type: Object,
+        required: false,
+        default: null,
+    },
 });
 </script>
 

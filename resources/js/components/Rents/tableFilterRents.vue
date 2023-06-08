@@ -1,35 +1,31 @@
 <template>
-    <div>
-        <div class="w-full md:w-2/2 shadow p-5 rounded-lg bg-white hover:scale-105 transition-transform duration-150">
-            <div class="flex items-center justify-between mt-4">
-                <p class="font-medium">
-                    Filters
-                </p>
-                <button class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md"
-                    @click="resetFilter">
-                    Reset Filter
-                </button>
-            </div>
-            <search-inputs-rents-component @inputs-box="onInputs" />
-            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-1 gap-4 mt-4">
-                <list-box-equipments-categories-component :list="rentsIndex.categoriesList"
-                    @category-selected="onCategorySelected" />
-                <list-box-status-rents-component :list="rentsIndex.statusRentsList" @status-selected="onStatusSelected" />
-            </div>
+    <div class="w-full md:w-2/2 shadow p-5 rounded-lg bg-white hover:scale-105 transition-transform duration-150">
+        <div class="flex items-center justify-between mt-4">
+            <p class="font-medium">
+                Filters
+            </p>
+            <button class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md"
+                @click="resetFilter">
+                Reset Filter
+            </button>
+        </div>
+        <search-inputs-rents-component @inputs-box="onInputs" />
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-1 gap-4 mt-4">
+            <list-box-equipments-categories-component :list="rentsIndex.categoriesList"
+                @category-selected="onCategorySelected" />
+            <list-box-status-rents-component :list="rentsIndex.statusRentsList" @status-selected="onStatusSelected" />
         </div>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import searchInputsRentsComponent from '@/js/components/Rents/searchInputsRentsComponent.vue';
-import listBoxEquipmentsCategoriesComponent from '@/js/components/Rents/listBoxEquipmentsCategoriesComponent.vue';
-import listBoxStatusRentsComponent from '@/js/components/Rents/listBoxStatusRentsComponent.vue';
-import { useRentsIndex } from '@/js/store/Admin/Rents.js';
+import searchInputsRentsComponent from '@/js/components/Rents/searchInputsRents.vue';
+import listBoxEquipmentsCategoriesComponent from '@/js/components/Rents/listBoxEquipmentsCategories.vue';
+import listBoxStatusRentsComponent from '@/js/components/Rents/listBoxStatusRents.vue';
+import { rents } from '@/js/store/Admin/Rents.js';
 
-name: 'tableFilterRentsComponent';
-
-const rentsIndex = useRentsIndex();
+const rentsIndex = rents();
 const constInputBoxNoSerieEquipment = ref("");
 const constInputBoxClientName = ref("");
 const constInputBoxClientAP = ref("");

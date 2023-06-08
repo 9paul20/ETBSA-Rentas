@@ -81,8 +81,8 @@
                                             <x-Dashboard.IconButton-Edit
                                                 href="{{ route('Dashboard.Admin.Equipments.Edit', $rowData->clvEquipo) }}" />
                                             <x-Dashboard.IconButton-Delete id="{{ $rowData->clvEquipo }}"
-                                                name="{{ $rowData->noSerieEquipo }}"
-                                                href="{{ route('Dashboard.Admin.Equipments.Destroy', $rowData->clvEquipo) }}" />
+                                                name="{{ $rowData->noSerieEquipo }} modelo: {{ $rowData->modelo }}"
+                                                href="{{ route('Dashboard.Admin.Equipments.Destroy', $rowData) }}" />
                                         </div>
                                     </td>
                                 </tr>

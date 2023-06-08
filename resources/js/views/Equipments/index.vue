@@ -5,19 +5,19 @@
                 <div class="sm:flex-auto">
                     <h1 class="text-xl font-semibold text-gray-900">{{ routetitle }}</h1>
                 </div>
-                <button-component text="Add Rent" :href="createrentroute" color-button="green-600"
+                <button-component text="Add Equipment" :href="createequipmentroute" color-button="green-600"
                     color-button-hover="green-700" color-ring-focus="green-500" />
             </div>
         </div>
         <div class="grid xl:grid-cols-10 md:grid-cols-6 grid-cols-4">
             <div class="xl:col-span-2 md:col-span-4 col-span-4 mx-auto items-center">
                 <Transition name="bounce">
-                    <table-filter-rents-component />
+                    <table-filter-equipments-component />
                 </Transition>
             </div>
             <div class="xl:col-span-8 md:col-span-6 col-span-2 mx-auto">
                 <Transition name="bounce">
-                    <table-rents-component :routeTitle="routetitle" :imageTractor="imagetractor" />
+                    <table-equipments-component :routeTitle="routetitle" :imageTractor="imagetractor" />
                 </Transition>
             </div>
         </div>
@@ -26,11 +26,11 @@
 
 <script setup>
 import buttonComponent from '@/js/components/Common/button.vue';
-import tableRentsComponent from '@/js/components/Rents/tableRents.vue';
-import tableFilterRentsComponent from '@/js/components/Rents/tableFilterRents.vue';
+import tableFilterEquipmentsComponent from '@/js/components/Equipments/tableFilterEquipments.vue';
+import tableEquipmentsComponent from '@/js/components/Equipments/tableEquipments.vue';
 
 defineProps({
-    createrentroute: {
+    createequipmentroute: {
         type: String,
         required: false,
         default: '#',
@@ -53,26 +53,4 @@ defineProps({
 });
 </script>
 
-<style lang="css" scoped>
-.bounce-enter-active {
-    animation: bounce-in 0.5s;
-}
-
-.bounce-leave-active {
-    animation: bounce-in 0.5s reverse;
-}
-
-@keyframes bounce-in {
-    0% {
-        transform: scale(0);
-    }
-
-    50% {
-        transform: scale(1.09);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-</style>
+<style lang="scss" scoped></style>

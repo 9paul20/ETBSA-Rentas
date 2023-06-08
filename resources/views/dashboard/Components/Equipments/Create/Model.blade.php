@@ -226,8 +226,7 @@
                             <label for="descripcion"
                                 class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
-                                required>{{ old('descripcion', $Data['equipment']['descripcion']) }}</textarea>
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror">{{ old('descripcion', $Data['equipment']['descripcion']) }}</textarea>
                             @error('descripcion')
                                 <div class="flex
                                     items-center mt-1 text-red-400">

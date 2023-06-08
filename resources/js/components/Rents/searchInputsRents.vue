@@ -66,7 +66,6 @@
 <script setup>
 import { ref, defineEmits } from 'vue';
 
-name: 'searchInputsRentsComponent';
 const queryEquipmentNoSerie = ref('');
 const queryClientName = ref('');
 const queryClientAP = ref('');
@@ -81,7 +80,6 @@ const filterInputs = () => {
     const inputBoxClienteApeMaterno = queryClientAM.value;
     emit("inputs-box", inputBoxNoSerieEquipo, inputBoxClienteNombre, inputBoxClienteApePaterno, inputBoxClienteApeMaterno);
 }
-
 </script>
 
 <style lang="scss" scoped></style>

@@ -27,8 +27,10 @@ try {
             // console.log('The app is working')
         },
         components: {
-            'indexRents': views.indexRents,
+            'indexEquipments': views.indexEquipments,
             'createEquipments': views.createEquipments,
+            'editEquipments': views.editEquipments,
+            'indexRents': views.indexRents,
         },
     }).use(pinia);
     vueAppBundler.mount('#vueApp');

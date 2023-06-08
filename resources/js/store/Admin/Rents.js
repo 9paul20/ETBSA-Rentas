@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
-export const useRentsIndex = defineStore('rents-index', () => {
+export const rents = defineStore('rents', () => {
     let columnNames = ref([]);
     let rowDatas = ref({});
     let filteredRowDatas = ref({});
@@ -20,6 +20,15 @@ export const useRentsIndex = defineStore('rents-index', () => {
             categoriesList.value = [...data.categories];
             statusRentsList.value = [...data.statusRents];
             tableRentsTransition.value = !tableRentsTransition.value;
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const show = async ($id) => {
+        try {
+            const { data } = await axios.get('http://etbsa-rentas.test/api/RentsListAPI/'.$id);
+            //
         } catch (error) {
             console.error(error);
         }
@@ -70,6 +79,7 @@ export const useRentsIndex = defineStore('rents-index', () => {
     };
     //Filtro General
     const filterRents = (queryEquipmentNoSerie, queryClientName, queryClientAP, queryClientAM, queryEquipmentCategory, queryStatusRent) => {
+        console.log(rowDatas.value.data);
         filteredRowDatas.value = rowDatas.value.data.filter(rowData => {
             return (
                 filterRentsByEquipmentNoSerie(rowData, queryEquipmentNoSerie) &&
@@ -90,6 +100,7 @@ export const useRentsIndex = defineStore('rents-index', () => {
         statusRentsList,
         tableRentsTransition,
         index,
+        show,
         filterRentsByEquipmentNoSerie,
         filterRentsByClientName,
         filterRentsByClientAP,

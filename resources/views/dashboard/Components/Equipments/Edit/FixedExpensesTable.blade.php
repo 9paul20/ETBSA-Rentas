@@ -62,6 +62,7 @@
                                             description="Tipo de Gasto Fijo {{ $rowFixedExpense->TypeFixedExpense->tipoGastoFijo }} Con Día {{ $rowFixedExpense['fechaGastoFijo'] }} Del Folio {{ $rowFixedExpense['folioFactura'] }}"
                                             href="" />
                                         <x-Dashboard.Equipments.FixedExpenses.Button-Edit-Modal
+                                            clv="{{ $rowFixedExpense['clvGastoFijo'] }}"
                                             id="FixedExpenses_{{ $rowFixedExpense['clvGastoFijo'] }}"
                                             gastoFijo="{{ $rowFixedExpense['gastoFijo'] }}"
                                             fechaGastoFijo="{{ $rowFixedExpense['fechaGastoFijo'] }}"

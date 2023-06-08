@@ -23,6 +23,7 @@ namespace App\Models{
  * @property int $clvCategoria
  * @property string|null $descripcion
  * @property string $precioEquipo
+ * @property string $precioEquipoActual
  * @property string $folioEquipo
  * @property string $fechaAdquisicion
  * @property string $fechaGarantiaExtendida
@@ -56,6 +57,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerieMotor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePorDeprAnual($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePrecioEquipo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePrecioEquipoActual($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereUpdatedAt($value)
  */
 	class Equipment extends \Eloquent {}
@@ -174,6 +176,7 @@ namespace App\Models\FixedExpenses{
  *
  * @property int $clvTipoGastoFijo
  * @property string $tipoGastoFijo
+ * @property int $opcionUnica
  * @property string|null $descripcion
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -183,6 +186,7 @@ namespace App\Models\FixedExpenses{
  * @method static \Illuminate\Database\Eloquent\Builder|TypeFixedExpense whereClvTipoGastoFijo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TypeFixedExpense whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TypeFixedExpense whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TypeFixedExpense whereOpcionUnica($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TypeFixedExpense whereTipoGastoFijo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TypeFixedExpense whereUpdatedAt($value)
  */

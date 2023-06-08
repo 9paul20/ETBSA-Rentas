@@ -37,16 +37,16 @@ Route::resource('Admin/Equipments', 'Admin\EquipmentsController')->names([
 ]);
 
 //*Edit
-Route::put('Admin/Equipments/{clvEquipo}/updateFixedExpensionsCatalogs', 'Admin\EquipmentsController@updateFixedExpensesCatalogs')->name('Dashboard.Admin.Equipments.UpdateFixedExpensesCatalogs');
+Route::put('Admin/Equipments/updateFixedExpensionsCatalogs/{clvEquipo}', 'Admin\EquipmentsController@updateFixedExpensesCatalogs')->name('Dashboard.Admin.Equipments.UpdateFixedExpensesCatalogs');
 
-Route::post('Admin/Equipments/{clvEquipo}/storeFixedExpenses', 'Admin\EquipmentsController@storeFixedExpenses')->name('Dashboard.Admin.Equipments.StoreFixedExpenses');
-Route::put('Admin/Equipments/{clvGastoFijo}/updateFixedExpenses', 'Admin\EquipmentsController@updateFixedExpenses')->name('Dashboard.Admin.Equipments.UpdateFixedExpenses');
-Route::delete('Admin/Equipments/{clvGastoFijo}/destroyFixedExpenses', 'Admin\EquipmentsController@destroyFixedExpenses')->name('Dashboard.Admin.Equipments.DestroyFixedExpenses');
+Route::post('Admin/Equipments/storeFixedExpenses/{clvEquipo}', 'Admin\EquipmentsController@storeFixedExpenses')->name('Dashboard.Admin.Equipments.StoreFixedExpenses');
+Route::put('Admin/Equipments/updateFixedExpenses/{clvGastoFijo}', 'Admin\EquipmentsController@updateFixedExpenses')->name('Dashboard.Admin.Equipments.UpdateFixedExpenses');
+Route::delete('Admin/Equipments/destroyFixedExpenses/{clvGastoFijo}', 'Admin\EquipmentsController@destroyFixedExpenses')->name('Dashboard.Admin.Equipments.DestroyFixedExpenses');
 
-Route::post('Admin/Equipments/{clvEquipo}/storeVariablesExpenses', 'Admin\EquipmentsController@storeVariablesExpenses')->name('Dashboard.Admin.Equipments.StoreVariablesExpenses');
-Route::put('Admin/Equipments/{clvGastoVariable}/updateVariablesExpenses', 'Admin\EquipmentsController@updateVariablesExpenses')->name('Dashboard.Admin.Equipments.UpdateVariablesExpenses');
-Route::delete('Admin/Equipments/{clvGastoVariable}/destroyVariablesExpenses', 'Admin\EquipmentsController@destroyVariablesExpenses')->name('Dashboard.Admin.Equipments.DestroyVariablesExpenses');
+Route::post('Admin/Equipments/storeVariablesExpenses/{clvEquipo}', 'Admin\EquipmentsController@storeVariablesExpenses')->name('Dashboard.Admin.Equipments.StoreVariablesExpenses');
+Route::put('Admin/Equipments/updateVariablesExpenses/{clvGastoVariable}', 'Admin\EquipmentsController@updateVariablesExpenses')->name('Dashboard.Admin.Equipments.UpdateVariablesExpenses');
+Route::delete('Admin/Equipments/destroyVariablesExpenses/{clvGastoVariable}', 'Admin\EquipmentsController@destroyVariablesExpenses')->name('Dashboard.Admin.Equipments.DestroyVariablesExpenses');
 
-Route::post('Admin/Equipments/{clvEquipo}/storeMonthlyExpenses', 'Admin\EquipmentsController@storeMonthlyExpenses')->name('Dashboard.Admin.Equipments.StoreMonthlyExpenses');
-Route::put('Admin/Equipments/{clvGastoMensual}/updateMonthlyExpenses', 'Admin\EquipmentsController@updateMonthlyExpenses')->name('Dashboard.Admin.Equipments.UpdateMonthlyExpenses');
-Route::delete('Admin/Equipments/{clvGastoMensual}/destroyMonthlyExpenses', 'Admin\EquipmentsController@destroyMonthlyExpenses')->name('Dashboard.Admin.Equipments.DestroyMonthlyExpenses');
+Route::post('Admin/Equipments/storeMonthlyExpenses/{clvEquipo}', 'Admin\EquipmentsController@storeMonthlyExpenses')->name('Dashboard.Admin.Equipments.StoreMonthlyExpenses');
+Route::put('Admin/Equipments/updateMonthlyExpenses/{clvGastoMensual}', 'Admin\EquipmentsController@updateMonthlyExpenses')->name('Dashboard.Admin.Equipments.UpdateMonthlyExpenses');
+Route::delete('Admin/Equipments/destroyMonthlyExpenses/{clvGastoMensual}', 'Admin\EquipmentsController@destroyMonthlyExpenses')->name('Dashboard.Admin.Equipments.DestroyMonthlyExpenses');

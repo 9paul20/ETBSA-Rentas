@@ -43,11 +43,11 @@ Route::put('/UsersListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\UsersCont
 Route::delete('/UsersListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\UsersController::class, 'destroy']);
 
 // Personas
-Route::get('/PersonsListAPI/ComTel', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'indexAPI']);
-Route::post('/PersonsListAPI/ComTel', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'store']);
-Route::get('/PersonsListAPI/ComTel/{id}', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'showApi']);
-Route::put('/PersonsListAPI/ComTel/{id}', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'update']);
-Route::delete('/PersonsListAPI/ComTel/{id}', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'destroy']);
+// Route::get('/PersonsListAPI/ComTel', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'indexAPI']);
+// Route::post('/PersonsListAPI/ComTel', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'store']);
+// Route::get('/PersonsListAPI/ComTel/{id}', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'showApi']);
+// Route::put('/PersonsListAPI/ComTel/{id}', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'update']);
+// Route::delete('/PersonsListAPI/ComTel/{id}', [App\Http\Controllers\Dashboard\Admin\Persons\ComTelController::class, 'destroy']);
 
 Route::get('/PersonsListAPI', [App\Http\Controllers\Dashboard\Admin\PersonsController::class, 'indexAPI']);
 Route::post('/PersonsListAPI', [App\Http\Controllers\Dashboard\Admin\PersonsController::class, 'store']);
@@ -56,9 +56,10 @@ Route::put('/PersonsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\Persons
 Route::delete('/PersonsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\PersonsController::class, 'destroy']);
 
 // Equipos
-Route::get('/EquipmentsListAPI', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'indexAPI']);
+Route::get('/EquipmentsListAPI', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'index']);
 Route::post('/EquipmentsListAPI', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'store']);
 Route::get('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'show']);
+Route::get('/EquipmentEditAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'edit']);
 Route::put('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'update']);
 Route::delete('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'destroy']);
 //Categorias
@@ -67,15 +68,8 @@ Route::get('/CategoriesListAPI', [App\Http\Controllers\Dashboard\Admin\Equipment
 Route::get('/StatusListAPI', [App\Http\Controllers\Dashboard\Admin\Equipments\StatusController::class, 'indexAPI']);
 
 // Rentas
-Route::get('/RentsListAPI', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'indexAPI']);
+Route::get('/RentsListAPI', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'index']);
 Route::post('/RentsListAPI', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'store']);
-Route::get('/RentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'showApi']);
-Route::put('/RentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'update']);
-Route::delete('/RentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'destroy']);
-
-// Personas
-Route::get('/RentsListAPI', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'indexAPI']);
-Route::post('/RentsListAPI', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'store']);
-Route::get('/RentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'showApi']);
+Route::get('/RentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'show']);
 Route::put('/RentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'update']);
 Route::delete('/RentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'destroy']);

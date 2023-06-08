@@ -12,7 +12,7 @@ import backToButtonComponent from '@/js/components/Common/backToButton.vue';
 import divisorComponent from '@/js/components/Common/divisor.vue';
 import createEquipmentFormComponent from '@/js/components/Equipments/createEquipmentForm.vue';
 
-const props = defineProps({
+defineProps({
     backtoindex: {
         type: String,
         required: false,

@@ -1,7 +1,6 @@
 <template>
     <div class="col-span-6 sm:col-span-6">
         <Listbox as="div" v-model="selected" @click.prevent="handleSelection()">
-            <ListboxLabel class="block text-sm font-medium text-gray-700">Disponibilidad Del Equipo</ListboxLabel>
             <div class="relative mt-1 rounded-md shadow-sm">
                 <ListboxButton :class="[
                     'relative w-full cursor-default rounded-md border ',
@@ -54,7 +53,7 @@
 
 <script setup>
 import { defineProps, defineEmits, ref } from 'vue';
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon, ExclamationCircleIcon } from '@heroicons/vue/20/solid';
 
 const props = defineProps({

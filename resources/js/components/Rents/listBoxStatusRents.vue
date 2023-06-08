@@ -49,7 +49,6 @@ import { ref, watchEffect, defineProps, defineEmits } from 'vue';
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
 
-name: 'listBoxStatusRentsComponent';
 const props = defineProps({
     list: {
         type: Array,

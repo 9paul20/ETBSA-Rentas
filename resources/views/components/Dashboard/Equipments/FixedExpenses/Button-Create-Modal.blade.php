@@ -66,7 +66,7 @@
                             <input type="number" name="costoGastoFijo" id="costoGastoFijo" pattern="[0-9]+(\.[0-9]+)?"
                                 min="0" step="0.01" autocomplete="given-costoGastoFijo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('costoGastoFijo') border-red-400 @enderror"
-                                min="0" max="99999999.99" value="{{ old('costoGastoFijo') }}" required
+                                min="0" max="99999999.99" value="{{ old('costoGastoFijo') }}"required
                                 step="0.01">
                             @error('costoGastoFijo')
                                 <div class="flex
@@ -79,9 +79,10 @@
                         <div class="col-span-6 sm:col-span-6">
                             <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio Del Gasto
                                 Fijo</label>
-                            <textarea rows="3" name="folioFactura" id="create-folioFactura" autocomplete="given-folioFactura"
+                            <input type="text" name="folioFactura" id="create-folioFactura"
+                                autocomplete="given-folioFactura"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('folioFactura') border-red-400 @enderror"
-                                minlength="4" maxlength="255">{{ old('folioFactura') }}</textarea>
+                                minlength="4" maxlength="20" value="{{ old('folioFactura') }}" />
                             @error('folioFactura')
                                 <div class="flex
                                     items-center mt-1 text-red-400">

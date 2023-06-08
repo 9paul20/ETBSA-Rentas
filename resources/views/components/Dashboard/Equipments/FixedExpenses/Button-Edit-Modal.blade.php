@@ -1,4 +1,4 @@
-@props(['id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'today', 'SelectTypeFixedExpense', 'folioFactura', 'href'])
+@props(['clv', 'id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'today', 'SelectTypeFixedExpense', 'folioFactura', 'href'])
 
 <a href="" x-data="{ tooltip: 'Edit' }" @click="modalHandler{{ $id }}(true)" id="link-edit-{{ $id }}"
     data-target="scroll-target-{{ $id }}">
@@ -82,9 +82,10 @@
                         <div class="col-span-6 sm:col-span-6">
                             <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio
                                 Del Gasto Fijo</label>
-                            <textarea rows="3" name="folioFactura" id="folioFactura" autocomplete="given-folioFactura"
+                            <input type="text" name="folioFactura" id="folioFactura"
+                                autocomplete="given-folioFactura"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('folioFactura') border-red-400 @enderror"
-                                minlength="4" maxlength="255">{{ old('folioFactura', $folioFactura) }}</textarea>
+                                minlength="4" maxlength="20" value="{{ old('folioFactura', $folioFactura) }}" />
                             @error('folioFactura')
                                 <div class="flex
                                     items-center mt-1 text-red-400">

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Equipment\StoreEquipment;
+use App\Http\Requests\Equipment\FormRequestEquipment;
+use App\Http\Requests\Equipment\FormRequestFixedExpense;
+use App\Http\Requests\Equipment\FormRequestMonthlyExpense;
+use App\Http\Requests\Equipment\FormRequestVariableExpense;
 use App\Models\Equipment;
 use App\Models\Equipments\Category;
 use App\Models\Equipments\Status;
@@ -23,12 +26,23 @@ class EquipmentsController extends Controller
     public function index(Request $request)
     {
         $search = $request->all();
+        $columnNames = [
+            'Equipo',
+            'Disponibilidad',
+            'Gasto Mensual',
+            'Precio Actual',
+            'Gastos Fijos',
+            'Gastos Variables',
+            'Total Actual',
+            ''
+        ];
+        $perPage = $request->wantsJson() ? 999999999999999999 : 10;
         $rowDatas = Equipment::filter($search)->with([
             'disponibilidad:clvDisponibilidad,disponibilidad,textColor,bgColorPrimary,bgColorSecondary',
             'categoria:clvCategoria,categoria',
             'fixedExpenses:clvEquipo,costoGastoFijo',
             'variablesExpenses:clvEquipo,costoGastoVariable',
-        ])->paginate(10, [
+        ])->paginate($perPage, [
             'clvEquipo',
             'noSerieEquipo',
             'noSerieMotor',
@@ -41,23 +55,25 @@ class EquipmentsController extends Controller
             'fechaAdquisicion',
             'porDeprAnual',
         ]);
-        $columnNames = [
-            'Equipo',
-            'Disponibilidad',
-            'Gasto Mensual',
-            'Precio Actual',
-            'Gastos Fijos',
-            'Gastos Variables',
-            'Total Actual',
-            ''
+        //Mapeo, para agregar más datos a cada RowData
+        $rowDatas->map(function ($rowData) {
+            $rowData->sumGastosMensuales = number_format($rowData->sumGastosMensuales, 2);
+            $rowData->precioActualPorDepreciacionAnual = number_format($rowData->precioActualPorDepreciacionAnual, 2);
+            $rowData->sumGastosFijos = number_format($rowData->sumGastosFijos, 2);
+            $rowData->sumGastosVariables = number_format($rowData->sumGastosVariables, 2);
+            $rowData->costoNetoAnual = number_format($rowData->costoNetoAnual, 2);
+            $rowData->routeShowEquipment = route('Dashboard.Admin.Equipments.Show', $rowData->clvEquipo);
+            $rowData->routeUpdateEquipment = route('Dashboard.Admin.Equipments.Edit', $rowData->clvEquipo);
+            $rowData->routeDeleteEquipment = route('Dashboard.Admin.Equipments.Destroy', $rowData->clvEquipo);
+            return $rowData;
+        });
+        $Data = [
+            'columnNames' => $columnNames,
+            'rowDatas' => $rowDatas,
         ];
+        if (request()->wantsJson())
+            return $Data;
         return view('Dashboard.Admin.Index', compact('columnNames', 'rowDatas'));
-    }
-
-    public function indexAPI()
-    {
-        $equipments = Equipment::all();
-        return $equipments;
     }
 
     /**
@@ -81,80 +97,62 @@ class EquipmentsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEquipment $request)
+    public function store(FormRequestEquipment $request)
     {
         $validatedData = $request->validated();
         $equipment = Equipment::create($validatedData);
-        if ($equipment) {
-            return redirect()
-                ->route('Dashboard.Admin.Equipments.Edit', $equipment->clvEquipo)
-                ->with('success', 'Equipo ' . $equipment->modelo . ' con No.Serie: ' . $equipment->noSerieEquipo . ' agregado correctamente.');
-        } else {
-            return redirect()
-                ->route('Dashboard.Admin.Equipments.Create')
-                ->withErrors($validatedData)
-                ->withInput();
+        //Ya agrega por medio de peticiones JSON; solo falta redireccionar de pagina y mandar mensaje de aviso
+        if (request()->wantsJson()) {
+            return response()->json([
+                'message' => 'Equipo agregado correctamente',
+                'data' => $equipment,
+            ]);
         }
+        return redirect()->route('Dashboard.Admin.Equipments.Edit', $equipment->clvEquipo)
+            ->with('success', 'Equipo ' . $equipment->modelo . ' con No.Serie: ' . $equipment->noSerieEquipo . ' agregado correctamente.');
     }
 
-    public function storeFixedExpenses(Request $request, string $id)
+    public function storeFixedExpenses(FormRequestFixedExpense $request, string $id)
     {
-        // return $request;
-        $data = $request->all();
-        $validator = Validator::make($data, FixedExpense::getRulesEquipment());
-        if ($validator->fails()) {
-            return redirect()->to(url()->previous())
-                ->withErrors($validator)
-                ->withInput()
-                ->withFragment('#createModalFixedExpenses');
-        }
-        $fixedExpense = FixedExpense::create($data);
+        $validatedData = $request->validated();
+        $fixedExpense = FixedExpense::create($validatedData);
         $fixedExpense->clvEquipo = $id;
         $fixedExpense->save();
         $equipment = Equipment::findOrFail($id);
-        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le agregado su Gasto Fijo ' . $fixedExpense->gastoFijo . ' correctamente.')->withFragment('#fixedExpensesScroll');
+        return back()
+            ->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le agregado su Gasto Fijo ' . $fixedExpense->gastoFijo . ' correctamente.')
+            ->withFragment('#fixedExpensesScroll');
     }
 
-    public function storeVariablesExpenses(Request $request, string $id)
+    public function storeVariablesExpenses(FormRequestVariableExpense $request, string $id)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, VariableExpense::getRulesEquipment());
-        if ($validator->fails()) {
-            return redirect()->to(url()->previous())
-                ->withErrors($validator)
-                ->withInput()
-                ->withFragment('#createModalVariablesExpenses');
-        }
-        $variableExpense = VariableExpense::create($data);
+        $validatedData = $request->validated();
+        $variableExpense = VariableExpense::create($validatedData);
         $variableExpense->clvEquipo = $id;
         $variableExpense->save();
         $equipment = Equipment::findOrFail($id);
-        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le agregado su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.')->withFragment('#variablesExpensesScroll');
+        return back()
+            ->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le agregado su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.')
+            ->withFragment('#variablesExpensesScroll');
     }
 
-    public function storeMonthlyExpenses(Request $request, string $id)
+    public function storeMonthlyExpenses(FormRequestMonthlyExpense $request, string $id)
     {
-        $data = $request->all();
-        return $data;
-        $validator = Validator::make($data, MonthlyExpense::getRulesEquipment());
-        if ($validator->fails()) {
-            return redirect()->to(url()->previous())
-                ->withErrors($validator)
-                ->withInput()
-                ->withFragment('#createModalMonthlyExpenses');
-        }
-        $monthlyExpense = MonthlyExpense::create($data);
+        $validatedData = $request->validated();
+        $monthlyExpense = MonthlyExpense::create($validatedData);
         $monthlyExpense->clvEquipo = $id;
         $monthlyExpense->save();
         $equipment = Equipment::findOrFail($id);
-        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le agregado su Gasto Mensual ' . $monthlyExpense->gastoMensual . ' correctamente.')->withFragment('#monthlyExpensesScroll');
+        return back()
+            ->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le agregado su Gasto Mensual ' . $monthlyExpense->gastoMensual . ' correctamente.')
+            ->withFragment('#monthlyExpensesScroll');
     }
 
     /**
      * Display the specified resource.
      */
 
-    public function show(string $id)
+    public function show(String $equipment)
     {
         //Rows o Filas Por Pagina
         $perPage = 10;
@@ -162,7 +160,7 @@ class EquipmentsController extends Controller
         //Dia de hoy
         $today = Carbon::today()->format('Y-m-d');
 
-        $equipment = Equipment::query()
+        $query = Equipment::query()
             ->with([
                 'fixedExpenses:' .
                     'clvGastoFijo,gastoFijo,costoGastoFijo,folioFactura,fechaGastoFijo,clvTipoGastoFijo,clvEquipo',
@@ -190,10 +188,10 @@ class EquipmentsController extends Controller
                 'fechaGarantiaExtendida',
                 'porDeprAnual',
             )
-            ->findOrFail($id);
+            ->findOrFail($equipment);
 
         //Tabla de Gastos Fijos Al Equipo
-        $rowFixedExpenses = $equipment->fixedExpenses()
+        $rowFixedExpenses = $query->fixedExpenses()
             ->with('TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo')
             ->orderByDesc('fechaGastoFijo')
             ->paginate(20, [
@@ -218,7 +216,7 @@ class EquipmentsController extends Controller
         ];
 
         //Tabla de Gastos Variables Al Equipo
-        $rowVariablesExpenses = $equipment->variablesExpenses()
+        $rowVariablesExpenses = $query->variablesExpenses()
             ->orderByDesc('fechaGastoVariable')
             ->paginate(
                 20,
@@ -244,7 +242,7 @@ class EquipmentsController extends Controller
         ];
 
         //Tabla de Gastos Mensuales Al Equipo
-        $rowMonthlyExpenses = $equipment->monthlyExpenses()
+        $rowMonthlyExpenses = $query->monthlyExpenses()
             ->with('TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo')
             ->orderByDesc('clvGastoMensual')
             ->paginate(20, [
@@ -268,7 +266,7 @@ class EquipmentsController extends Controller
 
         $Data = [
             'today' => $today,
-            'equipment' => $equipment,
+            'equipment' => $query,
             'tableFixedExpenses' => $tableFixedExpenses,
             'tableVariablesExpenses' => $tableVariablesExpenses,
             'tableMonthlyExpenses' => $tableMonthlyExpenses,
@@ -286,8 +284,9 @@ class EquipmentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, String $id)
     {
+        $perPage = $request->wantsJson() ? 999999999999999999 : 10;
         $equipment = Equipment::with([
             'fixedExpenses' => function ($query) {
                 $query->select([
@@ -321,9 +320,12 @@ class EquipmentsController extends Controller
             'clvCategoria',
             'descripcion',
             'precioEquipo',
+            'precioEquipoActual',
+            'precioActualVenta',
             'folioEquipo',
             'fechaAdquisicion',
             'fechaGarantiaExtendida',
+            'fechaVenta',
             'porDeprAnual',
         )->findOrFail($id);
 
@@ -333,11 +335,13 @@ class EquipmentsController extends Controller
             'opcionUnica',
         )->get();
         $categories = Category::query()
+            ->orderBy('clvCategoria', 'asc')
             ->get([
                 'clvCategoria',
                 'categoria',
             ]);
         $status = Status::query()
+            ->orderBy('clvDisponibilidad', 'asc')
             ->get([
                 'clvDisponibilidad',
                 'disponibilidad',
@@ -365,7 +369,7 @@ class EquipmentsController extends Controller
             'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo',
         ])->where('clvEquipo', $id)
             ->paginate(
-                10,
+                $perPage,
                 [
                     'clvGastoFijo',
                     'gastoFijo',
@@ -392,7 +396,7 @@ class EquipmentsController extends Controller
 
         $rowVariablesExpenses = VariableExpense::where('clvEquipo', $id)
             ->paginate(
-                10,
+                $perPage,
                 [
                     'clvGastoVariable',
                     'gastoVariable',
@@ -420,7 +424,7 @@ class EquipmentsController extends Controller
             'TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo,opcionUnica',
         ])->where('clvEquipo', $id)
             ->paginate(
-                10,
+                $perPage,
                 [
                     'clvGastoMensual',
                     'gastoMensual',
@@ -457,87 +461,81 @@ class EquipmentsController extends Controller
             'tableVariablesExpenses' => $tableVariablesExpenses,
             'tableMonthlyExpenses' => $tableMonthlyExpenses,
         ];
-        // return $Data;
+        if (request()->wantsJson())
+            return $Data;
         return view('Dashboard.Admin.Index', compact('Data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(FormRequestEquipment $request, String $id)
     {
-        $data = $request->all();
-        // return $data;
-        $validator = Validator::make($data, Equipment::getRules($id));
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.Equipments.Edit', ['Equipment' => $id])
-                ->withErrors($validator)
-                ->withInput();
+        $validatedData = $request->validated();
+        $equipment = Equipment::where('clvEquipo', $id)->update($validatedData);
+        //Ya actualiza por medio de peticiones JSON; solo falta redireccionar de pagina y mandar mensaje de aviso
+        if (request()->wantsJson()) {
+            return response()->json([
+                'message' => 'Equipo actualizado correctamente',
+                'data' => $equipment,
+            ]);
         }
         $equipment = Equipment::findOrFail($id);
-        $equipment->update($data);
-        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' actualizado correctamente.');
+        return back()
+            ->with('update', 'Equipo ' . $equipment->modelo . ' con No.Serie: ' . $equipment->noSerieEquipo . ' actualizado correctamente.');
     }
 
-    public function updateFixedExpenses(Request $request, string $id)
+    public function updateFixedExpenses(FormRequestFixedExpense $request, string $id)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, FixedExpense::getRulesEquipment());
-        if ($validator->fails()) {
-            return redirect()->to(url()->previous())
-                ->withErrors($validator)
-                ->withInput()
-                ->withFragment('#editModalFixedExpenses_' . $id);
-        }
+        $validatedData = $request->validated();
+        $fixedExpense = FixedExpense::where('clvGastoFijo', $id)->update($validatedData);
         $fixedExpense = FixedExpense::findOrFail($id);
-        $fixedExpense->update($data);
         $equipment = Equipment::findOrFail($fixedExpense->clvEquipo);
-        return redirect()->to(url()->previous() . '#fixedExpensesScroll')
-            ->withFragment('#fixedExpensesScroll')
-            ->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Fijo ' . $fixedExpense->gastoFijo . ' correctamente.')->withFragment('#fixedExpensesScroll');
+        return back()
+            ->with('update', 'Equipo ' . $equipment->modelo . ' con No.Serie: ' . $equipment->noSerieEquipo . ' actualizado correctamente.');
     }
 
-    public function updateVariablesExpenses(Request $request, string $id)
+    public function updateVariablesExpenses(FormRequestVariableExpense $request, string $id)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, VariableExpense::getRulesEquipment());
-        if ($validator->fails()) {
-            return redirect()->to(url()->previous() . '#variablesExpensesScroll')
-                ->withErrors($validator)
-                ->withInput()
-                ->withFragment('#editModalVariablesExpenses_' . $id);
-        }
+        $validatedData = $request->validated();
+        $variableExpense = VariableExpense::where('clvGastoVariable', $id)->update($validatedData);
         $variableExpense = VariableExpense::findOrFail($id);
-        $variableExpense->update($data);
         $equipment = Equipment::findOrFail($variableExpense->clvEquipo);
-        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.')->withFragment('#variablesExpensesScroll');
+        return back()
+            ->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Variable ' . $variableExpense->gastoVariable . ' correctamente.')->withFragment('#variablesExpensesScroll');
     }
 
-    public function updateMonthlyExpenses(Request $request, string $id)
+    public function updateMonthlyExpenses(FormRequestMonthlyExpense $request, string $id)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, MonthlyExpense::getRulesEquipment());
-        if ($validator->fails()) {
-            return redirect()->to(url()->previous() . '#monthlyExpensesScroll')
-                ->withErrors($validator)
-                ->withInput()
-                ->withFragment('#editModalMonthlyExpenses_' . $id);
-        }
+        $validatedData = $request->validated();
+        $monthlyExpense = MonthlyExpense::where('clvGastoMensual', $id)->update($validatedData);
         $monthlyExpense = MonthlyExpense::findOrFail($id);
-        $monthlyExpense->update($data);
         $equipment = Equipment::findOrFail($monthlyExpense->clvEquipo);
-        return back()->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Mensual ' . $monthlyExpense->gastoMensual . ' correctamente.')->withFragment('#monthlyExpensesScroll');
+        return back()
+            ->with('update', 'Equipo ' . $equipment->noSerieEquipo . ' se le actualizo su Gasto Mensual ' . $monthlyExpense->gastoMensual . ' correctamente.')->withFragment('#monthlyExpensesScroll');
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $equipment = Equipment::findOrFail($id);
-        $equipment->delete();
-        return redirect()->route('Dashboard.Admin.Equipments.Index')->with('danger', 'Equipo ' . $equipment->noSerieEquipo . ' eliminado correctamente.');
+        if (request()->wantsJson()) {
+            try {
+                $equipment = Equipment::findOrFail($id);
+                $equipment->delete();
+                return response()->json([
+                    'message' => 'El equipo ha sido eliminado correctamente',
+                    'danger' => 'Equipo eliminado correctamente.'
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Error al eliminar el equipo'], 500);
+            }
+        } else {
+            $equipment = Equipment::findOrFail($id);
+            $equipment->delete();
+            return redirect()->route('Dashboard.Admin.Equipments.Index')->with('danger', 'Equipo ' . $equipment->noSerieEquipo . ' eliminado correctamente.');
+        }
     }
 
     public function destroyFixedExpenses(string $id)
@@ -556,8 +554,12 @@ class EquipmentsController extends Controller
 
     public function destroyMonthlyExpenses(string $id)
     {
-        $monthlyExpense = MonthlyExpense::findOrFail($id);
-        $monthlyExpense->delete();
-        return back()->with('danger', 'Gasto Mensual ' . $monthlyExpense->gastoMensual . ' eliminado correctamente.')->withFragment('#monthlyExpensesScroll');
+        if (request()->wantsJson()) {
+            //
+        } else {
+            $monthlyExpense = MonthlyExpense::findOrFail($id);
+            $monthlyExpense->delete();
+            return back()->with('danger', 'Gasto Mensual ' . $monthlyExpense->gastoMensual . ' eliminado correctamente.')->withFragment('#monthlyExpensesScroll');
+        }
     }
 }

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" v-if="rentsIndex.filteredRowDatas">
+        <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" v-if="rentsStore.filteredRowDatas">
             <div class="overflow-x-auto">
                 <table class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th v-for="columnName in rentsIndex.columnNames" scope="col"
+                            <th v-for="columnName in rentsStore.columnNames" scope="col"
                                 class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                 :key="columnName">
                                 {{ columnName }}</th>
@@ -13,7 +13,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200 border-t bg-white text-center" is="vue:transition-group"
                         tag="tbody" name="list">
-                        <tr v-for="rowData in rentsIndex.filteredRowDatas" class="hover:bg-gray-100"
+                        <tr v-for="rowData in rentsStore.filteredRowDatas" class="hover:bg-gray-100"
                             :key="rowData.clvRenta">
                             <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
                                 <div class="relative h-16 w-16">
@@ -91,9 +91,9 @@
 import iconButton from '@/js/components/Common/iconButton.vue';
 import { onMounted } from 'vue';
 import axios from 'axios';
-import { useRentsIndex } from '@/js/store/Admin/Rents.js'
+import { rents } from '@/js/store/Admin/Rents.js';
 
-const rentsIndex = useRentsIndex();
+const rentsStore = rents();
 
 defineProps({
     routeTitle: {
@@ -108,7 +108,7 @@ defineProps({
     },
 });
 onMounted(async () => {
-    await rentsIndex.index();
+    await rentsStore.index();
 });
 
 //getTitle y getDescription son funciones para facilitar un string encadenandole los parametros que necesiten
@@ -160,8 +160,11 @@ function confirmDelete(name, icon, item, url) {
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Aceptar'
                     }).then(() => {
-                        // Actualizar la interfaz o redirigir a otra página
-                        // Puedes realizar alguna acción aquí según tus necesidades
+                        //Transition de VueJS 3, al eliminar un dato
+                        const index = this.rowDatasList.data.indexOf(item);
+                        if (index !== -1) {
+                            this.rowDatasList.data.splice(index, 1);
+                        }
                     });
                 }).catch((error) => {
                     console.error(error);
@@ -176,12 +179,6 @@ function confirmDelete(name, icon, item, url) {
                 });
             } catch (error) {
                 console.error(error);
-            }
-
-            //Transition de VueJS 3, al eliminar un dato
-            const index = this.rowDatasList.data.indexOf(item);
-            if (index !== -1) {
-                this.rowDatasList.data.splice(index, 1);
             }
         }
     })
