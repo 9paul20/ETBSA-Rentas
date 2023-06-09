@@ -329,11 +329,13 @@ class EquipmentsController extends Controller
             'porDeprAnual',
         )->findOrFail($id);
 
-        $allTypeFixedExpense = TypeFixedExpense::select(
-            'clvTipoGastoFijo',
-            'tipoGastoFijo',
-            'opcionUnica',
-        )->get();
+        $allTypeFixedExpense = TypeFixedExpense::query()
+            ->orderBy('clvTipoGastoFijo', 'asc')
+            ->get(
+                'clvTipoGastoFijo',
+                'tipoGastoFijo',
+                'opcionUnica',
+            );
         $categories = Category::query()
             ->orderBy('clvCategoria', 'asc')
             ->get([
@@ -381,6 +383,13 @@ class EquipmentsController extends Controller
                 ],
                 'fixedExpenses_page'
             );
+        // if (request()->wantsJson()) {
+        //     $rowFixedExpenses->map(function ($rowFixedExpense) {
+        //         $rowFixedExpense->costoGastoFijo = number_format($rowFixedExpense->costoGastoFijo, 2);
+        //         $rowFixedExpense->fechaGastoFijo = Carbon::parse($rowFixedExpense->fechaGastoFijo)->format('d M Y');
+        //         return $rowFixedExpense;
+        //     });
+        // }
         $columnFixedExpenses = [
             'Gasto Fijo',
             'Descripción Corta Del Gasto Fijo',
@@ -394,7 +403,7 @@ class EquipmentsController extends Controller
             'rowFixedExpenses' => $rowFixedExpenses,
         ];
 
-        $rowVariablesExpenses = VariableExpense::where('clvEquipo', $id)
+        $rowVariableExpenses = VariableExpense::where('clvEquipo', $id)
             ->paginate(
                 $perPage,
                 [
@@ -407,16 +416,23 @@ class EquipmentsController extends Controller
                 ],
                 'variablesExpenses_page'
             );
-        $columnVariablesExpenses = [
+        // if (request()->wantsJson()) {
+        //     $rowVariableExpenses->map(function ($rowVariableExpense) {
+        //         $rowVariableExpense->fechaGastoVariable = Carbon::parse($rowVariableExpense->fechaGastoVariable)->format('d M Y');
+        //         $rowVariableExpense->costoGastoVariable = number_format($rowVariableExpense->costoGastoVariable, 2);
+        //         return $rowVariableExpense;
+        //     });
+        // }
+        $columnVariableExpenses = [
             'Gasto Variable',
             'Fecha Del Gasto Variable',
             'Costo',
             'Descripción',
             ''
         ];
-        $tableVariablesExpenses = [
-            'columnVariablesExpenses' => $columnVariablesExpenses,
-            'rowVariablesExpenses' => $rowVariablesExpenses,
+        $tableVariableExpenses = [
+            'columnVariablesExpenses' => $columnVariableExpenses,
+            'rowVariablesExpenses' => $rowVariableExpenses,
         ];
 
         $rowMonthlyExpenses = MonthlyExpense::with([
@@ -438,6 +454,13 @@ class EquipmentsController extends Controller
                 ],
                 'montlhyExpenses_page'
             );
+        // if (request()->wantsJson()) {
+        //     $rowMonthlyExpenses->map(function ($rowMonthlyExpense) {
+        //         $rowMonthlyExpense->precioEquipo = number_format($rowMonthlyExpense->precioEquipo, 2);
+        //         $rowMonthlyExpense->costoMensual = number_format($rowMonthlyExpense->costoMensual, 2);
+        //         return $rowMonthlyExpense;
+        //     });
+        // }
         $columnMonthlyExpenses = [
             'Gasto Mensual',
             'Gasto Fijo',
@@ -458,7 +481,7 @@ class EquipmentsController extends Controller
             'valoresFijos' => $valoresFijos,
             'allTypeFixedExpense' => $allTypeFixedExpense,
             'tableFixedExpenses' => $tableFixedExpenses,
-            'tableVariablesExpenses' => $tableVariablesExpenses,
+            'tableVariablesExpenses' => $tableVariableExpenses,
             'tableMonthlyExpenses' => $tableMonthlyExpenses,
         ];
         if (request()->wantsJson())

@@ -11,8 +11,8 @@
         </div>
         <search-inputs-equipments-component @inputs-box="onInputs" />
         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-1 gap-4 mt-4">
-            <list-box-categories-component :list="loader.listCategories" @category-selected="onCategorySelected" />
             <list-box-status-component :list="loader.listStatus" @status-selected="onStatusSelected" />
+            <list-box-categories-component :list="loader.listCategories" @category-selected="onCategorySelected" />
         </div>
     </div>
 </template>

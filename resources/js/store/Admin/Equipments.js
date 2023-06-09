@@ -5,7 +5,6 @@ import { ref } from "vue";
 export const equipments = defineStore('equipments', () => {
     const listStatus = ref();
     const listCategories = ref();
-    // gets date formatted as yyyy-MM-dd
     const datePickerFormat = 'yyyy-MM-dd';
     const formatDate = (date) => {
         if (date) {

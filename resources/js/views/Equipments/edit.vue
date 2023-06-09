@@ -6,7 +6,11 @@
         <edit-equipment-form-component v-if="editEquipment" :editEquipment="editEquipment" :id="Number(id)"
             :datePickerFormat="datePickerFormat" />
         <divisor-component />
-        <!-- Aqui las tablas que se van a ocupar para guardar los gastos del equipo -->
+        <fixed-expenses-crud-component v-if="tableFixedExpenses" :getFixedExpenses="tableFixedExpenses" />
+        <divisor-component />
+        <variable-expenses-crud-component v-if="tableVariableExpenses" :getVariableExpenses="tableVariableExpenses" />
+        <divisor-component />
+        <monthly-expenses-crud-component v-if="tableMonthlyExpenses" :getMonthlyExpenses="tableMonthlyExpenses" />
     </div>
 </template>
 
@@ -15,6 +19,9 @@ import { ref, onMounted } from 'vue';
 import backToButtonComponent from '@/js/components/Common/backToButton.vue';
 import divisorComponent from '@/js/components/Common/divisor.vue';
 import editEquipmentFormComponent from '@/js/components/Equipments/editEquipmentForm.vue';
+import fixedExpensesCrudComponent from '@/js/components/Equipments/FixedExpenses/fixedExpensesCRUD.vue';
+import variableExpensesCrudComponent from '@/js/components/Equipments/VariableExpenses/variableExpensesCRUD.vue';
+import monthlyExpensesCrudComponent from '@/js/components/Equipments/MonthlyExpenses/monthlyExpensesCRUD.vue';
 import { equipments } from '@/js/store/Admin/Equipments.js';
 
 const loader = equipments();
@@ -22,6 +29,9 @@ const currentUrl = window.location.href;
 const id = currentUrl.match(/Equipments\/(\d+)\/edit/)[1];
 let editEquipment = ref(null);
 let datePickerFormat = ref(null);
+let tableFixedExpenses = ref(null);
+let tableVariableExpenses = ref(null);
+let tableMonthlyExpenses = ref(null);
 
 defineProps({
     backtoindex: {
@@ -68,6 +78,9 @@ onMounted(async () => {
             categories: editer.categories,
             equipment: equipment,
         };
+        tableFixedExpenses.value = editer.tableFixedExpenses;
+        tableVariableExpenses.value = editer.tableVariableExpenses;
+        tableMonthlyExpenses.value = editer.tableMonthlyExpenses;
         console.log(editer);
     } catch (error) {
         console.error(error);
