@@ -34,7 +34,7 @@
                             <div class="bg-white px-1 py-1 sm:p-6">
                                 <div class="grid grid-cols-6 gap-2">
 
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero serie de motor -->
+                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero serie -->
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="text" autocomplete="given-noSerieEquipo" :class="[
                                                 'mt-1 block w-full rounded-md ',

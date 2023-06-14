@@ -14,6 +14,9 @@
                 <Transition name="bounce">
                     <table-filter-rents-component />
                 </Transition>
+                <Transition name="bounce">
+                    <summary-component />
+                </Transition>
             </div>
             <div class="xl:col-span-8 md:col-span-6 col-span-2 mx-auto">
                 <Transition name="bounce">
@@ -28,6 +31,7 @@
 import buttonComponent from '@/js/components/Common/button.vue';
 import tableRentsComponent from '@/js/components/Rents/tableRents.vue';
 import tableFilterRentsComponent from '@/js/components/Rents/tableFilterRents.vue';
+import summaryComponent from '@/js/components/Rents/summary.vue';
 
 defineProps({
     createrentroute: {

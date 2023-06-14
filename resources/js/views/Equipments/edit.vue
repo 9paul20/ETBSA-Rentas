@@ -5,8 +5,10 @@
         <divisor-component />
         <edit-equipment-form-component v-if="editEquipment" :editEquipment="editEquipment" :id="Number(id)"
             :datePickerFormat="datePickerFormat" />
+
         <divisor-component />
-        <fixed-expenses-crud-component v-if="tableFixedExpenses" :getFixedExpenses="tableFixedExpenses" />
+        <fixed-expenses-crud-component v-if="tableFixedExpenses" :getFixedExpenses="tableFixedExpenses"
+            :allTypeFixedExpensesList="allTypeFixedExpensesList" :id="Number(id)" />
         <divisor-component />
         <variable-expenses-crud-component v-if="tableVariableExpenses" :getVariableExpenses="tableVariableExpenses" />
         <divisor-component />
@@ -32,6 +34,7 @@ let datePickerFormat = ref(null);
 let tableFixedExpenses = ref(null);
 let tableVariableExpenses = ref(null);
 let tableMonthlyExpenses = ref(null);
+let allTypeFixedExpensesList = ref(null);
 
 defineProps({
     backtoindex: {
@@ -81,6 +84,7 @@ onMounted(async () => {
         tableFixedExpenses.value = editer.tableFixedExpenses;
         tableVariableExpenses.value = editer.tableVariableExpenses;
         tableMonthlyExpenses.value = editer.tableMonthlyExpenses;
+        allTypeFixedExpensesList.value = editer.allTypeFixedExpense;
         console.log(editer);
     } catch (error) {
         console.error(error);

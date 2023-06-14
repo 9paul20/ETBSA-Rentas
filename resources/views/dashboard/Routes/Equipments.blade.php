@@ -20,14 +20,19 @@
     </div>
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Equipments' &&
         is_numeric(getDashboardNameFromUrlSecond(request()->fullUrl())))
-    @include('Dashboard.Components.Equipments.Show')
+    {{-- @include('Dashboard.Components.Equipments.Show') --}}
+    <div id="vueApp">
+        <div>
+            <show-equipments />
+        </div>
+    </div>
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Equipments' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
-    {{-- @include('Dashboard.Components.Equipments.Create') --}}
-    <div id="vueApp">
+    @include('Dashboard.Components.Equipments.Create')
+    {{-- <div id="vueApp">
         <div>
             <edit-equipments backtoindex="{{ route('Dashboard.Admin.Equipments.Index') }}"
                 yieldtitle="@yield('meta-title', config('app.name'))" routetitle="{{ getDashboardNameFromUrlSecond(request()->fullUrl()) }}" />
         </div>
-    </div>
+    </div> --}}
 @endif

@@ -34,6 +34,9 @@ class RentsController extends Controller
             'equipment.monthlyExpenses:clvGastoMensual',
             'person:clvPersona,nombrePersona,apePaternoPersona,apeMaternoPersona',
             'statusRent:clvEstadoRenta,estadoRenta,textColor,bgColorPrimary,bgColorSecondary',
+            'PaymentsRents' => function ($query) {
+                $query->select('clvRenta', 'pagoRenta', 'ivaRenta')->orderBy('clvPagoRenta');
+            }
         ])
             ->withSum('PaymentsRents', 'pagoRenta')
             ->withSum('PaymentsRents', 'ivaRenta')
@@ -56,6 +59,23 @@ class RentsController extends Controller
             $rowData->routeDeleteRent = route('Dashboard.Admin.Rents.Destroy', $rowData->clvRenta);
             return $rowData;
         });
+        // return $rowDatas;
+
+        $sumPayments = DB::table('t_rentas')
+            ->join('t_pagos_rentas', function ($join) {
+                $join->on('t_rentas.clvRenta', '=', 't_pagos_rentas.clvRenta')
+                    ->whereRaw('t_pagos_rentas.clvPagoRenta = (SELECT MIN(clvPagoRenta) FROM t_pagos_rentas WHERE clvRenta = t_rentas.clvRenta)');
+            })
+            ->join('t_estados_rentas', 't_rentas.clvEstadoRenta', '=', 't_estados_rentas.clvEstadoRenta')
+            ->where('t_estados_rentas.estadoRenta', 'En renta')
+            ->select(DB::raw('SUM(t_pagos_rentas.pagoRenta) AS totalPagoRenta, SUM(t_pagos_rentas.ivaRenta) AS totalIvaRenta'))
+            ->first();
+
+        $sumaPagos = [
+            'totalPagoRenta' => $sumPayments->totalPagoRenta,
+            'totalIvaRenta' => $sumPayments->totalIvaRenta,
+        ];
+
         $columnNames = [
             'Equipo',
             'Cliente',
@@ -63,6 +83,9 @@ class RentsController extends Controller
             'Fecha Inicio',
             'Fecha Fin',
             'Estado De Renta',
+            'Pago Renta',
+            'IVA Renta',
+            'Renta Mensual',
             ''
         ];
         //Contador y relación de categorias de equipos existentes en rentas
@@ -89,6 +112,7 @@ class RentsController extends Controller
             });
         $Data = [
             'rowDatas' => $rowDatas,
+            'sumPayments' => $sumPayments,
             'columnNames' => $columnNames,
             'categories' => $categories,
             'statusRents' => $statusRents,
@@ -154,10 +178,13 @@ class RentsController extends Controller
             $rent = Rent::create($data);
             $rent->statusRent()->associate($clvStatusRent_enRenta);
 
-            $preciosMensuales = $data['preciosMensuales'];
-            $mesesARentar = $data['mesesARentar'];
-            $costoPeriodo = round($preciosMensuales - $preciosMensuales * 0.16, 2);
-            $costoIVA = round($preciosMensuales * 0.16, 2);
+            $rentaAlMes = $data['rentaAlMes'];
+            $diasARentar = $data['diasARentar'];
+            $diasAMeses = $diasARentar / 30;
+            $diasAMesesRounded = ceil($diasAMeses);
+            $mesesARentar = $diasAMesesRounded;
+            $costoPeriodo = round($rentaAlMes - $rentaAlMes * 0.16, 2);
+            $costoIVA = round($rentaAlMes * 0.16, 2);
 
             $fechaInicio = Carbon::createFromFormat('Y-m-d', $rent->fecha_inicio);
             $fechaInicioPagoRenta = $fechaInicio->copy();
@@ -271,15 +298,6 @@ class RentsController extends Controller
             $rowPaymentsRents->fecha_fin = date('j M Y', $fecha_fin);
             return $rowPaymentsRents;
         });
-        // $rowPaymentsRents->put('text', 'hola');
-        // $rowPaymentsRents->put('otroDato', 'valor');
-        // $nuevoDato = ['texto' => 'Hola', 'numero' => 123];
-        // $rowPaymentsRents->push($nuevoDato);
-        // $sumPaymentsRents = $rent
-        //     ->PaymentsRents()
-        //     ->with('estadoPagoRenta')
-        //     ->selectRaw('SUM(pagoRenta) as sumPagosRenta, SUM(ivaRenta) as sumIVARenta, SUM(pagoRenta + ivaRenta) as total')
-        //     ->first();
         $tablePaymentsRents = [
             'columnPaymentsRents' => $columnPaymentsRents,
             'rowPaymentsRents' => $rowPaymentsRents,

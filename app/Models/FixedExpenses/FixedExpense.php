@@ -30,19 +30,19 @@ class FixedExpense extends Model
     ];
 
     //Reglas de validación para el controlador de equipos
-    public static function getRulesEquipment($clvGastoFijo = null)
-    {
-        $rules = [
-            'gastoFijo' => 'required|string|min:4|max:255',
-            'costoGastoFijo' => 'required|numeric|between:0,99999999.99',
-            'folioFactura' =>
-            'nullable|string|max:20|unique:t_gastos_fijos,folioFactura,' . $clvGastoFijo . ',clvGastoFijo',
-            'fechaGastoFijo' => 'required|date|before_or_equal:' . now()->toDateString(),
-            'clvTipoGastoFijo' => 'required|not_in:[]',
-            'clvEquipo' => 'int',
-        ];
-        return $rules;
-    }
+    // public static function getRulesEquipment($clvGastoFijo = null)
+    // {
+    //     $rules = [
+    //         'gastoFijo' => 'required|string|min:4|max:255',
+    //         'costoGastoFijo' => 'required|numeric|between:0,99999999.99',
+    //         'folioFactura' =>
+    //         'nullable|string|max:20|unique:t_gastos_fijos,folioFactura,' . $clvGastoFijo . ',clvGastoFijo',
+    //         'fechaGastoFijo' => 'required|date|before_or_equal:' . now()->toDateString(),
+    //         'clvTipoGastoFijo' => 'required|not_in:[]',
+    //         'clvEquipo' => 'int',
+    //     ];
+    //     return $rules;
+    // }
 
     //Reglas de validación para el controlador de Gastos Fijos
     public static function getRulesFixedExpense($clvGastoFijo = null)

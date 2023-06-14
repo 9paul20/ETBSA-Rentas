@@ -9,6 +9,7 @@ export const rents = defineStore('rents', () => {
     let tableRentsTransition = ref(false);
     let categoriesList = ref([]);
     let statusRentsList = ref([]);
+    let sumPayments = ref(0);
 
     //Metodos
     const index = async () => {
@@ -20,6 +21,7 @@ export const rents = defineStore('rents', () => {
             categoriesList.value = [...data.categories];
             statusRentsList.value = [...data.statusRents];
             tableRentsTransition.value = !tableRentsTransition.value;
+            sumPayments.value = data.sumPayments;
         } catch (error) {
             console.error(error);
         }
@@ -79,7 +81,6 @@ export const rents = defineStore('rents', () => {
     };
     //Filtro General
     const filterRents = (queryEquipmentNoSerie, queryClientName, queryClientAP, queryClientAM, queryEquipmentCategory, queryStatusRent) => {
-        console.log(rowDatas.value.data);
         filteredRowDatas.value = rowDatas.value.data.filter(rowData => {
             return (
                 filterRentsByEquipmentNoSerie(rowData, queryEquipmentNoSerie) &&
@@ -91,6 +92,14 @@ export const rents = defineStore('rents', () => {
             );
         });
     };
+    //Funciones dedicadas
+    function precioFormatter(Precio) {
+        const formattedPrice = (Number(Precio)).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN',
+        });
+        return formattedPrice.replace('$', '');
+    }
 
     return {
         columnNames,
@@ -98,6 +107,7 @@ export const rents = defineStore('rents', () => {
         filteredRowDatas,
         categoriesList,
         statusRentsList,
+        sumPayments,
         tableRentsTransition,
         index,
         show,
@@ -107,6 +117,7 @@ export const rents = defineStore('rents', () => {
         filterRentsByClientAM,
         filterRentsByEquipmentCategory,
         filterRentsByRentSatus,
-        filterRents
+        filterRents,
+        precioFormatter,
     };
 });

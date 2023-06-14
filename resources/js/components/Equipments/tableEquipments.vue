@@ -6,7 +6,7 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th v-for="columnName in loader.Data.columnNames" scope="col"
-                                class="py-1 pl-1 pr-1 text-center text-sm font-semibold text-gray-900 sm:pl-6"
+                                class="py-1 pl-4 pr-1 text-center text-sm font-semibold text-gray-900 sm:pl-6"
                                 :key="columnName">
                                 {{ columnName }}</th>
                         </tr>
@@ -130,10 +130,7 @@ function getTitle(noSerieEquipo) {
     return name;
 }
 function getDescription(Modelo, Categoria, Precio) {
-    const description = "Es un " + Modelo + " - " + Categoria + " adquirido a un precio de " + (Precio).toLocaleString('es-MX', {
-        style: 'currency',
-        currency: 'MXN',
-    });
+    const description = "Es un " + Modelo + " - " + Categoria + " adquirido a un precio de $" + loader.precioFormatter(Precio);
     return description;
 }
 //Función para ver el dato de renta con SA2

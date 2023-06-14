@@ -116,6 +116,12 @@ class EquipmentsController extends Controller
     {
         $validatedData = $request->validated();
         $fixedExpense = FixedExpense::create($validatedData);
+        if (request()->wantsJson()) {
+            return response()->json([
+                'message' => 'Gasto Fijo agregado correctamente',
+                'data' => $fixedExpense,
+            ]);
+        }
         $fixedExpense->clvEquipo = $id;
         $fixedExpense->save();
         $equipment = Equipment::findOrFail($id);
@@ -309,33 +315,16 @@ class EquipmentsController extends Controller
                     'clvEquipo',
                 ]);
             },
-        ])->select(
-            'clvEquipo',
-            'noSerieEquipo',
-            'modelo',
-            'noSerieMotor',
-            'noEconomico',
-            'modelo',
-            'clvDisponibilidad',
-            'clvCategoria',
-            'descripcion',
-            'precioEquipo',
-            'precioEquipoActual',
-            'precioActualVenta',
-            'folioEquipo',
-            'fechaAdquisicion',
-            'fechaGarantiaExtendida',
-            'fechaVenta',
-            'porDeprAnual',
-        )->findOrFail($id);
+        ])->findOrFail($id)
+            ->makeHidden(['created_at', 'updated_at']);
 
         $allTypeFixedExpense = TypeFixedExpense::query()
             ->orderBy('clvTipoGastoFijo', 'asc')
-            ->get(
+            ->get([
                 'clvTipoGastoFijo',
                 'tipoGastoFijo',
                 'opcionUnica',
-            );
+            ]);
         $categories = Category::query()
             ->orderBy('clvCategoria', 'asc')
             ->get([
@@ -495,7 +484,6 @@ class EquipmentsController extends Controller
     public function update(FormRequestEquipment $request, String $id)
     {
         $validatedData = $request->validated();
-        return $validatedData;
         $equipment = Equipment::where('clvEquipo', $id)->update($validatedData);
         //Ya actualiza por medio de peticiones JSON; solo falta redireccionar de pagina y mandar mensaje de aviso
         if (request()->wantsJson()) {
@@ -513,6 +501,12 @@ class EquipmentsController extends Controller
     {
         $validatedData = $request->validated();
         $fixedExpense = FixedExpense::where('clvGastoFijo', $id)->update($validatedData);
+        if (request()->wantsJson()) {
+            return response()->json([
+                'message' => 'Gasto fijo actualizado correctamente',
+                'data' => $fixedExpense,
+            ]);
+        }
         $fixedExpense = FixedExpense::findOrFail($id);
         $equipment = Equipment::findOrFail($fixedExpense->clvEquipo);
         return back()
@@ -564,9 +558,22 @@ class EquipmentsController extends Controller
 
     public function destroyFixedExpenses(string $id)
     {
-        $fixedExpense = FixedExpense::findOrFail($id);
-        $fixedExpense->delete();
-        return back()->with('danger', 'Gasto Fijo ' . $fixedExpense->gastoFijo . ' eliminado correctamente.')->withFragment('#fixedExpensesScroll');
+        if (request()->wantsJson()) {
+            try {
+                $fixedExpense = fixedExpense::findOrFail($id);
+                $fixedExpense->delete();
+                return response()->json([
+                    'message' => 'El Gasto Fijo ha sido eliminado correctamente',
+                    'danger' => 'Gasto Fijo eliminado correctamente.'
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Error al eliminar el Gasto Fijo'], 500);
+            }
+        } else {
+            $fixedExpense = FixedExpense::findOrFail($id);
+            $fixedExpense->delete();
+            return back()->with('danger', 'Gasto Fijo ' . $fixedExpense->gastoFijo . ' eliminado correctamente.')->withFragment('#fixedExpensesScroll');
+        }
     }
 
     public function destroyVariablesExpenses(string $id)

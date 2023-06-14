@@ -1,11 +1,16 @@
 <template>
     <div>
         <button :type="type" :class="[
-            'inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm',
+            'inline-flex items-center justify-center rounded-md border',
+            'border-' + borderColor,
+            'px-4 py-2 text-sm font-medium',
+            'text-' + textColor,
+            'shadow-sm',
             'bg-' + colorButton, // Usa el valor de la propiedad colorButton en la clase CSS
             'hover:bg-' + colorButtonHover, // Usa el valor de la propiedad colorButtonHober en la clase CSS
-            'focus:outline-none focus:ring-2 focus:ring-' + colorRingFocus + ' focus:ring-offset-2',
-            'sm:w-auto',
+            'focus:outline-none focus:ring-2 focus:ring-' + colorRingFocus,
+            'focus:ring-offset-2 sm:w-auto',
+            addClass
         ]" @click="redirectToLink(href)">
             {{ text }}
         </button>
@@ -43,6 +48,21 @@ defineProps({
         type: String,
         required: false,
         default: "indigo-500",
+    },
+    borderColor: {
+        type: String,
+        required: false,
+        default: "transparent",
+    },
+    textColor: {
+        type: String,
+        required: false,
+        default: "white",
+    },
+    addClass: {
+        type: String,
+        required: false,
+        default: "",
     },
 });
 function redirectToLink(href) {

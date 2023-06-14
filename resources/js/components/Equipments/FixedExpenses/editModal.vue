@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="open">
         <TransitionRoot as="template" :show="open">
             <Dialog as="div" class="relative z-10">
                 <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
@@ -15,8 +15,9 @@
                             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                             <DialogPanel
                                 class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                                <form @submit.prevent="loader.storeFixedExpense(id)" method="POST">
+                                <form @submit.prevent="" method="PUT">
                                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                        <!-- Contenido -->
                                         <div class="sm:flex sm:items-start justify-center"> <!-- Titulo -->
                                             <div class="mt-3 text-center sm:mt-0 sm:text-left">
                                                 <div>
@@ -32,7 +33,8 @@
                                         <div class="col-span-6 sm:col-span-6"> <!-- Disponibilidad -->
                                             <listBoxTypeFixedExpensesComponent :list="allTypeFixedExpensesList"
                                                 @type-fixed-expense-selected="onTypeFixedExpenseSelected"
-                                                :errorsList="loader.fixedExpenseErrors.clvTipoGastoFijo" />
+                                                :errorsList="loader.fixedExpenseErrors.clvTipoGastoFijo"
+                                                :select="model.clvTipoGastoFijo" />
                                             <input v-model="clvTipoGastoFijo" class="hidden">
                                         </div>
                                         <div class="col-span-6 sm:col-span-6 my-1"> <!-- Gasto fijo -->
@@ -42,27 +44,28 @@
                                                 Gasto
                                                 Fijo</label>
                                             <div class="relative mt-1 rounded-md shadow-sm">
-                                                <input type="text" v-model="loader.fixedExpense.gastoFijo"
-                                                    autocomplete="given-gastoFijo" min="4" max="255" :class="[
+                                                <input type="text" v-model="model.gastoFijo" autocomplete="given-gastoFijo"
+                                                    min="4" max="255" :class="[
                                                         'mt-1 block w-full rounded-md ',
-                                                        loader.fixedExpenseErrors.gastoFijo ? 'border-red-300' : 'border-gray-300',
+                                                        loader.fixedExpenseUpdateErrors.gastoFijo ? 'border-red-300' : 'border-gray-300',
                                                         ' shadow-sm ',
-                                                        loader.fixedExpenseErrors.gastoFijo ? 'focus:border-red-500' : 'focus:border-green-500',
+                                                        loader.fixedExpenseUpdateErrors.gastoFijo ? 'focus:border-red-500' : 'focus:border-green-500',
                                                         ' ',
-                                                        loader.fixedExpenseErrors.gastoFijo ? 'focus:ring-red-500' : 'focus:ring-green-500',
+                                                        loader.fixedExpenseUpdateErrors.gastoFijo ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                         ' sm:text-sm'
                                                     ]" pattern=".{4,255}" aria-describedby="gastoFijo-error"
                                                     title="El campo debe contener entre 4 y 255 caracteres" autofocus>
                                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
-                                                    v-if="loader.fixedExpenseErrors.gastoFijo">
+                                                    v-if="loader.fixedExpenseUpdateErrors.gastoFijo">
                                                     <ExclamationCircleIcon class="h-5 w-5 text-red-500"
                                                         aria-hidden="true" />
                                                 </div>
                                             </div>
-                                            <div v-if="loader.fixedExpenseErrors.gastoFijo">
+                                            <div v-if="loader.fixedExpenseUpdateErrors.gastoFijo">
                                                 <ul>
                                                     <li class="mt-2 text-sm text-red-600" id="gastoFijo-error"
-                                                        v-for="error in loader.fixedExpenseErrors.gastoFijo" :key="error">{{
+                                                        v-for="error in loader.fixedExpenseUpdateErrors.gastoFijo"
+                                                        :key="error">{{
                                                             error }}
                                                     </li>
                                                 </ul>
@@ -74,7 +77,7 @@
                                                 Gasto
                                                 Fijo</label>
                                             <div class="relative mt-1 rounded-md shadow-sm">
-                                                <VueDatePicker v-model="loader.fixedExpense.fechaGastoFijo"
+                                                <VueDatePicker v-model="model.fechaGastoFijo"
                                                     placeholder="Fecha De Gasto Fijo" autocomplete="off"
                                                     class="mt-1 block w-full rounded-md shadow-sm sm:text-sm"
                                                     :max-date="new Date()" :format="loader.datePickerFormat" position="left"
@@ -82,15 +85,15 @@
                                                     aria-invalid="true" aria-describedby="fechaGastoFijo-error"
                                                     :day-names="['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do']" />
                                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
-                                                    v-if="loader.fixedExpenseErrors.fechaGastoFijo">
+                                                    v-if="loader.fixedExpenseUpdateErrors.fechaGastoFijo">
                                                     <ExclamationCircleIcon class="h-5 w-5 text-red-500"
                                                         aria-hidden="true" />
                                                 </div>
                                             </div>
-                                            <div v-if="loader.fixedExpenseErrors.fechaGastoFijo">
+                                            <div v-if="loader.fixedExpenseUpdateErrors.fechaGastoFijo">
                                                 <ul>
                                                     <li class="mt-2 text-sm text-red-600" id="fechaGastoFijo-error"
-                                                        v-for="error in loader.fixedExpenseErrors.fechaGastoFijo"
+                                                        v-for="error in loader.fixedExpenseUpdateErrors.fechaGastoFijo"
                                                         :key="error">{{ error }}
                                                     </li>
                                                 </ul>
@@ -103,26 +106,26 @@
                                                 Fijo</label>
                                             <div class="relative mt-1 rounded-md shadow-sm">
                                                 <input type="number" pattern="[0-9]+(\.[0-9]+)?" min="0" step="0.01"
-                                                    autocomplete="given-costoGastoFijo"
-                                                    v-model="loader.fixedExpense.costoGastoFijo" :class="[
+                                                    autocomplete="given-costoGastoFijo" v-model="model.costoGastoFijo"
+                                                    :class="[
                                                         'mt-1 block w-full rounded-md ',
-                                                        loader.fixedExpenseErrors.gastoFijo ? 'border-red-300' : 'border-gray-300',
+                                                        loader.fixedExpenseUpdateErrors.gastoFijo ? 'border-red-300' : 'border-gray-300',
                                                         ' shadow-sm ',
-                                                        loader.fixedExpenseErrors.gastoFijo ? 'focus:border-red-500' : 'focus:border-green-500',
+                                                        loader.fixedExpenseUpdateErrors.gastoFijo ? 'focus:border-red-500' : 'focus:border-green-500',
                                                         ' ',
-                                                        loader.fixedExpenseErrors.gastoFijo ? 'focus:ring-red-500' : 'focus:ring-green-500',
+                                                        loader.fixedExpenseUpdateErrors.gastoFijo ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                         ' sm:text-sm'
                                                     ]" aria-describedby="costoGastoFijo-error" max="99999999.99">
                                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
-                                                    v-if="loader.fixedExpenseErrors.costoGastoFijo">
+                                                    v-if="loader.fixedExpenseUpdateErrors.costoGastoFijo">
                                                     <ExclamationCircleIcon class="h-5 w-5 text-red-500"
                                                         aria-hidden="true" />
                                                 </div>
                                             </div>
-                                            <div v-if="loader.fixedExpenseErrors.costoGastoFijo">
+                                            <div v-if="loader.fixedExpenseUpdateErrors.costoGastoFijo">
                                                 <ul>
                                                     <li class="mt-2 text-sm text-red-600" id="costoGastoFijo-error"
-                                                        v-for="error in loader.fixedExpenseErrors.costoGastoFijo"
+                                                        v-for="error in loader.fixedExpenseUpdateErrors.costoGastoFijo"
                                                         :key="error">{{ error }}
                                                     </li>
                                                 </ul>
@@ -133,27 +136,27 @@
                                                 Del Gasto
                                                 Fijo</label>
                                             <div class="relative mt-1 rounded-md shadow-sm">
-                                                <input type="text" v-model="loader.fixedExpense.folioFactura"
+                                                <input type="text" v-model="model.folioFactura"
                                                     autocomplete="given-folioFactura" :class="[
                                                         'mt-1 block w-full rounded-md ',
-                                                        loader.fixedExpenseErrors.folioFactura ? 'border-red-300' : 'border-gray-300',
+                                                        loader.fixedExpenseUpdateErrors.folioFactura ? 'border-red-300' : 'border-gray-300',
                                                         ' shadow-sm ',
-                                                        loader.fixedExpenseErrors.folioFactura ? 'focus:border-red-500' : 'focus:border-green-500',
+                                                        loader.fixedExpenseUpdateErrors.folioFactura ? 'focus:border-red-500' : 'focus:border-green-500',
                                                         ' ',
-                                                        loader.fixedExpenseErrors.folioFactura ? 'focus:ring-red-500' : 'focus:ring-green-500',
+                                                        loader.fixedExpenseUpdateErrors.folioFactura ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                         ' sm:text-sm'
                                                     ]" aria-describedby="folioFactura-error" minlength="4"
                                                     maxlength="20" />
                                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
-                                                    v-if="loader.fixedExpenseErrors.folioFactura">
+                                                    v-if="loader.fixedExpenseUpdateErrors.folioFactura">
                                                     <ExclamationCircleIcon class="h-5 w-5 text-red-500"
                                                         aria-hidden="true" />
                                                 </div>
                                             </div>
-                                            <div v-if="loader.fixedExpenseErrors.folioFactura">
+                                            <div v-if="loader.fixedExpenseUpdateErrors.folioFactura">
                                                 <ul>
                                                     <li class="mt-2 text-sm text-red-600" id="folioFactura-error"
-                                                        v-for="error in loader.fixedExpenseErrors.folioFactura"
+                                                        v-for="error in loader.fixedExpenseUpdateErrors.folioFactura"
                                                         :key="error">{{ error }}
                                                     </li>
                                                 </ul>
@@ -161,11 +164,11 @@
                                         </div>
                                     </div>
                                     <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"> <!-- Botones -->
-                                        <button-component text="Guardar" type="submit" colorButton="green-600"
-                                            colorButtonHover="green-700" colorRingFocus="green-500" addClass="sm:ml-3" />
+                                        <button-component text="Guardar" type="submit" colorButton="blue-600"
+                                            colorButtonHover="blue-700" colorRingFocus="blue-500" addClass="sm:ml-3" />
                                         <button-component text="Cerrar" type="button" colorButton="red-600"
                                             colorButtonHover="red-700" colorRingFocus="red-500"
-                                            @click="closeModalCreateFixedExpense()" addClass="sm:ml-3" />
+                                            @click="closeModalEditFixedExpense()" addClass="sm:ml-3" />
                                     </div>
                                 </form>
                             </DialogPanel>
@@ -182,15 +185,16 @@ import { ref, watch, defineEmits, onMounted } from 'vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
 import { ExclamationCircleIcon } from '@heroicons/vue/20/solid';
-import buttonComponent from '@/js/components/Common/button.vue';
 import listBoxTypeFixedExpensesComponent from '@/js/components/Equipments/FixedExpenses/listBoxTypeFixedExpenses.vue';
+import buttonComponent from '@/js/components/Common/button.vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { equipments } from '@/js/store/Admin/Equipments.js';
 
-const fechaGastoFijo = ref(null);
+const open = ref(props.open);
 const clvTipoGastoFijo = ref(null);
 const loader = equipments();
+
 const props = defineProps({
     open: {
         type: Boolean,
@@ -202,6 +206,11 @@ const props = defineProps({
         required: false,
         default: null,
     },
+    model: {
+        type: Object,
+        required: false,
+        default: null,
+    },
     id: {
         type: Number,
         required: false,
@@ -209,24 +218,17 @@ const props = defineProps({
     },
 });
 const emit = defineEmits([
-    'closeModalCreateFixedExpense-value'
+    'closeModalEditFixedExpense-value'
 ]);
-const open = ref(props.open);
-
 watch(
     () => props.open,
     (newValue) => {
         open.value = newValue;
     }
 );
-onMounted(() => {
-    //Validador si existe un hash para abrir un modal en especifico
-    open.value = (window.location.hash === '#createdFixedExpenses') ? true : open.value;
-});
-
-function closeModalCreateFixedExpense() {
+function closeModalEditFixedExpense() {
     open.value = false;
-    emit("closeModalCreateFixedExpense-value", open.value);
+    emit("closeModalEditFixedExpense-value", open.value);
     window.location.hash = "fixedExpensesScroll";
 }
 const onTypeFixedExpenseSelected = (select) => {

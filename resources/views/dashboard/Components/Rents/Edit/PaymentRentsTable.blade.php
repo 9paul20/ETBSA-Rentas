@@ -2,13 +2,13 @@
     $i = 1;
 @endphp
 <div class="mx-auto max-w-7xl" id="PaymentsRentsScroll">
-    <div class="sm:flex sm:items-center">
+    <div class="sm:flex sm:items-center"> {{-- Titulo --}}
         <div class="sm:flex-auto">
             <h1 class="text-xl font-semibold text-gray-900">Pagos De Renta</h1>
         </div>
     </div>
     @if (count($Data['tablePaymentsRents']['rowPaymentsRents']) > 0)
-        <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+        <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-2">
             <div class="overflow-x-auto">
                 <table
                     class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
@@ -16,7 +16,7 @@
                         <tr>
                             @foreach ($Data['tablePaymentsRents']['columnPaymentsRents'] as $columnPaymentRent)
                                 <th scope="col"
-                                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                    class="py-1 pl-4 pr-1 text-left text-sm font-semibold text-gray-900 sm:pl-3">
                                     {{ $columnPaymentRent }}</th>
                             @endforeach
                         </tr>
@@ -24,13 +24,13 @@
                     <tbody class="divide-y divide-gray-200 border-t bg-white text-left">
                         @foreach ($Data['tablePaymentsRents']['rowPaymentsRents'] as $rowPaymentRent)
                             <tr class="hover:bg-gray-100">
-                                <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                                <th class="flex gap-1 px-3 py-2 font-normal text-gray-900">
                                     <div class="text-sm">
                                         <div class="font-medium text-gray-700">
                                             {{ $i }}</div>
                                     </div>
                                 </th>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <td class="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
                                     <span
                                         class="inline-flex items-center gap-1 rounded-full {{ $rowPaymentRent->estadoPagoRenta->bgColorPrimary }} px-2 py-1 text-xs font-semibold {{ $rowPaymentRent->estadoPagoRenta->textColor }}">
                                         <span
@@ -38,19 +38,19 @@
                                         {{ $rowPaymentRent->estadoPagoRenta->estadoPagoRenta }}
                                     </span>
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <td class="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
                                     @if (isset($rowPaymentRent['fecha_fin']))
                                         <div class="text-gray-600">{{ $rowPaymentRent['fecha_fin'] }}</div>
                                     @else
                                         <div class="text-orange-600">Sin fecha</div>
                                     @endif
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <td class="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
                                     <div class="text-gray-600"><span class="font-medium text-green-600">$</span>
                                         {{ number_format($rowPaymentRent['pagoRenta'] + $rowPaymentRent['ivaRenta'], 2) }}
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 py-2">
                                     <div class="flex justify-end gap-4">
                                         <x-Dashboard.IconButton-Show_SA id="PaymentRentShow_{{ $i }}"
                                             name="Pago De Renta No.{{ $i }}"
@@ -74,7 +74,7 @@
                             @endphp
                         @endforeach
                         <tr class="bg-gray-50" id="total-gastos-variables">
-                            <td class="px-6 py-4 font-semibold text-gray-900">Total:</td>
+                            <td class="px-3 py-2 font-semibold text-gray-900">Total:</td>
                             <td>
                                 <p class="text-xs text-gray-500 font-normal">Meses Pagados: <span
                                         class="text-green-500">{{ $Data['rent']['pagados'] }}</span></p>
@@ -84,7 +84,7 @@
                                         class="text-red-500">{{ $Data['rent']['mora'] }}</span></p>
                             </td>
                             <td></td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 font-semibold"
+                            <td class="whitespace-nowrap px-3 py-2 text-sm text-gray-500 font-semibold"
                                 id="total-costo-gastos-variables"><span class="font-medium text-green-600">$</span>
                                 {{ number_format($Data['rent']['payments_rents_sum_pago_renta'] + $Data['rent']['payments_rents_sum_iva_renta'], 2) }}
                             </td>

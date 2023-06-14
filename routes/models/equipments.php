@@ -37,16 +37,20 @@ Route::resource('Admin/Equipments', 'Admin\EquipmentsController')->names([
 ]);
 
 //*Edit
+//Fixed Expenses Catalog
 Route::put('Admin/Equipments/updateFixedExpensionsCatalogs/{clvEquipo}', 'Admin\EquipmentsController@updateFixedExpensesCatalogs')->name('Dashboard.Admin.Equipments.UpdateFixedExpensesCatalogs');
 
+//Fixed Expenses Equipment Edit
 Route::post('Admin/Equipments/storeFixedExpenses/{clvEquipo}', 'Admin\EquipmentsController@storeFixedExpenses')->name('Dashboard.Admin.Equipments.StoreFixedExpenses');
 Route::put('Admin/Equipments/updateFixedExpenses/{clvGastoFijo}', 'Admin\EquipmentsController@updateFixedExpenses')->name('Dashboard.Admin.Equipments.UpdateFixedExpenses');
 Route::delete('Admin/Equipments/destroyFixedExpenses/{clvGastoFijo}', 'Admin\EquipmentsController@destroyFixedExpenses')->name('Dashboard.Admin.Equipments.DestroyFixedExpenses');
 
+//Variable Expenses Equipment Edit
 Route::post('Admin/Equipments/storeVariablesExpenses/{clvEquipo}', 'Admin\EquipmentsController@storeVariablesExpenses')->name('Dashboard.Admin.Equipments.StoreVariablesExpenses');
 Route::put('Admin/Equipments/updateVariablesExpenses/{clvGastoVariable}', 'Admin\EquipmentsController@updateVariablesExpenses')->name('Dashboard.Admin.Equipments.UpdateVariablesExpenses');
 Route::delete('Admin/Equipments/destroyVariablesExpenses/{clvGastoVariable}', 'Admin\EquipmentsController@destroyVariablesExpenses')->name('Dashboard.Admin.Equipments.DestroyVariablesExpenses');
 
+//Monthly Expenses Equipment Edit
 Route::post('Admin/Equipments/storeMonthlyExpenses/{clvEquipo}', 'Admin\EquipmentsController@storeMonthlyExpenses')->name('Dashboard.Admin.Equipments.StoreMonthlyExpenses');
 Route::put('Admin/Equipments/updateMonthlyExpenses/{clvGastoMensual}', 'Admin\EquipmentsController@updateMonthlyExpenses')->name('Dashboard.Admin.Equipments.UpdateMonthlyExpenses');
 Route::delete('Admin/Equipments/destroyMonthlyExpenses/{clvGastoMensual}', 'Admin\EquipmentsController@destroyMonthlyExpenses')->name('Dashboard.Admin.Equipments.DestroyMonthlyExpenses');

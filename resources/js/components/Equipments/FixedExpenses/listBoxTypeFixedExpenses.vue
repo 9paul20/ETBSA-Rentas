@@ -1,5 +1,5 @@
 <template>
-    <div class="col-span-6 sm:col-span-6">
+    <div>
         <Listbox as="div" v-model="selected" @click.prevent="handleSelection()">
             <div class="relative mt-1 rounded-md shadow-sm">
                 <ListboxButton :class="[
@@ -11,7 +11,7 @@
                     errorsList ? 'focus:ring-red-500' : 'focus:ring-green-500',
                     ' sm:text-sm'
                 ]">
-                    <span class="block truncate">{{ selected?.disponibilidad || 'Seleccione una disponibilidad' }}</span>
+                    <span class="block truncate">{{ selected?.tipoGastoFijo || 'Seleccione un tipo de gasto fijo' }}</span>
                     <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                         <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
@@ -20,13 +20,14 @@
                     leave-to-class="opacity-0">
                     <ListboxOptions
                         class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-                        aria-invalid="true" aria-describedby="disponibilidad-error">
-                        <ListboxOption as="template" v-for="status in list" :key="status.clvDisponibilidad" :value="status"
+                        aria-invalid="true" aria-describedby="tipo-gasto-fijo-error">
+                        <ListboxOption as="template" v-for="typeFixedExpense in list"
+                            :key="typeFixedExpense.clvTipoGastoFijo" :value="typeFixedExpense"
                             v-slot="{ active, selected }">
                             <li
                                 :class="[active ? 'text-white bg-green-600' : 'text-gray-900', 'relative cursor-default select-none py-2 pl-3 pr-9']">
                                 <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">{{
-                                    status.disponibilidad
+                                    typeFixedExpense.tipoGastoFijo
                                 }}</span>
                                 <span v-if="selected"
                                     :class="[active ? 'text-white' : 'text-green-600', 'absolute inset-y-0 right-0 flex items-center pr-4']">
@@ -42,7 +43,7 @@
             </div>
             <div v-if="errorsList">
                 <ul>
-                    <li class="mt-2 text-sm text-red-600" id="disponibilidad-error" v-for="error in errorsList"
+                    <li class="mt-2 text-sm text-red-600" id="tipo-gasto-fijo-error" v-for="error in errorsList"
                         :key="error">{{
                             error }}</li>
                 </ul>
@@ -70,18 +71,18 @@ const props = defineProps({
     errorsList: {
         type: String,
         required: false,
-        default: () => "",
+        default: () => null,
     },
 });
 const selected = ref(props.list[props.select]);
 const emit = defineEmits([
-    'status-selected'
+    'type-fixed-expense-selected'
 ]);
 const handleSelection = () => {
-    let status = "";
+    let ifSelect = "";
     if (selected.value)
-        status = selected.value;
-    emit("status-selected", status);
+        ifSelect = selected.value;
+    emit("type-fixed-expense-selected", ifSelect);
 };
 </script>
 

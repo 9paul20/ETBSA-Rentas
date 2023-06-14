@@ -18,5 +18,3 @@
 
     @include('Dashboard.Components.Equipments.Edit.MonthlyExpensesTable')
 @endif
-
-@include('Dashboard.Components.Divisor')

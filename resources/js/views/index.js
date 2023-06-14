@@ -1,11 +1,13 @@
 import indexEquipments from '@/js/views/Equipments/index.vue';
-import createEquipments from '@/js/views/Equipments/create.vue';
-import editEquipments from '@/js/views/Equipments/edit.vue';
 import indexRents from '@/js/views/Rents/index.vue';
+import createEquipments from '@/js/views/Equipments/create.vue';
+import showEquipments from '@/js/views/Equipments/show.vue';
+import editEquipments from '@/js/views/Equipments/edit.vue';
 
 export default {
     indexEquipments,
-    createEquipments,
-    editEquipments,
     indexRents,
+    createEquipments,
+    showEquipments,
+    editEquipments,
 }

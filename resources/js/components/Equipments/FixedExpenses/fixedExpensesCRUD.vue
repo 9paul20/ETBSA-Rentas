@@ -5,8 +5,12 @@
                 <h1 class="text-xl font-semibold text-gray-900">Gastos Fijos</h1>
             </div>
             <button-component text="Add Fixed Expense" colorButton="green-600" colorButtonHover="green-700"
-                colorRingFocus="green-600" @click="openModal()" />
-            <create-modal-component :open="open" @open-value="openValue" />
+                colorRingFocus="green-600" @click="createModalFixedExpense()" />
+            <create-modal-component :open="openModalCreateFixedExpense"
+                @closeModalCreateFixedExpense-value="createModalValue" :allTypeFixedExpensesList="allTypeFixedExpensesList"
+                :id="id" />
+            <edit-modal-component :open="openModalEditFixedExpense" @closeModalEditFixedExpense-value="editModalValue"
+                :allTypeFixedExpensesList="allTypeFixedExpensesList" :id="id" :model="modelEdit" />
         </div>
         <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-1">
             <div class="overflow-x-auto">
@@ -57,10 +61,10 @@
                                             rowFixedExpense.costoGastoFijo,
                                             'info',
                                         )" />
-                                    <!-- <icon-button color="text-blue-500" :href="rowData.routeUpdateEquipment"
-                                            :tooltip="`'EditEquipment_` + rowData.clvEquipo + `'`"
-                                            svg="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                                            :id="'Edit_' + rowData.clvEquipo" :clv="rowData.clvEquipo" /> -->
+                                    <icon-button color="text-blue-500" @click="editModalFixedExpense(rowFixedExpense)"
+                                        :tooltip="`'EditFixedExpense_` + rowFixedExpense.clvGastoFijo + `'`"
+                                        svg="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                                        :id="'Edit_' + rowFixedExpense.clvGastoFijo" :clv="rowFixedExpense.clvGastoFijo" />
                                     <icon-button color="text-red-500"
                                         :tooltip="`'DeleteFixedExpense_` + rowFixedExpense.clvGastoFijo + `'`"
                                         svg="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
@@ -70,7 +74,7 @@
                                             rowFixedExpense.gastoFijo,
                                             'warning',
                                             rowFixedExpense,
-                                            rowFixedExpense,
+                                            rowFixedExpense.clvGastoFijo,
                                         )" />
                                 </div>
                             </td>
@@ -90,18 +94,35 @@ import { ref } from 'vue';
 import buttonComponent from '@/js/components/Common/button.vue';
 import iconButton from '@/js/components/Common/iconButton.vue';
 import createModalComponent from '@/js/components/Equipments/FixedExpenses/createModal.vue';
+import editModalComponent from '@/js/components/Equipments/FixedExpenses/editModal.vue';
+import axios from 'axios';
+import { equipments } from '@/js/store/Admin/Equipments.js';
 
-const open = ref(false);
-console.log("open en padre es:", open.value);
-function openModal() {
-    open.value = open.value = true;
-    console.log("open en padre es:", open.value);
+const loader = equipments();
+const modelEdit = ref();
+const openModalCreateFixedExpense = ref(false);
+const openModalEditFixedExpense = ref(false);
+function createModalFixedExpense() {
+    openModalCreateFixedExpense.value = true;
+    window.location.hash = "createdFixedExpenses";
 }
-function openValue(openV) {
-    open.value = openV;
-    console.log("open en padre es:", open.value);
+function editModalFixedExpense(dataLog) {
+    openModalEditFixedExpense.value = true;
+    modelEdit.value = {
+        gastoFijo: dataLog.gastoFijo,
+        costoGastoFijo: dataLog.costoGastoFijo,
+        folioFactura: dataLog.folioFactura,
+        fechaGastoFijo: dataLog.fechaGastoFijo,
+        clvTipoGastoFijo: dataLog.clvTipoGastoFijo,
+        clvEquipo: dataLog.clvEquipo,
+    };
 }
-
+function createModalValue(createValue) {
+    openModalCreateFixedExpense.value = createValue;
+}
+function editModalValue(editValue) {
+    openModalEditFixedExpense.value = editValue;
+}
 //Función para ver el dato de renta con SA2
 function show(name, description, price, icon) {
     Swal.fire({
@@ -113,7 +134,7 @@ function show(name, description, price, icon) {
     })
 }
 //Función para eliminar el dato de renta con SA2
-function confirmDelete(name, price, icon, item, url) {
+function confirmDelete(name, price, icon, item, id) {
     Swal.fire({
         title: `¿Estás seguro de eliminar el dato de ${name} con precio de $${price}?`,
         text: "Esta acción no se puede deshacer.",
@@ -127,38 +148,39 @@ function confirmDelete(name, price, icon, item, url) {
         if (result.isConfirmed) {
             //Eliminación usando axios con una función try catch
             try {
-                // axios.delete(url).then(() => {
-                // Mostrar mensaje de éxito
-                Swal.fire({
-                    title: '¡Dato eliminado!',
-                    text: 'El dato ha sido eliminado correctamente.',
-                    icon: 'success',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Aceptar'
-                }).then(() => {
-                    //Transition de VueJS 3, al eliminar un dato
-                    const index = props.getFixedExpenses.rowFixedExpenses.data.indexOf(item);
-                    if (index !== -1) {
-                        props.getFixedExpenses.rowFixedExpenses.data.splice(index, 1);
-                    }
+                axios.delete(`http://etbsa-rentas.test/api/FixedExpensesEquipmentsAPI/${id}`).then(() => {
+                    // Mostrar mensaje de éxito
+                    Swal.fire({
+                        title: '¡Dato eliminado!',
+                        text: 'El dato ha sido eliminado correctamente.',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        //Transition de VueJS 3, al eliminar un dato
+                        const index = props.getFixedExpenses.rowFixedExpenses.data.indexOf(item);
+                        if (index !== -1) {
+                            props.getFixedExpenses.rowFixedExpenses.data.splice(index, 1);
+                        }
+                    });
+                }).catch((error) => {
+                    console.error(error);
+                    // Mostrar mensaje de error
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Ha ocurrido un error al eliminar el dato.',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    });
                 });
-                // }).catch((error) => {
-                //     console.error(error);
-                //     // Mostrar mensaje de error
-                //     Swal.fire({
-                //         title: 'Error',
-                //         text: 'Ha ocurrido un error al eliminar el dato.',
-                //         icon: 'error',
-                //         confirmButtonColor: '#3085d6',
-                //         confirmButtonText: 'Aceptar'
-                //     });
-                // });
             } catch (error) {
                 console.error(error);
             }
         }
     });
 }
+
 const props = defineProps({
     id: {
         type: Number,
@@ -166,6 +188,11 @@ const props = defineProps({
         default: null,
     },
     getFixedExpenses: {
+        type: Object,
+        required: false,
+        default: null,
+    },
+    allTypeFixedExpensesList: {
         type: Object,
         required: false,
         default: null,

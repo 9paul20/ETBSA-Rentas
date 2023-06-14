@@ -66,6 +66,10 @@ Route::delete('/EquipmentsListAPI/{id}', [App\Http\Controllers\Dashboard\Admin\E
 Route::get('/CategoriesListAPI', [App\Http\Controllers\Dashboard\Admin\Equipments\CategoriesController::class, 'indexAPI']);
 //Disponibilidad
 Route::get('/StatusListAPI', [App\Http\Controllers\Dashboard\Admin\Equipments\StatusController::class, 'indexAPI']);
+//Gastos Fijos
+Route::post('/FixedExpensesEquipmentsAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'storeFixedExpenses']);
+Route::put('/FixedExpensesEquipmentsAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'updateFixedExpenses']);
+Route::delete('/FixedExpensesEquipmentsAPI/{id}', [App\Http\Controllers\Dashboard\Admin\EquipmentsController::class, 'destroyFixedExpenses']);
 
 // Rentas
 Route::get('/RentsListAPI', [App\Http\Controllers\Dashboard\Admin\RentsController::class, 'index']);

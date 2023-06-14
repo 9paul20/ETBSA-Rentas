@@ -26,8 +26,8 @@
                     </div>
                     <form action="{{ $action }}" class="mt-4 space-y-4" method="POST">
                         @csrf
-                        {!! html_entity_decode($SelectTypeFixedExpense) !!}
-                        <div class="col-span-6 sm:col-span-6">
+                        {!! html_entity_decode($SelectTypeFixedExpense) !!} {{-- Lista de gastos fijos --}}
+                        <div class="col-span-6 sm:col-span-6"> {{-- Descripción del gasto fijo --}}
                             <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Descripción Corta Del
                                 Gasto
                                 Fijo</label>
@@ -44,7 +44,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- Fecha del gasto fijo --}}
                             <label for="fechaGastoFijo" class="block text-sm font-medium text-gray-700">Fecha Del
                                 Gasto
                                 Fijo</label>
@@ -59,7 +59,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- Costo del gasto fijo --}}
                             <label for="costoGastoFijo" class="block text-sm font-medium text-gray-700">Costo Del
                                 Gasto
                                 Fijo</label>
@@ -76,7 +76,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- Folio del gasto fijo --}}
                             <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio Del Gasto
                                 Fijo</label>
                             <input type="text" name="folioFactura" id="create-folioFactura"
@@ -91,7 +91,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
+                        <div class="mt-5 sm:mt-6 flex justify-end space-x-2"> {{-- Botones de acción --}}
                             <button type="submit"
                                 class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 rounded-md">Guardar</button>
                             <button type="button" id="btn-create-modal-{{ $id }}-close"

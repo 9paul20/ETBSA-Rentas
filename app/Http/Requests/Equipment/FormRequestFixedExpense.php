@@ -24,7 +24,8 @@ class FormRequestFixedExpense extends FormRequest
         $rules = [
             'gastoFijo' => 'required|string|min:4|max:255',
             'costoGastoFijo' => 'required|numeric|between:0,99999999.99',
-            'folioFactura' => 'nullable|string|max:20|unique:t_gastos_fijos,folioFactura,' . $clvGastoFijo . ',clvGastoFijo',
+            'folioFactura' =>
+            'nullable|string|max:20|unique:t_gastos_fijos,folioFactura,' . $clvGastoFijo . ',clvGastoFijo',
             'fechaGastoFijo' => 'required|date|before_or_equal:' . now()->toDateString(),
             'clvTipoGastoFijo' => 'required|not_in:[]',
             'clvEquipo' => 'int',

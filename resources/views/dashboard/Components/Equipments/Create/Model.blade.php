@@ -1,6 +1,6 @@
-<div class="mt-10 sm:mt-0">
+<div class="mt-10 sm:mt-0"> {{-- Cuerpo del CRUD para crear o editar equipo --}}
     <div class="md:grid md:grid-cols-3 md:gap-6">
-        <div class="md:col-span-1">
+        <div class="md:col-span-1"> {{-- Titulo e información --}}
             <div class="px-4 sm:px-0">
                 <h3 class="text-lg font-medium leading-6 text-gray-900">Equipment Information</h3>
                 <p class="mt-1 text-sm text-gray-600">Use a permanent address where you can receive mail.</p>
@@ -12,7 +12,7 @@
                 @endif
             </div>
         </div>
-        <div class="mt-5 md:col-span-2 md:mt-0">
+        <div class="mt-5 md:col-span-2 md:mt-0"> {{-- Formulario html --}}
             @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Equipments' &&
                     getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
                 <form action="{{ route('Dashboard.Admin.Equipments.Store') }}" method="POST">
@@ -24,9 +24,9 @@
             @endif
             @csrf
             <div class="overflow-hidden shadow sm:rounded-md">
-                <div class="bg-white px-4 py-5 sm:p-6">
-                    <div class="grid grid-cols-6 gap-6">
-                        <div class="col-span-6 sm:col-span-6">
+                <div class="bg-white px-1 py-1 sm:p-6">
+                    <div class="grid grid-cols-6 gap-1">
+                        <div class="col-span-3 sm:col-span-3"> {{-- Numero de serie del equipo --}}
                             <label for="noSerieEquipo" class="block text-sm font-medium text-gray-700">No. Serie
                                 Del
                                 Equipo</label>
@@ -43,14 +43,14 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-3 sm:col-span-3"> {{-- Numero de serie del motor --}}
                             <label for="noSerieMotor" class="block text-sm font-medium text-gray-700">No. Serie
                                 Del
                                 Motor</label>
                             <input type="text" name="noSerieMotor" id="noSerieMotor"
                                 autocomplete="given-noSerieMotor"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('noSerieMotor') border-red-400 @enderror"
-                                value="{{ old('noSerieMotor', $Data['equipment']['noSerieMotor']) }}" required>
+                                value="{{ old('noSerieMotor', $Data['equipment']['noSerieMotor']) }}">
                             @error('noSerieMotor')
                                 <div class="flex
                                     items-center mt-1 text-red-400">
@@ -59,7 +59,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-3 sm:col-span-3"> {{-- Numero económico --}}
                             <label for="noEconomico" class="block text-sm font-medium text-gray-700">No.
                                 Económico</label>
                             <input type="text" name="noEconomico" id="noEconomico" autocomplete="given-noEconomico"
@@ -73,7 +73,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-3 sm:col-span-3"> {{-- Modelo --}}
                             <label for="modelo" class="block text-sm font-medium text-gray-700">Modelo</label>
                             <input type="text" name="modelo" id="modelo" autocomplete="given-modelo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('modelo') border-red-400 @enderror"
@@ -86,7 +86,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-2 sm:col-span-2"> {{-- Precio del equipo adquirido --}}
                             <label for="precioEquipo" class="block text-sm font-medium text-gray-700">Precio de Compra
                                 Del Equipo</label>
                             <input type="number" name="precioEquipo" id="precioEquipo" pattern="[0-9]+(\.[0-9]+)?"
@@ -101,7 +101,39 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-2 sm:col-span-2"> {{-- Precio del equipo actual --}}
+                            <label for="precioEquipoActual" class="block text-sm font-medium text-gray-700">Precio Del
+                                Equipo Actual</label>
+                            <input type="number" name="precioEquipoActual" id="precioEquipoActual"
+                                pattern="[0-9]+(\.[0-9]+)?" min="0" max="99999999.99" step="0.01"
+                                autocomplete="given-precioEquipoActual"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('precioEquipoActual') border-red-400 @enderror"
+                                value="{{ old('precioEquipoActual', $Data['equipment']['precioEquipoActual']) }}"
+                                required>
+                            @error('precioEquipoActual')
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-2 sm:col-span-2"> {{-- Precio de venta actual --}}
+                            <label for="precioActualVenta" class="block text-sm font-medium text-gray-700">Precio De
+                                Venta Actual</label>
+                            <input type="number" name="precioActualVenta" id="precioActualVenta"
+                                pattern="[0-9]+(\.[0-9]+)?" min="0" max="99999999.99" step="0.01"
+                                autocomplete="given-precioActualVenta"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('precioActualVenta') border-red-400 @enderror"
+                                value="{{ old('precioActualVenta', $Data['equipment']['precioActualVenta']) }}"
+                                placeholder="0.00">
+                            @error('precioActualVenta')
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-3 sm:col-span-3"> {{-- Disponibilidad del equipo --}}
                             <label for="clvDisponibilidad"
                                 class="block text-sm font-medium text-gray-700">Disponibilidad</label>
                             <select id="clvDisponibilidad" name="clvDisponibilidad"
@@ -129,8 +161,9 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="clvCategoria" class="block text-sm font-medium text-gray-700">Categoria</label>
+                        <div class="col-span-3 sm:col-span-3"> {{-- Categoria del equipo --}}
+                            <label for="clvCategoria"
+                                class="block text-sm font-medium text-gray-700">Categoria</label>
                             <select id="clvCategoria" name="clvCategoria"
                                 class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-green-500 focus:outline-none focus:ring-green-500 sm:text-sm @error('clvCategoria') border-red-400 @enderror"
                                 required>
@@ -156,23 +189,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="folioEquipo" class="block text-sm font-medium text-gray-700">Folio De
-                                Factura</label>
-                            <input type="text" name="folioEquipo" id="folioEquipo" min="6" max="20"
-                                autocomplete="given-folioEquipo"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('folioEquipo') border-red-400 @enderror"
-                                value="{{ old('folioEquipo', $Data['equipment']['folioEquipo']) }}" required>
-                            @error('folioEquipo')
-                                <div
-                                    class="flex
-                                                                    items-center mt-1 text-red-400">
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                                    <span>{{ $message }}</span>
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-2 sm:col-span-2"> {{-- Fecha de Adquisición del equipo --}}
                             <label for="fechaAdquisicion" class="block text-sm font-medium text-gray-700">Fecha
                                 De
                                 Adquisición</label>
@@ -189,7 +206,38 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-2 sm:col-span-2"> {{-- Fecha de Garantia extendida --}}
+                            <label for="fechaGarantiaExtendida" class="block text-sm font-medium text-gray-700">Fecha
+                                De La Garantia Extendida
+                                del Equipo</label>
+                            <input type="date" name="fechaGarantiaExtendida" id="fechaGarantiaExtendida"
+                                autocomplete="given-fechaGarantiaExtendida"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGarantiaExtendida') border-red-400 @enderror"
+                                value="{{ old('fechaGarantiaExtendida', $Data['equipment']['fechaGarantiaExtendida']) }}"
+                                max='{{ $Data['today'] }}'>
+                            @error('fechaGarantiaExtendida')
+                                <div class="flex items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-2 sm:col-span-2"> {{-- Fecha de Venta --}}
+                            <label for="fechaVenta" class="block text-sm font-medium text-gray-700">Fecha De
+                                Venta</label>
+                            <input type="date" name="fechaVenta" id="fechaVenta" autocomplete="given-fechaVenta"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaVenta') border-red-400 @enderror"
+                                value="{{ old('fechaVenta', $Data['equipment']['fechaVenta']) }}"
+                                max='{{ $Data['today'] }}'>
+                            @error('fechaVenta')
+                                <div class="flex
+                                    items-center mt-1 text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="col-span-3 sm:col-span-3"> {{-- Porcentaje de depreciación --}}
                             <label for="porDeprAnual" class="block text-sm font-medium text-gray-700">Depreciación
                                 Anual Del Equipo
                                 (Porcentaje)</label>
@@ -206,23 +254,23 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
-                            <label for="fechaGarantiaExtendida" class="block text-sm font-medium text-gray-700">Fecha
-                                De La Garantia Extendida
-                                del Equipo</label>
-                            <input type="date" name="fechaGarantiaExtendida" id="fechaGarantiaExtendida"
-                                autocomplete="given-fechaGarantiaExtendida"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGarantiaExtendida') border-red-400 @enderror"
-                                value="{{ old('fechaGarantiaExtendida', $Data['equipment']['fechaGarantiaExtendida']) }}"
-                                max='{{ $Data['today'] }}' required>
-                            @error('fechaGarantiaExtendida')
-                                <div class="flex items-center mt-1 text-red-400">
+                        <div class="col-span-3 sm:col-span-3"> {{-- Folio del equipo --}}
+                            <label for="folioEquipo" class="block text-sm font-medium text-gray-700">Folio De
+                                Factura</label>
+                            <input type="text" name="folioEquipo" id="folioEquipo" min="6" max="20"
+                                autocomplete="given-folioEquipo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('folioEquipo') border-red-400 @enderror"
+                                value="{{ old('folioEquipo', $Data['equipment']['folioEquipo']) }}" required>
+                            @error('folioEquipo')
+                                <div
+                                    class="flex
+                                                                    items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
                                     <span>{{ $message }}</span>
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- Descripción --}}
                             <label for="descripcion"
                                 class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"

@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" v-if="rentsStore.filteredRowDatas">
+        <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-2" v-if="rentsStore.filteredRowDatas">
             <div class="overflow-x-auto">
                 <table class="min-w-full border-collapse bg-white text-left text-sm text-gray-500 divide-y divide-gray-300">
                     <thead class="bg-gray-50">
                         <tr>
                             <th v-for="columnName in rentsStore.columnNames" scope="col"
-                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                class="py-1 pl-4 pr-1 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                 :key="columnName">
                                 {{ columnName }}</th>
                         </tr>
@@ -15,7 +15,7 @@
                         tag="tbody" name="list">
                         <tr v-for="rowData in rentsStore.filteredRowDatas" class="hover:bg-gray-100"
                             :key="rowData.clvRenta">
-                            <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                            <th class="flex gap-1 px-1 py-1 font-normal text-gray-900">
                                 <div class="relative h-16 w-16">
                                     <img class="h-full w-full rounded-full object-cover object-center" :src="imageTractor"
                                         :alt="'TractorUE_' + rowData.equipment.noSerieEquipo">
@@ -30,22 +30,22 @@
                                     </div>
                                 </div>
                             </th>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
                                 <div class="text-gray-500">{{ rowData.person.nombrePersona }}</div>
                                 <div class="text-gray-500">{{ rowData.person.apePaternoPersona }}</div>
                                 <div class="text-gray-500">{{ rowData.person.apeMaternoPersona }}</div>
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
                                 <div class="text-gray-600" v-if="rowData.descripcion">{{ rowData.descripcion }}</div>
                                 <div class="text-orange-600" v-else>Sin Descripción</div>
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
                                 <div class="text-gray-600">{{ rowData.fecha_inicio }}</div>
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
                                 <div class="text-gray-600">{{ rowData.fecha_fin }}</div>
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
                                 <span
                                     :class="'inline-flex items-center gap-1 rounded-full ' + rowData.status_rent.bgColorPrimary + ' px-2 py-1 text-xs font-semibold ' + rowData.status_rent.textColor">
                                     <span
@@ -53,8 +53,25 @@
                                     {{ rowData.status_rent.estadoRenta }}
                                 </span>
                             </td>
-                            <td class="px-2 py-2">
-                                <div class="flex justify-end gap-2">
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
+                                <div class="text-gray-600"><span class="font-medium text-green-600">$</span>{{
+                                    rentsStore.precioFormatter(rowData.payments_rents[0].pagoRenta) }}
+                                </div>
+                            </td>
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
+                                <div class="text-gray-600"><span class="font-medium text-green-600">$</span>{{
+                                    rentsStore.precioFormatter(rowData.payments_rents[0].ivaRenta) }}
+                                </div>
+                            </td>
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
+                                <div class="text-gray-600"><span class="font-medium text-green-600">$</span>{{
+                                    rentsStore.precioFormatter(Number(rowData.payments_rents[0].pagoRenta) +
+                                        Number(rowData.payments_rents[0].ivaRenta))
+                                }}
+                                </div>
+                            </td>
+                            <td class="px-1 py-1">
+                                <div class="flex justify-end gap-1">
                                     <icon-button color="text-green-500" :tooltip="`'ShowRent_` + rowData.clvRenta + `'`"
                                         svg="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                                         :id="'Show_' + rowData.clvRenta" :clv="rowData.clvRenta" @click.prevent="show(
@@ -75,6 +92,9 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr v-if="rentsStore.filteredRowDatas.length === 0">
+                            <th colspan="8" class="py-4 text-center text-gray-500">Sin datos a mostrar</th>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -84,16 +104,20 @@
             <h1 class="text-5xl font-bold text-gray-500">No hay datos de
                 {{ routeTitle }}</h1>
         </main>
+        <div v-if="rentaTotalMensual">
+            {{ rentaTotalMensual }}
+        </div>
     </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import iconButton from '@/js/components/Common/iconButton.vue';
-import { onMounted } from 'vue';
 import axios from 'axios';
 import { rents } from '@/js/store/Admin/Rents.js';
 
 const rentsStore = rents();
+let rentaTotalMensual = ref();
 
 defineProps({
     routeTitle: {
@@ -118,10 +142,7 @@ function getTitle(nombre, apePaterno, apeMaterno) {
 }
 
 function getDescription(noSerie, modelo, precio, iva) {
-    const description = "Con el equipo " + noSerie + " - " + modelo + " y un precio total de " + (precio + iva).toLocaleString('es-MX', {
-        style: 'currency',
-        currency: 'MXN',
-    });
+    const description = "Con el equipo " + noSerie + " - " + modelo + " y una renta total de $" + rentsStore.precioFormatter(Number(precio + iva));
     return description;
 }
 
@@ -161,9 +182,9 @@ function confirmDelete(name, icon, item, url) {
                         confirmButtonText: 'Aceptar'
                     }).then(() => {
                         //Transition de VueJS 3, al eliminar un dato
-                        const index = this.rowDatasList.data.indexOf(item);
+                        const index = rentsStore.filteredRowDatas.indexOf(item);
                         if (index !== -1) {
-                            this.rowDatasList.data.splice(index, 1);
+                            rentsStore.filteredRowDatas.splice(index, 1);
                         }
                     });
                 }).catch((error) => {

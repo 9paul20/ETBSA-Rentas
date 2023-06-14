@@ -18,7 +18,7 @@ export const equipments = defineStore('equipments', () => {
             return '';
         }
     }
-    //modelo
+    //modelos
     const equipment = ref({
         noSerieEquipo: '',
         noSerieMotor: '',
@@ -53,10 +53,45 @@ export const equipments = defineStore('equipments', () => {
         fechaVenta: '',
         porDeprAnual: '',
     });
+    const fixedExpense = ref({
+        gastoFijo: '',
+        costoGastoFijo: '',
+        folioFactura: '',
+        fechaGastoFijo: '',
+        clvTipoGastoFijo: '',
+        clvEquipo: '',
+    });
+    const editFixedExpense = ref({
+        gastoFijo: '',
+        costoGastoFijo: '',
+        folioFactura: '',
+        fechaGastoFijo: '',
+        clvTipoGastoFijo: '',
+        clvEquipo: '',
+    });
+    const fixedExpenseErrors = ref({
+        clvGastoFijo: '',
+        gastoFijo: '',
+        costoGastoFijo: '',
+        folioFactura: '',
+        fechaGastoFijo: '',
+        clvTipoGastoFijo: '',
+        clvEquipo: '',
+    });
+    const fixedExpenseUpdateErrors = ref({
+        clvGastoFijo: '',
+        gastoFijo: '',
+        costoGastoFijo: '',
+        folioFactura: '',
+        fechaGastoFijo: '',
+        clvTipoGastoFijo: '',
+        clvEquipo: '',
+    });
     let Data = ref({});
     let filteredRowDatas = ref({});
     let clvDisponibilidadValue = '';
     let clvCategoriaValue = '';
+    let clvTipoGastoFijoValue = '';
     //Metodos
     const getStatus = async () => {
         try {
@@ -74,10 +109,10 @@ export const equipments = defineStore('equipments', () => {
             console.error(error);
         }
     };
-    const clvs = (clvDisponibilidad, clvCategoria) => {
+    const clvs = (clvDisponibilidad, clvCategoria, clvTipoGastoFijo) => {
         clvDisponibilidadValue = clvDisponibilidad;
         clvCategoriaValue = clvCategoria;
-        // console.log("Console desde Equipments.js: ", clvDisponibilidadValue, clvCategoriaValue);
+        clvTipoGastoFijoValue = clvTipoGastoFijo;
     };
     //*Metodos Resource
     const index = async () => {
@@ -152,6 +187,41 @@ export const equipments = defineStore('equipments', () => {
         //Asignación de valores originales(Necesario para volver a enviar el formulario en Date(), en caso de formular mal los datos)
         equipment.value.fechaAdquisicion = fechaAdquisicion;
         equipment.value.fechaGarantiaExtendida = fechaGarantiaExtendida;
+    };
+
+    const storeFixedExpense = async (id) => {
+        //Constantes para almacenar valores
+        const getFechaGastoFijo = fixedExpense.value.fechaGastoFijo;
+        const formattedFechaGastoFijo = formatDate(getFechaGastoFijo);
+        //Asignación de los valores formateados
+        fixedExpense.value.fechaGastoFijo = formattedFechaGastoFijo;
+        //Asignación de los listBox correspondientes
+        fixedExpense.value.clvTipoGastoFijo = clvTipoGastoFijoValue;
+        fixedExpense.value.clvEquipo = id;
+
+        try {
+            const response = await axios.post(`http://etbsa-rentas.test/api/FixedExpensesEquipmentsAPI/${id}`, fixedExpense.value)
+                .then(res => {
+                    console.log(res);
+                });
+        } catch (error) {
+            if (error.response.data) {
+                console.error(error.response.data);
+                if (error.response.data.errors.gastoFijo)
+                    fixedExpenseErrors.value.gastoFijo = error.response.data.errors.gastoFijo;
+                if (error.response.data.errors.costoGastoFijo)
+                    fixedExpenseErrors.value.costoGastoFijo = error.response.data.errors.costoGastoFijo;
+                if (error.response.data.errors.folioFactura)
+                    fixedExpenseErrors.value.folioFactura = error.response.data.errors.folioFactura;
+                if (error.response.data.errors.fechaGastoFijo)
+                    fixedExpenseErrors.value.fechaGastoFijo = error.response.data.errors.fechaGastoFijo;
+                if (error.response.data.errors.clvTipoGastoFijo)
+                    fixedExpenseErrors.value.clvTipoGastoFijo = error.response.data.errors.clvTipoGastoFijo;
+            }
+        }
+
+        //Asignación de valores originales(Necesario para volver a enviar el formulario en Date(), en caso de formular mal los datos)
+        fixedExpense.value.fechaGastoFijo = getFechaGastoFijo;
     };
 
     const show = async (id) => {
@@ -301,6 +371,55 @@ export const equipments = defineStore('equipments', () => {
         }
     }
 
+    const updateFixedExpense = async (
+        id,
+        gastoFijo,
+        costoGastoFijo,
+        folioFactura,
+        fechaGastoFijo,
+        clvTipoGastoFijo,
+    ) => {
+        let getFechaGastoFijo, formattedFechaGastoFijo;
+        //Si se envia un valor diferente de disponibilidad desde el formulario, se reemplaza en el modelo equipment, de no ser así, se usa el valor original y no se realiza ningun cambio
+        (clvTipoGastoFijo !== null) ? fixedExpense.value.clvTipoGastoFijo = clvTipoGastoFijo : null;
+        //si fechaGastoFijo es diferente al valor original de fixedExpense, se modifica, de no ser así, se usa el valor original
+        if (fechaGastoFijo !== fixedExpense.value.fechaGastoFijo) {
+            getFechaGastoFijo = fechaGastoFijo;
+            formattedFechaGastoFijo = formatDate(fechaGastoFijo);
+            fixedExpense.value.fechaGastoFijo = formattedFechaGastoFijo;
+            //Regresar su valor original para una futura validación si es que llega a necesitarse
+            fechaGastoFijo = getFechaGastoFijo;
+        }
+        else
+            fixedExpense.value.fechaGastoFijo = fechaGastoFijo;
+        //Datos que no necesitan una validación o parametros especificos aun que en caso de ser modificados, hay que mandar los nuevos cambios
+        //No es necesario identificar si hay cambios en los campos de los valores originales a los nuevos,
+        //Por ser campos de texto plano, es más que suficiente de la siguiente manera
+        fixedExpense.value.gastoFijo = gastoFijo;
+        fixedExpense.value.costoGastoFijo = costoGastoFijo;
+        fixedExpense.value.folioFactura = folioFactura;
+        try {
+            const response = await axios.put(`http://etbsa-rentas.test/api/FixedExpensesEquipmentsAPI/${id}`, fixedExpense.value)
+                .then(res => {
+                    console.log(res);
+                });
+        } catch (error) {
+            if (error.response.data) {
+                console.error(error.response.data);
+                if (error.response.data.errors.gastoFijo)
+                    fixedExpenseUpdateErrors.value.gastoFijo = error.response.data.errors.gastoFijo;
+                if (error.response.data.errors.costoGastoFijo)
+                    fixedExpenseUpdateErrors.value.costoGastoFijo = error.response.data.errors.costoGastoFijo;
+                if (error.response.data.errors.folioFactura)
+                    fixedExpenseUpdateErrors.value.folioFactura = error.response.data.errors.folioFactura;
+                if (error.response.data.errors.fechaGastoFijo)
+                    fixedExpenseUpdateErrors.value.fechaGastoFijo = error.response.data.errors.fechaGastoFijo;
+                if (error.response.data.errors.clvTipoGastoFijo)
+                    fixedExpenseUpdateErrors.value.clvTipoGastoFijo = error.response.data.errors.clvTipoGastoFijo;
+            }
+        }
+    }
+
     //Filtros especificos
     const filterEquipmentsByNoSerieEquipo = (rowData, queryEquipmentNoSerieEquipo) => {
         return (
@@ -341,6 +460,14 @@ export const equipments = defineStore('equipments', () => {
             );
         });
     };
+    //Funciones dedicadas
+    function precioFormatter(Precio) {
+        const formattedPrice = (Number(Precio)).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN',
+        });
+        return formattedPrice.replace('$', '');
+    }
 
     return {
         listStatus,
@@ -349,12 +476,17 @@ export const equipments = defineStore('equipments', () => {
         formatDate,
         equipment,
         errors,
+        fixedExpense,
+        editFixedExpense,
+        fixedExpenseErrors,
+        fixedExpenseUpdateErrors,
         Data,
         getStatus,
         getCategories,
         clvs,
         index,
         store,
+        storeFixedExpense,
         show,
         edit,
         update,
@@ -364,5 +496,6 @@ export const equipments = defineStore('equipments', () => {
         filterEquipmentsByStatus,
         filterEquipments,
         filteredRowDatas,
+        precioFormatter,
     };
 });

@@ -28,9 +28,10 @@ try {
         },
         components: {
             'indexEquipments': views.indexEquipments,
-            'createEquipments': views.createEquipments,
-            'editEquipments': views.editEquipments,
             'indexRents': views.indexRents,
+            'createEquipments': views.createEquipments,
+            'showEquipments': views.showEquipments,
+            'editEquipments': views.editEquipments,
         },
     }).use(pinia);
     vueAppBundler.mount('#vueApp');

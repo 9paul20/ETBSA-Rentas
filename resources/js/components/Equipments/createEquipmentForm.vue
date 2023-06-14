@@ -15,8 +15,12 @@
                         <div class="overflow-hidden shadow sm:rounded-md">
                             <div class="bg-white px-1 py-1 sm:p-6">
                                 <div class="grid grid-cols-6 gap-2">
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero serie -->
+                                    <div class="col-span-3 sm:col-span-3"> <!-- Numero serie -->
                                         <div class="relative mt-1 rounded-md shadow-sm">
+                                            <label for="noSerieEquipo" class="block text-sm font-medium text-gray-700">No.
+                                                Serie
+                                                Del
+                                                Equipo</label>
                                             <input type="text" autocomplete="given-noSerieEquipo" :class="[
                                                 'mt-1 block w-full rounded-md ',
                                                 loader.errors.noSerieEquipo ? 'border-red-300' : 'border-gray-300',
@@ -41,8 +45,12 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero serie del motor -->
+                                    <div class="col-span-3 sm:col-span-3"> <!-- Numero serie del motor -->
                                         <div class="relative mt-1 rounded-md shadow-sm">
+                                            <label for="noSerieMotor" class="block text-sm font-medium text-gray-700">No.
+                                                Serie
+                                                Del
+                                                Motor</label>
                                             <input type="text" autocomplete="given-noSerieMotor" :class="[
                                                 'mt-1 block w-full rounded-md ',
                                                 loader.errors.noSerieMotor ? 'border-red-300' : 'border-gray-300',
@@ -66,7 +74,9 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Numero económico -->
+                                    <div class="col-span-3 sm:col-span-3"> <!-- Numero económico -->
+                                        <label for="noEconomico" class="block text-sm font-medium text-gray-700">No.
+                                            Económico</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="text" autocomplete="given-noEconomico" :class="[
                                                 'mt-1 block w-full rounded-md ',
@@ -90,7 +100,8 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Modelo -->
+                                    <div class="col-span-3 sm:col-span-3"> <!-- Modelo -->
+                                        <label for="modelo" class="block text-sm font-medium text-gray-700">Modelo</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="text" autocomplete="given-modelo" :class="[
                                                 'mt-1 block w-full rounded-md ',
@@ -114,7 +125,10 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Precio adquirido -->
+                                    <div class="col-span-2 sm:col-span-2"> <!-- Precio adquirido -->
+                                        <label for="precioEquipo" class="block text-sm font-medium text-gray-700">Precio de
+                                            Compra
+                                            Del Equipo</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="number" pattern="[0-9]+(\.[0-9]+)?" min="0" max="99999999.99"
                                                 step="0.01" autocomplete="given-precioEquipo" :class="[
@@ -141,7 +155,10 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Precio Actual -->
+                                    <div class="col-span-2 sm:col-span-2"> <!-- Precio Actual -->
+                                        <label for="precioEquipoActual"
+                                            class="block text-sm font-medium text-gray-700">Precio Del
+                                            Equipo Actual</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="number" pattern="[0-9]+(\.[0-9]+)?" min="0" max="99999999.99"
                                                 step="0.01" autocomplete="given-precioEquipoActual" :class="[
@@ -169,7 +186,10 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Precio Actual Venta -->
+                                    <div class="col-span-2 sm:col-span-2"> <!-- Precio Actual Venta -->
+                                        <label for="precioActualVenta"
+                                            class="block text-sm font-medium text-gray-700">Precio De
+                                            Venta Actual</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="number" pattern="[0-9]+(\.[0-9]+)?" min="0" max="99999999.99"
                                                 step="0.01" autocomplete="given-precioActualVenta" :class="[
@@ -198,41 +218,24 @@
                                         </div>
                                     </div>
                                     <div class="col-span-3 sm:col-span-3"> <!-- Disponibilidad -->
+                                        <label for="clvDisponibilidad"
+                                            class="block text-sm font-medium text-gray-700">Disponibilidad</label>
                                         <listBoxStatusComponent :list="status" @status-selected="onStatusSelected"
                                             :errorsList="loader.errors.clvDisponibilidad" />
                                         <input v-model="clvDisponibilidad" class="hidden">
                                     </div>
                                     <div class="col-span-3 sm:col-span-3"> <!-- Categoria -->
+                                        <label for="clvCategoria"
+                                            class="block text-sm font-medium text-gray-700">Categoria</label>
                                         <listBoxCategoriesComponent :list="categories"
                                             @category-selected="onCategorySelected"
                                             :errorsList="loader.errors.clvCategoria" />
                                         <input v-model="clvCategoria" class="hidden">
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Folio de factura -->
-                                        <div class="relative mt-1 rounded-md shadow-sm">
-                                            <input type="text" min="6" max="20" autocomplete="given-folioEquipo" :class="[
-                                                'mt-1 block w-full rounded-md ',
-                                                loader.errors.folioEquipo ? 'border-red-300' : 'border-gray-300',
-                                                ' shadow-sm ',
-                                                loader.errors.folioEquipo ? 'focus:border-red-500' : 'focus:border-green-500',
-                                                ' ',
-                                                loader.errors.folioEquipo ? 'focus:ring-red-500' : 'focus:ring-green-500',
-                                                ' sm:text-sm'
-                                            ]" aria-invalid="true" aria-describedby="folioEquipo-error"
-                                                placeholder="Folio De Factura" v-model="loader.equipment.folioEquipo" />
-                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
-                                                v-if="loader.errors.folioEquipo">
-                                                <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
-                                            </div>
-                                        </div>
-                                        <div v-if="loader.errors.folioEquipo">
-                                            <ul>
-                                                <li class="mt-2 text-sm text-red-600" id="folioEquipo-error"
-                                                    v-for="error in loader.errors.folioEquipo" :key="error">{{ error }}</li>
-                                            </ul>
-                                        </div>
-                                    </div>
                                     <div class="col-span-3 sm:col-span-3"> <!-- Fecha de adquisición -->
+                                        <label for="fechaAdquisicion" class="block text-sm font-medium text-gray-700">Fecha
+                                            De
+                                            Adquisición</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <VueDatePicker v-model="loader.equipment.fechaAdquisicion"
                                                 placeholder="Fecha De Adquisición" autocomplete="off" :class="[
@@ -262,6 +265,10 @@
                                         </div>
                                     </div>
                                     <div class="col-span-3 sm:col-span-3"> <!-- Fecha de garantia extendida -->
+                                        <label for="fechaGarantiaExtendida"
+                                            class="block text-sm font-medium text-gray-700">Fecha
+                                            De La Garantia Extendida
+                                            del Equipo</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <VueDatePicker v-model="loader.equipment.fechaGarantiaExtendida"
                                                 placeholder="Fecha De La Garantia Extendida" autocomplete="off" :class="[
@@ -290,7 +297,11 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 sm:col-span-6"> <!-- Depreciación anual -->
+                                    <div class="col-span-3 sm:col-span-3"> <!-- Depreciación anual -->
+                                        <label for="porDeprAnual"
+                                            class="block text-sm font-medium text-gray-700">Depreciación
+                                            Anual Del Equipo
+                                            (Porcentaje)</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <input type="number" pattern="[0-9]+(\.[0-9]+)?" min="0" max="100.00"
                                                 step="0.01" autocomplete="off" :class="[
@@ -303,7 +314,7 @@
                                                     ' sm:text-sm'
                                                 ]" aria-invalid="true" aria-describedby="porDeprAnual-error"
                                                 v-model="loader.equipment.porDeprAnual"
-                                                placeholder="Depreciación Anual Del Equipo (Porcentaje actual para cada Equipo es del %25)" />
+                                                placeholder="Depreciación Anual Del Equipo (Porcentaje actual es %25)" />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.porDeprAnual">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -317,7 +328,35 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    <div class="col-span-3 sm:col-span-3"> <!-- Folio de factura -->
+                                        <label for="folioEquipo" class="block text-sm font-medium text-gray-700">Folio De
+                                            Factura</label>
+                                        <div class="relative mt-1 rounded-md shadow-sm">
+                                            <input type="text" min="6" max="20" autocomplete="given-folioEquipo" :class="[
+                                                'mt-1 block w-full rounded-md ',
+                                                loader.errors.folioEquipo ? 'border-red-300' : 'border-gray-300',
+                                                ' shadow-sm ',
+                                                loader.errors.folioEquipo ? 'focus:border-red-500' : 'focus:border-green-500',
+                                                ' ',
+                                                loader.errors.folioEquipo ? 'focus:ring-red-500' : 'focus:ring-green-500',
+                                                ' sm:text-sm'
+                                            ]" aria-invalid="true" aria-describedby="folioEquipo-error"
+                                                placeholder="Folio De Factura" v-model="loader.equipment.folioEquipo" />
+                                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
+                                                v-if="loader.errors.folioEquipo">
+                                                <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
+                                            </div>
+                                        </div>
+                                        <div v-if="loader.errors.folioEquipo">
+                                            <ul>
+                                                <li class="mt-2 text-sm text-red-600" id="folioEquipo-error"
+                                                    v-for="error in loader.errors.folioEquipo" :key="error">{{ error }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                     <div class="col-span-6 sm:col-span-6"> <!-- Descripción -->
+                                        <label for="descripcion"
+                                            class="block text-sm font-medium text-gray-700">Descripción</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
                                             <textarea rows="3" autocomplete="given-descripcion" :class="[
                                                 'mt-1 block w-full rounded-md ',
