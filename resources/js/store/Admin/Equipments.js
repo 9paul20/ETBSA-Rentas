@@ -224,12 +224,10 @@ export const equipments = defineStore('equipments', () => {
         fixedExpense.value.fechaGastoFijo = getFechaGastoFijo;
     };
 
-    const show = async (id) => {
+    async function show(id) {
         try {
-            const response = await axios.get(`http://etbsa-rentas.test/api/EquipmentsListAPI/${id}`)
-                .then(res => {
-                    console.log(res);
-                });
+            const response = await axios.get(`http://etbsa-rentas.test/api/EquipmentsListAPI/${id}`);
+            return response.data;
         } catch (error) {
             console.error(error);
         }

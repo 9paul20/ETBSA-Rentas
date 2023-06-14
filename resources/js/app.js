@@ -32,6 +32,7 @@ try {
             'createEquipments': views.createEquipments,
             'showEquipments': views.showEquipments,
             'editEquipments': views.editEquipments,
+            'practiceTableEtbsaRent': views.practiceTableEtbsaRent,
         },
     }).use(pinia);
     vueAppBundler.mount('#vueApp');

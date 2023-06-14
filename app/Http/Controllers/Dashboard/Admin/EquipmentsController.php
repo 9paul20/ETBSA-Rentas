@@ -62,11 +62,15 @@ class EquipmentsController extends Controller
             $rowData->sumGastosFijos = number_format($rowData->sumGastosFijos, 2);
             $rowData->sumGastosVariables = number_format($rowData->sumGastosVariables, 2);
             $rowData->costoNetoAnual = number_format($rowData->costoNetoAnual, 2);
-            $rowData->routeShowEquipment = route('Dashboard.Admin.Equipments.Show', $rowData->clvEquipo);
-            $rowData->routeUpdateEquipment = route('Dashboard.Admin.Equipments.Edit', $rowData->clvEquipo);
-            $rowData->routeDeleteEquipment = route('Dashboard.Admin.Equipments.Destroy', $rowData->clvEquipo);
             return $rowData;
         });
+        if (request()->wantsJson())
+            $rowDatas->map(function ($rowData) {
+                $rowData->routeShowEquipment = route('Dashboard.Admin.Equipments.Show', $rowData->clvEquipo);
+                $rowData->routeUpdateEquipment = route('Dashboard.Admin.Equipments.Edit', $rowData->clvEquipo);
+                $rowData->routeDeleteEquipment = route('Dashboard.Admin.Equipments.Destroy', $rowData->clvEquipo);
+                return $rowData;
+            });
         $Data = [
             'columnNames' => $columnNames,
             'rowDatas' => $rowDatas,
@@ -158,15 +162,15 @@ class EquipmentsController extends Controller
      * Display the specified resource.
      */
 
-    public function show(String $equipment)
+    public function show(Request $request, String $equipment)
     {
-        //Rows o Filas Por Pagina
-        $perPage = 10;
+        //Paginado
+        $perPage = $request->wantsJson() ? 999999999999999999 : 10;
 
         //Dia de hoy
         $today = Carbon::today()->format('Y-m-d');
 
-        $query = Equipment::query()
+        $equipment = Equipment::query()
             ->with([
                 'fixedExpenses:' .
                     'clvGastoFijo,gastoFijo,costoGastoFijo,folioFactura,fechaGastoFijo,clvTipoGastoFijo,clvEquipo',
@@ -179,36 +183,35 @@ class EquipmentsController extends Controller
                     'clvTipoGastoFijo,tipoGastoFijo'
             ])
             ->select(
-                'clvEquipo',
-                'noSerieEquipo',
-                'modelo',
-                'noSerieMotor',
-                'noEconomico',
-                'modelo',
-                'clvDisponibilidad',
-                'clvCategoria',
-                'descripcion',
-                'precioEquipo',
-                'folioEquipo',
-                'fechaAdquisicion',
-                'fechaGarantiaExtendida',
-                'porDeprAnual',
+                '*',
             )
-            ->findOrFail($equipment);
+            ->findOrFail($equipment)
+            ->makeHidden(['created_at', 'updated_at']);
+        if (request()->wantsJson()) {
+            $equipment->sumGastosFijos = $equipment->sum_gastos_fijos;
+            $equipment->sumGastosVariables = $equipment->sum_gastos_variables;
+            $equipment->sumGastosMensuales = $equipment->sum_gastos_mensuales;
+            $equipment->precioActualPorDepreciacionAnual = $equipment->precioActualPorDepreciacionAnual;
+            $equipment->costoNetoAnual = $equipment->costoNetoAnual;
+        }
 
         //Tabla de Gastos Fijos Al Equipo
-        $rowFixedExpenses = $query->fixedExpenses()
+        $rowFixedExpenses = $equipment->fixedExpenses()
             ->with('TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo')
             ->orderByDesc('fechaGastoFijo')
-            ->paginate(20, [
-                'clvGastoFijo',
-                'gastoFijo',
-                'costoGastoFijo',
-                'folioFactura',
-                'fechaGastoFijo',
-                'clvTipoGastoFijo',
-                'clvEquipo',
-            ], 'fixedExpenses_page');
+            ->paginate(
+                $perPage,
+                [
+                    'clvGastoFijo',
+                    'gastoFijo',
+                    'costoGastoFijo',
+                    'folioFactura',
+                    'fechaGastoFijo',
+                    'clvTipoGastoFijo',
+                    'clvEquipo',
+                ],
+                'fixedExpenses_page'
+            );
         $columnFixedExpenses = [
             'Gasto Fijo',
             'Descripción Corta Del Gasto Fijo',
@@ -222,10 +225,10 @@ class EquipmentsController extends Controller
         ];
 
         //Tabla de Gastos Variables Al Equipo
-        $rowVariablesExpenses = $query->variablesExpenses()
+        $rowVariablesExpenses = $equipment->variablesExpenses()
             ->orderByDesc('fechaGastoVariable')
             ->paginate(
-                20,
+                $perPage,
                 [
                     'clvGastoVariable',
                     'gastoVariable',
@@ -248,17 +251,21 @@ class EquipmentsController extends Controller
         ];
 
         //Tabla de Gastos Mensuales Al Equipo
-        $rowMonthlyExpenses = $query->monthlyExpenses()
+        $rowMonthlyExpenses = $equipment->monthlyExpenses()
             ->with('TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo')
             ->orderByDesc('clvGastoMensual')
-            ->paginate(20, [
-                'clvGastoMensual',
-                'gastoMensual',
-                'costoMensual',
-                'descripcion',
-                'clvEquipo',
-                'clvTipoGastoFijo'
-            ], 'monthlyExpenses_page');
+            ->paginate(
+                $perPage,
+                [
+                    'clvGastoMensual',
+                    'gastoMensual',
+                    'costoMensual',
+                    'descripcion',
+                    'clvEquipo',
+                    'clvTipoGastoFijo'
+                ],
+                'monthlyExpenses_page'
+            );
         $columnMonthlyExpenses = [
             'Gasto Mensual',
             'Descripción del Gasto Mensual',
@@ -272,19 +279,14 @@ class EquipmentsController extends Controller
 
         $Data = [
             'today' => $today,
-            'equipment' => $query,
+            'equipment' => $equipment,
             'tableFixedExpenses' => $tableFixedExpenses,
             'tableVariablesExpenses' => $tableVariablesExpenses,
             'tableMonthlyExpenses' => $tableMonthlyExpenses,
         ];
-        // return $Data;
+        if (request()->wantsJson())
+            return $Data;
         return view('Dashboard.Admin.Index', compact('Data'));
-    }
-
-    public function showApi($id)
-    {
-        $equipment = Equipment::findOrFail($id);
-        return $equipment;
     }
 
     /**

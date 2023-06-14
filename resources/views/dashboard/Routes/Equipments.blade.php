@@ -21,11 +21,12 @@
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Equipments' &&
         is_numeric(getDashboardNameFromUrlSecond(request()->fullUrl())))
     {{-- @include('Dashboard.Components.Equipments.Show') --}}
-    <div id="vueApp">
+    @include('Dashboard.Components.Equipments.ShowVue')
+    {{-- <div id="vueApp">
         <div>
             <show-equipments />
         </div>
-    </div>
+    </div> --}}
 @elseif(getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Equipments' &&
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
     @include('Dashboard.Components.Equipments.Create')
