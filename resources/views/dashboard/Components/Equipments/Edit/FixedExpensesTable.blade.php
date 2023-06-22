@@ -4,7 +4,7 @@
             <h1 class="text-xl font-semibold text-gray-900">Gastos Fijos</h1>
         </div>
         <x-Dashboard.Equipments.FixedExpenses.Button-Create-Modal text="Añadir Gasto Fijo" id="FixedExpenses"
-            today="{{ $Data['today'] }}"
+            minDay="{{ $Data['equipment']['fechaAdquisicion'] }}" today="{{ $Data['today'] }}"
             action="{{ route('Dashboard.Admin.Equipments.StoreFixedExpenses', $Data['equipment']['clvEquipo']) }}"
             SelectTypeFixedExpense="{{ view('Components.Dashboard.Equipments.FixedExpenses.Selects.SelectCreate-TypeFixedExpense', compact('Data'))->render() }}" />
     </div>
@@ -67,6 +67,7 @@
                                             gastoFijo="{{ $rowFixedExpense['gastoFijo'] }}"
                                             fechaGastoFijo="{{ $rowFixedExpense['fechaGastoFijo'] }}"
                                             costoGastoFijo="{{ $rowFixedExpense['costoGastoFijo'] }}"
+                                            minDay="{{ $Data['equipment']['fechaAdquisicion'] }}"
                                             today="{{ $Data['today'] }}"
                                             SelectTypeFixedExpense="{{ view('Components.Dashboard.Equipments.FixedExpenses.Selects.SelectEdit-TypeFixedExpense', ['Data' => $Data, 'clvTipoGastoFijo' => $rowFixedExpense['clvTipoGastoFijo']])->render() }}"
                                             folioFactura="{{ $rowFixedExpense['folioFactura'] }}"

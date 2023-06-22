@@ -5,7 +5,7 @@
                 <h1 class="text-xl font-semibold text-gray-900">Gastos Variables</h1>
             </div>
             <x-Dashboard.Equipments.VariablesExpenses.Button-Create-Modal text="Añadir Gasto Variable"
-                id="VariablesExpenses" today="{{ $Data['today'] }}"
+                id="VariablesExpenses" minDay="{{ $Data['equipment']['fechaAdquisicion'] }}" today="{{ $Data['today'] }}"
                 action="{{ route('Dashboard.Admin.Equipments.StoreVariablesExpenses', $Data['equipment']['clvEquipo']) }}" />
         </div>
         @if (count($Data['tableVariablesExpenses']['rowVariablesExpenses']) > 0)
@@ -62,6 +62,7 @@
                                                 gastoVariable="{{ $rowVariableExpense['gastoVariable'] }}"
                                                 fechaGastoVariable="{{ $rowVariableExpense['fechaGastoVariable'] }}"
                                                 costoGastoVariable="{{ $rowVariableExpense['costoGastoVariable'] }}"
+                                                minDay="{{ $Data['equipment']['fechaAdquisicion'] }}"
                                                 today="{{ $Data['today'] }}"
                                                 descripcion="{{ $rowVariableExpense['descripcion'] }}"
                                                 href="{{ route('Dashboard.Admin.Equipments.UpdateVariablesExpenses', $rowVariableExpense['clvGastoVariable']) }}" />

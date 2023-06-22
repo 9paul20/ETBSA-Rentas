@@ -32,11 +32,13 @@ class RentsController extends Controller
             'equipment.fixedExpenses:clvGastoFijo',
             'equipment.variablesExpenses:clvGastoVariable',
             'equipment.monthlyExpenses:clvGastoMensual',
+            'equipment.renta:clvRenta',
             'person:clvPersona,nombrePersona,apePaternoPersona,apeMaternoPersona',
             'statusRent:clvEstadoRenta,estadoRenta,textColor,bgColorPrimary,bgColorSecondary',
             'PaymentsRents' => function ($query) {
-                $query->select('clvRenta', 'pagoRenta', 'ivaRenta')->orderBy('clvPagoRenta');
-            }
+                $query->select('clvRenta', 'clvEstadoPagoRenta', 'pagoRenta', 'ivaRenta')->orderBy('clvPagoRenta');
+            },
+            'PaymentsRents.estadoPagoRenta:clvEstadoPagoRenta,estadoPagoRenta'
         ])
             ->withSum('PaymentsRents', 'pagoRenta')
             ->withSum('PaymentsRents', 'ivaRenta')
@@ -57,6 +59,7 @@ class RentsController extends Controller
             $rowData->routeShowRent = route('Dashboard.Admin.Rents.Show', $rowData->clvRenta);
             $rowData->routeUpdateRent = route('Dashboard.Admin.Rents.Edit', $rowData->clvRenta);
             $rowData->routeDeleteRent = route('Dashboard.Admin.Rents.Destroy', $rowData->clvRenta);
+            $rowData->getPaymentsByStatus = $rowData->getPaymentsByStatusAttribute;
             return $rowData;
         });
         // return $rowDatas;
@@ -83,9 +86,9 @@ class RentsController extends Controller
             'Fecha Inicio',
             'Fecha Fin',
             'Estado De Renta',
-            'Pago Renta',
-            'IVA Renta',
-            'Renta Mensual',
+            'Mensualidad',
+            'Abonado',
+            'Total',
             ''
         ];
         //Contador y relación de categorias de equipos existentes en rentas
@@ -134,6 +137,7 @@ class RentsController extends Controller
                 'variablesExpenses:clvGastoVariable',
                 'monthlyExpenses:clvGastoMensual,costoMensual,clvEquipo',
                 'disponibilidad:clvDisponibilidad,disponibilidad',
+                'renta:clvEquipo',
             ])
             ->whereHas('disponibilidad', function ($query) {
                 $query->where('disponibilidad', 'Disponible');
@@ -143,6 +147,7 @@ class RentsController extends Controller
                 'noSerieEquipo',
                 'modelo',
                 'descripcion',
+                'fechaAdquisicion',
                 'clvDisponibilidad',
             ]);
         $clients = Person::get([

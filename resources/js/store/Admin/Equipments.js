@@ -418,6 +418,19 @@ export const equipments = defineStore('equipments', () => {
         }
     }
 
+    async function dollarRates() {
+        try {
+            const response = await axios.get('https://api.exchangerate.host/latest', {
+                params: {
+                    base: 'USD'
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     //Filtros especificos
     const filterEquipmentsByNoSerieEquipo = (rowData, queryEquipmentNoSerieEquipo) => {
         return (
@@ -466,6 +479,27 @@ export const equipments = defineStore('equipments', () => {
         });
         return formattedPrice.replace('$', '');
     }
+    function transformarFecha(fecha) {
+        const meses = [
+            "enero", "febrero", "marzo", "abril", "mayo", "junio",
+            "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+        ];
+
+        const partes = fecha.split("-");
+        const dia = partes[2];
+        const mes = meses[parseInt(partes[1]) - 1];
+        const anio = partes[0];
+
+        return `${dia} de ${mes} de ${anio}`;
+    }
+    function mesesDespuesDeAdq(fechaAdquisicion) {
+        const fecAdq = new Date(fechaAdquisicion);
+        const currentDate = new Date();
+        const mesesAdqEq = (currentDate.getMonth() + 1) -
+            (fecAdq.getMonth() + 1) +
+            (12 * (currentDate.getFullYear() - fecAdq.getFullYear()));
+        return mesesAdqEq;
+    }
 
     return {
         listStatus,
@@ -488,6 +522,8 @@ export const equipments = defineStore('equipments', () => {
         show,
         edit,
         update,
+        updateFixedExpense,
+        dollarRates,
         filterEquipmentsByNoSerieEquipo,
         filterEquipmentsByModelo,
         filterEquipmentsByCategory,
@@ -495,5 +531,7 @@ export const equipments = defineStore('equipments', () => {
         filterEquipments,
         filteredRowDatas,
         precioFormatter,
+        transformarFecha,
+        mesesDespuesDeAdq,
     };
 });

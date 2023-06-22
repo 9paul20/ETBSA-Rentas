@@ -15,11 +15,14 @@ window.Swal = Swal;
 AlpineJS.start();
 
 const pinia = createPinia();
-// Obtén el token CSRF del meta-tag en tu aplicación Laravel
-const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-// Configura el token CSRF como encabezado por defecto en Axios
-axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
+if (window.location.href.includes("/edit")) {
+    // Obtén el token CSRF del meta-tag en tu aplicación Laravel
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // Configura el token CSRF como encabezado por defecto en Axios
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
+}
 
 try {
     const vueAppBundler = createApp({

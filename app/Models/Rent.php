@@ -55,6 +55,24 @@ class Rent extends Model
         return $this->hasMany(Rents\PaymentRent::class, 'clvRenta');
     }
 
+    protected function getPaymentsByStatusAttribute(): Attribute
+    {
+        $getPaymentsByStatusAttribute = $this->PaymentsRents->groupBy(function ($paymentRent) {
+            return $paymentRent->estadoPagoRenta->estadoPagoRenta;
+        })->map(function ($payments) {
+            $totalPagoRenta = $payments->sum('pagoRenta');
+            $totalIvaRenta = $payments->sum('ivaRenta');
+            return [
+                'payments' => $payments,
+                'totalPagoRenta' => $totalPagoRenta,
+                'totalIvaRenta' => $totalIvaRenta,
+            ];
+        });
+        return Attribute::make(
+            get: fn () => $getPaymentsByStatusAttribute
+        );
+    }
+
     public static function boot()
     {
         parent::boot();

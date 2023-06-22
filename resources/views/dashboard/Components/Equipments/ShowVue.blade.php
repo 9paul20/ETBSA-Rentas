@@ -13,19 +13,19 @@
 @endpush
 
 @section('content')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--
-                    This example requires updating your template:
+                                                This example requires updating your template:
 
-                    ```
-                    <html class="h-full bg-gray-100">
-                    <body class="h-full">
-                    ```
-                  -->
+                                                ```
+                                                <html class="h-full bg-gray-100">
+                                                <body class="h-full">
+                                                ```
+                                              -->
     <div id="vueApp">
         <div>
-            {{-- <show-equipments logo="{{ url('/images/John_Deere_Logo.png') }}" /> --}}
-            <practice-table-etbsa-rent />
+            <show-equipments logo="{{ url('/images/John_Deere_Logo.png') }}"
+                image_tractor="{{ url('/images/John_Deere_Tractor_Uno.jpeg') }}" />
+            {{-- <practice-table-etbsa-rent /> --}}
         </div>
     </div>
 @endsection

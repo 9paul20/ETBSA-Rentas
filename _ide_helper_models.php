@@ -24,9 +24,11 @@ namespace App\Models{
  * @property string|null $descripcion
  * @property string $precioEquipo
  * @property string $precioEquipoActual
+ * @property string|null $precioActualVenta
  * @property string $folioEquipo
  * @property string $fechaAdquisicion
  * @property string $fechaGarantiaExtendida
+ * @property string|null $fechaVenta
  * @property string $porDeprAnual
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -36,6 +38,8 @@ namespace App\Models{
  * @property-read int|null $fixed_expenses_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MonthlyExpenses\MonthlyExpense> $monthlyExpenses
  * @property-read int|null $monthly_expenses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Rent> $renta
+ * @property-read int|null $renta_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VariablesExpenses\VariableExpense> $variablesExpenses
  * @property-read int|null $variables_expenses_count
  * @method static \Database\Factories\EquipmentFactory factory($count = null, $state = [])
@@ -50,12 +54,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereFechaAdquisicion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereFechaGarantiaExtendida($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereFechaVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereFolioEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereModelo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoEconomico($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerieEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereNoSerieMotor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePorDeprAnual($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePrecioActualVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePrecioEquipo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment wherePrecioEquipoActual($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Equipment whereUpdatedAt($value)

@@ -1,4 +1,4 @@
-@props(['text', 'action', 'id', 'today'])
+@props(['text', 'action', 'id', 'minDay', 'today'])
 
 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
     <button id="btn-create-modal-{{ $id }}" type="button"
@@ -26,7 +26,7 @@
                     </div>
                     <form action="{{ $action }}" class="mt-4 space-y-4" method="POST">
                         @csrf
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- titulo --}}
                             <label for="gastoVariable" class="block text-sm font-medium text-gray-700">Gasto
                                 Variable</label>
                             <input type="text" name="gastoVariable" id="input_{{ $id }}"
@@ -42,14 +42,15 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- fecha --}}
                             <label for="fechaGastoVariable" class="block text-sm font-medium text-gray-700">Fecha Del
                                 Gasto
                                 Variable</label>
                             <input type="date" name="fechaGastoVariable" id="fechaGastoVariable"
                                 autocomplete="given-fechaGastoVariable"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGastoVariable') border-red-400 @enderror"
-                                value="{{ old('fechaGastoVariable') }}" required max='{{ $today }}'>
+                                value="{{ old('fechaGastoVariable') }}" required min="{{ $minDay }}"
+                                max='{{ $today }}'>
                             @error('fechaGastoVariable')
                                 <div class="flex items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -57,7 +58,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- costo --}}
                             <label for="costoGastoVariable" class="block text-sm font-medium text-gray-700">Costo Del
                                 Gasto
                                 Variable</label>
@@ -74,7 +75,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- Descripción --}}
                             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="create-descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
@@ -87,7 +88,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
+                        <div class="mt-5 sm:mt-6 flex justify-end space-x-2"> {{-- Botón --}}
                             <button type="submit"
                                 class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 rounded-md">Guardar</button>
                             <button type="button" id="btn-create-modal-{{ $id }}-close"

@@ -1,4 +1,4 @@
-@props(['clv', 'id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'today', 'SelectTypeFixedExpense', 'folioFactura', 'href'])
+@props(['clv', 'id', 'gastoFijo', 'fechaGastoFijo', 'costoGastoFijo', 'minDay', 'today', 'SelectTypeFixedExpense', 'folioFactura', 'href'])
 
 <a href="" x-data="{ tooltip: 'Edit' }" @click="modalHandler{{ $id }}(true)" id="link-edit-{{ $id }}"
     data-target="scroll-target-{{ $id }}">
@@ -30,7 +30,7 @@
                         @method('PUT')
                         @csrf
                         {!! html_entity_decode($SelectTypeFixedExpense) !!}
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- Descripción corta --}}
                             <label for="gastoFijo" class="block text-sm font-medium text-gray-700">Descripción Corta Del
                                 Gasto
                                 Fijo</label>
@@ -47,7 +47,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- fecha --}}
                             <label for="fechaGastoFijo" class="block text-sm font-medium text-gray-700">Fecha Del
                                 Gasto
                                 Fijo</label>
@@ -55,7 +55,7 @@
                                 autocomplete="given-fechaGastoFijo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
                                 value="{{ old('fechaGastoFijo', $fechaGastoFijo) }}" required
-                                max='{{ $today }}'>
+                                min="{{ $minDay }}" max='{{ $today }}'>
                             @error('fechaGastoFijo')
                                 <div class="flex items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -63,7 +63,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- costo --}}
                             <label for="costoGastoFijo" class="block text-sm font-medium text-gray-700">Costo Del
                                 Gasto
                                 Fijo</label>
@@ -79,7 +79,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="col-span-6 sm:col-span-6">
+                        <div class="col-span-6 sm:col-span-6"> {{-- folio --}}
                             <label for="folioFactura" class="block text-sm font-medium text-gray-700">Folio
                                 Del Gasto Fijo</label>
                             <input type="text" name="folioFactura" id="folioFactura"
@@ -94,7 +94,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
+                        <div class="mt-5 sm:mt-6 flex justify-end space-x-2"> {{-- botón --}}
                             <button type="submit"
                                 class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 rounded-md">Guardar</button>
                             <button type="button" id="btn-edit-modal-{{ $id }}-close"

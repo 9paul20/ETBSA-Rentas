@@ -32,6 +32,7 @@
                                         @foreach ($Data['equipments'] as $equipment)
                                             <option value="{{ $equipment->clvEquipo }}"
                                                 data-precios="{{ $equipment->sumGastosMensuales }}"
+                                                data-fecha-adquisicion="{{ $equipment->fechaAdquisicion }}"
                                                 @if ($equipment->clvEquipo == $Data['rent']->clvEquipo) selected @endif>
                                                 {{ $equipment->modelo }} - {{ $equipment->noSerieEquipo }}
                                             </option>
@@ -83,7 +84,7 @@
                                 getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
                             <div class="relative col-span-2 sm:col-span-2 pointer-events-none"> {{-- Vista del equipo --}}
                                 <label for="equipo" class="block text-sm font-medium text-gray-700">Equipo</label>
-                                <input type="text" name="equipo" autocomplete="given-preciosMensuales"
+                                <input type="text" name="equipo"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm text-base font-semibold border-transparent"
                                     value="{{ $Data['rent']->equipment->noSerieEquipo }} - {{ $Data['rent']->equipment->modelo }}"
                                     required disabled>
@@ -91,7 +92,7 @@
                             <div class="relative col-span-2 sm:col-span-2 pointer-events-none">
                                 <label for="cliente" class="block text-sm font-medium text-gray-700">Cliente</label>
                                 {{-- Vista del cliente --}}
-                                <input type="text" name="cliente" autocomplete="given-preciosMensuales"
+                                <input type="text" name="cliente"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm text-base font-semibold border-transparent"
                                     value="{{ $Data['rent']->person->nombrePersona }} {{ $Data['rent']->person->apePaternoPersona }} {{ $Data['rent']->person->apeMaternoPersona }}"
                                     required disabled>
@@ -99,7 +100,7 @@
                             <div class="relative col-span-2 sm:col-span-2 pointer-events-none"> {{-- Vista de la fecha inicio y fin --}}
                                 <label for="fechaInicioFin" class="block text-sm font-medium text-gray-700">Fecha De
                                     Inicio y Fin </label>
-                                <input type="text" name="fechaInicioFin" autocomplete="given-preciosMensuales"
+                                <input type="text" name="fechaInicioFin"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm text-base font-semibold border-transparent"
                                     value="{{ $Data['fecha'] }}" required disabled>
                             </div>
@@ -315,28 +316,28 @@
         @if (getDashboardNameFromUrlFirst(request()->fullUrl()) == 'Rents' &&
                 getDashboardNameFromUrlSecond(request()->fullUrl()) == 'create')
 
-            function updatePreciosMensuales() {
-                // Obtén el select y el campo de entrada
-                // var select = document.getElementById("clvEquipo");
-                // var preciosMensuales = document.getElementById("preciosMensuales");
-
-                // Obtén el valor del atributo de datos "precios" de la opción seleccionada
-                // var selectedOption = select.options[select.selectedIndex];
-                // var precios = selectedOption.getAttribute("data-precios");
-
-                // Establece el valor del campo de entrada a precios
-                // preciosMensuales.value = (precios / 0.8).toFixed(2);
-            }
-
             //Inputs
-            const fechaInicio = document.getElementById('fecha_inicio');
             const diasARentar = document.getElementById('diasARentar');
             const rentaAlMes = document.getElementById('rentaAlMes');
+            const fechaInicio = document.getElementById('fecha_inicio');
             const fechaFin = document.getElementById('fecha_fin');
             const diasAMeses = document.getElementById('diasAMeses');
             const totalDeRenta = document.getElementById('totalDeRenta');
             //Labels o textos planos
             const redondeoDeMeses = document.getElementById('redondeoDeMeses');
+
+            function updatePreciosMensuales() {
+                // Obtén el equipoSelect y el campo de entrada
+                const equipoSelect = document.getElementById('clvEquipo');
+                // Obtén el valor del atributo de datos "precios" de la opción seleccionada
+                var selectedOption = equipoSelect.options[equipoSelect.selectedIndex];
+                var precios = selectedOption.getAttribute("data-precios");
+                // Establece el valor del campo de entrada a precios
+                rentaAlMes.value = (precios / 0.8).toFixed(2);
+                //
+                var fechaAdquisicion = selectedOption.getAttribute('data-fecha-adquisicion');
+                fechaInicio.min = fechaAdquisicion;
+            }
 
             diasARentar.addEventListener('input', sumarDias);
             rentaAlMes.addEventListener('input', rentaTotal);

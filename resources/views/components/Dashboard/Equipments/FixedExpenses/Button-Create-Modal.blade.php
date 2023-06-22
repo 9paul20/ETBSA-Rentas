@@ -1,4 +1,4 @@
-@props(['text', 'action', 'id', 'SelectTypeFixedExpense', 'today'])
+@props(['text', 'action', 'id', 'SelectTypeFixedExpense', 'minDay', 'today'])
 
 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
     <button id="btn-create-modal-{{ $id }}" type="button"
@@ -51,7 +51,8 @@
                             <input type="date" name="fechaGastoFijo" id="fechaGastoFijo"
                                 autocomplete="given-fechaGastoFijo"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('fechaGastoFijo') border-red-400 @enderror"
-                                value="{{ old('fechaGastoFijo') }}" required max='{{ $today }}'>
+                                value="{{ old('fechaGastoFijo') }}" required min="{{ $minDay }}"
+                                max='{{ $today }}'>
                             @error('fechaGastoFijo')
                                 <div class="flex items-center mt-1 text-red-400">
                                     <i class="fas fa-exclamation-triangle mr-2"></i>

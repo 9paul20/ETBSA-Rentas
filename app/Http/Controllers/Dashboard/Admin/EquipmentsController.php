@@ -172,6 +172,10 @@ class EquipmentsController extends Controller
 
         $equipment = Equipment::query()
             ->with([
+                'categoria:' .
+                    'clvCategoria,categoria',
+                'disponibilidad:' .
+                    'clvDisponibilidad,disponibilidad,textColor,bgColorPrimary,bgColorSecondary',
                 'fixedExpenses:' .
                     'clvGastoFijo,gastoFijo,costoGastoFijo,folioFactura,fechaGastoFijo,clvTipoGastoFijo,clvEquipo',
                 'fixedExpenses.TypeFixedExpense:' .
@@ -180,7 +184,15 @@ class EquipmentsController extends Controller
                     'clvGastoVariable,gastoVariable,descripcion,fechaGastoVariable,costoGastoVariable,clvEquipo', 'monthlyExpenses:' .
                     'clvGastoMensual,gastoMensual,costoMensual,descripcion,clvEquipo,clvTipoGastoFijo',
                 'monthlyExpenses.typeFixedExpense:' .
-                    'clvTipoGastoFijo,tipoGastoFijo'
+                    'clvTipoGastoFijo,tipoGastoFijo',
+                'renta:' .
+                    'clvRenta,clvEquipo,clvCliente,clvEstadoRenta,fecha_inicio,fecha_fin,descripcion',
+                'renta.statusRent:' .
+                    'clvEstadoRenta,estadoRenta,textColor,bgColorPrimary,bgColorSecondary',
+                'renta.PaymentsRents:' .
+                    'clvPagoRenta,clvRenta,clvEstadoPagoRenta,pagoRenta,ivaRenta',
+                'renta.PaymentsRents.estadoPagoRenta:' .
+                    'clvEstadoPagoRenta,estadoPagoRenta'
             ])
             ->select(
                 '*',
@@ -188,13 +200,20 @@ class EquipmentsController extends Controller
             ->findOrFail($equipment)
             ->makeHidden(['created_at', 'updated_at']);
         if (request()->wantsJson()) {
+            $equipment->renta->map(function ($rent) {
+                $rent->urlEdit = route('Dashboard.Admin.Rents.Edit', $rent->clvRenta);
+                return $rent;
+            });
             $equipment->sumGastosFijos = $equipment->sum_gastos_fijos;
             $equipment->sumGastosVariables = $equipment->sum_gastos_variables;
             $equipment->sumGastosMensuales = $equipment->sum_gastos_mensuales;
             $equipment->precioActualPorDepreciacionAnual = $equipment->precioActualPorDepreciacionAnual;
             $equipment->costoNetoAnual = $equipment->costoNetoAnual;
+            $equipment->sumPagosRentasTotal = $equipment->sumPagosRentasTotal;
+            $equipment->sumPagosRentasPagados = $equipment->sumPagosRentasPagados;
+            $equipment->rentasRelacionadas = $equipment->rentasRelacionadas;
+            $equipment->paymentsByStatus = $equipment->paymentsByStatus;
         }
-
         //Tabla de Gastos Fijos Al Equipo
         $rowFixedExpenses = $equipment->fixedExpenses()
             ->with('TypeFixedExpense:clvTipoGastoFijo,tipoGastoFijo')

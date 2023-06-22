@@ -55,22 +55,25 @@
                             </td>
                             <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
                                 <div class="text-gray-600"><span class="font-medium text-green-600">$</span>{{
-                                    rentsStore.precioFormatter(rowData.payments_rents[0].pagoRenta) }}
+                                    rentsStore.precioFormatter(mensualidad(rowData.payments_rents[0].pagoRenta, rowData.payments_rents[0].ivaRenta)) }}
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500" v-if="rowData.getPaymentsByStatus.Pagado">
                                 <div class="text-gray-600"><span class="font-medium text-green-600">$</span>{{
-                                    rentsStore.precioFormatter(rowData.payments_rents[0].ivaRenta) }}
-                                </div>
-                            </td>
-                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
-                                <div class="text-gray-600"><span class="font-medium text-green-600">$</span>{{
-                                    rentsStore.precioFormatter(Number(rowData.payments_rents[0].pagoRenta) +
-                                        Number(rowData.payments_rents[0].ivaRenta))
+                                    rentsStore.precioFormatter(totalAPagar(rowData.payments_rents[0].pagoRenta, rowData.payments_rents[0].ivaRenta, rowData.getPaymentsByStatus.Pagado.payments.length))
                                 }}
                                 </div>
                             </td>
-                            <td class="px-1 py-1">
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500" v-else>
+                                <div class="text-orange-500">Sin abonar aún</div>
+                            </td>
+                            <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
+                                <div class="text-gray-600"><span class="font-medium text-green-600">$</span>{{
+                                    rentsStore.precioFormatter(totalAPagar(rowData.payments_rents[0].pagoRenta, rowData.payments_rents[0].ivaRenta, rowData.payments_rents.length))
+                                }}
+                                </div>
+                            </td>
+                            <td class="px-1 py-1"> <!-- Iconos SVG Botónes -->
                                 <div class="flex justify-end gap-1">
                                     <icon-button color="text-green-500" :tooltip="`'ShowRent_` + rowData.clvRenta + `'`"
                                         svg="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z M15 12a3 3 0 11-6 0 3 3 0 016 0z"
@@ -104,20 +107,17 @@
             <h1 class="text-5xl font-bold text-gray-500">No hay datos de
                 {{ routeTitle }}</h1>
         </main>
-        <div v-if="rentaTotalMensual">
-            {{ rentaTotalMensual }}
-        </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import iconButton from '@/js/components/Common/iconButton.vue';
 import axios from 'axios';
 import { rents } from '@/js/store/Admin/Rents.js';
 
 const rentsStore = rents();
-let rentaTotalMensual = ref();
+const pagoRenta = ref(), ivaRenta = ref(), pagado = ref(), total = ref();
 
 defineProps({
     routeTitle: {
@@ -133,6 +133,7 @@ defineProps({
 });
 onMounted(async () => {
     await rentsStore.index();
+    console.log(rentsStore.filteredRowDatas);
 });
 
 //getTitle y getDescription son funciones para facilitar un string encadenandole los parametros que necesiten
@@ -140,12 +141,10 @@ function getTitle(nombre, apePaterno, apeMaterno) {
     const name = "La renta de " + nombre + " " + apePaterno + " " + apeMaterno;
     return name;
 }
-
 function getDescription(noSerie, modelo, precio, iva) {
     const description = "Con el equipo " + noSerie + " - " + modelo + " y una renta total de $" + rentsStore.precioFormatter(Number(precio + iva));
     return description;
 }
-
 //Función para ver el dato de renta con SA2
 function show(name, description, icon) {
     Swal.fire({
@@ -156,7 +155,6 @@ function show(name, description, icon) {
         cancelButtonText: 'Cerrar',
     })
 }
-
 //Función para eliminar el dato de renta con SA2
 function confirmDelete(name, icon, item, url) {
     Swal.fire({
@@ -204,6 +202,23 @@ function confirmDelete(name, icon, item, url) {
         }
     })
 }
+//
+const example = computed(() => {
+    return null;
+});
+const mensualidad = computed(() => {
+    return (pago, iva) => {
+        return Number(pago) + Number(iva);
+    };
+});
+const totalAPagar = computed(() => {
+    return (pago, iva, meses) => {
+        if (meses > 0)
+            return mensualidad.value(pago, iva) * Number(meses);
+        else
+            return null;
+    };
+});
 </script>
 
 <style>

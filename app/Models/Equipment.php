@@ -50,6 +50,11 @@ class Equipment extends Model
         return $this->belongsTo(Category::class, 'clvCategoria');
     }
 
+    public function renta(): hasMany
+    {
+        return $this->hasMany(Rent::class, 'clvEquipo');
+    }
+
     public function fixedExpenses(): HasMany
     {
         return $this->hasMany(FixedExpenses\FixedExpense::class, 'clvEquipo');
@@ -87,6 +92,64 @@ class Equipment extends Model
         $sumGastosMensuales = round($this->monthlyExpenses->sum('costoMensual'), 2);
         return Attribute::make(
             get: fn () => $sumGastosMensuales
+        );
+    }
+
+    protected function sumPagosRentasTotal(): Attribute
+    {
+        $sum = $this->renta->flatMap(function ($rent) {
+            return $rent->PaymentsRents;
+        })->sum(function ($paymentRent) {
+            return $paymentRent->pagoRenta + $paymentRent->ivaRenta;
+        });
+        $totalResults = $this->renta->flatMap(function ($rent) {
+            return $rent->PaymentsRents;
+        })->count();
+        $totalPaymentsRents = [
+            'sumPagosRentasTotal' => $sum,
+            'noResultados' => $totalResults,
+        ];
+        return Attribute::make(
+            get: fn () => $totalPaymentsRents
+        );
+    }
+
+    protected function sumPagosRentasPagados(): Attribute
+    {
+        $sum = $this->renta->flatMap(function ($rent) {
+            return $rent->PaymentsRents->where('estadoPagoRenta.estadoPagoRenta', 'Pagado');
+        })->sum(function ($paymentRent) {
+            return $paymentRent->pagoRenta + $paymentRent->ivaRenta;
+        });
+        $totalResults = $this->renta->flatMap(function ($rent) {
+            return $rent->PaymentsRents->where('estadoPagoRenta.estadoPagoRenta', 'Pagado');
+        })->count();
+        $totalPaymentsRentsPagados = [
+            'sumPagosRentasPagados' => $sum,
+            'noResultados' => $totalResults,
+        ];
+        return Attribute::make(
+            get: fn () => $totalPaymentsRentsPagados
+        );
+    }
+
+    protected function paymentsByStatus(): Attribute
+    {
+        $paymentsByStatus = $this->renta->flatMap(function ($rent) {
+            return $rent->PaymentsRents->groupBy(function ($paymentRent) {
+                return $paymentRent->estadoPagoRenta->estadoPagoRenta;
+            })->map(function ($payments) {
+                $totalPagoRenta = $payments->sum('pagoRenta');
+                $totalIvaRenta = $payments->sum('ivaRenta');
+                return [
+                    'payments' => $payments,
+                    'totalPagoRenta' => $totalPagoRenta,
+                    'totalIvaRenta' => $totalIvaRenta,
+                ];
+            });
+        });
+        return Attribute::make(
+            get: fn () => $paymentsByStatus
         );
     }
 
