@@ -12,16 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_disponibilidad', function (Blueprint $table) {
-            $table->tinyIncrements('clvDisponibilidad');
-            $table->string('disponibilidad')->unique();
+            $table->tinyIncrements('clvDisponibilidad')->index();
+            $table->string('disponibilidad')->unique()->index();
             $table->text('descripcion')->nullable();
             $table->text('textColor')->nullable();
             $table->text('bgColorPrimary')->nullable();
             $table->text('bgColorSecondary')->nullable();
             $table->timestamps();
-
-            $table->index('clvDisponibilidad');
-            $table->index('disponibilidad');
         });
     }
 

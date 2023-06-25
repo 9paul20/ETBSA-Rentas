@@ -28,6 +28,7 @@
         "gsap": "^3.12.1",
         "ionicons": "^7.1.2",
         "material-icons": "^1.13.7",
+        "numeral": "^2.0.6",
         "postcss": "^8.4.24",
         "sweetalert2": "^11.4.8",
         "tailwind-scrollbar": "^3.0.4",

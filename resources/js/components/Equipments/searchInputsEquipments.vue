@@ -29,6 +29,12 @@
                     class="px-8 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
             </div>
         </div>
+        <div class="mt-2">
+            <div class="relative">
+                <input v-model="queryDateAdq" @keyup.enter="filterInputs()" type="date" :min="minAdqDate" :max="maxAdqDate"
+                    class="px-8 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -37,13 +43,27 @@ import { ref } from 'vue';
 
 const queryNoSerieEquipo = ref('');
 const queryModelo = ref('');
+const queryDateAdq = ref('');
+defineProps({
+    minAdqDate: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    maxAdqDate: {
+        type: String,
+        required: false,
+        default: null,
+    },
+});
 const emit = defineEmits([
     'inputs-box',
 ]);
 const filterInputs = () => {
     const inputBoxNoSerieEquipo = queryNoSerieEquipo.value;
     const inputBoxModelo = queryModelo.value;
-    emit("inputs-box", inputBoxNoSerieEquipo, inputBoxModelo);
+    const inputBoxDateAdq = queryDateAdq.value;
+    emit("inputs-box", inputBoxNoSerieEquipo, inputBoxModelo, inputBoxDateAdq);
 };
 </script>
 

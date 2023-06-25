@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('t_equipos', function (Blueprint $table) {
             $table->bigIncrements('clvEquipo')->index();
             $table->string('noSerieEquipo')->unique()->index();
-            $table->string('noSerieMotor')->unique()->index();
-            $table->string('noEconomico')->unique()->index();
+            $table->string('noSerieMotor')->unique()->nullable()->index();
+            $table->string('noEconomico')->unique()->nullable()->index();
             $table->string('modelo')->index();
             $table->unsignedTinyInteger('clvDisponibilidad')->default(0)->index();
             $table->unsignedTinyInteger('clvCategoria')->default(0)->index();
@@ -23,12 +23,15 @@ return new class extends Migration
             $table->decimal('precioEquipo', 10, 2)->default(0.00);
             $table->decimal('precioEquipoActual', 10, 2)->default(0.00);
             $table->decimal('precioActualVenta', 10, 2)->default(0.00)->nullable();
-            $table->string('folioEquipo')->unique()->index();
+            $table->string('folioEquipo')->unique()->nullable()->index();
             $table->date('fechaAdquisicion');
             $table->date('fechaGarantiaExtendida');
             $table->date('fechaVenta')->nullable();
             $table->decimal('porDeprAnual', 10, 2)->default(25.00);
             $table->timestamps();
+
+            $table->foreign('clvDisponibilidad')->references('clvDisponibilidad')->on('t_disponibilidad')->onDelete('cascade');
+            $table->foreign('clvCategoria')->references('clvCategoria')->on('t_categorias')->onDelete('cascade');
         });
     }
 

@@ -60,6 +60,18 @@
                     class="px-8 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
             </div>
         </div>
+        <div class="mt-2">
+            <div class="relative">
+                <input v-model="queryClientFI" @keyup.enter="filterInputs()" type="date" :min="fechaMinima"
+                    class="px-8 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+            </div>
+        </div>
+        <div class="mt-2">
+            <div class="relative">
+                <input v-model="queryClientFF" @keyup.enter="filterInputs()" type="date" :max="fechaMaxima"
+                    class="px-8 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -70,6 +82,20 @@ const queryEquipmentNoSerie = ref('');
 const queryClientName = ref('');
 const queryClientAP = ref('');
 const queryClientAM = ref('');
+const queryClientFI = ref('');
+const queryClientFF = ref('');
+defineProps({
+    fechaMinima: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    fechaMaxima: {
+        type: String,
+        required: false,
+        default: null,
+    },
+});
 const emit = defineEmits([
     'inputs-box',
 ]);
@@ -78,7 +104,9 @@ const filterInputs = () => {
     const inputBoxClienteNombre = queryClientName.value;
     const inputBoxClienteApePaterno = queryClientAP.value;
     const inputBoxClienteApeMaterno = queryClientAM.value;
-    emit("inputs-box", inputBoxNoSerieEquipo, inputBoxClienteNombre, inputBoxClienteApePaterno, inputBoxClienteApeMaterno);
+    const inputBoxClienteFechaInicio = queryClientFI.value;
+    const inputBoxClienteFechaFin = queryClientFF.value;
+    emit("inputs-box", inputBoxNoSerieEquipo, inputBoxClienteNombre, inputBoxClienteApePaterno, inputBoxClienteApeMaterno, inputBoxClienteFechaInicio, inputBoxClienteFechaFin);
 }
 </script>
 

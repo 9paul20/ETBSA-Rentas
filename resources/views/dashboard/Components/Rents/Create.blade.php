@@ -8,6 +8,10 @@
         getDashboardNameFromUrlSecond(request()->fullUrl()) == 'edit')
     @include('Dashboard.Components.Divisor')
 
+    @include('Dashboard.Components.Rents.Edit.EquipmentDescription')
+
+    @include('Dashboard.Components.Divisor')
+
     @include('Dashboard.Components.Rents.Edit.PaymentRentsTable')
 @endif
 @include('Dashboard.Components.Divisor')

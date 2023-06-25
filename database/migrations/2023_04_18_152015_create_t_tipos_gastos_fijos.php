@@ -12,14 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_tipos_gastos_fijos', function (Blueprint $table) {
-            $table->tinyIncrements('clvTipoGastoFijo');
-            $table->string('tipoGastoFijo')->unique();
+            $table->tinyIncrements('clvTipoGastoFijo')->index();
+            $table->string('tipoGastoFijo')->unique()->index();
             $table->boolean('opcionUnica');
             $table->text('descripcion')->nullable();
             $table->timestamps();
-
-            $table->index('clvTipoGastoFijo');
-            $table->index('tipoGastoFijo');
         });
     }
 

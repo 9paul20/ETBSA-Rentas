@@ -9,7 +9,10 @@ export const rents = defineStore('rents', () => {
     let tableRentsTransition = ref(false);
     let categoriesList = ref([]);
     let statusRentsList = ref([]);
-    let sumPayments = ref(0);
+    let sumFirstPaymentsEnRenta = ref(0);
+    let sumAllPaymentsByState = ref(0);
+    let oldestStartDate = ref('');
+    let lastestFinishDate = ref('');
 
     //Metodos
     const index = async () => {
@@ -21,7 +24,10 @@ export const rents = defineStore('rents', () => {
             categoriesList.value = [...data.categories];
             statusRentsList.value = [...data.statusRents];
             tableRentsTransition.value = !tableRentsTransition.value;
-            sumPayments.value = data.sumPayments;
+            sumFirstPaymentsEnRenta.value = data.sumFirstPaymentsEnRenta;
+            sumAllPaymentsByState.value = data.sumAllPaymentsByState;
+            oldestStartDate.value = data.oldestStartDate;
+            lastestFinishDate.value = data.lastestFinishDate;
         } catch (error) {
             console.error(error);
         }
@@ -79,8 +85,21 @@ export const rents = defineStore('rents', () => {
             rowData.status_rent.estadoRenta.toLowerCase().includes(queryStatusRent.toLowerCase())
         );
     };
+    const filterRentsByStartDate = (rowData, queryStartDate) => {
+        // const startDate = new Date(queryStartDate);
+        return !queryStartDate || rowData.fecha_inicio >= queryStartDate;
+        // return (
+        //     queryStartDate == '' ||
+        //     queryStartDate == null ||
+        //     rowData.status_rent.estadoRenta.toLowerCase().includes(queryStartDate.toLowerCase())
+        // );
+    };
+    const filterRentsByEndDate = (rowData, queryEndDate) => {
+        // const endDate = new Date(queryEndDate);
+        return !queryEndDate || rowData.fecha_fin <= queryEndDate;
+    };
     //Filtro General
-    const filterRents = (queryEquipmentNoSerie, queryClientName, queryClientAP, queryClientAM, queryEquipmentCategory, queryStatusRent) => {
+    const filterRents = (queryEquipmentNoSerie, queryClientName, queryClientAP, queryClientAM, queryEquipmentCategory, queryStatusRent, queryStartDate, queryEndDate) => {
         filteredRowDatas.value = rowDatas.value.data.filter(rowData => {
             return (
                 filterRentsByEquipmentNoSerie(rowData, queryEquipmentNoSerie) &&
@@ -88,7 +107,9 @@ export const rents = defineStore('rents', () => {
                 filterRentsByClientAP(rowData, queryClientAP) &&
                 filterRentsByClientAM(rowData, queryClientAM) &&
                 filterRentsByEquipmentCategory(rowData, queryEquipmentCategory) &&
-                filterRentsByRentSatus(rowData, queryStatusRent)
+                filterRentsByRentSatus(rowData, queryStatusRent) &&
+                filterRentsByStartDate(rowData, queryStartDate) &&
+                filterRentsByEndDate(rowData, queryEndDate)
             );
         });
     };
@@ -100,6 +121,19 @@ export const rents = defineStore('rents', () => {
         });
         return formattedPrice.replace('$', '');
     }
+    function transformarFecha(fecha) {
+        const meses = [
+            "Ene", "Feb", "Mar", "Abr", "Mayo", "Jun",
+            "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
+        ];
+
+        const partes = fecha.split("-");
+        const dia = partes[2];
+        const mes = meses[parseInt(partes[1]) - 1];
+        const anio = partes[0];
+
+        return `${dia} ${mes} de ${anio}`;
+    }
 
     return {
         columnNames,
@@ -107,7 +141,10 @@ export const rents = defineStore('rents', () => {
         filteredRowDatas,
         categoriesList,
         statusRentsList,
-        sumPayments,
+        sumFirstPaymentsEnRenta,
+        sumAllPaymentsByState,
+        oldestStartDate,
+        lastestFinishDate,
         tableRentsTransition,
         index,
         show,
@@ -117,7 +154,10 @@ export const rents = defineStore('rents', () => {
         filterRentsByClientAM,
         filterRentsByEquipmentCategory,
         filterRentsByRentSatus,
+        filterRentsByStartDate,
+        filterRentsByEndDate,
         filterRents,
         precioFormatter,
+        transformarFecha,
     };
 });

@@ -9,7 +9,7 @@
                 Reset Filter
             </button>
         </div>
-        <search-inputs-equipments-component @inputs-box="onInputs" />
+        <search-inputs-equipments-component @inputs-box="onInputs" :minAdqDate="minAdqDate" :maxAdqDate="maxAdqDate" />
         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-1 gap-4 mt-4">
             <list-box-status-component :list="loader.listStatus" @status-selected="onStatusSelected" />
             <list-box-categories-component :list="loader.listCategories" @category-selected="onCategorySelected" />
@@ -27,13 +27,16 @@ import { equipments } from '@/js/store/Admin/Equipments.js';
 const loader = equipments();
 const constInputBoxNoSerieEquipo = ref("");
 const constInputBoxModelo = ref("");
+const constInputBoxDateAdq = ref("");
 const constSelectedCategory = ref("");
 const constSelectedStatus = ref("");
 const clearInputs = ref("");
+const minAdqDate = ref(),maxAdqDate = ref();
 
-const onInputs = (noSerieEquipo, Modelo) => {
+const onInputs = (noSerieEquipo, Modelo, DateAdq) => {
     constInputBoxNoSerieEquipo.value = noSerieEquipo;
     constInputBoxModelo.value = Modelo;
+    constInputBoxDateAdq.value = DateAdq;
     filterEquipmentsVue();
 };
 const onCategorySelected = (category) => {
@@ -50,6 +53,7 @@ const filterEquipmentsVue = () => {
     loader.filterEquipments(
         constInputBoxNoSerieEquipo.value,
         constInputBoxModelo.value,
+        constInputBoxDateAdq.value,
         constSelectedCategory.value,
         constSelectedStatus.value,
     );
@@ -57,6 +61,7 @@ const filterEquipmentsVue = () => {
 const resetFilter = () => {
     constInputBoxNoSerieEquipo.value = "";
     constInputBoxModelo.value = "";
+    constInputBoxDateAdq.value = "";
     constSelectedCategory.value = "";
     constSelectedStatus.value = "";
     clearInputs.value = "";
@@ -66,6 +71,8 @@ const resetFilter = () => {
 onMounted(async () => {
     await loader.getCategories();
     await loader.getStatus();
+    minAdqDate.value = loader.minAdqDate;
+    maxAdqDate.value = loader.maxAdqDate;
 });
 </script>
 

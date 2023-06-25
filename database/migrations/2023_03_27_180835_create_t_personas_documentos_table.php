@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_personas_documentos', function (Blueprint $table) {
-            $table->unsignedBigInteger('clvPersona');
-            $table->unsignedBigInteger('clvDocumento');
+            $table->unsignedBigInteger('clvPersona')->index();
+            $table->unsignedBigInteger('clvDocumento')->index();
             $table->text('descripcion')->nullable();
             $table->timestamps();
 
-            $table->index('clvPersona');
-            $table->index('clvDocumento');
+            $table->foreign('clvPersona')->references('clvPersona')->on('t_personas')->onDelete('cascade');
+            $table->foreign('clvDocumento')->references('clvDocumento')->on('t_documentos')->onDelete('cascade');
         });
     }
 

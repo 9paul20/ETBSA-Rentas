@@ -52,19 +52,21 @@ class RentsController extends Controller
                 'clvEstadoRenta',
             ]);
         $rowDatas->map(function ($rowData) {
-            $fecha_inicio = strtotime($rowData->fecha_inicio);
-            $rowData->fecha_inicio = date('j M Y', $fecha_inicio);
-            $fecha_fin = strtotime($rowData->fecha_fin);
-            $rowData->fecha_fin = date('j M Y', $fecha_fin);
+            // $fecha_inicio = strtotime($rowData->fecha_inicio);
+            // $rowData->fecha_inicio = date('j M Y', $fecha_inicio);
+            // $fecha_fin = strtotime($rowData->fecha_fin);
+            // $rowData->fecha_fin = date('j M Y', $fecha_fin);
             $rowData->routeShowRent = route('Dashboard.Admin.Rents.Show', $rowData->clvRenta);
             $rowData->routeUpdateRent = route('Dashboard.Admin.Rents.Edit', $rowData->clvRenta);
             $rowData->routeDeleteRent = route('Dashboard.Admin.Rents.Destroy', $rowData->clvRenta);
             $rowData->getPaymentsByStatus = $rowData->getPaymentsByStatusAttribute;
             return $rowData;
         });
-        // return $rowDatas;
-
-        $sumPayments = DB::table('t_rentas')
+        $oldestStartDate = DB::table('t_rentas')
+            ->min('fecha_inicio');
+        $lastestFinishDate = DB::table('t_rentas')
+            ->max('fecha_fin');
+        $sumFirstPaymentsEnRenta = DB::table('t_rentas')
             ->join('t_pagos_rentas', function ($join) {
                 $join->on('t_rentas.clvRenta', '=', 't_pagos_rentas.clvRenta')
                     ->whereRaw('t_pagos_rentas.clvPagoRenta = (SELECT MIN(clvPagoRenta) FROM t_pagos_rentas WHERE clvRenta = t_rentas.clvRenta)');
@@ -73,11 +75,16 @@ class RentsController extends Controller
             ->where('t_estados_rentas.estadoRenta', 'En renta')
             ->select(DB::raw('SUM(t_pagos_rentas.pagoRenta) AS totalPagoRenta, SUM(t_pagos_rentas.ivaRenta) AS totalIvaRenta'))
             ->first();
-
-        $sumaPagos = [
-            'totalPagoRenta' => $sumPayments->totalPagoRenta,
-            'totalIvaRenta' => $sumPayments->totalIvaRenta,
-        ];
+        $sumAllPayments = DB::table('t_pagos_rentas')
+            ->join('t_estados_pagos_rentas', 't_pagos_rentas.clvEstadoPagoRenta', '=', 't_estados_pagos_rentas.clvEstadoPagoRenta')
+            ->select(
+                't_estados_pagos_rentas.estadoPagoRenta',
+                DB::raw('SUM(t_pagos_rentas.pagoRenta) AS totalPagoRenta'),
+                DB::raw('SUM(t_pagos_rentas.ivaRenta) AS totalIvaRenta')
+            )
+            ->groupBy('t_estados_pagos_rentas.estadoPagoRenta')
+            ->get();
+        $sumAllPaymentsByState = $sumAllPayments->pluck('totalPagoRenta', 'estadoPagoRenta');
 
         $columnNames = [
             'Equipo',
@@ -115,10 +122,13 @@ class RentsController extends Controller
             });
         $Data = [
             'rowDatas' => $rowDatas,
-            'sumPayments' => $sumPayments,
+            'sumFirstPaymentsEnRenta' => $sumFirstPaymentsEnRenta,
+            'sumAllPaymentsByState' => $sumAllPaymentsByState,
             'columnNames' => $columnNames,
             'categories' => $categories,
             'statusRents' => $statusRents,
+            'oldestStartDate' => $oldestStartDate,
+            'lastestFinishDate' => $lastestFinishDate,
         ];
         if (request()->wantsJson())
             return $Data;
@@ -236,10 +246,11 @@ class RentsController extends Controller
     {
         $rent = Rent::query()
             ->with([
-                'equipment:clvEquipo,noSerieEquipo,modelo',
+                'equipment:clvEquipo,noSerieEquipo,modelo,precioEquipo,precioEquipoActual,fechaAdquisicion,descripcion',
                 'equipment.fixedExpenses:clvGastoFijo',
                 'equipment.variablesExpenses:clvGastoVariable',
                 'equipment.monthlyExpenses:clvGastoMensual,costoMensual,clvEquipo',
+                'equipment.renta:clvRenta',
                 'person:clvPersona,nombrePersona,apePaternoPersona,apeMaternoPersona',
                 'statusRent:clvEstadoRenta,estadoRenta',
             ])

@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_tipo_categorias', function (Blueprint $table) {
-            $table->tinyIncrements('clvTipoCategoria');
-            $table->string('tipoCategoria')->unique();
+            $table->tinyIncrements('clvTipoCategoria')->index();
+            $table->string('tipoCategoria')->unique()->index();
             $table->text('descripcion')->nullable();
             $table->timestamps();
 
-            $table->index('clvTipoCategoria');
-            $table->index('tipoCategoria');
+            $table->foreign('clvTipoCategoria')->references('clvTipoCategoria')->on('t_tipo_categorias')->onDelete('cascade');
         });
     }
 

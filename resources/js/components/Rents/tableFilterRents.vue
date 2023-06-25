@@ -9,7 +9,7 @@
                 Reset Filter
             </button>
         </div>
-        <search-inputs-rents-component @inputs-box="onInputs" />
+        <search-inputs-rents-component @inputs-box="onInputs" :fechaMinima="fechaMinima" :fechaMaxima="fechaMaxima" />
         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-1 gap-4 mt-4">
             <list-box-equipments-categories-component :list="rentsIndex.categoriesList"
                 @category-selected="onCategorySelected" />
@@ -30,18 +30,25 @@ const constInputBoxNoSerieEquipment = ref("");
 const constInputBoxClientName = ref("");
 const constInputBoxClientAP = ref("");
 const constInputBoxClientAM = ref("");
+const constInputBoxClientFI = ref("");
+const constInputBoxClientFF = ref("");
 const constSelectedCategory = ref("");
 const constSelectedStatus = ref("");
+const fechaMinima = ref(), fechaMaxima = ref();
 
 onMounted(async () => {
     await rentsIndex.index();
+    fechaMinima.value = rentsIndex.oldestStartDate;
+    fechaMaxima.value = rentsIndex.lastestFinishDate;
 });
 
-const onInputs = (noSerieEquipment, clientName, clientAP, clientAM) => {
+const onInputs = (noSerieEquipment, clientName, clientAP, clientAM, clientFI, clientFF) => {
     constInputBoxNoSerieEquipment.value = noSerieEquipment;
     constInputBoxClientName.value = clientName;
     constInputBoxClientAP.value = clientAP;
     constInputBoxClientAM.value = clientAM;
+    constInputBoxClientFI.value = clientFI;
+    constInputBoxClientFF.value = clientFF;
     filterRentsVue();
 };
 
@@ -65,6 +72,8 @@ const filterRentsVue = () => {
         constInputBoxClientAM.value,
         constSelectedCategory.value,
         constSelectedStatus.value,
+        constInputBoxClientFI.value,
+        constInputBoxClientFF.value,
     );
 }
 
@@ -75,6 +84,8 @@ const resetFilter = () => {
     constInputBoxClientAM.value = null;
     constSelectedCategory.value = null;
     constSelectedStatus.value = null;
+    constInputBoxClientFI.value = null;
+    constInputBoxClientFF.value = null;
     filterRentsVue();
 }
 </script>

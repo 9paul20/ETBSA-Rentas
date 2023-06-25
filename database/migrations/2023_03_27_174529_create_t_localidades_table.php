@@ -12,17 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_localidades', function (Blueprint $table) {
-            $table->unsignedInteger('clvLocalidad')->primary();
+            $table->unsignedInteger('clvLocalidad')->primary()->index();
             $table->string('calle');
             $table->smallInteger('noInterior')->nullable();
             $table->smallInteger('noExterior');
             $table->string('colonia');
             $table->text('descripcion')->nullable();
-            $table->unsignedInteger('clvCiudad');
+            $table->unsignedInteger('clvCiudad')->index();
             $table->timestamps();
 
-            $table->index('clvLocalidad');
-            $table->index('clvCiudad');
+            $table->foreign('clvCiudad')->references('clvCiudad')->on('t_ciudades')->onDelete('cascade');
         });
     }
 

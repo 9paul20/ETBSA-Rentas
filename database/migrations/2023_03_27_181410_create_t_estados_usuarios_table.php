@@ -12,12 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_estados_usuarios', function (Blueprint $table) {
-            $table->tinyIncrements('clvEstadoUsuario');
+            $table->tinyIncrements('clvEstadoUsuario')->index();
             $table->string('estadoUsuario')->unique();
             $table->text('descripcion')->nullable();
             $table->timestamps();
-
-            $table->index('clvEstadoUsuario');
         });
     }
 

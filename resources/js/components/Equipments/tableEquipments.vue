@@ -102,6 +102,7 @@
 import iconButton from '@/js/components/Common/iconButton.vue';
 import { onMounted, ref } from 'vue';
 import { equipments } from '@/js/store/Admin/Equipments.js';
+import axios from 'axios';
 
 const loader = equipments();
 
@@ -165,9 +166,9 @@ function confirmDelete(name, icon, item, url) {
                         confirmButtonText: 'Aceptar'
                     }).then(() => {
                         //Transition de VueJS 3, al eliminar un dato
-                        const index = this.filteredRowDatas.indexOf(item);
+                        const index = loader.filteredRowDatas.indexOf(item);
                         if (index !== -1) {
-                            this.filteredRowDatas.splice(index, 1);
+                            loader.filteredRowDatas.splice(index, 1);
                         }
                     });
                 }).catch((error) => {

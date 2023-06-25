@@ -40,10 +40,10 @@
                                 <div class="text-orange-600" v-else>Sin Descripción</div>
                             </td>
                             <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
-                                <div class="text-gray-600">{{ rowData.fecha_inicio }}</div>
+                                <div class="text-gray-600">{{ rentsStore.transformarFecha(rowData.fecha_inicio) }}</div>
                             </td>
                             <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
-                                <div class="text-gray-600">{{ rowData.fecha_fin }}</div>
+                                <div class="text-gray-600">{{ rentsStore.transformarFecha(rowData.fecha_fin) }}</div>
                             </td>
                             <td class="whitespace-nowrap px-1 py-1 text-sm text-gray-500">
                                 <span
@@ -133,7 +133,6 @@ defineProps({
 });
 onMounted(async () => {
     await rentsStore.index();
-    console.log(rentsStore.filteredRowDatas);
 });
 
 //getTitle y getDescription son funciones para facilitar un string encadenandole los parametros que necesiten

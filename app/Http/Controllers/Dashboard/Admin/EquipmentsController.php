@@ -17,6 +17,7 @@ use App\Models\VariablesExpenses\VariableExpense;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\DB;
 
 class EquipmentsController extends Controller
 {
@@ -71,9 +72,15 @@ class EquipmentsController extends Controller
                 $rowData->routeDeleteEquipment = route('Dashboard.Admin.Equipments.Destroy', $rowData->clvEquipo);
                 return $rowData;
             });
+        $minAdqDate = DB::table('t_equipos')
+            ->min('fechaAdquisicion');
+        $maxAdqDate = DB::table('t_equipos')
+            ->max('fechaAdquisicion');
         $Data = [
             'columnNames' => $columnNames,
             'rowDatas' => $rowDatas,
+            'minAdqDate' => $minAdqDate,
+            'maxAdqDate' => $maxAdqDate,
         ];
         if (request()->wantsJson())
             return $Data;
@@ -108,8 +115,10 @@ class EquipmentsController extends Controller
         //Ya agrega por medio de peticiones JSON; solo falta redireccionar de pagina y mandar mensaje de aviso
         if (request()->wantsJson()) {
             return response()->json([
-                'message' => 'Equipo agregado correctamente',
-                'data' => $equipment,
+                'flashData' => [
+                    'success' => 'Equipo ' . $equipment->modelo . ' con No.Serie: ' . $equipment->noSerieEquipo . ' agregado correctamente.'
+                ],
+                'redirectUrl' => route('Dashboard.Admin.Equipments.Edit', $equipment->clvEquipo),
             ]);
         }
         return redirect()->route('Dashboard.Admin.Equipments.Edit', $equipment->clvEquipo)

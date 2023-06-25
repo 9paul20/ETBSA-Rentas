@@ -12,13 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_nacionalidades', function (Blueprint $table) {
-            $table->tinyIncrements('clvNacionalidad');
-            $table->string('nacionalidad')->unique();
+            $table->tinyIncrements('clvNacionalidad')->index();
+            $table->string('nacionalidad')->unique()->index();
             $table->text('descripcion')->nullable();
             $table->timestamps();
-
-            $table->index('clvNacionalidad');
-            $table->index('nacionalidad');
         });
     }
 

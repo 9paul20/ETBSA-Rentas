@@ -12,13 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_comTel', function (Blueprint $table) {
-            $table->tinyIncrements('clvComTel');
-            $table->string('companiaTelefonica')->unique();
+            $table->tinyIncrements('clvComTel')->index();
+            $table->string('companiaTelefonica')->unique()->index();
             $table->text('descripcion')->nullable();
             $table->timestamps();
-
-            $table->index('clvComTel');
-            $table->index('companiaTelefonica');
         });
     }
 

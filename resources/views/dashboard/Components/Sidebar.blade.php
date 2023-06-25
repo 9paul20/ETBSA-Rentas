@@ -72,5 +72,12 @@
         if (typeof objeto !== 'undefined') {
             // leer la propiedad 'top' del objeto
         }
+
+        const successMessage = sessionStorage.getItem('success');
+
+        if (successMessage) {
+            alert(successMessage);
+            sessionStorage.removeItem('success');
+        }
     </script>
 @endpush

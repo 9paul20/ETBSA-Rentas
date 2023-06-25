@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_documentos', function (Blueprint $table) {
-            $table->bigIncrements('clvDocumento');
-            $table->unsignedInteger('clvTipoDocumento')->nullable();
-            $table->unsignedBigInteger('noDocumento')->unique();
+            $table->bigIncrements('clvDocumento')->index();
+            $table->unsignedInteger('clvTipoDocumento')->nullable()->index();
+            $table->unsignedBigInteger('noDocumento')->unique()->index();
             $table->date('fechaExpidicion');
             $table->date('fechaVencimiento');
             $table->string('autoridadEmisora');
@@ -23,8 +23,7 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->timestamps();
 
-            $table->index('clvDocumento');
-            $table->index('noDocumento');
+            $table->foreign('clvTipoDocumento')->references('clvTipoDocumento')->on('t_tipo_documentos')->onDelete('cascade');
         });
     }
 

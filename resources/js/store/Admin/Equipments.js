@@ -6,6 +6,8 @@ export const equipments = defineStore('equipments', () => {
     const listStatus = ref();
     const listCategories = ref();
     const datePickerFormat = 'yyyy-MM-dd';
+    let minAdqDate = ref('');
+    let maxAdqDate = ref('');
     const formatDate = (date) => {
         if (date) {
             const year = date.getFullYear();
@@ -123,6 +125,8 @@ export const equipments = defineStore('equipments', () => {
                 rowDatas: { ...data.rowDatas },
             };
             filteredRowDatas.value = Data.value.rowDatas.data;
+            minAdqDate.value = data.minAdqDate;
+            maxAdqDate.value = data.maxAdqDate;
         } catch (error) {
             console.error(error);
         }
@@ -141,15 +145,16 @@ export const equipments = defineStore('equipments', () => {
         equipment.value.clvDisponibilidad = clvDisponibilidadValue;
         equipment.value.clvCategoria = clvCategoriaValue;
 
-        // console.log(equipment.value);
-
         try {
             const response = await axios.post('http://etbsa-rentas.test/api/EquipmentsListAPI', equipment.value)
                 .then(res => {
-                    console.log(res);
+                    const { redirectUrl, flashData } = res.data;
+                    const successMessage = flashData.success;
+                    sessionStorage.setItem('success', successMessage);
+                    window.location.href = redirectUrl;
                 });
         } catch (error) {
-            if (error.response.data) {
+            if (error.response) {
                 console.error(error.response.data);
                 if (error.response.data.errors.noSerieEquipo)
                     errors.value.noSerieEquipo = error.response.data.errors.noSerieEquipo;
@@ -446,6 +451,10 @@ export const equipments = defineStore('equipments', () => {
             rowData.modelo.toLowerCase().includes(queryEquipmentModelo.toLowerCase())
         );
     };
+    const filterRentsByDateAdq = (rowData, queryDateAdq) => {
+        // const endDate = new Date(queryDateAdq);
+        return !queryDateAdq || rowData.fechaAdquisicion >= queryDateAdq;
+    }
     const filterEquipmentsByCategory = (rowData, queryEquipmentCategory) => {
         return (
             queryEquipmentCategory == '' ||
@@ -461,11 +470,12 @@ export const equipments = defineStore('equipments', () => {
         );
     };
     //Filtro General
-    const filterEquipments = async (queryEquipmentNoSerieEquipo, queryEquipmentModelo, queryEquipmentCategory, queryEquipmentStatus) => {
+    const filterEquipments = async (queryEquipmentNoSerieEquipo, queryEquipmentModelo, queryDateAdq, queryEquipmentCategory, queryEquipmentStatus) => {
         filteredRowDatas.value = Data.value.rowDatas.data.filter(rowData => {
             return (
                 filterEquipmentsByNoSerieEquipo(rowData, queryEquipmentNoSerieEquipo) &&
                 filterEquipmentsByModelo(rowData, queryEquipmentModelo) &&
+                filterRentsByDateAdq(rowData, queryDateAdq) &&
                 filterEquipmentsByCategory(rowData, queryEquipmentCategory) &&
                 filterEquipmentsByStatus(rowData, queryEquipmentStatus)
             );
@@ -500,6 +510,52 @@ export const equipments = defineStore('equipments', () => {
             (12 * (currentDate.getFullYear() - fecAdq.getFullYear()));
         return mesesAdqEq;
     }
+    function formatNumber(n) {
+        // Formatea el número 1000000 a 1,234,567
+        return n.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    function formatCurrency(event) {
+        const input = event.target;
+        let input_val = input.value;
+
+        // No valida el input vacío
+        if (input_val === '') { return; }
+
+        const original_len = input_val.length;
+        const caret_pos = input.selectionStart;
+
+        if (input_val.indexOf('.') >= 0) {
+            const decimal_pos = input_val.indexOf('.');
+
+            let left_side = input_val.substring(0, decimal_pos);
+            let right_side = input_val.substring(decimal_pos);
+
+            left_side = formatNumber(left_side);
+            right_side = formatNumber(right_side);
+
+            if (event.type === 'blur') {
+                right_side += '00';
+            }
+
+            right_side = right_side.substring(0, 2);
+
+            input_val = '$' + left_side + '.' + right_side;
+
+        } else {
+            input_val = formatNumber(input_val);
+            input_val = '$' + input_val;
+
+            if (event.type === 'blur') {
+                input_val += '.00';
+            }
+        }
+
+        input.value = input_val;
+
+        const updated_len = input_val.length;
+        const new_caret_pos = updated_len - original_len + caret_pos;
+        input.setSelectionRange(new_caret_pos, new_caret_pos);
+    }
 
     return {
         listStatus,
@@ -526,12 +582,16 @@ export const equipments = defineStore('equipments', () => {
         dollarRates,
         filterEquipmentsByNoSerieEquipo,
         filterEquipmentsByModelo,
+        filterRentsByDateAdq,
         filterEquipmentsByCategory,
         filterEquipmentsByStatus,
         filterEquipments,
         filteredRowDatas,
+        minAdqDate,
+        maxAdqDate,
         precioFormatter,
         transformarFecha,
         mesesDespuesDeAdq,
+        formatCurrency,
     };
 });

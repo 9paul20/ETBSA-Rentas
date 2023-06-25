@@ -22,6 +22,9 @@ return new class extends Migration
             $table->unsignedBigInteger('clvEquipo')->comment('Clave foranea del Equipo al Gasto Mensual')->index()->nullable();
             $table->unsignedTinyInteger('clvTipoGastoFijo')->comment('Clave foranea del Tipo Gasto Fijo para el Gasto Mensual')->index()->nullable();
             $table->timestamps();
+
+            $table->foreign('clvEquipo')->references('clvEquipo')->on('t_equipos')->onDelete('cascade');
+            $table->foreign('clvTipoGastoFijo')->references('clvTipoGastoFijo')->on('t_tipos_gastos_fijos')->onDelete('cascade');
         });
     }
 

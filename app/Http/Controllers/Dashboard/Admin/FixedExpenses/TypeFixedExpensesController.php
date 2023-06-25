@@ -20,6 +20,10 @@ class TypeFixedExpensesController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        if (isset($data['opcionUnica']))
+            $data['opcionUnica'] = true;
+        elseif (!isset($data['opcionUnica']))
+            $data['opcionUnica'] = false;
         $validator = Validator::make($data, TypeFixedExpense::getRules());
         if ($validator->fails()) {
             return redirect()->route('Dashboard.Admin.FixedExpenses.Panel', ['#createModalTypeFixedExpenses'])->withErrors($validator)->withInput();

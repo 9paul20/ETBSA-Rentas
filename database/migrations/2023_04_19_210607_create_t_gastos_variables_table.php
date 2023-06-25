@@ -12,16 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_gastos_variables', function (Blueprint $table) {
-            $table->bigIncrements('clvGastoVariable')->comment('Clave Principal de la tabla Gastos Variables');
-            $table->string('gastoVariable');
+            $table->bigIncrements('clvGastoVariable')->comment('Clave Principal de la tabla Gastos Variables')->index();
+            $table->string('gastoVariable')->index();
             $table->text('descripcion')->nullable();
             $table->date('fechaGastoVariable');
             $table->decimal('costoGastoVariable', 10, 2)->default(0.00);
             $table->unsignedBigInteger('clvEquipo')->nullable();
             $table->timestamps();
 
-            $table->index('clvGastoVariable');
-            $table->index('gastoVariable');
+            $table->foreign('clvEquipo')->references('clvEquipo')->on('t_equipos')->onDelete('cascade');
         });
     }
 

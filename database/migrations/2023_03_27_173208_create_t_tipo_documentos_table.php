@@ -12,13 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_tipo_documentos', function (Blueprint $table) {
-            $table->unsignedInteger('clvTipoDocumento')->primary();
-            $table->string('tipoDocumento')->unique();
+            $table->unsignedInteger('clvTipoDocumento')->primary()->index();
+            $table->string('tipoDocumento')->unique()->index();
             $table->text('descripcion')->nullable();
             $table->timestamps();
-
-            $table->index('clvTipoDocumento');
-            $table->index('tipoDocumento');
         });
     }
 

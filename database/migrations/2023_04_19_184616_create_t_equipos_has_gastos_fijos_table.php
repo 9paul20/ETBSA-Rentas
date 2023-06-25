@@ -12,17 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_equipos_has_gastos_fijos', function (Blueprint $table) {
-            $table->unsignedBigInteger('clvEquipo')->comment('Clave foránea del equipo relacionado con el gasto fijo');
-            $table->unsignedTinyInteger('clvGastoFijo')->comment('Clave foránea del gasto fijo relacionado con el equipo');
+            $table->unsignedBigInteger('clvEquipo')->comment('Clave foránea del equipo relacionado con el gasto fijo')->index();
+            $table->unsignedTinyInteger('clvGastoFijo')->comment('Clave foránea del gasto fijo relacionado con el equipo')->index();
             $table->decimal('costoGastoFijo', 10, 2)->default(0.00);
             $table->timestamps();
 
             $table->foreign('clvEquipo')->references('clvEquipo')->on('t_equipos')->onDelete('cascade');
             $table->foreign('clvGastoFijo')->references('clvGastoFijo')->on('t_gastos_fijos')->onDelete('cascade');
             $table->primary(['clvEquipo', 'clvGastoFijo'], 'equipos_has_gastos_fijos_clvEquipo_clvGastoFijo_primary');
-
-            $table->index('clvEquipo');
-            $table->index('clvGastoFijo');
         });
     }
 

@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('clvEstadoRenta')->index();
             $table->timestamps();
+
+            $table->foreign('clvEquipo')->references('clvEquipo')->on('t_equipos')->onDelete('cascade');
+            $table->foreign('clvCliente')->references('clvPersona')->on('t_personas')->onDelete('cascade');
         });
     }
 

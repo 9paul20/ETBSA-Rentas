@@ -12,13 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_paises', function (Blueprint $table) {
-            $table->tinyIncrements('clvPais');
-            $table->string('pais')->unique();
+            $table->tinyIncrements('clvPais')->index();
+            $table->string('pais')->unique()->index();
             $table->text('descripcion')->nullable();
             $table->timestamps();
-
-            $table->index('clvPais');
-            $table->index('pais');
         });
     }
 

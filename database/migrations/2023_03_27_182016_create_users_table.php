@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('clvPersona')->unique()->nullable();
-            $table->string('name')->unique();
-            $table->string('email')->unique();
+            $table->id()->index();
+            $table->unsignedBigInteger('clvPersona')->unique()->nullable()->index();
+            $table->string('name')->unique()->index();
+            $table->string('email')->unique()->index();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
@@ -25,10 +25,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('foto')->nullable();
 
-            $table->index('id');
-            $table->index('clvPersona');
-            $table->index('name');
-            $table->index('email');
+            $table->foreign('clvPersona')->references('clvPersona')->on('t_personas')->onDelete('cascade');
         });
     }
 

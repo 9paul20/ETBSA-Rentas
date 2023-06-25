@@ -130,7 +130,7 @@
                                             Compra
                                             Del Equipo</label>
                                         <div class="relative mt-1 rounded-md shadow-sm">
-                                            <input type="number" pattern="[0-9]+(\.[0-9]+)?" min="0" max="99999999.99"
+                                            <input type="number" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" min="0" max="99999999.99"
                                                 step="0.01" autocomplete="given-precioEquipo" :class="[
                                                     'mt-1 block w-full rounded-md ',
                                                     loader.errors.precioEquipo ? 'border-red-300' : 'border-gray-300',
@@ -139,9 +139,21 @@
                                                     ' ',
                                                     loader.errors.precioEquipo ? 'focus:ring-red-500' : 'focus:ring-green-500',
                                                     ' sm:text-sm'
-                                                ]" aria-invalid="true" aria-describedby="precioEquipo-error"
+                                                ]" data-type="currency" aria-invalid="true" aria-describedby="precioEquipo-error"
                                                 v-model="loader.equipment.precioEquipo"
                                                 placeholder="Precio de Compra Del Equipo" />
+                                                <!-- <input type="text" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" min="0" max="99999999.99"
+                                                step="0.01" autocomplete="given-precioEquipo" :class="[
+                                                    'mt-1 block w-full rounded-md ',
+                                                    loader.errors.precioEquipo ? 'border-red-300' : 'border-gray-300',
+                                                    ' shadow-sm ',
+                                                    loader.errors.precioEquipo ? 'focus:border-red-500' : 'focus:border-green-500',
+                                                    ' ',
+                                                    loader.errors.precioEquipo ? 'focus:ring-red-500' : 'focus:ring-green-500',
+                                                    ' sm:text-sm'
+                                                ]" data-type="currency" aria-invalid="true" aria-describedby="precioEquipo-error"
+                                                v-model="loader.equipment.precioEquipo" @input="loader.formatCurrency($event)" @blur="loader.formatCurrency($event)"
+                                                placeholder="Precio de Compra Del Equipo" /> -->
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.precioEquipo">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -250,7 +262,7 @@
                                                 position="left" locale="es-MX" cancel-text="Cerrar"
                                                 select-text="seleccionar" aria-invalid="true"
                                                 aria-describedby="fechaAdquisicion-error"
-                                                :day-names="['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do']" />
+                                                :day-names="['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do']" teleport-center />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.fechaAdquisicion">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -283,7 +295,7 @@
                                                 position="left" locale="es-MX" cancel-text="Cerrar"
                                                 select-text="seleccionar" aria-invalid="true"
                                                 aria-describedby="fechaGarantiaExtendida-error"
-                                                :day-names="['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do']" />
+                                                :day-names="['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do']" teleport-center />
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                                                 v-if="loader.errors.fechaGarantiaExtendida">
                                                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
@@ -395,11 +407,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import buttonComponent from '@/js/components/Common/button.vue';
 import listBoxStatusComponent from '@/js/components/Equipments/listBoxStatus.vue';
 import listBoxCategoriesComponent from '@/js/components/Equipments/listBoxCategories.vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
+import numeral from 'numeral';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { ExclamationCircleIcon } from '@heroicons/vue/20/solid';
 import { equipments } from '@/js/store/Admin/Equipments.js';

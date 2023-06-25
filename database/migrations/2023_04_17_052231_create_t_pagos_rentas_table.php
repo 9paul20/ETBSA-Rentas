@@ -21,6 +21,9 @@ return new class extends Migration
             $table->date('fecha_fin');
             $table->text('descripcion')->nullable();
             $table->timestamps();
+
+            $table->foreign('clvRenta')->references('clvRenta')->on('t_rentas')->onDelete('cascade');
+            $table->foreign('clvEstadoPagoRenta')->references('clvEstadoPagoRenta')->on('t_estados_pagos_rentas')->onDelete('cascade');
         });
     }
 

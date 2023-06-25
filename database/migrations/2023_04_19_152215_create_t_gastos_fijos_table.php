@@ -12,17 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_gastos_fijos', function (Blueprint $table) {
-            $table->tinyIncrements('clvGastoFijo');
-            $table->string('gastoFijo');
+            $table->tinyIncrements('clvGastoFijo')->index();
+            $table->string('gastoFijo')->index();
             $table->decimal('costoGastoFijo', 10, 2)->default(0.00)->nullable();
             $table->text('folioFactura')->nullable();
             $table->date('fechaGastoFijo');
             $table->unsignedTinyInteger('clvTipoGastoFijo')->nullable();
             $table->unsignedBigInteger('clvEquipo')->nullable();
             $table->timestamps();
-
-            $table->index('clvGastoFijo');
-            $table->index('gastoFijo');
         });
     }
 

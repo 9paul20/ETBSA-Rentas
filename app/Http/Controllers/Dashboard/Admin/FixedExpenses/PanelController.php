@@ -20,6 +20,7 @@ class PanelController extends Controller
                 'clvTipoGastoFijo',
                 'tipoGastoFijo',
                 'opcionUnica',
+                'descripcion',
             ]);
         $columnTypeFixedExpenses = ['Tipo de Gasto Fijo', 'Opción Única', 'Descripción', ''];
         $currentPageFixedExpenses = request()->get('typeFixedExpensesCatalogs_page') ?? 1;
