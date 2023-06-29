@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('tipoCategoria')->unique()->index();
             $table->text('descripcion')->nullable();
             $table->timestamps();
-
-            $table->foreign('clvTipoCategoria')->references('clvTipoCategoria')->on('t_tipo_categorias')->onDelete('cascade');
         });
     }
 

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('clvLocalidad')->references('clvLocalidad')->on('t_localidades')->onDelete('cascade');
-            $table->foreign('clvComTel')->references('clvComTel')->on('t_com_tel')->onDelete('cascade');
+            $table->foreign('clvComTel')->references('clvComTel')->on('t_comTel')->onDelete('cascade');
             $table->foreign('clvNacionalidad')->references('clvNacionalidad')->on('t_nacionalidades')->onDelete('cascade');
         });
     }
