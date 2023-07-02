@@ -17,24 +17,24 @@
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                     <div>
-                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Agregar Taza De Renta
+                        <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Agregar Tasa De Renta
                         </h3>
                         <p class="mt-2 text-sm text-gray-500">Por favor, completa los siguientes campos:</p>
                     </div>
                     <form action="{{ $action }}" class="mt-4 space-y-4" method="PUT">
                         @csrf
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="tazaRenta" class="block text-sm font-medium text-gray-700">Taza De
+                            <label for="tazaRenta" class="block text-sm font-medium text-gray-700">Tasa De
                                 Renta</label>
                             <input type="text" name="tazaRenta" id="tazaRenta" autocomplete="given-tazaRenta"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('tazaRenta') border-red-400 @enderror"
                                 value="{{ old('tazaRenta') }}" required autofocus>
                             @error('tazaRenta')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -44,11 +44,11 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('rentaUnMes') border-red-400 @enderror"
                                 value="{{ old('rentaUnMes') }}" required autofocus step="0.01">
                             @error('rentaUnMes')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -59,11 +59,11 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('rentaDosMeses') border-red-400 @enderror"
                                 value="{{ old('rentaDosMeses') }}" required autofocus step="0.01">
                             @error('rentaDosMeses')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -74,11 +74,11 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('rentaTresMeses') border-red-400 @enderror"
                                 value="{{ old('rentaTresMeses') }}" required autofocus step="0.01">
                             @error('rentaTresMeses')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -88,11 +88,11 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('ivaUnMes') border-red-400 @enderror"
                                 value="{{ old('ivaUnMes') }}" required autofocus step="0.01">
                             @error('ivaUnMes')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
@@ -102,38 +102,40 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('ivaDosMeses') border-red-400 @enderror"
                                 value="{{ old('ivaDosMeses') }}" required autofocus step="0.01">
                             @error('ivaDosMeses')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
                             <label for="ivaTresMeses" class="block text-sm font-medium text-gray-700">IVA Renat De Tres
                                 Meses</label>
-                            <input type="number" name="ivaTresMeses" id="ivaTresMeses" autocomplete="given-ivaTresMeses"
+                            <input type="number" name="ivaTresMeses" id="ivaTresMeses"
+                                autocomplete="given-ivaTresMeses"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('ivaTresMeses') border-red-400 @enderror"
                                 value="{{ old('ivaTresMeses') }}" required autofocus step="0.01">
                             @error('ivaTresMeses')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-6">
-                            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                            <label for="descripcion"
+                                class="block text-sm font-medium text-gray-700">Descripción</label>
                             <textarea rows="3" name="descripcion" id="descripcion" autocomplete="given-descripcion"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm @error('descripcion') border-red-400 @enderror"
                                 required>{{ old('descripcion') }}</textarea>
                             @error('descripcion')
-                            <div class="flex
+                                <div class="flex
                                     items-center mt-1 text-red-400">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
-                                <span>{{ $message }}</span>
-                            </div>
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
                             @enderror
                         </div>
                         <div class="mt-5 sm:mt-6 flex justify-end space-x-2">
@@ -150,9 +152,9 @@
 </div>
 
 @push('scripts')
-@if (request()->is('Dashboard/Panel/Equipments'))
-<script>
-    var showModalButtonCreateCupsRents = document.getElementById('btn-create-modal-cupsRents');
+    @if (request()->is('Dashboard/Panel/Equipments'))
+        <script>
+            var showModalButtonCreateCupsRents = document.getElementById('btn-create-modal-cupsRents');
             var createModalCupsRents = document.getElementById('create-modal-cupsRents');
             var nombreTazaRentaInput = document.getElementById('tazaRenta');
             // var modalContent = document.querySelector(
@@ -183,6 +185,6 @@
             });
             var DOMContentLoadedCreateCupsRents = new Event('DOMContentLoadedCreateCupsRents');
             document.dispatchEvent(DOMContentLoadedCreateCupsRents);
-</script>
-@endif
+        </script>
+    @endif
 @endpush

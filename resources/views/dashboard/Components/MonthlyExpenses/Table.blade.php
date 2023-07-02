@@ -4,8 +4,8 @@
             <div class="sm:flex-auto">
                 <h1 class="text-xl font-semibold text-gray-900">Todos Los Gastos Mensuales</h1>
             </div>
-            <x-Dashboard.Button-Create text="Add Monthly Expense"
-                href="{{ route('Dashboard.Admin.MonthlyExpenses.Create') }}" />
+            {{-- <x-Dashboard.Button-Create text="Add Monthly Expense"
+                href="{{ route('Dashboard.Admin.MonthlyExpenses.Create') }}" /> --}}
         </div>
         @if (count($Table['rowDatas']) > 0)
             <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
@@ -64,8 +64,8 @@
                                         <div class="flex justify-end gap-4">
                                             <x-Dashboard.IconButton-Show
                                                 href="{{ route('Dashboard.Admin.MonthlyExpenses.Show', $rowData->clvGastoMensual) }}" />
-                                            <x-Dashboard.IconButton-Edit
-                                                href="{{ route('Dashboard.Admin.MonthlyExpenses.Edit', $rowData->clvGastoMensual) }}" />
+                                            {{-- <x-Dashboard.IconButton-Edit
+                                                href="{{ route('Dashboard.Admin.MonthlyExpenses.Edit', $rowData->clvGastoMensual) }}" /> --}}
                                             <x-Dashboard.IconButton-Delete id="{{ $rowData->clvGastoMensual }}"
                                                 name="{{ $rowData->noSerieEquipo }}"
                                                 href="{{ route('Dashboard.Admin.MonthlyExpenses.Destroy', $rowData->clvGastoMensual) }}" />

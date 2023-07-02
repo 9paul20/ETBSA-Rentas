@@ -24,7 +24,7 @@ class CupsRentsController extends Controller
         }
         $cupRent = CupRent::create($data);
         $cupRent->save();
-        return redirect()->route('Dashboard.Admin.Equipments.Panel')->with('success', 'Taza Renta ' . $cupRent->tazaRenta . ' agregado correctamente.');
+        return redirect()->route('Dashboard.Admin.Equipments.Panel')->with('success', 'Tasa Renta ' . $cupRent->tazaRenta . ' agregado correctamente.');
     }
 
     /**
@@ -42,7 +42,7 @@ class CupsRentsController extends Controller
         }
         $cupRent = CupRent::findOrFail($id);
         $cupRent->update($data);
-        return back()->with('update', 'Taza Renta ' . $cupRent->tazaRenta . ' actualizado correctamente.');
+        return back()->with('update', 'Tasa Renta ' . $cupRent->tazaRenta . ' actualizado correctamente.');
     }
 
     /**
@@ -52,6 +52,6 @@ class CupsRentsController extends Controller
     {
         $cupRent = CupRent::findOrFail($id);
         $cupRent->delete();
-        return redirect()->route('Dashboard.Admin.Equipments.Panel')->with('danger', 'Taza Renta ' . $cupRent->tazaRenta . ' eliminado correctamente.');
+        return redirect()->route('Dashboard.Admin.Equipments.Panel')->with('danger', 'Tasa Renta ' . $cupRent->tazaRenta . ' eliminado correctamente.');
     }
 }

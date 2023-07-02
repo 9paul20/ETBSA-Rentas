@@ -18,11 +18,12 @@ return new class extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->text('descripcion')->nullable();
-            $table->unsignedBigInteger('clvEstadoRenta')->index();
+            $table->unsignedTinyInteger('clvEstadoRenta')->index()->nullable();
             $table->timestamps();
 
             $table->foreign('clvEquipo')->references('clvEquipo')->on('t_equipos')->onDelete('cascade');
             $table->foreign('clvCliente')->references('clvPersona')->on('t_personas')->onDelete('cascade');
+            $table->foreign('clvEstadoRenta')->references('clvEstadoRenta')->on('t_estados_rentas')->onDelete('cascade');
         });
     }
 

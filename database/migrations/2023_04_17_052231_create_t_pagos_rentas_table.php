@@ -16,7 +16,7 @@ return new class extends Migration
             $table->decimal('pagoRenta', 10, 2);
             $table->decimal('ivaRenta', 10, 2);
             $table->unsignedBigInteger('clvRenta')->index();
-            $table->unsignedTinyInteger('clvEstadoPagoRenta')->index();
+            $table->unsignedTinyInteger('clvEstadoPagoRenta')->index()->nullable();
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->text('descripcion')->nullable();

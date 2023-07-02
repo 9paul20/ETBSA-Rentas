@@ -100,45 +100,45 @@ class MonthlyExpensesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        $monthlyExpense = MonthlyExpense::findOrFail($id);
-        $equipments = Equipment::select([
-            'clvEquipo',
-            'noSerieEquipo',
-            'modelo',
-            'precioEquipo',
-        ])->get();
-        $typeFixedExpenses = TypeFixedExpense::select([
-            'clvTipoGastoFijo',
-            'tipoGastoFijo',
-        ])->get();
-        $today = Carbon::today()->format('Y-m-d');
-        $Data = [
-            'monthlyExpense' => $monthlyExpense,
-            'equipments' => $equipments,
-            'typeFixedExpenses' => $typeFixedExpenses,
-            'today' => $today,
-        ];
-        return view('Dashboard.Admin.Index', compact('Data'));
-    }
+    // public function edit(string $id)
+    // {
+    //     $monthlyExpense = MonthlyExpense::findOrFail($id);
+    //     $equipments = Equipment::select([
+    //         'clvEquipo',
+    //         'noSerieEquipo',
+    //         'modelo',
+    //         'precioEquipo',
+    //     ])->get();
+    //     $typeFixedExpenses = TypeFixedExpense::select([
+    //         'clvTipoGastoFijo',
+    //         'tipoGastoFijo',
+    //     ])->get();
+    //     $today = Carbon::today()->format('Y-m-d');
+    //     $Data = [
+    //         'monthlyExpense' => $monthlyExpense,
+    //         'equipments' => $equipments,
+    //         'typeFixedExpenses' => $typeFixedExpenses,
+    //         'today' => $today,
+    //     ];
+    //     return view('Dashboard.Admin.Index', compact('Data'));
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $data = $request->all();
-        $validator = Validator::make($data, MonthlyExpense::getRulesMontlyExpenses($id));
-        if ($validator->fails()) {
-            return redirect()->route('Dashboard.Admin.MonthlyExpenses.Edit', ['MonthlyExpense' => $id])
-                ->withErrors($validator)
-                ->withInput();
-        }
-        $monthlyExpense = MonthlyExpense::findOrFail($id);
-        $monthlyExpense->update($data);
-        return redirect()->route('Dashboard.Admin.MonthlyExpenses.Index')->with('success', 'Gasto Mensual ' . $monthlyExpense->TypeFixedExpense->tipoGastoFijo . ' Del Equipo ' . $monthlyExpense->equipment->modelo . ' - ' . $monthlyExpense->equipment->noSerieEquipo . 'actualizado correctamente.');
-    }
+    // public function update(Request $request, string $id)
+    // {
+    //     $data = $request->all();
+    //     $validator = Validator::make($data, MonthlyExpense::getRulesMontlyExpenses($id));
+    //     if ($validator->fails()) {
+    //         return redirect()->route('Dashboard.Admin.MonthlyExpenses.Edit', ['MonthlyExpense' => $id])
+    //             ->withErrors($validator)
+    //             ->withInput();
+    //     }
+    //     $monthlyExpense = MonthlyExpense::findOrFail($id);
+    //     $monthlyExpense->update($data);
+    //     return redirect()->route('Dashboard.Admin.MonthlyExpenses.Index')->with('success', 'Gasto Mensual ' . $monthlyExpense->TypeFixedExpense->tipoGastoFijo . ' Del Equipo ' . $monthlyExpense->equipment->modelo . ' - ' . $monthlyExpense->equipment->noSerieEquipo . 'actualizado correctamente.');
+    // }
 
     /**
      * Remove the specified resource from storage.

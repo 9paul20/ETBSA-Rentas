@@ -34,7 +34,7 @@ class StatusPaymentRentSeeder extends Seeder
         ]);
 
         $EstadoPagoRentaEnMora = StatusPaymentRent::create([
-            'estadoPagoRenta' => 'En mora',
+            'estadoPagoRenta' => 'En Mora',
             'descripcion' => 'El inquilino no ha realizado el pago del alquiler correspondiente en el plazo acordado y ha superado el periodo de gracia establecido en el contrato',
             'textColor' => 'text-orange-600',
             'bgColorPrimary' => 'bg-orange-50',
@@ -42,7 +42,7 @@ class StatusPaymentRentSeeder extends Seeder
         ]);
 
         $EstadoPagoRentaDisputa = StatusPaymentRent::create([
-            'estadoPagoRenta' => 'En disputa',
+            'estadoPagoRenta' => 'En Disputa',
             'descripcion' => 'El estado de renta se encuentra en disputa debido a un desacuerdo entre el arrendador y el inquilino en cuanto al pago del alquiler',
             'textColor' => 'text-orange-600',
             'bgColorPrimary' => 'bg-orange-50',
@@ -50,7 +50,7 @@ class StatusPaymentRentSeeder extends Seeder
         ]);
 
         $EstadoPagoRentaEnProcesoDesalojo = StatusPaymentRent::create([
-            'estadoPagoRenta' => 'En proceso de desalojo',
+            'estadoPagoRenta' => 'En Proceso de Desalojo',
             'descripcion' => 'El inquilino ha incumplido con sus obligaciones de pago y se ha iniciado el proceso de desalojo para recuperar la propiedad',
             'textColor' => 'text-red-600',
             'bgColorPrimary' => 'bg-red-50',

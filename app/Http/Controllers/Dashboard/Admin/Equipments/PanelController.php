@@ -69,7 +69,7 @@ class PanelController extends Controller
 
         //Tazas de renta
         $cupsRents = CupRent::all();
-        $columnCupsRents = ['Taza de Renta', 'Precio Renta Un Mes', 'Precio Renta Dos Meses', 'Precio Renta Tres Mes', 'IVA Un Mes', 'IVA Dos Meses', 'IVA Tres Meses', 'Descripción', ''];
+        $columnCupsRents = ['Tasa de Renta', 'Precio Renta Un Mes', 'Precio Renta Dos Meses', 'Precio Renta Tres Mes', 'IVA Un Mes', 'IVA Dos Meses', 'IVA Tres Meses', 'Descripción', ''];
         $currentPageCupsRents = request()->get('cupsRents_page') ?? 1;
         $pagedCupsRentsData = $cupsRents->slice(($currentPageCupsRents - 1) * $perPage, $perPage)->all();
         $rowCupsRents = new LengthAwarePaginator($pagedCupsRentsData, count($cupsRents), $perPage, $currentPageCupsRents, [
