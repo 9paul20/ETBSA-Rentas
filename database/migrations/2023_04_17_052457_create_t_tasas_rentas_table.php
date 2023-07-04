@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('t_tazas_rentas', function (Blueprint $table) {
-            $table->bigIncrements('clvTazaRenta')->index();
-            $table->string('tazaRenta')->unique()->index();
+        Schema::create('t_tasas_rentas', function (Blueprint $table) {
+            $table->bigIncrements('clvTasaRenta')->index();
+            $table->string('tasaRenta')->unique()->index();
             $table->decimal('rentaUnMes', 10, 2)->nullable();
             $table->decimal('rentaDosMeses', 10, 2)->nullable();
             $table->decimal('rentaTresMeses', 10, 2)->nullable();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('t_tazas_rentas');
+        Schema::dropIfExists('t_tasas_rentas');
     }
 };
