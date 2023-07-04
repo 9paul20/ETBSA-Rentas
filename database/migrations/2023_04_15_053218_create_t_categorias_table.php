@@ -15,8 +15,10 @@ return new class extends Migration
             $table->tinyIncrements('clvCategoria')->index();
             $table->string('categoria')->unique()->index();
             $table->text('descripcion')->nullable();
-            $table->unsignedTinyInteger('clvTipoCategoria')->nullable();
+            $table->unsignedTinyInteger('clvTipoCategoria')->nullable()->index();
             $table->timestamps();
+
+            $table->foreign('clvTipoCategoria')->references('clvTipoCategoria')->on('t_tipo_categorias')->onDelete('cascade');
         });
     }
 

@@ -17,9 +17,12 @@ return new class extends Migration
             $table->decimal('costoGastoFijo', 10, 2)->default(0.00)->nullable();
             $table->text('folioFactura')->nullable();
             $table->date('fechaGastoFijo');
-            $table->unsignedTinyInteger('clvTipoGastoFijo')->nullable();
-            $table->unsignedBigInteger('clvEquipo')->nullable();
+            $table->unsignedTinyInteger('clvTipoGastoFijo')->nullable()->index();
+            $table->unsignedBigInteger('clvEquipo')->nullable()->index();
             $table->timestamps();
+
+            $table->foreign('clvTipoGastoFijo')->references('clvTipoGastoFijo')->on('t_tipos_gastos_fijos')->onDelete('cascade');
+            $table->foreign('clvEquipo')->references('clvEquipo')->on('t_equipos')->onDelete('cascade');
         });
     }
 

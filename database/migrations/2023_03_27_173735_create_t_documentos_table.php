@@ -18,12 +18,13 @@ return new class extends Migration
             $table->date('fechaExpidicion');
             $table->date('fechaVencimiento');
             $table->string('autoridadEmisora');
-            $table->unsignedTinyInteger('clvPais')->nullable();
+            $table->unsignedTinyInteger('clvPais')->nullable()->index();
             $table->string('imagenEscaneada')->nullable();
             $table->text('descripcion')->nullable();
             $table->timestamps();
 
             $table->foreign('clvTipoDocumento')->references('clvTipoDocumento')->on('t_tipo_documentos')->onDelete('cascade');
+            $table->foreign('clvPais')->references('clvPais')->on('t_paises')->onDelete('cascade');
         });
     }
 

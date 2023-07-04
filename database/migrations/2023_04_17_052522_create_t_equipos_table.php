@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('modelo')->index();
             $table->unsignedTinyInteger('clvDisponibilidad')->default(0)->index();
             $table->unsignedTinyInteger('clvCategoria')->default(0)->index();
+            $table->unsignedBigInteger('clvTazaRenta')->index()->nullable();
             $table->longText('descripcion')->nullable();
             $table->decimal('precioEquipo', 10, 2)->default(0.00);
             $table->decimal('precioEquipoActual', 10, 2)->default(0.00);
@@ -32,6 +33,7 @@ return new class extends Migration
 
             $table->foreign('clvDisponibilidad')->references('clvDisponibilidad')->on('t_disponibilidad')->onDelete('cascade');
             $table->foreign('clvCategoria')->references('clvCategoria')->on('t_categorias')->onDelete('cascade');
+            $table->foreign('clvTazaRenta')->references('clvTazaRenta')->on('t_tazas_rentas')->onDelete('cascade');
         });
     }
 

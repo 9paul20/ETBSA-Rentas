@@ -15,8 +15,10 @@ return new class extends Migration
             $table->unsignedInteger('clvCiudad')->primary()->index();
             $table->string('ciudad')->unique()->index();
             $table->text('descripcion')->nullable();
-            $table->unsignedSmallInteger('clvEstado');
+            $table->unsignedSmallInteger('clvEstado')->index();
             $table->timestamps();
+
+            $table->foreign('clvEstado')->references('clvEstado')->on('t_estados')->onDelete('cascade');
         });
     }
 

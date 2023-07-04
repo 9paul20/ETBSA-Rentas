@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id()->index();
             $table->unsignedBigInteger('clvPersona')->unique()->nullable()->index();
+            $table->unsignedTinyInteger('clvEstadoUsuario')->unique()->nullable()->index();
             $table->string('name')->unique()->index();
             $table->string('email')->unique()->index();
             $table->string('password');
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->string('foto')->nullable();
 
             $table->foreign('clvPersona')->references('clvPersona')->on('t_personas')->onDelete('cascade');
+            $table->foreign('clvEstadoUsuario')->references('clvEstadoUsuario')->on('t_estados_usuarios')->onDelete('cascade');
         });
     }
 
