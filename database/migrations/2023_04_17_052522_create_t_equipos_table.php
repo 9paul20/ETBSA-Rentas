@@ -26,9 +26,9 @@ return new class extends Migration
             $table->decimal('precioActualVenta', 10, 2)->default(0.00)->nullable();
             $table->string('folioEquipo')->unique()->nullable()->index();
             $table->date('fechaAdquisicion');
-            $table->date('fechaGarantiaExtendida');
+            $table->date('fechaGarantiaExtendida')->nullable();
             $table->date('fechaVenta')->nullable();
-            $table->decimal('porDeprAnual', 10, 2)->default(25.00);
+            $table->decimal('porDeprAnual', 10, 2)->default(25.00)->nullable();
             $table->timestamps();
 
             $table->foreign('clvDisponibilidad')->references('clvDisponibilidad')->on('t_disponibilidad')->onDelete('cascade');

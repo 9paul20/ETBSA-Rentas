@@ -9,13 +9,13 @@ class CupRent extends Model
 {
     use HasFactory;
 
-    protected $table = 't_tazas_rentas';
+    protected $table = 't_tasas_rentas';
 
-    protected $primaryKey = 'clvTazaRenta';
+    protected $primaryKey = 'clvTasaRenta';
 
     protected $fillable = [
-        'clvTazaRenta',
-        'tazaRenta',
+        'clvTasaRenta',
+        'tasaRenta',
         'rentaUnMes',
         'rentaDosMeses',
         'rentaTresMeses',
@@ -27,10 +27,10 @@ class CupRent extends Model
 
     protected $hidden = [];
 
-    public static function getRules($clvTazaRenta = null)
+    public static function getRules($clvTasaRenta = null)
     {
         $rules = [
-            'tazaRenta' => 'required|string|min:3|max:255|unique:t_tazas_rentas,tazaRenta,' . $clvTazaRenta . ',clvTazaRenta',
+            'tasaRenta' => 'required|string|min:3|max:255|unique:t_tasas_rentas,tasaRenta,' . $clvTasaRenta . ',clvTasaRenta',
             'rentaUnMes' => 'numeric|between:0,999999.99',
             'rentaDosMeses' => 'numeric|between:0,999999.99',
             'rentaTresMeses' => 'numeric|between:0,999999.99',

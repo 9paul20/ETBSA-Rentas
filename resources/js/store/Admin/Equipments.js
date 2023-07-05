@@ -144,6 +144,8 @@ export const equipments = defineStore('equipments', () => {
         //Asignación de los listBox correspondientes
         equipment.value.clvDisponibilidad = clvDisponibilidadValue;
         equipment.value.clvCategoria = clvCategoriaValue;
+        if (equipment.value.porDeprAnual === "")
+            equipment.value.porDeprAnual = Number(25.00);
 
         try {
             const response = await axios.post('http://etbsa-rentas.test/api/EquipmentsListAPI', equipment.value)
